@@ -1,14 +1,19 @@
+/* eslint-disable semi */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
-import React, { Component } from 'react';
+import 'react-native-gesture-handler';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View } from 'react-native';
-import Splash from './components/Splash';
+import React, { Component } from 'react'
+import Splash from './screens/SplashScreen';
+import SelectLanguage from './screens/SelectLanguage';
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { StyleSheet, Text, View } from 'react-native'
+
 const styles = StyleSheet.create({
   root: {
     fontFamily: 'RobotoMono-SemiBold',
+    flex: 1,
   },
 });
 
@@ -24,6 +29,7 @@ export class App extends Component {
           
         </Stack.Navigator>
       </NavigationContainer>
+      
     )
   }
 }
