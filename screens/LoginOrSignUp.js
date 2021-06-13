@@ -55,26 +55,18 @@ export class SelectLanguage extends Component {
         return (
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
-                    <Text style= {styles.text1}>
-                        Select your Language.
-                        भाषा चुने
-                    </Text>
                 </View>
                 <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.langButton1} 
-                        onPress= { () => {
-                            navigation.navigate('SelectRole')
-                        }}
-                    >
+                    <TouchableOpacity style={styles.langButton1}>
                         <Text style={styles.t1}>
 
-                            English
+                            Existing User, Log In
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}>
                         <Text style={styles.t2}>
 
-                            हिंदी
+                            New User, Sign Up
                         </Text>
                     </TouchableOpacity>
                 </View>
