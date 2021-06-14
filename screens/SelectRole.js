@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SelectYourRole, Volunteer, RequestScribe } from '../translations' 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -52,11 +53,12 @@ const styles = StyleSheet.create({
 export class SelectLanguage extends Component {
     render() {
         const { navigation } = this.props;
+        const { lang } = this.props.route.params;
         return (
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
                     <Text style= {styles.text1}>
-                        Select your Role.
+                        {SelectYourRole[lang]}
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>
@@ -67,13 +69,13 @@ export class SelectLanguage extends Component {
                     >
                         <Text style={styles.t1}>
 
-                            Request a Scribe
+                            {RequestScribe[lang]}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}>
                         <Text style={styles.t2}>
 
-                            Volunteer
+                            {Volunteer[lang]}
                         </Text>
                     </TouchableOpacity>
                 </View>
