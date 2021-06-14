@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import SignUp from './SignUp'
+import Login from './Login';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
 export class SelectLanguage extends Component {
     render() {
         const { navigation } = this.props;
+        const { changeLang } = this.props.route.params;
         return (
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
@@ -63,7 +66,8 @@ export class SelectLanguage extends Component {
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.langButton1} 
                         onPress= { () => {
-                            navigation.navigate('SelectRole')
+                            changeLang('en')
+                            navigation.navigate('SelectRole', {lang: 'en'})
                         }}
                     >
                         <Text style={styles.t1}>
@@ -71,7 +75,12 @@ export class SelectLanguage extends Component {
                             English
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.langButton2}>
+                    <TouchableOpacity style={styles.langButton2}
+                        onPress = {() => {
+                            changeLang('hi')
+                            navigation.navigate('SelectRole', {lang: 'hi'})
+                        }}
+                    >
                         <Text style={styles.t2}>
 
                             हिंदी
