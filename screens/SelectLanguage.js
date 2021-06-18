@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import SignUp from './SignUp'
 import Login from './Login';
+// hi
 const styles = StyleSheet.create({
     container: {
         flex: 1,
