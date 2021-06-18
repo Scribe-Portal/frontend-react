@@ -89,7 +89,7 @@ export class FillInfo extends Component {
                     <TouchableOpacity style={styles.FillInfoButton} 
                         onPress= { () => {
                             
-                            navigation.navigate('Home')
+                            navigation.navigate('FillInfo')
                         }}
                     >
                         <Text style={styles.t1}>

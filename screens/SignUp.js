@@ -1,9 +1,20 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
 import { SignUpText } from '../translations'
 import FillInfo from './FillInfo'
+import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
+
+firebase.initializeApp({
+    apiKey: "AIzaSyC5NOMhO8GCjF5v5HikigBQQ88cB7KDXQI",
+    authDomain: "scribe-portal-nss.firebaseapp.com",
+    projectId: "scribe-portal-nss",
+    storageBucket: "scribe-portal-nss.appspot.com",
+    messagingSenderId: "380046350969",
+    appId: "1:380046350969:web:20c0098e2ca972762412a8",
+    measurementId: "G-QL9YXM3SMT"
+  })
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -63,12 +74,36 @@ export class SignUp extends Component {
                         Sign Up,
                     </Text>
                     <TextInput onChangeText={(t) => {this.setState({email: t})}} placeholder={EnterYourEmail[lang]} style={styles.input}/>
-                    <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({pass: t})}} placeholder="password" style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} placeholder="confirm password" style={styles.input}/>
                     <TouchableOpacity style={styles.SignUpButton} 
                         onPress= { () => {
+                            if (this.state.cpass !== this.state.pass) {
+                                ToastAndroid.showWithGravity(
+                                    "confirm pass and pass dont match!",
+                                    ToastAndroid.SHORT,
+                                    ToastAndroid.CENTER,
+                                )
+                                return;
+                            }
+                            console.log("yeah, that's a good signup")
+                            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
+                            .then((userCredential) => {                                
+                                firebase.firestore()
+                                .collection('users')
+                                .doc(userCredential.user.id)
+                                .set({
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                })
+                                navigation.navigate('FillInfo')
+                            })
+                            .catch(
+                                (err) => {
+                                    ToastAndroid.showWithGravity(err, ToastAndroid.SHORT, ToastAndroid.CENTER) 
+                                    console.log(err)
+                                }
+                            )
                             
-                            navigation.navigate('FillInfo')
                         }}
                     >
                         <Text style={styles.t1}>

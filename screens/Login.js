@@ -1,21 +1,21 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
 import { LoginText } from '../translations'
+import firebase from 'firebase';
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         backgroundColor: "#D4D4D4",
-    },
-    upperHalf: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        
+        
     },
-    lowerHalf: {
+    centered: {
         flex: 1,
         margin: 20,
-        justifyContent: 'space-around'
+
     },
     text1: {
         color: "#828282",
@@ -38,6 +38,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 3,
         
+    },
+    input: {
+        margin: 10,
+        height: 40,
+        backgroundColor: "white"
+    },
+    LoginButton: {
+        backgroundColor:'#616161',
+        borderColor: "#616161",
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        borderWidth: 3,
     },
     t1: {
         color: "#FFFFFF",
@@ -63,33 +76,33 @@ export class Login extends Component {
         const { lang } = this.props.route.params;
         return (
             <View style= {styles.container}>
-                <Text style= {styles.text1}>
-                    {LoginText[lang]}
-                </Text>
-                <TextInput onChangeText={(t) => {this.setState({email: t})}}/>
-                <TextInput onChangeText={(t) => {this.setState({pass: t})}}/>
-                <TouchableOpacity style={styles.langButton1} 
-                    onPress= { () => {
-                        changeLang('en')
-                        navigation.navigate('SelectRole', {lang: 'en'})
-                    }}
-                >
-                    <Text style={styles.t1}>
+                <View style={styles.centered}>
 
-                        English
+                    <Text style= {styles.text1}>
+                        {LoginText[lang]}
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.langButton2}
-                    onPress = {() => {
-                        changeLang('hi')
-                        navigation.navigate('SelectRole', {lang: 'hi'})
-                    }}
-                >
-                    <Text style={styles.t2}>
+                    <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
+                
+                    <TouchableOpacity style={styles.LoginButton}
+                        onPress = {() => {
+                            firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
+                            .then((result) => {
+                                console.log(result)
+                                ToastAndroid.showWithGravity("login successful", ToastAndroid.SHORT, ToastAndroid.CENTER) 
+                            
+                            })
+                            .catch ((error) => {
+                                console.log(error)
+                            })
+                        }}
+                    >
+                        <Text style={styles.t1}>
 
-                        हिंदी
-                    </Text>
-                </TouchableOpacity>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 
 
             </View>
