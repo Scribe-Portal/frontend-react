@@ -85,7 +85,6 @@ export class SelectLanguage extends Component {
                         >
 
                             {Volunteer[lang]}
-                            navigation.navigate('LoginOrSignUp')
                         </Text>
                     </TouchableOpacity>
                 </View>
