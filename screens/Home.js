@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
+import firebase from 'firebase'
 
 const styles = StyleSheet.create({
     container: {
@@ -22,12 +22,33 @@ const styles = StyleSheet.create({
 export class Home extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            isItAScribe: "don\'t know"
+        }
+        this.gotScribeStatus = this.gotScribeStatus.bind(this)
+    }
+    gotScribeStatus(newState) {
+        this.setState({
+            isItAScribe: newState
+        })
     }
     render() {
+        const { uid } = this.props.route.params;
+
+        firebase.firestore()
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                this.gotScribeStatus(doc.isItAScribe)
+            });
+        });
+        
         return (
             <View style={styles.container}>
                 <View style={styles.centered}>
-                    <Text>Yo</Text>
+                    <Text>Yo {uid} {this.state.isItAScribe} </Text>
                 </View>
             </View>            
 

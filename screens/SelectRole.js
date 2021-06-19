@@ -64,7 +64,9 @@ export class SelectLanguage extends Component {
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.langButton1}
                         onPress={() => {
-                            navigation.navigate('LoginOrSignUp')
+                            navigation.navigate('LoginOrSignUp', {
+                                isItAScribe: false
+                            })
                         }}
                     >
                         <Text style={styles.t1}>
@@ -73,9 +75,17 @@ export class SelectLanguage extends Component {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}>
-                        <Text style={styles.t2}>
+                        <Text style={styles.t2}
+                            onPress={() => {
+
+                                navigation.navigate('LoginOrSignUp', {
+                                    isItAScribe: true,
+                                })
+                            }}
+                        >
 
                             {Volunteer[lang]}
+                            navigation.navigate('LoginOrSignUp')
                         </Text>
                     </TouchableOpacity>
                 </View>

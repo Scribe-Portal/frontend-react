@@ -69,7 +69,9 @@ export class SelectLanguage extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}
                         onPress= {() =>
-                            navigation.navigate('SignUp')
+                            navigation.navigate('SignUp', {
+                                isItAScribe: this.props.route.params.isItAScribe
+                            })
                         }
                     >
                         <Text style={styles.t2}>

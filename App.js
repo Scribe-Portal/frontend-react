@@ -12,6 +12,7 @@ import Login from './screens/Login'
 import SignUp from './screens/SignUp'
 import FillInfo from './screens/FillInfo'
 import Home from './screens/Home'
+import firebase from 'firebase';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet, Text, View } from 'react-native'
@@ -22,6 +23,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+firebase.initializeApp({
+  apiKey: "AIzaSyC5NOMhO8GCjF5v5HikigBQQ88cB7KDXQI",
+  authDomain: "scribe-portal-nss.firebaseapp.com",
+  projectId: "scribe-portal-nss",
+  storageBucket: "scribe-portal-nss.appspot.com",
+  messagingSenderId: "380046350969",
+  appId: "1:380046350969:web:20c0098e2ca972762412a8",
+  measurementId: "G-QL9YXM3SMT"
+})
+
+firebase.firestore().settings({experimentalForceLongPolling: true})
 
 const Stack = createStackNavigator()
 

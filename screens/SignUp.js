@@ -6,15 +6,6 @@ import FillInfo from './FillInfo'
 import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
 
-firebase.initializeApp({
-    apiKey: "AIzaSyC5NOMhO8GCjF5v5HikigBQQ88cB7KDXQI",
-    authDomain: "scribe-portal-nss.firebaseapp.com",
-    projectId: "scribe-portal-nss",
-    storageBucket: "scribe-portal-nss.appspot.com",
-    messagingSenderId: "380046350969",
-    appId: "1:380046350969:web:20c0098e2ca972762412a8",
-    measurementId: "G-QL9YXM3SMT"
-  })
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -65,7 +56,7 @@ export class SignUp extends Component {
     }
     render() {
         const { navigation } = this.props;
-        const { lang } = this.props.route.params;
+        const { lang, isItAScribe } = this.props.route.params;
         return (
             <View style= {styles.container}>
                 <View style={styles.centered}>
@@ -93,7 +84,8 @@ export class SignUp extends Component {
                                 .collection('users')
                                 .doc(userCredential.user.id)
                                 .set({
-                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                    isItAScribe: isItAScribe,
                                 })
                                 navigation.navigate('FillInfo')
                             })
