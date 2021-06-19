@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    tsmall: {
+
+    },
     FillInfoButton: {
         backgroundColor:'#616161',
         borderColor: "#616161",
@@ -86,10 +89,13 @@ export class FillInfo extends Component {
                     <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
                     <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
                     <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
                     <TouchableOpacity style={styles.FillInfoButton} 
                         onPress= { () => {
                             
-                            navigation.navigate('FillInfo')
+                            navigation.navigate('Home')
                         }}
                     >
                         <Text style={styles.t1}>
