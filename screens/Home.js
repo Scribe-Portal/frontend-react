@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+
 
 const styles = StyleSheet.create({
     container: {

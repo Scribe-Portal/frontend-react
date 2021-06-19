@@ -91,7 +91,7 @@ export class Login extends Component {
                                 console.log(result)
                                 ToastAndroid.showWithGravity("login successful", ToastAndroid.SHORT, ToastAndroid.CENTER) 
                             
-                                navigation.navigate('AudioCall')
+                                navigation.navigate('Home')
                             })
                             .catch ((error) => {
                                 console.log(error)

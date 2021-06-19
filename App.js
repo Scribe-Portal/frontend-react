@@ -9,7 +9,6 @@ import SelectLanguage from './screens/SelectLanguage'
 import SelectRole from './screens/SelectRole'
 import LoginOrSignUp from './screens/LoginOrSignUp'
 import Login from './screens/Login'
-import AudioCall from './screens/AudioCall';
 import SignUp from './screens/SignUp'
 import FillInfo from './screens/FillInfo'
 import Home from './screens/Home'
@@ -51,7 +50,6 @@ export class App extends Component {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
           <Stack.Screen name="FillInfo" component={FillInfo} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-          <Stack.Screen name="FillInfo" component={AudioCall} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
           
         </Stack.Navigator>
       </NavigationContainer>
