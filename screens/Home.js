@@ -39,10 +39,8 @@ export class Home extends Component {
         .collection("users")
         .doc(uid)
         .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
+        .then((doc) => {
                 this.gotScribeStatus(doc.isItAScribe)
-            });
         });
         
         return (
