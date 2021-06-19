@@ -46,7 +46,7 @@ export class Home extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.centered}>
-                    <Text>Yo {this.state.isItAScribe} </Text>
+                    <Text>Yo {this.state.isItAScribe ? "Im a scribe" : "Im not a scribe"} </Text>
                 </View>
             </View>            
 
