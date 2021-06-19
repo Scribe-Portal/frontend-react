@@ -26,15 +26,8 @@ export class Home extends Component {
             isItAScribe: "don\'t know"
         }
         this.gotScribeStatus = this.gotScribeStatus.bind(this)
-    }
-    gotScribeStatus(newState) {
-        this.setState({
-            isItAScribe: newState
-        })
-    }
-    render() {
         const { uid } = this.props.route.params;
-
+    
         firebase.firestore()
         .collection("users")
         .doc(uid)
@@ -43,10 +36,17 @@ export class Home extends Component {
                 this.gotScribeStatus(doc.isItAScribe)
         });
         
+    }
+    gotScribeStatus(newState) {
+        this.setState({
+            isItAScribe: newState
+        })
+    }
+    render() {
         return (
             <View style={styles.container}>
                 <View style={styles.centered}>
-                    <Text>Yo {uid} {this.state.isItAScribe} </Text>
+                    <Text>Yo {this.state.isItAScribe} </Text>
                 </View>
             </View>            
 
