@@ -64,9 +64,7 @@ export class SelectLanguage extends Component {
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.langButton1}
                         onPress={() => {
-                            navigation.navigate('LoginOrSignUp', {
-                                isItAScribe: false
-                            })
+                            navigation.navigate('EnterMobile')
                         }}
                     >
                         <Text style={styles.t1}>
@@ -78,9 +76,7 @@ export class SelectLanguage extends Component {
                         <Text style={styles.t2}
                             onPress={() => {
 
-                                navigation.navigate('LoginOrSignUp', {
-                                    isItAScribe: true,
-                                })
+                                navigation.navigate('EnterMobile')
                             }}
                         >
 
