@@ -19,9 +19,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet, Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore' // <- needed if using firestore
+import firebase from '@react-native-firebase/app'
+import '@react-native-firebase/auth'
+import '@react-native-firebase/firestore' // <- needed if using firestore
 
 import { createStore, combineReducers, compose } from 'redux'
 import {
@@ -30,15 +30,6 @@ import {
 } from 'react-redux-firebase'
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
 
-firebase.initializeApp({
-  apiKey: "AIzaSyC5NOMhO8GCjF5v5HikigBQQ88cB7KDXQI",
-  authDomain: "scribe-portal-nss.firebaseapp.com",
-  projectId: "scribe-portal-nss",
-  storageBucket: "scribe-portal-nss.appspot.com",
-  messagingSenderId: "380046350969",
-  appId: "1:380046350969:web:20c0098e2ca972762412a8",
-  measurementId: "G-QL9YXM3SMT"
-})
 
 // react-redux-firebase config
 const rrfConfig = {

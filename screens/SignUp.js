@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
-import { SignUpText } from '../translations'
-import FillInfo from './FillInfo'
 import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
 
@@ -55,8 +53,10 @@ export class SignUp extends Component {
         }
     }
     render() {
-        const { navigation } = this.props;
-        const { lang, isItAScribe } = this.props.route.params;
+        const { navigation } = this.props
+        const { lang, isItAScribe } = this.props.route.params
+        const firebase = useFirebase()
+        
         return (
             <View style= {styles.container}>
                 <View style={styles.centered}>

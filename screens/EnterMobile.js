@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { SelectYourRole, Volunteer, RequestScribe } from '../translations' 
-import firebase from 'react-native-firebase'
+
+import firebase from '@react-native-firebase/auth'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -10,8 +10,9 @@ const styles = StyleSheet.create({
     },
     upperHalf: {
         flex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     lowerHalf: {
         flex: 1,
@@ -43,7 +44,9 @@ const styles = StyleSheet.create({
     
     input: {
         margin: 10,
-        width: 30,
+        
+        alignSelf: 'stretch',
+        justifyContent: 'space-around',
         height: 40,
         backgroundColor: "white"
     },
@@ -75,22 +78,22 @@ export class EnterMobile extends Component {
                     <Text style= {styles.text1}>
                         Enter Mobile
                     </Text>
-                    <TextInput onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input}/>
+                    <TextInput placeholder="Enter Your Mobile No" onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input}/>
                 
                 </View>
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.langButton1}
                         onPress={() => {
-                            firebase.auth().verifyPhoneNumber(this.state.mobile).on(
+                            firebase().verifyPhoneNumber(this.state.mobile).on(
                                 'state_changed',
                             (phoneAuthSnapshot) => {
                                 
                                 switch(phoneAuthSnapshot.state) {
-                                    case firebase.auth.PhoneAuthState.CODE_SENT:
+                                    case firebase.PhoneAuthState.CODE_SENT:
                                         console.log('Verif code sent!', phoneAuthSnapshot)
                                         navigation.navigate('EnterOTP', {verificationId: phoneAuthSnapshot.verificationId})
                                         break
-                                    case firebase.auth.PhoneAuthState.ERROR:
+                                    case firebase.PhoneAuthState.ERROR:
                                         console.log('Verif error', phoneAuthSnapshot)
                                         this.setState({errorText: "Error sending the code!"})
                                         break

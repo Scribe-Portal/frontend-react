@@ -84,23 +84,28 @@ export class FillInfo extends Component {
                 <View style={styles.centered}>
 
                     <Text style= {styles.text1}>
-                        Sign Up,
+                        Fill Your Information,
                     </Text>
                     <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
+                    <Text>Enter Your Name</Text>
                     <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
+                    <Text>Enter Your Gender</Text>
                     <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <Text>Enter Your Date of Birth</Text>
                     <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <Text>Enter Your Email</Text>
                     <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <Text>Enter Your Mobile Number</Text>
                     <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
                     <TouchableOpacity style={styles.FillInfoButton} 
                         onPress= { () => {
                             
-                            navigation.navigate('Home')
+                            navigation.navigate('UploadDoc1')
                         }}
                     >
                         <Text style={styles.t1}>
 
-                            Sign Up
+                            Save and Next
                         </Text>
                     </TouchableOpacity>
                 </View>
