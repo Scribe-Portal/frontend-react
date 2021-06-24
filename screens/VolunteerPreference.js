@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { UploadDocText } from '../translations'
+import { VolunteerPreferenceText } from '../translations'
 
 const styles = StyleSheet.create({
     container: {
@@ -29,13 +29,22 @@ const styles = StyleSheet.create({
     tsmall: {
 
     },
-    UploadDocButton: {
+    VolunteerPreferenceButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
         borderWidth: 3,
+    },
+    langButton2: {
+        backgroundColor: "#D4D4D4",
+        borderColor: "#616161",
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        borderWidth: 3,
+
     },
     t1: {
         color: "#FFFFFF",
@@ -82,7 +91,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
 
     );
 }
-export class UploadDoc extends Component {
+export class VolunteerPreference extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -100,7 +109,7 @@ export class UploadDoc extends Component {
         const { lang } = this.props.route.params;
         
         let radio_array=[]
-        ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"].forEach((doc, i, arr) => {
+        ["10th Pass", "12th Pass", "Graduate"].forEach((doc, i, arr) => {
 
             radio_array.push(
                 <RadioButton
@@ -117,18 +126,35 @@ export class UploadDoc extends Component {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Upload Documents
+                        Volunteer Preference
                     </Text>
+                    
+                    <Text>Age</Text>
+                    <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
+                    
+                    <Text>Gender</Text>
+                    <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
                     {radio_array}
-                    <TouchableOpacity style={styles.UploadDocButton}
+                    <TouchableOpacity style={styles.VolunteerPreferenceButton}
                         onPress={() => {
 
-                            navigation.navigate('UploadDoc')
+                            navigation.navigate('Home')
                         }}
                     >
                         <Text style={styles.t1}>
 
-                            Save and Next
+                            Submit
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.VolunteerPreferenceButton}
+                        onPress={() => {
+
+                            navigation.navigate('Home')
+                        }}
+                    >
+                        <Text style={styles.t1}>
+
+                            Skip
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -139,4 +165,4 @@ export class UploadDoc extends Component {
     }
 }
 
-export default UploadDoc
+export default VolunteerPreference

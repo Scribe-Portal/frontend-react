@@ -71,9 +71,11 @@ export class FillInfo extends Component {
     constructor(props){
         super(props)
         this.state = {
+            name: '',
+            gender: '',
+            dob: '',
             email: '',
-            pass: '',
-            cpass: ''
+            mobile: ''
         }
     }
     render() {
@@ -86,21 +88,20 @@ export class FillInfo extends Component {
                     <Text style= {styles.text1}>
                         Fill Your Information,
                     </Text>
-                    <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
                     <Text>Enter Your Name</Text>
-                    <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
                     <Text>Enter Your Gender</Text>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({gender: t})}} style={styles.input}/>
                     <Text>Enter Your Date of Birth</Text>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({dob: t})}} style={styles.input}/>
                     <Text>Enter Your Email</Text>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
                     <Text>Enter Your Mobile Number</Text>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
+                    <TextInput onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input}/>
                     <TouchableOpacity style={styles.FillInfoButton} 
                         onPress= { () => {
                             
-                            navigation.navigate('UploadDoc1')
+                            navigation.navigate('UploadDoc')
                         }}
                     >
                         <Text style={styles.t1}>
