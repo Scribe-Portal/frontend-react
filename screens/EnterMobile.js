@@ -65,7 +65,7 @@ export class EnterMobile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            mobile:'',
+            mobile:'+918076396576',
             errorText: ''
         }
     }
@@ -78,7 +78,7 @@ export class EnterMobile extends Component {
                     <Text style= {styles.text1}>
                         Enter Mobile
                     </Text>
-                    <TextInput placeholder="Enter Your Mobile No" onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input}/>
+                    <TextInput placeholder="Enter Your Mobile No" onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input} defaultValue="+918076396576"/>
                 
                 </View>
                 <View style={styles.lowerHalf}>
