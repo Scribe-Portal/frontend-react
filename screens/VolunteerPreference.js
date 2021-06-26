@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { connect } from 'react-redux';
 import { VolunteerPreferenceText } from '../translations'
 
 const styles = StyleSheet.create({
@@ -29,7 +30,8 @@ const styles = StyleSheet.create({
     tsmall: {
 
     },
-    VolunteerPreferenceButton: {
+    button1: {
+        margin: 5,
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
@@ -37,7 +39,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 3,
     },
-    langButton2: {
+    button2: {
+        margin: 4,
         backgroundColor: "#D4D4D4",
         borderColor: "#616161",
         borderRadius: 10,
@@ -56,7 +59,10 @@ const styles = StyleSheet.create({
 
     },
     radioRoot:{
-        backgroundColor: "white"
+        backgroundColor: "white",
+        flexDirection: 'row',
+        padding: 20,
+        margin: 5,
     },
 
 });
@@ -105,15 +111,15 @@ export class VolunteerPreference extends Component {
         })
     }
     render() {
-        const { navigation } = this.props;
-        const { lang } = this.props.route.params;
-        
+        const { navigation,lang } = this.props;
         let radio_array=[]
-        ["10th Pass", "12th Pass", "Graduate"].forEach((doc, i, arr) => {
+        let radioOptions = ["10th Pass", "12th Pass", "Graduate"]
+        radioOptions.forEach((doc, i, arr) => {
 
             radio_array.push(
                 <RadioButton
                     i={i}
+                    key={i}
                     text={arr[i]} // arr is ["aadhar card", ...]
                     selectedRadioButton={this.state.selectedRadioButton}
                     handleChange={() => {this.setSelectedRadio(i)}}
@@ -135,7 +141,7 @@ export class VolunteerPreference extends Component {
                     <Text>Gender</Text>
                     <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
                     {radio_array}
-                    <TouchableOpacity style={styles.VolunteerPreferenceButton}
+                    <TouchableOpacity style={styles.button1}
                         onPress={() => {
 
                             navigation.navigate('Home')
@@ -146,7 +152,7 @@ export class VolunteerPreference extends Component {
                             Submit
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.VolunteerPreferenceButton}
+                    <TouchableOpacity style={styles.button2}
                         onPress={() => {
 
                             navigation.navigate('Home')
@@ -164,5 +170,6 @@ export class VolunteerPreference extends Component {
         )
     }
 }
+const selectUserSettings = (state) => ({lang: state.userAppSettings.lang})
 
-export default VolunteerPreference
+export default connect(selectUserSettings)(VolunteerPreference)

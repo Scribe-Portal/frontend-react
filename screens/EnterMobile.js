@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { Component, useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { useSelector } from 'react-redux'
 
 import firebase from '@react-native-firebase/auth'
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     langButton1: {
-        backgroundColor:'#616161',
+        backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
@@ -33,18 +34,18 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor:"#D4D4D4",
+        backgroundColor: "#D4D4D4",
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
         borderWidth: 3,
-        
+
     },
-    
+
     input: {
         margin: 10,
-        
+
         alignSelf: 'stretch',
         justifyContent: 'space-around',
         height: 40,
@@ -61,61 +62,54 @@ const styles = StyleSheet.create({
     }
 
 });
-export class EnterMobile extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            mobile:'+918076396576',
-            errorText: ''
-        }
-    }
-    render() {
-        const { navigation } = this.props;
-        const { lang } = this.props.route.params;
-        return (
-            <View style= {styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style= {styles.text1}>
-                        Enter Mobile
-                    </Text>
-                    <TextInput placeholder="Enter Your Mobile No" onChangeText={(t) => {this.setState({mobile: t})}} style={styles.input} defaultValue="+918076396576"/>
-                
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.langButton1}
-                        onPress={() => {
-                            firebase().verifyPhoneNumber(this.state.mobile).on(
-                                'state_changed',
+function EnterMobile({ navigation }) {
+    let [mobile, setMobile] = useState('+918076396576')
+    let [errorText, setErrorText] = useState('')
+    const lang = useSelector(state => state.userAppSettings.lang)
+    return (
+        <View style={styles.container}>
+            <View style={styles.upperHalf}>
+                <Text style={styles.text1}>
+                    Enter Mobile
+                </Text>
+                <TextInput placeholder="Enter Your Mobile No" onChangeText={setMobile} style={styles.input} defaultValue="+918076396576" />
+
+            </View>
+            <View style={styles.lowerHalf}>
+                <TouchableOpacity style={styles.langButton1}
+                    onPress={() => {
+                        firebase().verifyPhoneNumber(mobile).on(
+                            'state_changed',
                             (phoneAuthSnapshot) => {
-                                
-                                switch(phoneAuthSnapshot.state) {
+
+                                switch (phoneAuthSnapshot.state) {
                                     case firebase.PhoneAuthState.CODE_SENT:
                                         console.log('Verif code sent!', phoneAuthSnapshot)
-                                        navigation.navigate('EnterOTP', {verificationId: phoneAuthSnapshot.verificationId})
+                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId })
                                         break
                                     case firebase.PhoneAuthState.ERROR:
                                         console.log('Verif error', phoneAuthSnapshot)
-                                        this.setState({errorText: "Error sending the code!"})
+                                        this.setErrorText({ errorText: "Error sending the code!" })
                                         break
                                 }
                             },
                             (error) => {
                                 console.log(error)
-                                this.setState({errorText: error.message})
+                                setErrorText({ errorText: error.message })
                             })
-                            
-                        }}
-                    >
-                        <Text style={styles.t1}>
 
-                            Send OTP
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                    }}
+                >
+                    <Text style={styles.t1}>
 
+                        Send OTP
+                    </Text>
+                </TouchableOpacity>
             </View>
-        )
-    }
+
+        </View>
+    )
 }
+
 
 export default EnterMobile

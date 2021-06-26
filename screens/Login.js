@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
 import { LoginText } from '../translations'
 import firebase from 'firebase';
+import { connect } from 'react-redux';
 const styles = StyleSheet.create({
 
     container: {
@@ -72,8 +73,8 @@ export class Login extends Component {
         }
     }
     render() {
-        const { navigation } = this.props;
-        const { lang } = this.props.route.params;
+        const { navigation, lang } = this.props;
+        
         return (
             <View style= {styles.container}>
                 <View style={styles.centered}>
@@ -112,5 +113,5 @@ export class Login extends Component {
         )
     }
 }
-
-export default Login
+const selectUserSettings = (state) => ({lang: state.userAppSetting.lang})
+export default connect(selectUserSettings)(Login)

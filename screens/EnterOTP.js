@@ -5,9 +5,10 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform } from 'r
 
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
-
+import { useSelector } from 'react-redux';
 
 import OTPInputView from '@twotalltotems/react-native-otp-input' // something for OTP UI, ignore it;
+import { useFirestore } from 'react-redux-firebase';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,9 +19,9 @@ const styles = StyleSheet.create({
     underlineStyleBase: {
         backgroundColor: "white",
         color: "black",
-        
 
-        
+
+
     },
     codeInputHighlightStyle: {
     }
@@ -28,16 +29,19 @@ const styles = StyleSheet.create({
 });
 export default function EnterOTP({ route, navigation }) {
 
-    const { lang, verificationId } = route.params
-
+    const { verificationId } = route.params
+    const lang = useSelector(state => state.userAppSettings.lang)
+    const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     let [otp_input, set_otp_input] = useState('')
     let [status, setStatus] = useState('')
+    let firestore = useFirestore()
+    const { uid } = useSelector(state => state.firebase.auth)
     // useEffect(() => {
     //     firebase_auth.addAuthStateChangedListener((user) => {
     //         this.setState({ user });
     //       });
     //   });
-    
+
 
     return (
         <View style={styles.container}>
@@ -62,12 +66,39 @@ export default function EnterOTP({ route, navigation }) {
 
                     fbWorkerAuth.signInWithCredential(credential)
                         .then((userCred) => {
+                            
+                            
                             console.log("verification OK")
-                            navigation.navigate('FillInfo')
+                            firestore
+                                .collection('users')
+                                .doc(uid)
+                                .get()
+                                .then(userDoc => {
+                                    if (userDoc.createdAt) {
+                                        firestore.collection('users')
+                                            .doc(uid)
+                                            .set({
+                                                isItAScribe: isItAScribe,
+                                                appLang: lang,
+                                            })
+                                    }
+                                    else {
+                                        firestore.collection('users')
+                                            .doc(uid)
+                                            .set({
+                                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                                isItAScribe: isItAScribe,
+                                                appLang: lang,
+                                            })
+
+                                    }
+
+                                })
+                            navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
                         })
                         .catch((err) => {
                             setStatus("Wrong OTP!")
-                            console.log(err.code)
+                            console.log(err)
                         })
                 }}
             />

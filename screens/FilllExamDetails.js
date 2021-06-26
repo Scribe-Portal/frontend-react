@@ -2,9 +2,8 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useFirestore } from 'react-redux-firebase';
-import { FillInfoText } from '../translations'
-useSelector
+import { FillExamDetailsText } from '../translations'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     tsmall: {
 
     },
-    FillInfoButton: {
+    FillExamDetailsButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
@@ -69,16 +68,12 @@ const styles = StyleSheet.create({
     }
 
 });
-function FillInfo({ navigation }) {
-    let firestore = useFirestore()
-    let [name, setName] = useState('')
-    let [gender, setGender] = useState('')
-    let [DOB, setDOB] = useState('')
-    let [email, setEmail] = useState('')
-    let [mobile, setMobile] = useState('')
-    const { uid } = useSelector(state => state.firebase.auth)
-    console.log(uid)
+function FillExamDetails({ navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
+    let [name, setName] = useState('')
+    let [date, setDate] = useState('')
+    let [time, setTime] = useState('')
+    let [examLang, setExamLang] = useState('')
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -86,27 +81,18 @@ function FillInfo({ navigation }) {
                 <Text style={styles.text1}>
                     Fill Your Information,
                 </Text>
-                <Text>Enter Your Name</Text>
+                <Text>Name of Examination</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                <Text>Enter Your Gender</Text>
-                <TextInput onChangeText={setGender} style={styles.input} />
-                <Text>Enter Your Date of Birth</Text>
-                <TextInput onChangeText={setDOB} style={styles.input} />
-                <Text>Enter Your Email</Text>
-                <TextInput onChangeText={setEmail} style={styles.input} />
-                <Text>Enter Your Mobile Number</Text>
-                <TextInput onChangeText={setMobile} style={styles.input} />
-                <TouchableOpacity style={styles.FillInfoButton}
+                <Text>Date of Examination</Text>
+                <TextInput onChangeText={setDate} style={styles.input} />
+                <Text>Time of Examination</Text>
+                <TextInput onChangeText={setTime} style={styles.input} />
+                <Text>Language of Examination</Text>
+                <TextInput onChangeText={setExamLang} style={styles.input} />
+                <TouchableOpacity style={styles.FillExamDetailsButton}
                     onPress={() => {
 
-                        firestore.update(`users/${uid}`,{
-                            name: name,
-                            gender: gender,
-                            DOB: DOB,
-                            email: email,
-                            mobile: mobile
-                        })
-                        navigation.navigate('UploadDoc')
+                        navigation.navigate('UploadExamDoc')
                     }}
                 >
                     <Text style={styles.t1}>
@@ -119,7 +105,7 @@ function FillInfo({ navigation }) {
 
         </View>
     )
-
 }
 
-export default FillInfo
+
+export default FillExamDetails

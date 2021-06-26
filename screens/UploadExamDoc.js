@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { launchImageLibrary } from 'react-native-image-picker';
+import { UploadExamDocText } from '../translations'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     tsmall: {
 
     },
-    UploadDocButton: {
+    UploadExamDocButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
@@ -85,7 +86,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
 
     );
 }
-export class UploadDoc extends Component {
+export class UploadExamDoc extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -97,18 +98,12 @@ export class UploadDoc extends Component {
         this.setState({
             selectedRadioButton: i
         })
-        launchImageLibrary({
-            mediaType: 'photo',
-            includeBase64: false,
-        }, ({didCancel, errorCode, errorMessage, assets}) => {
-            console.log(didCancel, errorCode, errorMessage)
-        })
     }
     render() {
-        const { navigation } = this.props;
+        const { navigation, props } = this.props;
         
         let radio_array=[]
-        const radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
+        const radioOptions = ["Admit Card", "Application Receipt"]
         radioOptions.forEach((doc, i, arr) => {
 
             radio_array.push(
@@ -130,7 +125,7 @@ export class UploadDoc extends Component {
                         Upload Documents
                     </Text>
                     {radio_array}
-                    <TouchableOpacity style={styles.UploadDocButton}
+                    <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
 
                             navigation.navigate('VolunteerPreference')
@@ -149,4 +144,4 @@ export class UploadDoc extends Component {
     }
 }
 const selectUserSettings = (state) => ({lang: state.userAppSettings.lang})
-export default connect(selectUserSettings)(UploadDoc)
+export default connect(selectUserSettings)(UploadExamDoc)

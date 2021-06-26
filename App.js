@@ -14,7 +14,11 @@ import SignUp from './screens/SignUp'
 import FillInfo from './screens/FillInfo'
 import EnterMobile from './screens/EnterMobile'
 import EnterOTP from './screens/EnterOTP'
+import VolunteerPreference from './screens/VolunteerPreference'
+import UploadDoc from './screens/UploadDoc'
 import Home from './screens/Home'
+import FillExamDetails from './screens/FilllExamDetails'
+import UploadExamDoc from './screens/UploadExamDoc'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet, Text, View } from 'react-native'
@@ -22,7 +26,7 @@ import { Provider } from 'react-redux'
 import firebase from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
 import '@react-native-firebase/firestore' // <- needed if using firestore
-
+import userAppSettingsReducer from './reducers/userAppSettingsReducer';
 import { createStore, combineReducers, compose } from 'redux'
 import {
   ReactReduxFirebaseProvider,
@@ -31,7 +35,8 @@ import {
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
 
 
-// react-redux-firebase config
+
+// react-redux-firebase 
 const rrfConfig = {
   userProfile: 'users',
   useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
@@ -45,6 +50,7 @@ firebase.firestore() // <- needed if using firestore
 
 // Add firebase to reducers
 const rootReducer = combineReducers({
+  userAppSettings: userAppSettingsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer // <- needed if using firestore
 })
@@ -67,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-firebase.firestore().settings({experimentalForceLongPolling: true})
+firebase.firestore().settings({ experimentalForceLongPolling: true })
 
 const Stack = createStackNavigator()
 
@@ -79,7 +85,7 @@ export class App extends Component {
     }
     this.changeLang = this.changeLang.bind(this)
   }
-  changeLang(newLang){
+  changeLang(newLang) {
     this.setState({
       lang: newLang
     })
@@ -87,25 +93,29 @@ export class App extends Component {
   render() {
     return (
       <Provider store={store}>
-      <ReactReduxFirebaseProvider {...rrfProps}>
-        <NavigationContainer style={styles.root}>
-          <Stack.Navigator initialRouteName="Splash">
-            <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="SelectLanguage" component={SelectLanguage} initialParams={{changeLang: this.changeLang }} options={{ headerShown: false }} />
-            <Stack.Screen name="SelectRole" component={SelectRole} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="LoginOrSignUp" component={LoginOrSignUp} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="FillInfo" component={FillInfo} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="EnterMobile" component={EnterMobile} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            <Stack.Screen name="EnterOTP" component={EnterOTP} options={{ headerShown: false }} initialParams={{lang: this.state.lang}} />
-            
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ReactReduxFirebaseProvider>
-    </Provider>
-      
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <NavigationContainer style={styles.root}>
+            <Stack.Navigator initialRouteName="Splash">
+              <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
+              <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
+              <Stack.Screen name="SelectRole" component={SelectRole} options={{ headerShown: false }} />
+              {/* <Stack.Screen name="LoginOrSignUp" component={LoginOrSignUp} options={{ headerShown: false }}  /> */}
+              {/* <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}  /> */}
+              <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+              <Stack.Screen name="FillInfo" component={FillInfo} options={{ headerShown: false }} />
+              <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+              <Stack.Screen name="EnterMobile" component={EnterMobile} options={{ headerShown: false }} />
+              <Stack.Screen name="UploadDoc" component={UploadDoc} options={{ headerShown: false }} />
+              <Stack.Screen name="VolunteerPreference" component={VolunteerPreference} options={{ headerShown: false }} />
+              <Stack.Screen name="EnterOTP" component={EnterOTP} options={{ headerShown: false }} />
+              <Stack.Screen name="UploadExamDoc" component={UploadExamDoc} options={{ headerShown: false }} />
+              <Stack.Screen name="FillExamDetails" component={FillExamDetails} options={{ headerShown: false }} />
+
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ReactReduxFirebaseProvider>
+      </Provider>
+
     )
   }
 }

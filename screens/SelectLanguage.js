@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -50,10 +52,8 @@ const styles = StyleSheet.create({
     }
 
 });
-export class SelectLanguage extends Component {
-    render() {
-        const { navigation } = this.props;
-        const { changeLang } = this.props.route.params;
+function SelectLanguage({navigation}) {
+        const dispatch = useDispatch()
         return (
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
@@ -65,8 +65,8 @@ export class SelectLanguage extends Component {
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.langButton1} 
                         onPress= { () => {
-                            changeLang('en')
-                            navigation.navigate('SelectRole', {lang: 'en'})
+                            dispatch(changeLang({newLang: 'en'}))
+                            navigation.navigate('SelectRole')
                         }}
                     >
                         <Text style={styles.t1}>
@@ -76,8 +76,8 @@ export class SelectLanguage extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}
                         onPress = {() => {
-                            changeLang('hi')
-                            navigation.navigate('SelectRole', {lang: 'hi'})
+                            dispatch(changeLang({ newLang: 'hi'}))
+                            navigation.navigate('SelectRole')
                         }}
                     >
                         <Text style={styles.t2}>
@@ -89,7 +89,6 @@ export class SelectLanguage extends Component {
 
             </View>
         )
-    }
 }
 
 export default SelectLanguage
