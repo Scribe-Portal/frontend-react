@@ -77,7 +77,6 @@ function FillInfo({ navigation }) {
     let [email, setEmail] = useState('')
     let [mobile, setMobile] = useState('')
     const { uid } = useSelector(state => state.firebase.auth)
-    console.log(uid)
     const lang = useSelector(state => state.userAppSettings.lang)
     return (
         <View style={styles.container}>

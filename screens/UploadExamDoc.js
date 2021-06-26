@@ -68,6 +68,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 borderWidth: 2,
                 borderColor: '#000',
                 alignItems: 'center',
+                margin: 5,
                 justifyContent: 'center',
             }}>
                 {
