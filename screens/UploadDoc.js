@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { connect } from 'react-redux';
-import firebase_storage from '@react-native-firebase/storage';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { connect } from 'react-redux'
+import firebase_storage from '@react-native-firebase/storage'
 import firebase_firestore from '@react-native-firebase/firestore'
-import { Bar } from 'react-native-progress';
-import { launchImageLibrary } from 'react-native-image-picker';
+import { Bar } from 'react-native-progress'
+import { launchImageLibrary } from 'react-native-image-picker'
 import { compose } from 'redux';
 import { useFirestore, withFirestore } from 'react-redux-firebase';
 import { CollectionReference } from '@firebase/firestore-types';
@@ -91,16 +91,6 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
         </TouchableOpacity>
 
     );
-}
-function addDocumentToFirestore({ url, type }) {
-    const firestore = useFirestore()
-    firestore.update(
-        `users/${uid}`,
-        {
-            identityDocURL: url,
-            identityDocType: type
-        }
-    )
 }
 export class UploadDoc extends Component {
     constructor(props) {

@@ -2,6 +2,7 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { FillExamDetailsText } from '../translations'
 
 const styles = StyleSheet.create({
@@ -70,6 +71,8 @@ const styles = StyleSheet.create({
 });
 function FillExamDetails({ navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
+    const {uid} = useSelector(state => state.firebase.auth)
+    let firestore = useFirestore()
     let [name, setName] = useState('')
     let [date, setDate] = useState('')
     let [time, setTime] = useState('')
@@ -91,8 +94,15 @@ function FillExamDetails({ navigation }) {
                 <TextInput onChangeText={setExamLang} style={styles.input} />
                 <TouchableOpacity style={styles.FillExamDetailsButton}
                     onPress={() => {
-
-                        navigation.navigate('UploadExamDoc')
+                        firestore
+                        .collection(`users/${uid}/requests`)
+                        .add({
+                            examName: name,
+                            examDate: date,
+                            examTime: time,
+                            examLang: examLang,
+                        })
+                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id}))
                     }}
                 >
                     <Text style={styles.t1}>

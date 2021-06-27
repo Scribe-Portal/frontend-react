@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-firebase.firestore().settings({ experimentalForceLongPolling: true })
+// firebase.firestore().settings({ experimentalForceLongPolling: true })
 
 const Stack = createStackNavigator()
 
