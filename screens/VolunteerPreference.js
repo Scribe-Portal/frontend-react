@@ -144,7 +144,7 @@ export class VolunteerPreference extends Component {
                     <TouchableOpacity style={styles.button1}
                         onPress={() => {
 
-                            navigation.navigate('Home')
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                         }}
                     >
                         <Text style={styles.t1}>
@@ -155,7 +155,7 @@ export class VolunteerPreference extends Component {
                     <TouchableOpacity style={styles.button2}
                         onPress={() => {
 
-                            navigation.navigate('Home')
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                         }}
                     >
                         <Text style={styles.t1}>

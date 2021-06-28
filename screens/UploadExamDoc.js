@@ -99,8 +99,8 @@ export class UploadExamDoc extends Component {
             uploadedText: '',
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
-        this.reqid = props.route.params.requestId
         this.uid = props.auth.uid
+        this.reqid = props.route.params.requestId
     }
     setSelectedRadio(i){
         this.setState({
@@ -141,7 +141,7 @@ export class UploadExamDoc extends Component {
         })
     }
     render() {
-        const { navigation, props, route: {params: requestId} } = this.props;
+        const { navigation, route: {params: {requestId}} } = this.props;
         const { uid } = this.props.auth
         let radio_array=[]
         this.radioOptions = ["Admit Card", "Application Receipt"]
@@ -169,7 +169,7 @@ export class UploadExamDoc extends Component {
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
                             
-                            navigation.navigate('VolunteerPreference')
+                                navigation.navigate('ShowMatches', {requestId: requestId})
                         }}
                     >
                         <Text style={styles.t1}>

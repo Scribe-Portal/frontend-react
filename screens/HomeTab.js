@@ -62,9 +62,7 @@ export class HomeTab extends Component {
                 </View>
 
                 <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
-                    <TouchableOpacity style={styles.requestButton}
-                        onPress={this.handleClick}
-                    >
+                    <TouchableOpacity style={styles.requestButton}>
                         <Text style={styles.t1}>
                             Request Scribe
                         </Text>

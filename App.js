@@ -8,9 +8,7 @@ import React, { Component } from 'react'
 import Splash from './screens/SplashScreen'
 import SelectLanguage from './screens/SelectLanguage'
 import SelectRole from './screens/SelectRole'
-import LoginOrSignUp from './screens/LoginOrSignUp'
 import Login from './screens/Login'
-import SignUp from './screens/SignUp'
 import FillInfo from './screens/FillInfo'
 import EnterMobile from './screens/EnterMobile'
 import EnterOTP from './screens/EnterOTP'
@@ -33,6 +31,9 @@ import {
   firebaseReducer
 } from 'react-redux-firebase'
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
+import ShowMatches from './screens/ShowMatches';
+import priorityReducer from './reducers/priorityReducer';
+import ScribePage from './screens/ScribePage';
 
 
 
@@ -51,6 +52,7 @@ firebase.firestore() // <- needed if using firestore
 // Add firebase to reducers
 const rootReducer = combineReducers({
   userAppSettings: userAppSettingsReducer,
+  priority: priorityReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer // <- needed if using firestore
 })
@@ -110,7 +112,9 @@ export class App extends Component {
               <Stack.Screen name="EnterOTP" component={EnterOTP} options={{ headerShown: false }} />
               <Stack.Screen name="UploadExamDoc" component={UploadExamDoc} options={{ headerShown: false }} />
               <Stack.Screen name="FillExamDetails" component={FillExamDetails} options={{ headerShown: false }} />
-
+              <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
+              <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
+              
             </Stack.Navigator>
           </NavigationContainer>
         </ReactReduxFirebaseProvider>

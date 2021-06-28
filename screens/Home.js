@@ -40,7 +40,7 @@ function Home({ route, navigation }) {
     let [search, setSearch] = useState('')
     const lang = useSelector(state => state.userAppSettings.lang)
     const profile = useSelector(state => state.firebase.profile)
-    console.log(profile)
+    // console.log(profile)
     return (
         <View style={styles.container}>
             <SearchBar
