@@ -1,9 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect, isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import { store } from '../App';
+
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -41,42 +45,108 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 30
     },
+    
+    requestBox: {
+        margin: 5,
+        padding: 10,
+        borderWidth: 2,
+        borderColor: "#616161",
+        backgroundColor: "#D4D4D4",
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
+    examName: {
+
+    },
+    examDate: {
+
+    }
 });
+
+function Request({req_id, uid}) {
+    const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
+    const navigation = useNavigation()
+    console.log(request)
+    return (
+        <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, uid: uid})}>
+            <Text style={styles.examName}>{request.examName}</Text>
+            <Text style={styles.examDate}>{request.examDate}</Text>
+        </TouchableOpacity>
+    )
+}
+function Requests({uid}){
+    useFirestoreConnect([
+        {
+            collection: `users`,
+            doc: uid,
+            subcollections:[{collection: 'requests'}],
+            storeAs: 'requests'
+
+        }
+    ])
+    const requests = useSelector(state => state.firestore.ordered.requests)
+    if (!isLoaded(requests)){
+        return (
+            <Text style={styles.text1}>
+                Loading...
+            </Text>
+        )
+
+    }
+    if (isEmpty(requests)){
+        return (
+            <Text>
+                No Requests
+            </Text>
+        )
+    }
+    console.log(requests)
+    return requests.map(({id: id}, ind) => (
+        <Request req_id={id} uid={uid} key={`${ind}-${id}`}/>
+    ))
+}
 export class HomeTab extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.navigation = this.props.navigation
-        this.handleClick = () => {this.navigation.navigate('FillExamDetails')}
+        this.handleClick = () => { this.navigation.navigate('FillExamDetails') }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang
     }
-    
+
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.upperHalf}>
+            <ScrollView>
 
-                    <Text style={styles.text1}>
-                        Welcome.
-                    </Text>
-                </View>
+                <View style={styles.container}>
+                    <View style={styles.upperHalf}>
 
-                <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
-                    <TouchableOpacity style={styles.requestButton}>
-                        <Text style={styles.t1}>
-                            Request Scribe
+                        <Text style={styles.text1}>
+                            Welcome.
                         </Text>
-                    </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
+                        <TouchableOpacity style={styles.requestButton}>
+                            <Text style={styles.t1}>
+                                Request Scribe
+                            </Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <Requests uid={this.props.auth.uid}>
+
+                    </Requests>
 
                 </View>
-
-            </View>
+            </ScrollView>
         )
     }
 }
 
-const selectUserSettings = (state) => ({lang: state.userAppSettings.lang})
 
 
-
-export default connect(selectUserSettings)(HomeTab)
+export default connect((state) => ({
+    auth: state.firebase.auth, 
+    lang: state.userAppSettings.lang
+}))(HomeTab)

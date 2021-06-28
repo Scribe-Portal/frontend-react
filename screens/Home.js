@@ -1,12 +1,16 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Tab, TabView, SearchBar, Icon } from 'react-native-elements'
+import { SearchBar, Icon } from 'react-native-elements'
+import { NavigationContainer } from '@react-navigation/native'
+import { createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import HomeTab from './HomeTab'
 import Settings from './Settings'
 import Notifications from './Notification'
 import News from './News'
 
 import { useSelector } from 'react-redux'
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -33,9 +37,9 @@ const styles = StyleSheet.create({
 
 })
 
+const Tab = createMaterialTopTabNavigator()
 
 function Home({ route, navigation }) {
-
     let [index, setIndex] = useState(0)
     let [search, setSearch] = useState('')
     const lang = useSelector(state => state.userAppSettings.lang)
@@ -53,28 +57,12 @@ function Home({ route, navigation }) {
                     <Icon name="search" type='font-awesome'/>
                 }
             />
-            
-            <Tab value={index} onChange={setIndex}>
-                <Tab.Item title="Home" />
-                <Tab.Item title="News" />
-                <Tab.Item title="Notifications" />
-                <Tab.Item title="Settings" />
-            </Tab>
-
-            <TabView value={index} onChange={setIndex} style= {styles.tabView}>
-                <TabView.Item>
-                    <HomeTab navigation={navigation} />
-                </TabView.Item>
-                <TabView.Item>
-                    <News />
-                </TabView.Item>
-                <TabView.Item >
-                    <Notifications />
-                </TabView.Item>
-                <TabView.Item >
-                    <Settings />
-                </TabView.Item>
-            </TabView>
+                <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
+                    <Tab.Screen name="Home" children={() => <HomeTab navigation={navigation}></HomeTab>}/>
+                    <Tab.Screen name="News" component={News}/>
+                    <Tab.Screen name="Notifications" component={Notifications}/>
+                    <Tab.Screen name="Settings" component={Settings}/>
+                </Tab.Navigator>
         </View>
     )
 }

@@ -34,6 +34,7 @@ import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <
 import ShowMatches from './screens/ShowMatches';
 import priorityReducer from './reducers/priorityReducer';
 import ScribePage from './screens/ScribePage';
+import RequestPage from './screens/RequestPage';
 
 
 
@@ -59,7 +60,7 @@ const rootReducer = combineReducers({
 
 // Create store with reducers and initial state
 const initialState = {}
-const store = createStore(rootReducer, initialState)
+export const store = createStore(rootReducer, initialState)
 
 const rrfProps = {
   firebase,
@@ -114,6 +115,7 @@ export class App extends Component {
               <Stack.Screen name="FillExamDetails" component={FillExamDetails} options={{ headerShown: false }} />
               <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPage" component={RequestPage} options={{ headerShown: false }} />
               
             </Stack.Navigator>
           </NavigationContainer>
