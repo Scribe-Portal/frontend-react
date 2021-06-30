@@ -119,7 +119,7 @@ export class UploadExamDoc extends Component {
                 let task = firebase_storage()
                     .ref(`examDoc/${this.uid}`)
                     .putFile(capture["assets"][0]["uri"])
-                console.log('upload successful!')
+                // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })

@@ -55,7 +55,7 @@ export default function EnterOTP({ route, navigation }) {
                 codeInputFieldStyle={styles.underlineStyleBase}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
                 onCodeFilled={(code) => {
-                    console.log(`Code is ${code}, you are good to go!`)
+                    // console.log(`Code is ${code}, you are good to go!`)
 
                     const credential = firebase.auth.PhoneAuthProvider.credential(
                         verificationId,
@@ -68,7 +68,7 @@ export default function EnterOTP({ route, navigation }) {
                         .then((userCred) => {
                             
                             
-                            console.log("verification OK")
+                            // console.log("verification OK")
                             firestore
                                 .collection('users')
                                 .doc(uid)

@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect, useSelector } from 'react-redux';
 import { compose } from 'redux';
-import { firestoreConnect, isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { store } from '../App';
 
 // hi
@@ -14,22 +14,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#D4D4D4",
     },
-    upperHalf: {
-        flex: 1,
-    },
-    lowerHalf: {
-        flex: 2,
-        zIndex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
-
-
-    },
     text1: {
         flex: 1,
         color: "#828282",
         fontSize: 30,
         fontWeight: '700',
+    },
+    removeText:{
+        fontWeight: '700',
+        fontSize: 10,
+    },
+    removeBox:{
+        alignItems: 'flex-end',
+        
     },
     requestButton: {
         flex: 1,
@@ -47,31 +44,44 @@ const styles = StyleSheet.create({
     },
     
     requestBox: {
-        margin: 5,
-        padding: 10,
-        borderWidth: 2,
-        borderColor: "#616161",
         backgroundColor: "#D4D4D4",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
+    requestRoot:{
+        borderRadius: 10,
+        margin: 5,
+        padding: 10,
+        borderWidth: 2,
+        borderColor: "#616161",
+    },
     examName: {
-
+        
     },
     examDate: {
-
+        
     }
 });
 
 function Request({req_id, uid}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
+    const firestore = useFirestore()
     console.log(request)
     return (
-        <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, uid: uid})}>
-            <Text style={styles.examName}>{request.examName}</Text>
-            <Text style={styles.examDate}>{request.examDate}</Text>
-        </TouchableOpacity>
+        <View style={styles.requestRoot}>
+
+            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, uid: uid})}>
+                <Text style={styles.examName}>{request.examName}</Text>
+                <Text style={styles.examDate}>{request.examDate}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.removeBox} onPress={() => {
+                return firestore.delete(`requests/${req_id}`)
+            }}>
+                <Text style={styles.removeText}>REMOVE</Text>
+            </TouchableOpacity>
+        </View>
+
     )
 }
 function Requests({uid}){

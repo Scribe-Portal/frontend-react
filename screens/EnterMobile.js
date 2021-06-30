@@ -84,7 +84,7 @@ function EnterMobile({ navigation }) {
 
                                 switch (phoneAuthSnapshot.state) {
                                     case firebase.PhoneAuthState.CODE_SENT:
-                                        console.log('Verif code sent!', phoneAuthSnapshot)
+                                        // console.log('Verif code sent!', phoneAuthSnapshot)
                                         navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId })
                                         break
                                     case firebase.PhoneAuthState.ERROR:
