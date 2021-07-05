@@ -1,7 +1,7 @@
 /* eslint-disable semi */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
-import 'react-native-gesture-handler';
+import 'react-native-gesture-handler'
 
 import React, { Component } from 'react'
 

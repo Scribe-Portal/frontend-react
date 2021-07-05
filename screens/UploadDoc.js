@@ -8,7 +8,7 @@ import { Bar } from 'react-native-progress'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { compose } from 'redux';
 import { useFirestore, withFirestore } from 'react-redux-firebase';
-import { CollectionReference } from '@firebase/firestore-types';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -105,8 +105,8 @@ export class UploadDoc extends Component {
         // this.firestore = props.firestore
     }
     setSelectedRadio(i) {
-        console.log('uid: ', this.uid);
-        console.log(this.props.auth)
+        // console.log('uid: ', this.uid);
+        // console.log(this.props.auth)
         this.setState({
             selectedRadioButton: i
         })
@@ -123,7 +123,7 @@ export class UploadDoc extends Component {
                 let task = firebase_storage()
                     .ref(`IdentityDoc/${this.uid}`)
                     .putFile(capture["assets"][0]["uri"])
-                console.log('upload successful!')
+                // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
