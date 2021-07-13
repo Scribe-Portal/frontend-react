@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#616161",
     },
-    activeRequest:{
+    myRequests:{
         borderRadius: 10,
         margin: 5,
         padding: 10,
@@ -70,13 +70,18 @@ const styles = StyleSheet.create({
     }
 });
 
-function Request({req_id, uid, active}) {
+function Request({req_id, uid, class}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
     const firestore = useFirestore()
     // console.log(request)
     return (
-        <View style={active?styles.activeRequest:styles.requestRoot}>
+        <View style={
+            (class === "my")
+            ?
+            styles.myRequests
+            :
+            styles.requestRoot}>
 
             <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPageForScribe", {req_id: req_id, uid: uid})}>
                 <Text style={styles.examName}>{request.examName}</Text>
@@ -117,10 +122,10 @@ function Requests({uid}){
     }
     console.log(requests)
     return requests.map(({id: id}, ind) => (
-        <Request active= {true} req_id={id} uid={uid} key={`${ind}-${id}`}/>
+        <Request class="ordinary" req_id={id} uid={uid} key={`${ind}-${id}`}/>
     ))
 }
-function Requests({uid}){
+function MyRequests({uid}){
     useFirestoreConnect([
         {
             collection: `requests`,
@@ -141,6 +146,35 @@ function Requests({uid}){
         return (
             <Text>
                 No Requests
+            </Text>
+        )
+    }
+    console.log(requests)
+    return requests.map(({id: id}, ind) => (
+        <Request class = "my" req_id={id} uid={uid} key={`${ind}-${id}`}/>
+    ))
+}
+function Requests({uid}){
+    useFirestoreConnect([
+        {
+            collection: `requests`,
+            where: [['status','==', 'pending'], ['uid','===',uid]],
+            storeAs: 'pendingRequests'
+        }
+    ])
+    const requests = useSelector(state => state.firestore.ordered.pendingRequests)
+    if (!isLoaded(requests)){
+        return (
+            <Text style={styles.text1}>
+                Loading...
+            </Text>
+        )
+
+    }
+    if (isEmpty(requests)){
+        return (
+            <Text>
+                You don't have any requests assigned for you
             </Text>
         )
     }
@@ -171,7 +205,7 @@ export class HomeTab extends Component {
                     </View>
 
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
-                        <ActiveRequests uid = {this.props.auth.uid}/>
+                        <MyRequests uid = {this.props.auth.uid}/>
                         <Requests uid={this.props.auth.uid}/>
                     </View>
 

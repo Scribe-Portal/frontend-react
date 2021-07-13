@@ -13,7 +13,7 @@ module.exports = {
         +"|react-native-elements"
         +"|react-native-size-matters"
         +"|react-native-ratings"
-        
+        +"|react-native-reanimated"
         +")/)",
     ],
     setupFiles: [
