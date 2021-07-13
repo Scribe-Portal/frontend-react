@@ -145,7 +145,7 @@ export class UploadDoc extends Component {
         })
     }
     render() {
-        const { navigation } = this.props;
+        const { navigation, isItAScribe } = this.props;
 
         let radio_array = []
         this.radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
@@ -173,7 +173,7 @@ export class UploadDoc extends Component {
                     <TouchableOpacity style={styles.UploadDocButton}
                         onPress={() => {
 
-                            navigation.navigate('VolunteerPreference')
+                            navigation.navigate(isItAScribe?'Home':'VolunteerPreference')
                         }}
                     >
                         <Text style={styles.t1}>
@@ -192,7 +192,8 @@ export class UploadDoc extends Component {
 }
 const selectUserSettings = (state) => ({
     lang: state.userAppSettings.lang,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    isItAScribe: state.userAppSettings.isItAScribe,
 })
 
 export default connect(selectUserSettings)(UploadDoc)

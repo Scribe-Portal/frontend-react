@@ -7,7 +7,7 @@ import HomeTab from './HomeTab'
 import Settings from './Settings'
 import Notifications from './Notification'
 import News from './News'
-
+import ScribeHomeTab from './ScribeHomeTab'
 import { useSelector } from 'react-redux'
 
 
@@ -42,6 +42,7 @@ const Tab = createMaterialTopTabNavigator()
 function Home({ route, navigation }) {
     let [index, setIndex] = useState(0)
     let [search, setSearch] = useState('')
+    const isItAScribe = useSelector(state.state.userAppSettings.isItAScribe)
     const lang = useSelector(state => state.userAppSettings.lang)
     const profile = useSelector(state => state.firebase.profile)
     // console.log(profile)
@@ -58,7 +59,16 @@ function Home({ route, navigation }) {
                 }
             />
                 <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
-                    <Tab.Screen name="Home" children={() => <HomeTab navigation={navigation}></HomeTab>}/>
+                    <Tab.Screen 
+                        name="Home"
+                        children={() => {
+                            isItAScribe
+                            ?
+                            (<HomeTab navigation={navigation}></HomeTab>)
+                            :
+                            (<ScribeHomeTab navigation={navigation}></ScribeHomeTab>)
+                        }
+                    }/>
                     <Tab.Screen name="News" component={News}/>
                     <Tab.Screen name="Notifications" component={Notifications}/>
                     <Tab.Screen name="Settings" component={Settings}/>

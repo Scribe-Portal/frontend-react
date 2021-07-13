@@ -53,11 +53,12 @@ const styles = StyleSheet.create({
 
     }
 
-});
-function RequestPageForScribe({ navigation, route: { params: { req_id, uid } }) {
+})
+function RequestPageForScribe({ navigation, route: { params: { req_id, uid } }}) {
     useFirestoreConnect(() => [
         { collection: `requests`, doc: req_id}
     ])
+    const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
     const dispatch = useDispatch()
@@ -71,8 +72,12 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } }) 
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress = {() => {
+                        firestore.update(`requests/${req_id}`, {status: 'found', volunteer: uid})
+                    }}
 
                 >
+                    Volunteer
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
                         navigation.goBack()

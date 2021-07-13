@@ -70,14 +70,14 @@ const styles = StyleSheet.create({
     }
 });
 
-function Request({req_id, uid, class}) {
+function Request({req_id, uid, requestType}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
     const firestore = useFirestore()
     // console.log(request)
     return (
         <View style={
-            (class === "my")
+            (requestType === "my")
             ?
             styles.myRequests
             :
@@ -122,7 +122,7 @@ function Requests({uid}){
     }
     console.log(requests)
     return requests.map(({id: id}, ind) => (
-        <Request class="ordinary" req_id={id} uid={uid} key={`${ind}-${id}`}/>
+        <Request requestType="ordinary" req_id={id} uid={uid} key={`${ind}-${id}`}/>
     ))
 }
 function MyRequests({uid}){
@@ -151,36 +151,7 @@ function MyRequests({uid}){
     }
     console.log(requests)
     return requests.map(({id: id}, ind) => (
-        <Request class = "my" req_id={id} uid={uid} key={`${ind}-${id}`}/>
-    ))
-}
-function Requests({uid}){
-    useFirestoreConnect([
-        {
-            collection: `requests`,
-            where: [['status','==', 'pending'], ['uid','===',uid]],
-            storeAs: 'pendingRequests'
-        }
-    ])
-    const requests = useSelector(state => state.firestore.ordered.pendingRequests)
-    if (!isLoaded(requests)){
-        return (
-            <Text style={styles.text1}>
-                Loading...
-            </Text>
-        )
-
-    }
-    if (isEmpty(requests)){
-        return (
-            <Text>
-                You don't have any requests assigned for you
-            </Text>
-        )
-    }
-    console.log(requests)
-    return requests.map(({id: id}, ind) => (
-        <Request req_id={id} uid={uid} key={`${ind}-${id}`}/>
+        <Request requestType = "my" req_id={id} uid={uid} key={`${ind}-${id}`}/>
     ))
 }
 export class HomeTab extends Component {
