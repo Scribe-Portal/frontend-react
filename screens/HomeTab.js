@@ -67,7 +67,7 @@ function Request({req_id, uid}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
     const firestore = useFirestore()
-    console.log(request)
+
     return (
         <View style={styles.requestRoot}>
 
@@ -110,7 +110,6 @@ function Requests({uid}){
             </Text>
         )
     }
-    console.log(requests)
     return requests.map(({id: id}, ind) => (
         <Request req_id={id} uid={uid} key={`${ind}-${id}`}/>
     ))

@@ -75,7 +75,7 @@ export default function EnterOTP({ route, navigation }) {
                                 .get()
                                 .then(userDoc => {
                                     if (userDoc.createdAt) {
-                                        firestore.collection('users')
+                                        firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({
                                                 isItAScribe: isItAScribe,
@@ -83,7 +83,7 @@ export default function EnterOTP({ route, navigation }) {
                                             })
                                     }
                                     else {
-                                        firestore.collection('users')
+                                        firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({
                                                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),

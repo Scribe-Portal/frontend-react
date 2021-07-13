@@ -106,7 +106,7 @@ function Match({id}) {
 function Matches({uid}) {
     useFirestoreConnect(()=> [matchQuery])
     const matches = useSelector(state => state.firestore.data.scribes)
-    if (!isLoaded(matches)){
+    if (!isLoaded(matches)){    
         return (
             <Text style={styles.text1}>
                 Loading...

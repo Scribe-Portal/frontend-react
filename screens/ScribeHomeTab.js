@@ -4,9 +4,9 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect, useSelector } from 'react-redux';
-import { compose } from 'redux';
+
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { store } from '../App';
+
 
 // hi
 const styles = StyleSheet.create({
@@ -74,7 +74,7 @@ function Request({req_id, uid, requestType}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
     const firestore = useFirestore()
-    // console.log(request)
+
     return (
         <View style={
             (requestType === "my")
@@ -129,7 +129,7 @@ function MyRequests({uid}){
     useFirestoreConnect([
         {
             collection: `requests`,
-            where: [['status','==', 'pending']],
+            where: [['uid','==', uid]],
             storeAs: 'pendingRequests'
         }
     ])
@@ -154,7 +154,7 @@ function MyRequests({uid}){
         <Request requestType = "my" req_id={id} uid={uid} key={`${ind}-${id}`}/>
     ))
 }
-export class HomeTab extends Component {
+export class ScribeHomeTab extends Component {
     constructor(props) {
         super(props)
         this.navigation = this.props.navigation
@@ -175,9 +175,9 @@ export class HomeTab extends Component {
                         </Text>
                     </View>
 
-                    <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
+                    <View style={styles.lowerHalf} >
                         <MyRequests uid = {this.props.auth.uid}/>
-                        <Requests uid={this.props.auth.uid}/>
+                        <Requests uid={this.props.auth.uid}/> 
                     </View>
 
                 </View>
@@ -191,4 +191,4 @@ export class HomeTab extends Component {
 export default connect((state) => ({
     auth: state.firebase.auth, 
     lang: state.userAppSettings.lang
-}))(HomeTab)
+}))(ScribeHomeTab)
