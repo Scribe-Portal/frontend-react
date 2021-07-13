@@ -36,6 +36,7 @@ import priorityReducer from './reducers/priorityReducer';
 import ScribePage from './screens/ScribePage';
 import RequestPage from './screens/RequestPage';
 import RequestPageForScribe from './screens/RequestPageForScribe'
+import RequestPageForScribeActive from './screens/RequestPageForScribeActive'
 
 
 // react-redux-firebase 
@@ -117,6 +118,7 @@ export class App extends Component {
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPage" component={RequestPage} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageForScribeActive" component={RequestPageForScribeActive} options={{ headerShown: false }} />
               
             </Stack.Navigator>
           </NavigationContainer>

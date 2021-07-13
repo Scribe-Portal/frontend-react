@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi
@@ -53,13 +53,12 @@ const styles = StyleSheet.create({
 
     }
 
-});
-function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
-    useFirestoreConnect(() => [
-        { collection: `requests`, doc: req_id}
-    ])
-    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
+})
+function RequestPageForScribeActive({ navigation, route: { params: { req_id, uid } }}) {
+    
+    const firestore = useFirestore()
+    const request = useSelector(state => state.firestore.data.myRequests && state.firestore.data.myRequests[req_id])
+    
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
@@ -69,6 +68,18 @@ function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
                 </Text>
             </View>
             <View style={styles.lowerHalf}>
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress = {() => {
+                        firestore.update(`requests/${req_id}`, {status: 'pending', volunteer: ''})
+                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                    }}
+
+                >
+                    <Text style = {styles.t1}>
+
+                        Cancel
+                    </Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
                         navigation.goBack()
@@ -84,4 +95,4 @@ function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
     )
 }
 
-export default RequestPage
+export default RequestPageForScribeActive

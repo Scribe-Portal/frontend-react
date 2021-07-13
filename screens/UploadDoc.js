@@ -172,8 +172,13 @@ export class UploadDoc extends Component {
                     {radio_array}
                     <TouchableOpacity style={styles.UploadDocButton}
                         onPress={() => {
+                            if (isItAScribe) {
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            }
+                            else {
+                                navigation.navigate('VolunteerPreference')
+                            }
 
-                            navigation.navigate(isItAScribe?'Home':'VolunteerPreference')
                         }}
                     >
                         <Text style={styles.t1}>

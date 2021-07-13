@@ -95,8 +95,10 @@ function FillExamDetails({ navigation }) {
                 <TouchableOpacity style={styles.FillExamDetailsButton}
                     onPress={() => {
                         firestore
-                        .collection(`users/${uid}/requests`)
+                        .collection(`requests`)
                         .add({
+                            status: 'pending',
+                            uid: uid,
                             examName: name,
                             examDate: date,
                             examTime: time,

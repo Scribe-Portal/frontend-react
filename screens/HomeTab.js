@@ -87,9 +87,8 @@ function Request({req_id, uid}) {
 function Requests({uid}){
     useFirestoreConnect([
         {
-            collection: `users`,
-            doc: uid,
-            subcollections:[{collection: 'requests'}],
+            collection: 'requests',
+            where: [['uid', '==', uid]],
             storeAs: 'requests'
 
         }

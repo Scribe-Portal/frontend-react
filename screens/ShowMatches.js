@@ -147,8 +147,6 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                     onPress={() => {
                         console.log("done pressed", requestId)
                         firestore
-                        .collection('users')
-                        .doc(uid)
                         .collection('requests')
                         .doc(requestId)
                         .update({
@@ -157,6 +155,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                             thirdP: thirdP,
                         })
                         dispatch(setNull())
+                        navigation.navigate('Home')
                     }}
                 >
                     <Text style={styles.t1}>

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi
@@ -55,12 +55,10 @@ const styles = StyleSheet.create({
 
 })
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } }}) {
-    useFirestoreConnect(() => [
-        { collection: `requests`, doc: req_id}
-    ])
+    
     const firestore = useFirestore()
-    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
+    const request = useSelector(state => state.firestore.data.pendingRequests && state.firestore.data.pendingRequests[req_id])
+    
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
@@ -73,10 +71,14 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } }})
                 <TouchableOpacity style={styles.priorityButton}
                     onPress = {() => {
                         firestore.update(`requests/${req_id}`, {status: 'found', volunteer: uid})
+                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                     }}
 
                 >
-                    Volunteer
+                    <Text style = {styles.t1}>
+
+                        Volunteer
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
