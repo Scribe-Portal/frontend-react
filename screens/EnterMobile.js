@@ -89,7 +89,7 @@ function EnterMobile({ navigation }) {
                                         break
                                     case firebase.PhoneAuthState.ERROR:
                                         console.log('Verif error', phoneAuthSnapshot)
-                                        this.setErrorText({ errorText: "Error sending the code!" })
+                                        setErrorText({ errorText: "Error sending the code!" })
                                         break
                                 }
                             },
