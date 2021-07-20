@@ -105,7 +105,7 @@ function Request({req_id, uid, requestType}) {
                 :
                 styles.requestRoot}>
     
-                <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType==="my")?"RequestPageForScribeActive":"RequestPageForScribe", {req_id: req_id, uid: uid})}>
+                <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType==="my")?"RequestPageForScribeOwnRequest":"RequestPageForScribePendingRequest", {req_id: req_id, uid: uid})}>
                     {/* <Text style={styles.examName}>{request.examName}</Text>
                     <Text style={styles.examDate}>{request.examDate}</Text> */}
                     <Text style={styles.examName}>a</Text>

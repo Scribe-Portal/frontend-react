@@ -35,8 +35,8 @@ import ShowMatches from './screens/ShowMatches';
 import priorityReducer from './reducers/priorityReducer';
 import ScribePage from './screens/ScribePage';
 import RequestPage from './screens/RequestPage';
-import RequestPageForScribe from './screens/RequestPageForScribe'
-import RequestPageForScribeActive from './screens/RequestPageForScribeActive'
+import RequestPageForScribePendingRequest from './screens/RequestPageForScribePendingRequest'
+import RequestPageForScribeOwnRequest from './screens/RequestPageForScribeOwnRequest'
 
 
 // react-redux-firebase 
@@ -117,8 +117,8 @@ export class App extends Component {
               <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPage" component={RequestPage} options={{ headerShown: false }} />
-              <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
-              <Stack.Screen name="RequestPageForScribeActive" component={RequestPageForScribeActive} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
               
             </Stack.Navigator>
           </NavigationContainer>
