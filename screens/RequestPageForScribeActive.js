@@ -54,45 +54,52 @@ const styles = StyleSheet.create({
     }
 
 })
-function RequestPageForScribeActive({ navigation, route: { params: { req_id, uid } }}) {
-    
+function RequestPageForScribeActive({ navigation, route: { params: { req_id, uid } } }) {
+
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.myRequests && state.firestore.data.myRequests[req_id])
-    
+
     const dispatch = useDispatch()
-    return (
-        <View style={styles.container}>
-            <View style={styles.upperHalf}>
-                <Text style={styles.text1}>
-                    {request.examName} on {request.examDate}
-                </Text>
-            </View>
-            <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress = {() => {
-                        firestore.update(`requests/${req_id}`, {status: 'pending', volunteer: ''})
-                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                    }}
-
-                >
-                    <Text style = {styles.t1}>
-
-                        Cancel
+    if (request) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.upperHalf}>
+                    <Text style={styles.text1}>
+                        {request.examName} on {request.examDate}
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.goBack()
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Go Back
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                </View>
+                <View style={styles.lowerHalf}>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            firestore.update(`requests/${req_id}`, { status: 'pending', volunteer: '' })
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                        }}
 
-        </View>
-    )
+                    >
+                        <Text style={styles.t1}>
+
+                            Cancel
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Go Back
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+        )
+    }
+    else {
+        return (<View style={styles.container}>
+            <Text>whoops!</Text>
+        </View>)
+    }
 }
 
 export default RequestPageForScribeActive

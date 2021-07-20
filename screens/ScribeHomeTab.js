@@ -92,8 +92,11 @@ function Request({req_id, uid, requestType}) {
     const request = (requestType==="my") ? useSelector(({firestore: { data }})=> data.myRequests && data.myRequests[req_id]) :  useSelector(({firestore: { data }})=> data.pendingRequests && data.pendingRequests[req_id]);
     const navigation = useNavigation()
     const firestore = useFirestore()
-    if (request) {
-        
+    if (isEmpty(request)) {
+        return null
+    }
+    else {
+        console.log(request)
         return (
             <View style={
                 (requestType === "my")
@@ -103,15 +106,14 @@ function Request({req_id, uid, requestType}) {
                 styles.requestRoot}>
     
                 <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType==="my")?"RequestPageForScribeActive":"RequestPageForScribe", {req_id: req_id, uid: uid})}>
-                    <Text style={styles.examName}>{request.examName}</Text>
-                    <Text style={styles.examDate}>{request.examDate}</Text>
+                    {/* <Text style={styles.examName}>{request.examName}</Text>
+                    <Text style={styles.examDate}>{request.examDate}</Text> */}
+                    <Text style={styles.examName}>a</Text>
+                    <Text style={styles.examDate}>b</Text>
                 </TouchableOpacity>
             </View>
     
         )
-    }
-    else {
-        return null;
     }
 }
 function Requests({uid}){
@@ -122,34 +124,25 @@ function Requests({uid}){
             storeAs: 'pendingRequests'
         }
     ])
-    const requests = useSelector(state => state.firestore.data.pendingRequests)
+    const requests = useSelector(state => state.firestore.ordered.pendingRequests)
     if (!isLoaded(requests)){
         return (
             <Text style={styles.text2}>
                 Loading...
             </Text>
         )
-
     }
     if (isEmpty(requests)){
         return (
             <Text style={styles.text2}>
-                No Requests available
+                No Pending Requests available
             </Text>
         )
     }
-    console.log(requests)
-    return Object.keys(requests).map((id, ind) => {
-        
-        
-        if (requests[id]){
-            return <Request requestType="ordinary" req_id={id} uid={uid} key={`${ind}-${id}`}/>
-        }
-        else {
-            return null
-        }
-    
-    })
+    // console.log(requests)
+    return requests.map((req, ind) => (
+        <Request requestType="pending" req_id={req.id} uid={uid} key={`${ind}-${req.id}`}/>
+    ))
 }
 function MyRequests({uid}){
     useFirestoreConnect([
@@ -176,10 +169,9 @@ function MyRequests({uid}){
         )
     }
     console.log(requests)
-    return Object.keys(requests).map((id, ind) => {
-        if (requests[id]) return <Request requestType = "my" req_id={id} uid={uid} key={`${ind}-${id}`}/>
-        else return null;
-    })
+    return requests.map((req, ind) => (
+        <Request requestType="my" req_id={req.id} uid={uid} key={`${ind}-${req.id}`}/>
+    ))
 }
 export class ScribeHomeTab extends Component {
     constructor(props) {
