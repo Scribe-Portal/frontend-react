@@ -31,7 +31,12 @@ const styles = StyleSheet.create({
     },
     text1: {
         color: "#828282",
-        fontSize: 30,
+        fontSize: 18,
+        fontWeight: '700',
+    },
+    text2: {
+        color: "#FFFFFF",
+        fontSize: 18,
         fontWeight: '700',
     },
     tsmall: {
@@ -42,6 +47,7 @@ const styles = StyleSheet.create({
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
+        margin: 5,
         alignItems: 'center',
         borderWidth: 3,
     },
@@ -62,7 +68,8 @@ const styles = StyleSheet.create({
     radioRoot: {
         backgroundColor: "white",
         flexDirection: 'row',
-        padding: 20,
+        padding: 10,
+        borderRadius: 9,
         margin: 10,
     },
     itemStyle: {
@@ -90,8 +97,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
             onPress={handleChange}
         >
             <View style={{
-                height: 24,
-                width: 24,
+                padding: 3,
                 borderRadius: 12,
                 borderWidth: 2,
                 borderColor: '#000',
@@ -102,9 +108,9 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 {
                     selectedRadioButton == i ?
                         <View style={{
-                            height: 12,
-                            width: 12,
-                            borderRadius: 6,
+                            height: 8,
+                            width: 8,
+                            borderRadius: 4,
                             backgroundColor: '#000',
                         }} />
                         : null
@@ -124,7 +130,7 @@ export class UploadDoc extends Component {
             uploadedText: '',
             eduCertifUploaded: -1,
             uploadedText2: '',
-            selectedEdu: ''
+            selectedEdu: '12th'
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.uid = props.auth.uid
@@ -256,38 +262,51 @@ export class UploadDoc extends Component {
                                     color="#0087F0"
                                     label={item}
                                     value={item}
+                                    key={ind}
                                     index={ind}
                                 />
                             ))}
                         </Picker>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.UploadDocButton}
-                    onPress={() => {
-                        if (this.state.selectedRadioButton === -1 || this.state.eduCertifUploaded === -1) {
-                            return
-                        }
-                        if (isItAScribe) {
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                        }
-                        else {
-                            navigation.navigate('VolunteerPreference')
-                        }
+                <View style={styles.centerered}>
 
-                    }}
-                >
-                    <Text style={styles.t1}>
+                    <TouchableOpacity
+                        style={styles.UploadDocButton}
+                        onPress={this.eduCertif.bind(this)}
+                    >
+                        
+                        <Text style = {styles.text2}>Upload Educational Certificate </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.UploadDocButton}
+                        onPress={() => {
+                            if (this.state.selectedRadioButton === -1 || this.state.eduCertifUploaded === -1) {
+                                return
+                            }
+                            if (isItAScribe) {
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            }
+                            else {
+                                navigation.navigate('VolunteerPreference')
+                            }
 
-                        Save and Next
-                    </Text>
-                </TouchableOpacity>
-                <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
-                <Text style={styles.text3}>{this.state.uploadedText}</Text>
-                <Text style={styles.text3}>{this.state.uploadedText}</Text>
+                        }}
+                    >
+
+                        <Text style={styles.t1}>
+
+                            Save and Next
+                        </Text>
+                    </TouchableOpacity>
+
+                    <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
+                    <Text style={styles.text3}>{this.state.uploadedText}</Text>
+                    <Text style={styles.text3}>{this.state.uploadedText2}</Text>
+                </View>
             </View>
 
 
-            
+
         )
     }
 }
