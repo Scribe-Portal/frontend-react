@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+
 import { connect } from 'react-redux'
 import firebase_storage from '@react-native-firebase/storage'
 import firebase_firestore from '@react-native-firebase/firestore'
@@ -8,6 +9,7 @@ import { Bar } from 'react-native-progress'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { compose } from 'redux';
 import { useFirestore, withFirestore } from 'react-redux-firebase';
+import { Picker } from '@react-native-picker/picker'
 
 const styles = StyleSheet.create({
     container: {
@@ -140,18 +142,18 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                    .ref(`IdentityDoc/${this.uid}`)
+                    .ref(`EducCertif/${this.uid}`)
                     .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
                 task.then(() => {
-                    this.setState({ 
+                    this.setState({
                         uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
                         eduCertifUploaded: 1,
-                })
-                    
+                    })
+
                 })
                 firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
@@ -159,8 +161,8 @@ export class UploadDoc extends Component {
                         .doc(this.uid)
                         .update(
                             {
-                                identityDocURL: url,
-                                identityDocType: this.radioOptions[this.state.selectedRadioButton]
+                                eduCertURL: url,
+                                eduCertType: this.state.selectedEdu
                             })
                 })
 
@@ -262,7 +264,7 @@ export class UploadDoc extends Component {
                 </View>
                 <TouchableOpacity style={styles.UploadDocButton}
                     onPress={() => {
-                        if (this.state.selectedRadioButton === -1 || this.state.selectedEdu === "") {
+                        if (this.state.selectedRadioButton === -1 || this.state.eduCertifUploaded === -1) {
                             return
                         }
                         if (isItAScribe) {
@@ -285,7 +287,7 @@ export class UploadDoc extends Component {
             </View>
 
 
-            </View >
+            
         )
     }
 }
