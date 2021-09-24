@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
+    text3: {
+        color: "#828282",
+        fontSize: 15,
+        fontWeight: '200',        
+    },
     radioRoot: {
         backgroundColor: "white",
         flexDirection: 'row',
@@ -96,7 +101,7 @@ export class UploadDoc extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedRadioButton: 0,
+            selectedRadioButton: -1,
             uploadProgress: 0,
             uploadedText: ''
         }
@@ -128,7 +133,7 @@ export class UploadDoc extends Component {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
                 task.then(() => {
-                    this.setState({ uploadedText: "Uploaded!"})
+                    this.setState({ uploadedText: "Uploaded! "+capture["assets"][0]["fileName"]})
                 })
                 firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
@@ -172,6 +177,9 @@ export class UploadDoc extends Component {
                     {radio_array}
                     <TouchableOpacity style={styles.UploadDocButton}
                         onPress={() => {
+                            if (this.state.selectedRadioButton===-1){
+                                return
+                            }
                             if (isItAScribe) {
                                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                             }
@@ -187,7 +195,7 @@ export class UploadDoc extends Component {
                         </Text>
                     </TouchableOpacity>
                     <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
-                    <Text style={styles.text1}>{this.state.uploadedText}</Text>
+                    <Text style={styles.text3}>{this.state.uploadedText}</Text>
                 </View>
 
 

@@ -85,27 +85,29 @@ function FillInfo({ navigation }) {
                 <Text style={styles.text1}>
                     Fill Your Information,
                 </Text>
-                <Text>Enter Your Name</Text>
+                <Text>Name</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                <Text>Enter Your Gender</Text>
+                <Text>Gender</Text>
                 <TextInput onChangeText={setGender} style={styles.input} />
-                <Text>Enter Your Date of Birth</Text>
+                <Text>Date of Birth (DD MM YYYY)</Text>
                 <TextInput onChangeText={setDOB} style={styles.input} />
-                <Text>Enter Your Email</Text>
+                <Text>Email</Text>
                 <TextInput onChangeText={setEmail} style={styles.input} />
-                <Text>Enter Your Mobile Number</Text>
+                <Text>Mobile Number</Text>
                 <TextInput onChangeText={setMobile} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
+                        if (name!=='' && gender!=='' && DOB!=='' && email!=='' && mobile!=='') {
+                            firestore.update(`users/${uid}`,{
+                                name: name,
+                                gender: gender,
+                                DOB: DOB,
+                                email: email,
+                                mobile: mobile
+                            })
+                            navigation.navigate('UploadDoc')
+                        }
 
-                        firestore.update(`users/${uid}`,{
-                            name: name,
-                            gender: gender,
-                            DOB: DOB,
-                            email: email,
-                            mobile: mobile
-                        })
-                        navigation.navigate('UploadDoc')
                     }}
                 >
                     <Text style={styles.t1}>
