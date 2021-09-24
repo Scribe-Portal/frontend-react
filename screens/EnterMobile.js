@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'space-around',
         height: 40,
+        borderRadius: 15,
+        
         backgroundColor: "white"
     },
     t1: {
@@ -85,17 +87,17 @@ function EnterMobile({ navigation }) {
                                 switch (phoneAuthSnapshot.state) {
                                     case firebase.PhoneAuthState.CODE_SENT:
                                         // console.log('Verif code sent!', phoneAuthSnapshot)
-                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId })
+                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: mobile })
                                         break
                                     case firebase.PhoneAuthState.ERROR:
                                         console.log('Verif error', phoneAuthSnapshot)
-                                        setErrorText({ errorText: "Error sending the code!" })
+                                        setErrorText("Can't send an OTP. Are you sure the number is right? ")
                                         break
                                 }
                             },
                             (error) => {
                                 console.log(error)
-                                setErrorText({ errorText: error.message })
+                                setErrorText("We're having some problems. try again later?")
                             })
 
                     }}
@@ -105,6 +107,9 @@ function EnterMobile({ navigation }) {
                         Send OTP
                     </Text>
                 </TouchableOpacity>
+                <Text style={styles.text1}>
+                    {errorText}
+                </Text>
             </View>
 
         </View>

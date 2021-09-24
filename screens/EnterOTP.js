@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#D4D4D4",
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 20,
     },
     underlineStyleBase: {
         backgroundColor: "white",
@@ -24,28 +25,42 @@ const styles = StyleSheet.create({
 
     },
     codeInputHighlightStyle: {
-    }
+    },
+    text1: {
+        color: "#828282",
+        fontSize: 20,
+        fontWeight: '700',
+    },
+    langButton1: {
+        backgroundColor: '#616161',
+        borderColor: "#616161",
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        borderWidth: 3,
+    },
+    t1: {
+        color: "#FFFFFF",
+        fontSize: 30
+    },
 
 });
 export default function EnterOTP({ route, navigation }) {
 
-    const { verificationId } = route.params
+    let { verificationId, mobile } = route.params
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     let [otp_input, set_otp_input] = useState('')
     let [status, setStatus] = useState('')
     let firestore = useFirestore()
     const { uid } = useSelector(state => state.firebase.auth)
-    // useEffect(() => {
-    //     firebase_auth.addAuthStateChangedListener((user) => {
-    //         this.setState({ user });
-    //       });
-    //   });
 
 
     return (
         <View style={styles.container}>
-
+            <Text style={styles.text1}>
+                An OTP has been sent to {mobile}
+            </Text>
             <OTPInputView
                 style={{ width: '80%', height: 300, justifyContent: 'space-around' }}
                 pinCount={6}
@@ -80,6 +95,7 @@ export default function EnterOTP({ route, navigation }) {
                                             .set({
                                                 isItAScribe: isItAScribe,
                                                 appLang: lang,
+                                                mobile: mobile
                                             })
                                     }
                                     else {
@@ -89,6 +105,7 @@ export default function EnterOTP({ route, navigation }) {
                                                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                                                 isItAScribe: isItAScribe,
                                                 appLang: lang,
+                                                mobile: mobile
                                             })
 
                                     }
@@ -102,7 +119,39 @@ export default function EnterOTP({ route, navigation }) {
                         })
                 }}
             />
-            <Text>{status}</Text>
+            <TouchableOpacity style={styles.langButton1}
+                    onPress={() => {
+                        firebase_auth().verifyPhoneNumber(mobile).on(
+                            'state_changed',
+                            (phoneAuthSnapshot) => {
+
+                                switch (phoneAuthSnapshot.state) {
+                                    case firebase_auth.PhoneAuthState.CODE_SENT:
+                                        // console.log('Verif code sent!', phoneAuthSnapshot)
+                                        setStatus("We've resent the OTP, hope you got it!")
+                                        verificationId = phoneAuthSnapshot.verificationId
+                                        break
+                                    case firebase_auth.PhoneAuthState.ERROR:
+                                        console.log('Verif error', phoneAuthSnapshot)
+                                        setStatus("Can't send the OTP, maybe try again later")
+                                        
+                                        break
+                                }
+                            },
+                            (error) => {
+                                console.log(error)
+                                setErrorText({ errorText: error.message })
+                            })
+
+                    }}
+            >
+                <Text style={styles.t1}>
+
+                    Didn't get OTP? Resend OTP
+                </Text>
+            </TouchableOpacity>
+            
+            <Text style={styles.text1}>{status}</Text>
 
 
         </View>
