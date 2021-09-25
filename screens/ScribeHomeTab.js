@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect 
 import { isPlainObject } from '@reduxjs/toolkit';
 import { CalendarList } from 'react-native-calendars';
 import { RequestScribe } from '../translations';
-
+import { compose } from 'redux';
 
 // hi
 const styles = StyleSheet.create({
@@ -90,139 +90,171 @@ const styles = StyleSheet.create({
     }
 });
 
-function Request({ req_id, uid, requestType }) {
-    const request = (requestType === "my") ? useSelector(({ firestore: { data } }) => data.myRequests && data.myRequests[req_id]) : useSelector(({ firestore: { data } }) => data.pendingRequests && data.pendingRequests[req_id]);
-    const navigation = useNavigation()
-    const firestore = useFirestore()
-    if (isEmpty(request)) {
-        return null
-    }
-    else {
-        console.log(request)
-        return (
-            <View style={
-                (requestType === "my")
-                    ?
-                    styles.myRequests
-                    :
-                    styles.requestRoot}>
+// function Request({ req_id, uid, requestType }) {
+//     const request = (requestType === "my") ? useSelector(({ firestore: { data } }) => data.myRequests && data.myRequests[req_id]) : useSelector(({ firestore: { data } }) => data.pendingRequests && data.pendingRequests[req_id]);
+//     const navigation = useNavigation()
+//     const firestore = useFirestore()
+//     if (isEmpty(request)) {
+//         return null
+//     }
+//     else {
+//         console.log(request)
+//         return (
+//             <View style={
+//                 (requestType === "my")
+//                     ?
+//                     styles.myRequests
+//                     :
+//                     styles.requestRoot}>
 
-                <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType === "my") ? "RequestPageForScribeOwnRequest" : "RequestPageForScribePendingRequest", { req_id: req_id, uid: uid })}>
-                    {/* <Text style={styles.examName}>{request.examName}</Text>
-                    <Text style={styles.examDate}>{request.examDate}</Text> */}
-                    <Text style={styles.examName}>a</Text>
-                    <Text style={styles.examDate}>b</Text>
-                </TouchableOpacity>
-            </View>
+//                 <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType === "my") ? "RequestPageForScribeOwnRequest" : "RequestPageForScribePendingRequest", { req_id: req_id, uid: uid })}>
+//                     {/* <Text style={styles.examName}>{request.examName}</Text>
+//                     <Text style={styles.examDate}>{request.examDate}</Text> */}
+//                     <Text style={styles.examName}>a</Text>
+//                     <Text style={styles.examDate}>b</Text>
+//                 </TouchableOpacity>
+//             </View>
 
-        )
-    }
-}
-function Requests({ uid }) {
-    useFirestoreConnect([
-        {
-            collection: `requests`,
-            where: [['status', '==', 'pending']],
-            storeAs: 'pendingRequests'
-        }
-    ])
-    const requests = useSelector(state => state.firestore.ordered.pendingRequests)
-    if (!isLoaded(requests)) {
-        return (
-            <Text style={styles.text2}>
-                Loading...
-            </Text>
-        )
-    }
-    if (isEmpty(requests)) {
-        return (
-            <Text style={styles.text2}>
-                No Pending Requests available
-            </Text>
-        )
-    }
-    // console.log(requests)
-    return requests.map((req, ind) => (
-        <Request requestType="pending" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
-    ))
-}
-async function calendarRequests(uid) {
-    useFirestoreConnect([{
-            collection: 'requests'
-        }
-    ])
-    const requests = useSelector(state => state.firestore.ordered.requests)
-    const markedDates = {}
+//         )
+//     }
+// }
+// function Requests({ uid }) {
+//     useFirestoreConnect([
+//         {
+//             collection: `requests`,
+//             where: [['status', '==', 'pending']],
+//             storeAs: 'pendingRequests'
+//         }
+//     ])
+//     const requests = useSelector(state => state.firestore.ordered.pendingRequests)
+//     if (!isLoaded(requests)) {
+//         return (
+//             <Text style={styles.text2}>
+//                 Loading...
+//             </Text>
+//         )
+//     }
+//     if (isEmpty(requests)) {
+//         return (
+//             <Text style={styles.text2}>
+//                 No Pending Requests available
+//             </Text>
+//         )
+//     }
+//     // console.log(requests)
+//     return requests.map((req, ind) => (
+//         <Request requestType="pending" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
+//     ))
+// }
+function calendarRequests(uid, requests) {
+    
+    console.log(requests)
+    const markedDates = {}, reqDetails = {}
     requests.forEach(req => {
+        // console.log(req.examDate.toDate())
+        var dt = req.examDate.toDate().toISOString().split('T')[0]
         if (req.status === "found") {
             if (req.volunteer === "uid") {
+                if (req.dt===undefined){
+                    reqDetails[dt] = [{examName: req.examName, examLang: req.examLang}]
+                }
+                else {
 
-                markedDates[req.examDate] = {selected: true, selectedColor: 'green'}
+                    reqDetails[dt].append({examName: req.examName, examLang: req.examLang})
+                }
+                markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
             }
         }
         else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
-            markedDates[req.examDate] = {selected: true, selectedColor: 'yellow'}
+            if (req.dt === undefined){
+                reqDetails[dt] = [{examName: req.examName, examLang: req.examLang}]
+            }
+            else {
+    
+                reqDetails[dt].append({examName: req.examName, examLang: req.examLang})
+            }
+            markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
         }
         else {
-            markedDates[req.examDate] = {selected: true, selectedColor: 'red'}
+            if (req.dt === undefined){
+                reqDetails[dt] = [{examName: req.examName, examLang: req.examLang}]
+            }
+            else {
+            
+                reqDetails[dt].append({examName: req.examName, examLang: req.examLang})
+            }
+            markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
         }
     });
-    return calendarRequests
+    // console.log(markedDates)
+    return [markedDates, reqDetails]
 }
-function MyRequests({ uid }) {
-    useFirestoreConnect([
-        {
-            collection: `requests`,
-            where: [['volunteer', '==', uid]],
-            storeAs: 'myRequests'
-        }
-    ])
-    const requests = useSelector(state => state.firestore.ordered.myRequests)
+// function MyRequests({ uid }) {
+//     useFirestoreConnect([
+    //         {
+        //             collection: `requests`,
+        //             where: [['volunteer', '==', uid]],
+        //             storeAs: 'myRequests'
+//         }
+//     ])
+//     const requests = useSelector(state => state.firestore.ordered.myRequests)
+//     if (!isLoaded(requests)) {
+//         return (
+//             <Text style={styles.text2}>
+//                 Loading...
+//             </Text>
+//         )
+
+//     }
+//     if (isEmpty(requests)) {
+//         return (
+//             <Text style={styles.text2}>
+//                 No Requests assigned to you.
+//             </Text>
+//         )
+//     }
+//     console.log(requests)
+//     return requests.map((req, ind) => (
+//         <Request requestType="my" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
+//     ))
+// }
+export default function ScribeHomeTab () {
+
+    
+    useFirestoreConnect(['requests'])
+    let [downPane, setDownPane ] = useState('')
+    const requests = useSelector((state) => state.firestore.ordered.requests)
+    const auth = useSelector((state) => state.firebase.auth)
+    const lang = useSelector((state) => state.userAppSettings.lang)
+    // console.log(requests)
     if (!isLoaded(requests)) {
-        return (
-            <Text style={styles.text2}>
-                Loading...
-            </Text>
-        )
+        return(
 
-    }
-    if (isEmpty(requests)) {
-        return (
-            <Text style={styles.text2}>
-                No Requests assigned to you.
-            </Text>
+            <View style={styles.container}>
+                <View style={styles.upperHalf}>
+
+                    <Text style={styles.text1}>
+                        Loading...
+                    </Text>
+                </View>
+            </View>
         )
     }
-    console.log(requests)
-    return requests.map((req, ind) => (
-        <Request requestType="my" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
-    ))
-}
-export class ScribeHomeTab extends Component {
-    constructor(props) {
-        super(props)
-        this.navigation = this.props.navigation
-        this.handleClick = () => { this.navigation.navigate('FillExamDetails') }
-        this.handleClick = this.handleClick.bind(this)
-        const lang = props.lang
-    }
-    setDownPane(req) {
-        this.setState({downPane: req.examName+" in "+ req.examLang + " at "+ req.examAddress})
-    }
-    render() {
-        let markedDates = await calendarRequests(this.props.auth.uid)
+    else if (!isEmpty(requests)){
 
+        let [markedDates, reqDetails] = calendarRequests(auth.uid, requests)
+        console.log(markedDates)
         return (
             <ScrollView>
-
+        
                 <View style={styles.container}>
                     <View style={styles.upperHalf}>
-
+        
                         <Text style={styles.text1}>
                             Welcome.
                         </Text>
                     </View>
-
+        
                     <View style={styles.lowerHalf} >
                         {/* <MyRequests uid={this.props.auth.uid} />
                         <Requests uid={this.props.auth.uid} /> */}
@@ -234,22 +266,43 @@ export class ScribeHomeTab extends Component {
                             // Enable paging on horizontal, default = false
                             pagingEnabled={true}
                             // Set custom calendarWidth.
-                            calendarWidth={320} 
-                            onDayPress={(date)=>{
-                                setDownPane(markedDates[date])
+                            calendarWidth={320}
+                            onDayPress={(date) => {
+                                console.log(date.dateString)
+                                if (reqDetails[date.dateString]!==undefined) {
+
+                                    var reqs = reqDetails[date.dateString]
+                                    var downPaneString = ""
+                                    reqs.forEach((req) => {
+                                        downPaneString += (req.examName + " in " + req.examLang + "\n")
+                                    })
+                                    setDownPane(downPaneString)
+                                }
+                                else {
+                                    setDownPane("")
+                                }
                             }}
                         />
                     </View>
-
+                    <Text style={styles.text2}>{downPane}</Text>
                 </View>
             </ScrollView>
         )
     }
+    else {
+        return (
+            <View style={styles.container}>
+                <View style={styles.upperHalf}>
+    
+                    <Text style={styles.text1}>
+                        Nothing to show you.
+                    </Text>
+                </View>
+            </View>
+
+        )
+    }
+    
+    
 }
 
-
-
-export default connect((state) => ({
-    auth: state.firebase.auth,
-    lang: state.userAppSettings.lang
-}))(ScribeHomeTab)

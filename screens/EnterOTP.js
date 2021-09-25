@@ -140,7 +140,7 @@ export default function EnterOTP({ route, navigation }) {
                             },
                             (error) => {
                                 console.log(error)
-                                setErrorText({ errorText: error.message })
+                                setStatus("Can't send the OTP, maybe try again later")
                             })
 
                     }}

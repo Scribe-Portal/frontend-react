@@ -97,18 +97,18 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setMobile} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
-                        if (name!=='' && gender!=='' && DOB!=='' && email!=='' && mobile!=='') {
-                            firestore.update(`users/${uid}`,{
-                                name: name,
-                                gender: gender,
-                                DOB: DOB,
-                                email: email,
-                                mobile: mobile
-                            })
+                        // if (name!=='' && gender!=='' && DOB!=='' && email!=='' && mobile!=='') {
+                        //     firestore.update(`users/${uid}`,{
+                        //         name: name,
+                        //         gender: gender,
+                        //         DOB: DOB,
+                        //         email: email,
+                        //         mobile: mobile
+                        //     })
                             navigation.navigate('UploadDoc')
                         }
 
-                    }}
+                    }
                 >
                     <Text style={styles.t1}>
 
