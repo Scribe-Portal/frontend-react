@@ -7,14 +7,16 @@ import { VolunteerPreferenceText } from '../translations'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
         justifyContent: 'center',
 
 
     },
     input: {
-        margin: 10,
-        height: 40,
+        top:50,
+        margin:0.5,
+        width:"97%",
+        height: 60,
         backgroundColor: "white"
     },
     centered: {
@@ -23,28 +25,46 @@ const styles = StyleSheet.create({
 
     },
     text1: {
-        color: "#828282",
-        fontSize: 30,
+       top: 20,
+       textAlign: "center",
+       color: "#616161",
+       fontSize: 30,
+       fontWeight: '700',
+    },
+    text2: {
+        top: 40,
+        color: "#3A3A3A",
+        fontSize: 20,
         fontWeight: '700',
+        fontFamily: "lucida grande",
+    },
+    text3: {
+        top: 70,
+        color: "#3A3A3A",
+        fontSize: 20,
+        fontWeight: '700',
+        fontFamily: "lucida grande",
     },
     tsmall: {
 
     },
     button1: {
+        top:95,
         margin: 5,
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
     button2: {
+        top:105,
         margin: 4,
         backgroundColor: "#D4D4D4",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
 
@@ -58,7 +78,15 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
+    textInpu: {
+        position:"absolute",
+        top: 160,
+        flex:-1,
+        width:300
+    },
     radioRoot:{
+        top:80,
+        width:"95%",
         backgroundColor: "white",
         flexDirection: 'row',
         padding: 20,
@@ -132,14 +160,11 @@ export class VolunteerPreference extends Component {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Volunteer Preference
-                    </Text>
-                    
-                    <Text>Age</Text>
+                        Volunteer Preference,
+                    </Text >                     
+                    <Text style={styles.text2}>Gender</Text>
                     <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
-                    
-                    <Text>Gender</Text>
-                    <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
+                    <Text style={styles.text3} >Qualification Preference</Text>
                     {radio_array}
                     <TouchableOpacity style={styles.button1}
                         onPress={() => {
@@ -148,8 +173,7 @@ export class VolunteerPreference extends Component {
                         }}
                     >
                         <Text style={styles.t1}>
-
-                            Submit
+                            Request Volunteer
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button2}
@@ -159,8 +183,7 @@ export class VolunteerPreference extends Component {
                         }}
                     >
                         <Text style={styles.t1}>
-
-                            Skip
+                        Decide later
                         </Text>
                     </TouchableOpacity>
                 </View>

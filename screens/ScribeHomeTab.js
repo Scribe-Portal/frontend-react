@@ -210,7 +210,7 @@ export class ScribeHomeTab extends Component {
         this.setState({downPane: req.examName+" in "+ req.examLang + " at "+ req.examAddress})
     }
     render() {
-        let markedDates = await calendarRequests(this.props.auth.uid)
+        let markedDates = calendarRequests(this.props.auth.uid)
 
         return (
             <ScrollView>

@@ -3,11 +3,11 @@ export const SelectYourRole = {
     'hi': 'अपनी भूमिका चुने'
 }
 export const RequestScribe = {
-    'en': 'Request a Scribe',
+    'en': 'Request a Volunteer',
     'hi': 'मुंशी (स्क्राइब) निवेदन करे'
 }
 export const Volunteer = {
-    'en': 'Volunteer',
+    'en': 'Volunteer for Needy',
     'hi': 'वालंटियर (स्वयंसेवा)'
 }
 export const LoginText = {
