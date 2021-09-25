@@ -146,62 +146,6 @@ const styles = StyleSheet.create({
     }
 });
 
-// function Request({ req_id, uid, requestType }) {
-//     const request = (requestType === "my") ? useSelector(({ firestore: { data } }) => data.myRequests && data.myRequests[req_id]) : useSelector(({ firestore: { data } }) => data.pendingRequests && data.pendingRequests[req_id]);
-//     const navigation = useNavigation()
-//     const firestore = useFirestore()
-//     if (isEmpty(request)) {
-//         return null
-//     }
-//     else {
-//         console.log(request)
-//         return (
-//             <View style={
-//                 (requestType === "my")
-//                     ?
-//                     styles.myRequests
-//                     :
-//                     styles.requestRoot}>
-
-//                 <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate((requestType === "my") ? "RequestPageForScribeOwnRequest" : "RequestPageForScribePendingRequest", { req_id: req_id, uid: uid })}>
-//                     {/* <Text style={styles.examName}>{request.examName}</Text>
-//                     <Text style={styles.examDate}>{request.examDate}</Text> */}
-//                     <Text style={styles.examName}>a</Text>
-//                     <Text style={styles.examDate}>b</Text>
-//                 </TouchableOpacity>
-//             </View>
-
-//         )
-//     }
-// }
-// function Requests({ uid }) {
-//     useFirestoreConnect([
-//         {
-//             collection: `requests`,
-//             where: [['status', '==', 'pending']],
-//             storeAs: 'pendingRequests'
-//         }
-//     ])
-//     const requests = useSelector(state => state.firestore.ordered.pendingRequests)
-//     if (!isLoaded(requests)) {
-//         return (
-//             <Text style={styles.text2}>
-//                 Loading...
-//             </Text>
-//         )
-//     }
-//     if (isEmpty(requests)) {
-//         return (
-//             <Text style={styles.text2}>
-//                 No Pending Requests available
-//             </Text>
-//         )
-//     }
-//     // console.log(requests)
-//     return requests.map((req, ind) => (
-//         <Request requestType="pending" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
-//     ))
-// }
 function calendarRequests(uid, requests) {
     
     // console.log(requests)
@@ -289,41 +233,13 @@ function calendarRequests(uid, requests) {
     // console.log(markedDates)
     return [markedDates, reqDetails]
 }
-// function MyRequests({ uid }) {
-//     useFirestoreConnect([
-    //         {
-        //             collection: `requests`,
-        //             where: [['volunteer', '==', uid]],
-        //             storeAs: 'myRequests'
-//         }
-//     ])
-//     const requests = useSelector(state => state.firestore.ordered.myRequests)
-//     if (!isLoaded(requests)) {
-//         return (
-//             <Text style={styles.text2}>
-//                 Loading...
-//             </Text>
-//         )
 
-//     }
-//     if (isEmpty(requests)) {
-//         return (
-//             <Text style={styles.text2}>
-//                 No Requests assigned to you.
-//             </Text>
-//         )
-//     }
-//     console.log(requests)
-//     return requests.map((req, ind) => (
-//         <Request requestType="my" req_id={req.id} uid={uid} key={`${ind}-${req.id}`} />
-//     ))
-// }
 export default function ScribeHomeTab () {
 
     
     useFirestoreConnect(['requests'])
     
-    // let [downPane, setDownPane ] = useState('')
+    
     let [currDate, setCurrDate] = useState('')
     const requests = useSelector((state) => state.firestore.ordered.requests)
     const auth = useSelector((state) => state.firebase.auth)
