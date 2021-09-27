@@ -243,7 +243,7 @@ export class UploadDoc extends Component {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Upload Documents
+                        Upload Documents for Verification
                     </Text>
                     {radio_array}
                     <Text style={styles.text1}>
