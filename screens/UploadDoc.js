@@ -14,7 +14,7 @@ import { Picker } from '@react-native-picker/picker'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#D4D4D4",
         justifyContent: 'center',
 
 
@@ -30,10 +30,9 @@ const styles = StyleSheet.create({
 
     },
     text1: {
-        top: 14,
-       color: "#616161",
-       fontSize: 20,
-       fontWeight: '700',
+        color: "#828282",
+        fontSize: 18,
+        fontWeight: '700',
     },
     text2: {
         color: "#FFFFFF",
@@ -98,7 +97,6 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
             onPress={handleChange}
         >
             <View style={{
-                top:20,
                 padding: 3,
                 borderRadius: 12,
                 borderWidth: 2,
@@ -110,7 +108,6 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 {
                     selectedRadioButton == i ?
                         <View style={{
-                            top:20,
                             height: 8,
                             width: 8,
                             borderRadius: 4,
@@ -246,7 +243,7 @@ export class UploadDoc extends Component {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Upload Documents for Verification,
+                        Upload Documents for Verification
                     </Text>
                     {radio_array}
                     <Text style={styles.text1}>
