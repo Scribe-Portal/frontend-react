@@ -7,7 +7,7 @@ import { changeLang } from '../reducers/userAppSettingsReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
     },
     upperHalf: {
         flex: 1,
@@ -20,23 +20,33 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
-        fontSize: 30,
+        color: "#616161",
+        fontSize: 35,
         fontWeight: '700',
+        fontFamily: "lucida grande",
+
+    },
+    text2: {
+        color: "#616161",
+        fontSize: 20,
+        fontWeight: '700',
+        fontFamily: "lucida grande",
+
     },
     langButton1: {
+        top: 71.72,
         backgroundColor:'#616161',
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor:"#D4D4D4",
+        backgroundColor:"#E5E5E5",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
         
@@ -59,7 +69,12 @@ function SelectLanguage({navigation}) {
                 <View style={styles.upperHalf}>
                     <Text style= {styles.text1}>
                         Select your Language.
-                        भाषा चुने
+                        {"\n"}{"\n"}
+                        अपनी भाषा चुने.
+                        {"\n"}
+                    </Text>
+                    <Text style= {styles.text2}>
+                    You can change this later from Settings under profile settings.
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>

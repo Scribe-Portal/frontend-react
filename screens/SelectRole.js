@@ -8,7 +8,7 @@ import { SelectYourRole, Volunteer, RequestScribe } from '../translations'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
     },
     upperHalf: {
         flex: 1,
@@ -21,23 +21,28 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        position: "absolute",
+        top: "20%",
+        textAlign: "center",
+        color: "#616161",
         fontSize: 30,
         fontWeight: '700',
     },
     langButton1: {
         backgroundColor: '#616161',
+        top: "20.75%",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
+        top: "2.75%",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
 
