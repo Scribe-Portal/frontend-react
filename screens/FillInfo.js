@@ -105,7 +105,7 @@ function FillInfo({ navigation }) {
                                 email: email,
                                 mobile: mobile
                             })
-                            navigation.navigate('UploadDoc')
+                            navigation.navigate('VolunteerPreference')
                         }
 
                     }}
