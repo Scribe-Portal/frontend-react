@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { Component, useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
@@ -76,8 +77,20 @@ function FillInfo({ navigation }) {
     let [DOB, setDOB] = useState('')
     let [email, setEmail] = useState('')
     let [mobile, setMobile] = useState('')
+    let [date, setDate] = useState(new Date()) 
+    
+    let [show, setShow] = useState(false) 
     const { uid } = useSelector(state => state.firebase.auth)
     const lang = useSelector(state => state.userAppSettings.lang)
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date 
+        setShow(Platform.OS === 'ios') 
+        setDate(currentDate) 
+    }
+    const showDatepicker = () => {
+        setShow(true)
+    } 
+    
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -89,19 +102,27 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 <Text>Gender</Text>
                 <TextInput onChangeText={setGender} style={styles.input} />
-                <Text>Date of Birth (DD MM YYYY)</Text>
-                <TextInput onChangeText={setDOB} style={styles.input} />
+                <Button title ="Date of Birth (DD MM YYYY)" onPress={showDatepicker}></Button>
+                {show && (
+                    <DateTimePicker
+                        testID="datePicker"
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
                 <Text>Email</Text>
                 <TextInput onChangeText={setEmail} style={styles.input} />
                 <Text>Mobile Number</Text>
                 <TextInput onChangeText={setMobile} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
-                        if (name!=='' && gender!=='' && DOB!=='' && email!=='' && mobile!=='') {
-                            firestore.update(`users/${uid}`,{
+                        if (name !== '' && gender !== ''  && email !== '' && mobile !== '') {
+                            firestore.update(`users/${uid}`, {
                                 name: name,
                                 gender: gender,
-                                DOB: DOB,
+                                DOB: date,
                                 email: email,
                                 mobile: mobile
                             })
