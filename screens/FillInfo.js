@@ -76,7 +76,7 @@ function FillInfo({ navigation }) {
     let [gender, setGender] = useState('')
     let [DOB, setDOB] = useState('')
     let [email, setEmail] = useState('')
-    let [mobile, setMobile] = useState('')
+    
     let [date, setDate] = useState(new Date()) 
     
     let [show, setShow] = useState(false) 
@@ -114,17 +114,15 @@ function FillInfo({ navigation }) {
                 )}
                 <Text>Email</Text>
                 <TextInput onChangeText={setEmail} style={styles.input} />
-                <Text>Mobile Number</Text>
-                <TextInput onChangeText={setMobile} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
-                        if (name !== '' && gender !== ''  && email !== '' && mobile !== '') {
+                        if (name !== '' && gender !== ''  && email !== '' ) {
                             firestore.update(`users/${uid}`, {
                                 name: name,
                                 gender: gender,
                                 DOB: date,
                                 email: email,
-                                mobile: mobile
+                                
                             })
                             navigation.navigate('VolunteerPreference')
                         }

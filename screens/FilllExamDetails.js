@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { FillExamDetailsText } from '../translations'
-
+import { DateTimePicker } from '@react-native-community/datetimepicker';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -74,9 +74,20 @@ function FillExamDetails({ navigation }) {
     const {uid} = useSelector(state => state.firebase.auth)
     let firestore = useFirestore()
     let [name, setName] = useState('')
-    let [date, setDate] = useState('')
+    
     let [time, setTime] = useState('')
     let [examLang, setExamLang] = useState('')
+    let [date, setDate] = useState(new Date()) 
+    
+    let [show, setShow] = useState(false) 
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date 
+        setShow(Platform.OS === 'ios') 
+        setDate(currentDate) 
+    }
+    const showDatepicker = () => {
+        setShow(true)
+    } 
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -86,8 +97,16 @@ function FillExamDetails({ navigation }) {
                 </Text>
                 <Text>Name of Examination</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                <Text>Date of Examination</Text>
-                <TextInput onChangeText={setDate} style={styles.input} />
+                <Button title ="Date of exam" onPress={showDatepicker}/>
+                {show && (
+                    <DateTimePicker
+                        testID="datepicker2"
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
                 <Text>Time of Examination</Text>
                 <TextInput onChangeText={setTime} style={styles.input} />
                 <Text>Language of Examination</Text>
