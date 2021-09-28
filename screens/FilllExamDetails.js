@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform }
 import { useSelector } from 'react-redux';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { FillExamDetailsText } from '../translations'
-import { DateTimePicker } from '@react-native-community/datetimepicker';
+import  DateTimePicker from '@react-native-community/datetimepicker';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
