@@ -3,11 +3,12 @@ import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+
 import { compose } from 'redux';
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { store } from '../App';
-
+import { removeAll } from '../reducers/priorityReducer';
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -117,7 +118,11 @@ export class HomeTab extends Component {
     constructor(props) {
         super(props)
         this.navigation = this.props.navigation
-        this.handleClick = () => { this.navigation.navigate('FillExamDetails') }
+        
+        this.handleClick = () => { 
+            props.removeAll()
+            this.navigation.navigate('FillExamDetails')
+        }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang
     }
@@ -157,4 +162,6 @@ export class HomeTab extends Component {
 export default connect((state) => ({
     auth: state.firebase.auth, 
     lang: state.userAppSettings.lang
-}))(HomeTab)
+}),
+    { removeAll }
+)(HomeTab)

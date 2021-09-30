@@ -90,6 +90,8 @@ export default function EnterOTP({ route, navigation }) {
                                 .get()
                                 .then(userDoc => {
                                     if (userDoc.createdAt) {
+                                        new_sign_in = false
+                                        console.log('not a new signin')
                                         firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({
@@ -97,9 +99,10 @@ export default function EnterOTP({ route, navigation }) {
                                                 appLang: lang,
                                                 mobile: mobile
                                             })
-                                        new_sign_in = false
+                                        
                                     }
                                     else {
+                                        console.log(' a new signin')
                                         firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({

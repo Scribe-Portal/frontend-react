@@ -136,11 +136,12 @@ function Matches({uid}) {
 }
 function ShowMatches({ navigation, route: {params: {requestId}} }) {
     const lang = useSelector(state => state.userAppSettings.lang)
-    const {firstP, secondP, thirdP} = useSelector(state => state.priority)
+    
     const {uid} = useSelector(state => state.firebase.auth)
     const dispatch = useDispatch()
     const firestore = useFirestore()
-    
+    let selectedData = useSelector(state => state.priority.P)
+    console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -156,9 +157,9 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                         .collection('requests')
                         .doc(requestId)
                         .update({
-                            selection: selection
+                            volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
                         })
-                        dispatch(setNull())
+                        
                         navigation.navigate('Home')
                     }}
                 >

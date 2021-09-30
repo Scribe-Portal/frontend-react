@@ -11,11 +11,14 @@ const priority = createSlice({
         },
         removeP (state, action) {
             state.P[action.payload.scribe_id] = false
+        },
+        removeAll(state, action) {
+            state.P = {}
         }
     }
 
 })
 
-export const { addP, removeP } = priority.actions
+export const { addP, removeP, removeAll } = priority.actions
 
 export default priority.reducer
