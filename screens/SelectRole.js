@@ -1,11 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { SelectYourRole, Volunteer, RequestScribe } from '../translations' 
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { changeScribeStatus } from '../reducers/userAppSettingsReducer';
+import { SelectYourRole, Volunteer, RequestScribe } from '../translations'
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
     },
     upperHalf: {
         flex: 1,
@@ -18,26 +21,31 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        position: "absolute",
+        top: "20%",
+        textAlign: "center",
+        color: "#616161",
         fontSize: 30,
         fontWeight: '700',
     },
     langButton1: {
-        backgroundColor:'#616161',
+        backgroundColor: '#616161',
+        top: "20.75%",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor:"#D4D4D4",
+        backgroundColor: "#E5E5E5",
+        top: "2.75%",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
-        
+
     },
     t1: {
         color: "#FFFFFF",
@@ -50,39 +58,44 @@ const styles = StyleSheet.create({
     }
 
 });
-export class SelectLanguage extends Component {
-    render() {
-        const { navigation } = this.props;
-        const { lang } = this.props.route.params;
-        return (
-            <View style= {styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style= {styles.text1}>
-                        {SelectYourRole[lang]}
+function SelectRole({ navigation }) {
+    const dispatch = useDispatch()
+    const lang = useSelector(state => state.userAppSettings.lang)
+    return (
+        <View style={styles.container}>
+            <View style={styles.upperHalf}>
+                <Text style={styles.text1}>
+                    {SelectYourRole[lang]}
+                </Text>
+            </View>
+            <View style={styles.lowerHalf}>
+                <TouchableOpacity style={styles.langButton1}
+                    onPress={() => {
+                        dispatch(changeScribeStatus({newScribeStatus: false}))
+                        navigation.navigate('EnterMobile')
+                    }}
+                >
+                    <Text style={styles.t1}>
+
+                        {RequestScribe[lang]}
                     </Text>
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.langButton1}
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.langButton2}>
+                    <Text style={styles.t2}
                         onPress={() => {
-                            navigation.navigate('LoginOrSignUp')
+                            dispatch(changeScribeStatus({newScribeStatus: true}))
+                            navigation.navigate('EnterMobile')
                         }}
                     >
-                        <Text style={styles.t1}>
 
-                            {RequestScribe[lang]}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.langButton2}>
-                        <Text style={styles.t2}>
-
-                            {Volunteer[lang]}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
+                        {Volunteer[lang]}
+                    </Text>
+                </TouchableOpacity>
             </View>
-        )
-    }
+
+        </View>
+    )
+
 }
 
-export default SelectLanguage
+export default SelectRole

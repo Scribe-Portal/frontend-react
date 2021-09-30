@@ -1,15 +1,18 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { Component, useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
-
+useSelector
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#D4D4D4",
         justifyContent: 'center',
-        
-        
+
+
     },
     input: {
         margin: 10,
@@ -36,8 +39,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    tsmall: {
+
+    },
     FillInfoButton: {
-        backgroundColor:'#616161',
+        backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
@@ -45,13 +51,13 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor:"#D4D4D4",
+        backgroundColor: "#D4D4D4",
         borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
         borderWidth: 3,
-        
+
     },
     t1: {
         color: "#FFFFFF",
@@ -64,45 +70,76 @@ const styles = StyleSheet.create({
     }
 
 });
-export class FillInfo extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            email: '',
-            pass: '',
-            cpass: ''
-        }
+function FillInfo({ navigation }) {
+    let firestore = useFirestore()
+    let [name, setName] = useState('')
+    let [gender, setGender] = useState('')
+    let [DOB, setDOB] = useState('')
+    let [email, setEmail] = useState('')
+    
+    let [date, setDate] = useState(new Date()) 
+    
+    let [show, setShow] = useState(false) 
+    const { uid } = useSelector(state => state.firebase.auth)
+    const lang = useSelector(state => state.userAppSettings.lang)
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date 
+        setShow(Platform.OS === 'ios') 
+        setDate(currentDate) 
     }
-    render() {
-        const { navigation } = this.props;
-        const { lang } = this.props.route.params;
-        return (
-            <View style= {styles.container}>
-                <View style={styles.centered}>
+    const showDatepicker = () => {
+        setShow(true)
+    } 
+    
+    return (
+        <View style={styles.container}>
+            <View style={styles.centered}>
 
-                    <Text style= {styles.text1}>
-                        Sign Up,
+                <Text style={styles.text1}>
+                    Fill Your Information,
+                </Text>
+                <Text>Name</Text>
+                <TextInput onChangeText={setName} style={styles.input} />
+                <Text>Gender</Text>
+                <TextInput onChangeText={setGender} style={styles.input} />
+                <Button title ="Date of Birth (DD MM YYYY)" onPress={showDatepicker}></Button>
+                {show && (
+                    <DateTimePicker
+                        testID="datePicker"
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={onChange}
+                    />
+                )}
+                <Text>Email</Text>
+                <TextInput onChangeText={setEmail} style={styles.input} />
+                <TouchableOpacity style={styles.FillInfoButton}
+                    onPress={() => {
+                        if (name !== '' && gender !== ''  && email !== '' ) {
+                            firestore.update(`users/${uid}`, {
+                                name: name,
+                                gender: gender,
+                                DOB: date,
+                                email: email,
+                                
+                            })
+                            navigation.navigate('VolunteerPreference')
+                        }
+
+                    }}
+                >
+                    <Text style={styles.t1}>
+
+                        Save and Next
                     </Text>
-                    <TextInput onChangeText={(t) => {this.setState({email: t})}} style={styles.input}/>
-                    <TextInput onChangeText={(t) => {this.setState({pass: t})}} style={styles.input}/>
-                    <TextInput onChangeText={(t) => {this.setState({cpass: t})}} style={styles.input}/>
-                    <TouchableOpacity style={styles.FillInfoButton} 
-                        onPress= { () => {
-                            
-                            navigation.navigate('Home')
-                        }}
-                    >
-                        <Text style={styles.t1}>
-
-                            Sign Up
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                
-
+                </TouchableOpacity>
             </View>
-        )
-    }
+
+
+        </View>
+    )
+
 }
 
 export default FillInfo
