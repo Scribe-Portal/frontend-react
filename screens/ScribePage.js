@@ -9,12 +9,11 @@ import { changeLang } from '../reducers/userAppSettingsReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
     },
     upperHalf: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        margin:20
     },
     lowerHalf: {
         flex: 1,
@@ -22,20 +21,51 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        top: 20,
+        color: "#616161",
         fontSize: 30,
         fontWeight: '700',
     },
+    text3: {
+        top: 10,
+        color: "#616161",
+        fontSize: 20,
+        fontWeight: '400',
+    },
+    text6: {
+        top: 10,
+        textAlign: "right",
+        color: "#616161",
+        fontSize: 20,
+        fontWeight: '400',
+    },
+    text4: {
+        top: 60,
+        color: "#616161",
+        fontSize: 22,
+        fontWeight: '400',
+    },
     text2: {
+        top:80,
         color: "#828282",
         fontSize: 20,
         fontWeight: '300',
     },
     priorityButton: {
+        top:80,
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
+        alignItems: 'center',
+        borderWidth: 3,
+    },
+    priorityButton1: {
+        top:80,
+        backgroundColor: '#456DBA',
+        borderColor: "#456DBA",
+        borderRadius: 10,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
@@ -70,6 +100,16 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                     {scribe.name}
                     
                 </Text>
+                <Text style={styles.text6}>
+                    Rating:
+                    {scribe.rating}
+                </Text>
+                <Text style={styles.text3}>
+                    Voulnteered 15 times
+                </Text>
+                <Text style={styles.text4}>
+                Reviews
+                </Text>
                 <Text style={styles.text2}>
 
                     {
@@ -78,7 +118,7 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                 </Text>
             </View>
             <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.priorityButton}
+                <TouchableOpacity style={selected?styles.priorityButton1:styles.priorityButton}
                     onPress={() => {
                         if (selected){
 
@@ -94,7 +134,7 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                     <Text style={styles.t1}>
 
                         {
-                            (selected?"Deselect":"Select this volunteer")   
+                            (selected?"Discard this Volunteer":"Select this volunteer")   
                         }
                     </Text>
                 </TouchableOpacity>
