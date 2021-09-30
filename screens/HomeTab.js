@@ -73,7 +73,7 @@ function Request({req_id, uid}) {
 
             <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, uid: uid})}>
                 <Text style={styles.examName}>{request.examName}</Text>
-                <Text style={styles.examDate}>{request.examDate}</Text>
+                {/* <Text style={styles.examDate}>{request.examDate.toLocaleStrrin}</Text> */}
             </TouchableOpacity>
             <TouchableOpacity style={styles.removeBox} onPress={() => {
                 return firestore.delete(`requests/${req_id}`)

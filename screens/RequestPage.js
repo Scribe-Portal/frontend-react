@@ -65,7 +65,7 @@ function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
-                    {request.examName} on {request.examDate}
+                    {/* {request.examName} on {request.examDate} */}
                 </Text>
             </View>
             <View style={styles.lowerHalf}>
