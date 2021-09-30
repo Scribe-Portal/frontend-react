@@ -111,7 +111,12 @@ export default function EnterOTP({ route, navigation }) {
                                     }
 
                                 })
-                            navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+                                .then(() => {
+                                        navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+
+                                    }
+
+                                )
                         })
                         .catch((err) => {
                             setStatus("Wrong OTP!")

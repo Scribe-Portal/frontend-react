@@ -69,25 +69,45 @@ const styles = StyleSheet.create({
     }
 
 });
+function CombineDateAndTime(date, time) {
+    const mins = ("0"+ time.getMinutes()).slice(-2);
+    const hours = ("0"+ time.getHours()).slice(-2);
+    const timeString = hours + ":" + mins + ":00";
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const dateString = "" + year + "-" + month + "-" + day;
+    const datec = dateString + "T" + timeString;
+    return new Date(datec);
+};
 function FillExamDetails({ navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
     const {uid} = useSelector(state => state.firebase.auth)
     let firestore = useFirestore()
     let [name, setName] = useState('')
     
-    let [time, setTime] = useState('')
+    let [time, setTime] = useState(new Date())
     let [examLang, setExamLang] = useState('')
     let [date, setDate] = useState(new Date()) 
     
     let [show, setShow] = useState(false) 
+    let [show2, setShow2] = useState(false) 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date 
         setShow(Platform.OS === 'ios') 
-        setDate(currentDate) 
+        setDate(new Date(currentDate)) 
     }
     const showDatepicker = () => {
         setShow(true)
     } 
+    const onChange2 = (event, selectedDate) => {
+        const currentDate = selectedDate || date 
+        setShow2(Platform.OS === 'ios') 
+        setTime(new Date(currentDate)) 
+    }
+    const showTimepicker = () => {
+        setShow2(true)
+    }
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -107,8 +127,16 @@ function FillExamDetails({ navigation }) {
                         onChange={onChange}
                     />
                 )}
-                <Text>Time of Examination</Text>
-                <TextInput onChangeText={setTime} style={styles.input} />
+                <Button title ="Time of exam" onPress={showTimepicker}/>
+                {show2 && (
+                    <DateTimePicker
+                        testID="datepicker3"
+                        value={time}
+                        mode="time"
+                        display="default"
+                        onChange={onChange2}
+                    />
+                )}
                 <Text>Language of Examination</Text>
                 <TextInput onChangeText={setExamLang} style={styles.input} />
                 <TouchableOpacity style={styles.FillExamDetailsButton}
@@ -119,8 +147,7 @@ function FillExamDetails({ navigation }) {
                             status: 'pending',
                             uid: uid,
                             examName: name,
-                            examDate: date,
-                            examTime: time,
+                            examDate: CombineDateAndTime(date, time),
                             examLang: examLang,
                         })
                         .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id}))

@@ -75,11 +75,11 @@ function Request({req_id, uid}) {
                 <Text style={styles.examName}>{request.examName}</Text>
                 {/* <Text style={styles.examDate}>{request.examDate.toLocaleStrrin}</Text> */}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.removeBox} onPress={() => {
+            {/* <TouchableOpacity style={styles.removeBox} onPress={() => {
                 return firestore.delete(`requests/${req_id}`)
             }}>
                 <Text style={styles.removeText}>REMOVE</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
 
     )
