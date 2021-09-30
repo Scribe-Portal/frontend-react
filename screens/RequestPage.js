@@ -59,13 +59,14 @@ function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
         { collection: `requests`, doc: req_id}
     ])
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
+    console.log(request)
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
-                    {/* {request.examName} on {request.examDate} */}
+                
+                    {request.examName} on {new Date(request.examDate.seconds).toDateString()}
                 </Text>
             </View>
             <View style={styles.lowerHalf}>
