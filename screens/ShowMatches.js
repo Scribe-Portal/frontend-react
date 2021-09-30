@@ -101,10 +101,9 @@ const matchQuery = {
     collection: "scribes",
     queryParams: ["LimitToLast=5"]
 }
-function Match({id}) {
+function Match({id, selected}) {
     const scribe = useSelector(state => state.firestore.data.scribes[id])
     const navigation = useNavigation()
-    let [selected, setSelected] = useState(false)
     return (
         <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
             <Text style={styles.match_name}>{scribe.name}</Text>
@@ -115,6 +114,7 @@ function Match({id}) {
 function Matches({uid}) {
     useFirestoreConnect(()=> [matchQuery])
     const matches = useSelector(state => state.firestore.data.scribes)
+    let selectedData = useSelector(state => state.priority.P)
     if (!isLoaded(matches)){    
         return (
             <Text style={styles.text1}>
@@ -131,7 +131,7 @@ function Matches({uid}) {
         )
     }
     return Object.keys(matches).map((id, ind) => (
-        <Match id={id} key={`${ind}-${id}`}/>
+        <Match id={id} selected = {(selectedData[id]===true)} key={`${ind}-${id}`}/>
     ))
 }
 function ShowMatches({ navigation, route: {params: {requestId}} }) {

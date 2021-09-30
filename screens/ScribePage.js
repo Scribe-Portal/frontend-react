@@ -79,14 +79,21 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        
+                        if (selected){
+
+                            dispatch(removeP({scribe_id: scribe_id}))
+                        }
+                        else {
+
+                            dispatch(addP({scribe_id: scribe_id}))
+                        }
                         navigation.navigate('ShowMatches', {scribe_id: scribe_id})
                     }}
                 >
                     <Text style={styles.t1}>
 
                         {
-                            (selected?"Deselect":"Select this volunteer")
+                            (selected?"Deselect":"Select this volunteer")   
                         }
                     </Text>
                 </TouchableOpacity>

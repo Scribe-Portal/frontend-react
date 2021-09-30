@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-    P: [],
+    P: {},
 }
 const priority = createSlice({
     name: 'priority',
     initialState,
     reducers: {
         addP(state, action) {
-            state.P.append(action.payload.scribe_id)
+            state.P[action.payload.scribe_id] = true
         },
         removeP (state, action) {
-            // state.P.
+            state.P[action.payload.scribe_id] = false
         }
     }
 
