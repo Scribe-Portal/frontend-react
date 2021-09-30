@@ -152,14 +152,14 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                 <Matches uid={uid}/>
                 <TouchableOpacity style={styles.ShowMatchesButton}
                     onPress={() => {
-                        console.log("done pressed", requestId)
+                        // console.log("done pressed", requestId)
                         firestore
                         .collection('requests')
                         .doc(requestId)
                         .update({
                             volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
                         })
-                        
+                        console.log(Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true))
                         navigation.navigate('Home')
                     }}
                 >
