@@ -55,7 +55,7 @@ export default function EnterOTP({ route, navigation }) {
     let firestore = useFirestore()
     const { uid } = useSelector(state => state.firebase.auth)
 
-
+    let new_sign_in = true
     return (
         <View style={styles.container}>
             <Text style={styles.text1}>
@@ -97,6 +97,7 @@ export default function EnterOTP({ route, navigation }) {
                                                 appLang: lang,
                                                 mobile: mobile
                                             })
+                                        new_sign_in = false
                                     }
                                     else {
                                         firestore.collection(isItAScribe?'scribes':'users')
@@ -112,7 +113,13 @@ export default function EnterOTP({ route, navigation }) {
 
                                 })
                                 .then(() => {
-                                        navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+                                        if (new_sign_in) {
+
+                                            navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+                                        }
+                                        else {
+                                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                        }
 
                                     }
 

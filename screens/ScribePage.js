@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { addP, removeP } from '../reducers/priorityReducer'
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi

@@ -16,6 +16,6 @@ const priority = createSlice({
 
 })
 
-export const { changeFirstP, changeSecondP, changeThirdP, setNull } = priority.actions
+export const { addP, removeP } = priority.actions
 
 export default priority.reducer
