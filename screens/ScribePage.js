@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    text2: {
+        color: "#828282",
+        fontSize: 20,
+        fontWeight: '300',
+    },
     priorityButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
     }
 
 });
-function ScribePage({ navigation, route: { params: {scribe_id} } }) {
+function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
     const scribe = useSelector(state => state.firestore.data.scribes[scribe_id])
 
     const dispatch = useDispatch()
@@ -64,40 +69,28 @@ function ScribePage({ navigation, route: { params: {scribe_id} } }) {
                     {scribe.name}
                     
                 </Text>
+                <Text style={styles.text2}>
+
+                    {
+                        scribe.review
+                    }
+                </Text>
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        dispatch(changeFirstP({ scribe_id: scribe_id }))
-                        navigation.navigate('ShowMatches')
+                        
+                        navigation.navigate('ShowMatches', {scribe_id: scribe_id})
                     }}
                 >
                     <Text style={styles.t1}>
 
-                        First Priority
+                        {
+                            (selected?"Deselect":"Select this volunteer")
+                        }
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        dispatch(changeSecondP({ scribe_id: scribe_id }))
-                        navigation.navigate('ShowMatches')
-                    }}
-                >
-                    <Text style={styles.t1}>
-
-                        Second Priority
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        dispatch(changeThirdP({ scribe_id: scribe_id }))
-                        navigation.navigate('ShowMatches')
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Third Priority
-                    </Text>
-                </TouchableOpacity>
+                
             </View>
 
         </View>

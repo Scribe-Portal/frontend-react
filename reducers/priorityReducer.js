@@ -1,26 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-    firstP: null,
-    secondP: null,
-    thirdP: null,
+    P: [],
 }
 const priority = createSlice({
     name: 'priority',
     initialState,
     reducers: {
-        changeFirstP(state, action) {
-            state.firstP = action.payload.scribe_id
+        addP(state, action) {
+            state.P.append(action.payload.scribe_id)
         },
-        changeSecondP(state, action) {
-            state.secondP = action.payload.scribe_id
-        },
-        changeThirdP(state, action) {
-            state.thirdP = action.payload.scribe_id
-        },
-        setNull (state, action) {
-            state.firstP = null
-            state.secondP = null
-            state.thirdP = null
+        removeP (state, action) {
+            // state.P.
         }
     }
 

@@ -169,7 +169,7 @@ export class UploadExamDoc extends Component {
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
                             
-                                navigation.navigate('ShowMatches', {requestId: requestId})
+                                navigation.navigate('ShowMatches', {requestId: requestId, scribe_id: 0})
                         }}
                     >
                         <Text style={styles.t1}>

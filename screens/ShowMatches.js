@@ -73,6 +73,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between'
     },
+    selectedScribeBox: {
+        margin: 5,
+        padding: 10,
+        borderWidth: 2,
+        borderColor: "#616161",
+        backgroundColor: "#52F6F7",
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
     
     t2: {
         color: "#616161",
@@ -95,9 +104,9 @@ const matchQuery = {
 function Match({id}) {
     const scribe = useSelector(state => state.firestore.data.scribes[id])
     const navigation = useNavigation()
-    
+    let [selected, setSelected] = useState(false)
     return (
-        <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id})}>
+        <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
             <Text style={styles.match_name}>{scribe.name}</Text>
             <Text style={styles.match_rating}>{scribe.rating}</Text>
         </TouchableOpacity>
@@ -121,10 +130,6 @@ function Matches({uid}) {
             </Text>
         )
     }
-    // console.log(matches)
-    // matches.forEach(element => {
-    //     console.log(element)
-    // });
     return Object.keys(matches).map((id, ind) => (
         <Match id={id} key={`${ind}-${id}`}/>
     ))
@@ -135,6 +140,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
     const {uid} = useSelector(state => state.firebase.auth)
     const dispatch = useDispatch()
     const firestore = useFirestore()
+    
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -150,9 +156,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                         .collection('requests')
                         .doc(requestId)
                         .update({
-                            firstP: firstP,
-                            secondP: secondP,
-                            thirdP: thirdP,
+                            selection: selection
                         })
                         dispatch(setNull())
                         navigation.navigate('Home')
