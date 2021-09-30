@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     tsmall: {
 
     },
+    spacing: {
+        minHeight: 10,
+    },
     FillExamDetailsButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
@@ -127,6 +130,7 @@ function FillExamDetails({ navigation }) {
                         onChange={onChange}
                     />
                 )}
+                <View style={styles.spacing}></View>
                 <Button title ="Time of exam" onPress={showTimepicker}/>
                 {show2 && (
                     <DateTimePicker
