@@ -61,7 +61,8 @@ export default function EnterOTP({ route, navigation }) {
             <Text style={styles.text1}>
                 An OTP has been sent to {mobile}
             </Text>
-            <OTPInputView
+            <TextInput placeholder="Enter OTP" onChangeText={set_otp_input} style={styles.input} />
+            {/* <OTPInputView
                 style={{ width: '80%', height: 300, justifyContent: 'space-around' }}
                 pinCount={6}
                 code={otp_input} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
@@ -69,12 +70,17 @@ export default function EnterOTP({ route, navigation }) {
                 autoFocusOnLoad
                 codeInputFieldStyle={styles.underlineStyleBase}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                onCodeFilled={(code) => {
+                onCodeFilled={
+                }}
+            /> */}
+            <TouchableOpacity style={styles.langButton1}
+                    onPress={() => {
+                        
                     // console.log(`Code is ${code}, you are good to go!`)
 
                     const credential = firebase.auth.PhoneAuthProvider.credential(
                         verificationId,
-                        code,
+                        otp_input,
                     )
                     // let fbWorkerApp = firebase.apps.find(app => app.name === 'auth-worker') || firebase.initializeApp(firebase.app().options, 'auth-worker')
                     let fbWorkerAuth = firebase_auth()
@@ -133,8 +139,13 @@ export default function EnterOTP({ route, navigation }) {
                             setStatus("Wrong OTP!")
                             console.log(err)
                         })
-                }}
-            />
+                    }}
+            >
+                <Text style={styles.t1}>
+
+                    Proceed 
+                </Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.langButton1}
                     onPress={() => {
                         firebase_auth().verifyPhoneNumber(mobile).on(

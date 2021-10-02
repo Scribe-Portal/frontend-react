@@ -125,6 +125,7 @@ function FillExamDetails({ navigation }) {
                     <DateTimePicker
                         testID="datepicker2"
                         value={date}
+                        locale="in-IN"
                         mode="date"
                         display="default"
                         onChange={onChange}
@@ -136,6 +137,7 @@ function FillExamDetails({ navigation }) {
                     <DateTimePicker
                         testID="datepicker3"
                         value={time}
+                        locale="in-IN"
                         mode="time"
                         display="default"
                         onChange={onChange2}
