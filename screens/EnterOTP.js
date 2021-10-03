@@ -13,7 +13,7 @@ import { useFirestore } from 'react-redux-firebase';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#E5E5E5",
         alignItems: 'center',
         paddingVertical: 20,
     },
@@ -27,17 +27,41 @@ const styles = StyleSheet.create({
     codeInputHighlightStyle: {
     },
     text1: {
+
+        top:20,
         color: "#828282",
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: '700',
     },
+    text2: {
+        top: 40,
+        width: 321,
+        height: 48,
+       textAlign: "center",
+        color: "#3A3A3A",
+        fontSize: 20,
+        fontWeight: '700',
+        fontFamily: "lucida grande",
+    },
     langButton1: {
+        margin:20,
+        top:250,
         backgroundColor: '#616161',
+        width:"100%",
         borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 10,
         alignItems: 'center',
         borderWidth: 3,
+    },
+    input: {
+        margin: 10,
+        top: 160,
+        alignContent: "center",
+        justifyContent: 'space-around',
+        height: 60,
+        width: 300,
+        backgroundColor: "white"
     },
     t1: {
         color: "#FFFFFF",
@@ -59,6 +83,9 @@ export default function EnterOTP({ route, navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.text1}>
+                OTP Verification,
+            </Text>
+            <Text style={styles.text2}>
                 An OTP has been sent to {mobile}
             </Text>
             <TextInput placeholder="Enter OTP" onChangeText={set_otp_input} style={styles.input} />
