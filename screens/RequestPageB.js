@@ -102,6 +102,15 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                         Reselect Scribes
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress={() => {
+                        navigation.navigate('CancelRequest', {requestId: req_id, })
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Cancel Request
+                    </Text>
+                </TouchableOpacity>
             </View>
 
         </View>

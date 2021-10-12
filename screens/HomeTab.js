@@ -155,7 +155,7 @@ export class HomeTab extends Component {
         this.navigation = this.props.navigation
         
         this.handleClick = () => { 
-            props.removeAll()
+            // props.removeAll()
             this.navigation.navigate('FillExamDetails')
         }
         this.handleClick = this.handleClick.bind(this)

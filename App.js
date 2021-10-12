@@ -42,7 +42,7 @@ import RequestPageForScribeOwnRequest from './screens/RequestPageForScribeOwnReq
 import RequestsB from './screens/RequestsB'
 import RequestsA from './screens/RequestsA'
 import RequestsC from './screens/RequestsC'
-
+import CancelRequest from './screens/CancelRequest'
 // react-redux-firebase 
 const rrfConfig = {
   userProfile: 'users',
@@ -124,6 +124,7 @@ export class App extends Component {
               <Stack.Screen name="RequestsA" component={RequestsA} options={{ headerShown: false }} />
               <Stack.Screen name="RequestsB" component={RequestsB} options={{ headerShown: false }} />
               <Stack.Screen name="RequestsC" component={RequestsC} options={{ headerShown: false }} />
+              <Stack.Screen name="CancelRequest" component={CancelRequest} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
               

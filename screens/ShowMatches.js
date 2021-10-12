@@ -4,7 +4,7 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { setNull } from '../reducers/priorityReducer';
+import { removeAll } from '../reducers/priorityReducer';
 
 const styles = StyleSheet.create({
     container: {
@@ -180,6 +180,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                             }
                         )
                         .then(()=>{
+                            dispatch(removeAll())
                             navigation.navigate('Home')
                         })
                         

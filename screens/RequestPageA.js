@@ -109,6 +109,15 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                         Call Volunteer
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress={() => {
+                        navigation.navigate('CancelRequest', {requestId: req_id, })
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Cancel Request
+                    </Text>
+                </TouchableOpacity>
             </View>
 
         </View>

@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
+import React, { Component, useState } from 'react'
+import { StyleSheet, Text, View, Linking, TouchableOpacity, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi
@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     },
     upperHalf: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        
+        
     },
     lowerHalf: {
         flex: 1,
@@ -56,32 +56,29 @@ const styles = StyleSheet.create({
         color: "#616161",
         fontSize: 30,
 
-    }
+    },
+    input: {
+        margin: 10,
+        height: 40,
+        backgroundColor: "white"
+    },
 
 });
-function RequestPageC({ navigation, route: { params: { req_id } } }) {
+function CancelRequest({ navigation, route: { params: { requestId } } }) {
 
-    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
-    const dispatch = useDispatch()
+    
+    const firestore = useFirestore()
+    let [cancelReason, setCancelReason]  = useState('')
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
 
-                    {
-                        (request.status == 'found')
-                            ? "Volunteer found for,"
-                            : ((request.status == 'pending')
-                                ? "Volunteer search pending for,"
-                                : "Volunteer not found")
-                    }
-
+                    Reason for Cancellation
                 </Text>
-                <Text style={styles.text2}>
+                <TextInput onChangeText={setCancelReason} style={styles.input}/>
 
-                    {request.examName} on {new Date(request.examDate.seconds).toDateString()}
-                </Text>
+                
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
@@ -90,32 +87,17 @@ function RequestPageC({ navigation, route: { params: { req_id } } }) {
                     }}
                 >
                     <Text style={styles.t1}>
-                        Go Back
+                        Go Back, Ignore this page.
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        let phoneNumber = ''
-                        if (Platform.OS === 'android') {
-                            phoneNumber = 'tel:${1234567890}';
-                        }
-                        else {
-                            phoneNumber = 'telprompt:${1234567890}';
-                        }
-                        Linking.openURL(phoneNumber);
+                        firestore.update({collection:'requests', doc: requestId}, {status: 'cancelled', cancelReason: cancelReason})
+                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                     }}
                 >
                     <Text style={styles.t1}>
-                        Call Volunteer
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.navigate('CancelRequest', {requestId: req_id, })
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Cancel Request
+                        Cancel
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -124,4 +106,4 @@ function RequestPageC({ navigation, route: { params: { req_id } } }) {
     )
 }
 
-export default RequestPageC
+export default CancelRequest
