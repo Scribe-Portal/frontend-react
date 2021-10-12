@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    text2: {
+        color: "#828282",
+        fontSize: 20,
+        fontWeight: '500',
+    },
     priorityButton: {
         backgroundColor: '#616161',
         borderColor: "#616161",
@@ -63,6 +68,17 @@ function RequestPage({ navigation, route: { params: { req_id } } }) {
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
+
+                    {
+                        (request.status=='found')
+                        ?"Volunteer found for,"
+                        :((request.status=='pending')
+                        ?"Volunteer search pending for,"
+                        :"Volunteer not found")
+                    }
+
+                </Text>
+                <Text style={styles.text2}>
 
                     {request.examName} on {new Date(request.examDate.seconds).toDateString()}
                 </Text>
