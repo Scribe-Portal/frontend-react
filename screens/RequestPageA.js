@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     }
 
 });
-function RequestPage({ navigation, route: { params: { req_id } } }) {
+function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
@@ -70,11 +70,11 @@ function RequestPage({ navigation, route: { params: { req_id } } }) {
                 <Text style={styles.text1}>
 
                     {
-                        (request.status=='found')
-                        ?"Volunteer found for,"
-                        :((request.status=='pending')
-                        ?"Volunteer search pending for,"
-                        :"Volunteer not found")
+                        (request.status == 'found')
+                            ? "Volunteer found for,"
+                            : ((request.status == 'pending')
+                                ? "Volunteer search pending for,"
+                                : "Volunteer not found")
                     }
 
                 </Text>
@@ -93,10 +93,26 @@ function RequestPage({ navigation, route: { params: { req_id } } }) {
                         Go Back
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress={() => {
+                        let phoneNumber = ''
+                        if (Platform.OS === 'android') {
+                            phoneNumber = 'tel:${1234567890}';
+                        }
+                        else {
+                            phoneNumber = 'telprompt:${1234567890}';
+                        }
+                        Linking.openURL(phoneNumber);
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Call Volunteer
+                    </Text>
+                </TouchableOpacity>
             </View>
 
         </View>
     )
 }
 
-export default RequestPage
+export default RequestPageA

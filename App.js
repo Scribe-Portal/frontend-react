@@ -34,7 +34,9 @@ import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <
 import ShowMatches from './screens/ShowMatches';
 import priorityReducer from './reducers/priorityReducer';
 import ScribePage from './screens/ScribePage';
-import RequestPage from './screens/RequestPage';
+import RequestPageA from './screens/RequestPageA';
+import RequestPageB from './screens/RequestPageB';
+import RequestPageC from './screens/RequestPageC';
 import RequestPageForScribePendingRequest from './screens/RequestPageForScribePendingRequest'
 import RequestPageForScribeOwnRequest from './screens/RequestPageForScribeOwnRequest'
 import RequestsB from './screens/RequestsB'
@@ -116,7 +118,9 @@ export class App extends Component {
               <Stack.Screen name="FillExamDetails" component={FillExamDetails} options={{ headerShown: false }} />
               <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
-              <Stack.Screen name="RequestPage" component={RequestPage} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageA" component={RequestPageA} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageB" component={RequestPageB} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestPageC" component={RequestPageC} options={{ headerShown: false }} />
               <Stack.Screen name="RequestsA" component={RequestsA} options={{ headerShown: false }} />
               <Stack.Screen name="RequestsB" component={RequestsB} options={{ headerShown: false }} />
               <Stack.Screen name="RequestsC" component={RequestsC} options={{ headerShown: false }} />
