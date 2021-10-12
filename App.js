@@ -37,7 +37,9 @@ import ScribePage from './screens/ScribePage';
 import RequestPage from './screens/RequestPage';
 import RequestPageForScribePendingRequest from './screens/RequestPageForScribePendingRequest'
 import RequestPageForScribeOwnRequest from './screens/RequestPageForScribeOwnRequest'
-
+import RequestsB from './screens/RequestsB'
+import RequestsA from './screens/RequestsA'
+import RequestsC from './screens/RequestsC'
 
 // react-redux-firebase 
 const rrfConfig = {
@@ -103,8 +105,6 @@ export class App extends Component {
               <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
               <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
               <Stack.Screen name="SelectRole" component={SelectRole} options={{ headerShown: false }} />
-              {/* <Stack.Screen name="LoginOrSignUp" component={LoginOrSignUp} options={{ headerShown: false }}  /> */}
-              {/* <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}  /> */}
               <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
               <Stack.Screen name="FillInfo" component={FillInfo} options={{ headerShown: false }} />
               <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
@@ -117,6 +117,9 @@ export class App extends Component {
               <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPage" component={RequestPage} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestsA" component={RequestsA} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestsB" component={RequestsB} options={{ headerShown: false }} />
+              <Stack.Screen name="RequestsC" component={RequestsC} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
               

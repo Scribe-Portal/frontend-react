@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
@@ -35,8 +34,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        top: 20,
+        top: 0,
         color: "#616161",
+        alignSelf: "flex-start",
+        
         fontSize: 30,
         fontWeight: '700',
     },
@@ -106,48 +107,66 @@ const styles = StyleSheet.create({
     },
     match_rating:{
 
-    }
+    },
+    requestBox: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        margin: 5,
+        borderWidth: 2,
+        borderColor: "#616161",
+        padding: 10,
+        backgroundColor: "#FCC8D7",
+    },
+    requestRoot:{
+    },
 
 });
-
-const matchQuery = {
-    collection: "scribes",
-    queryParams: ["LimitToLast=7"]
-}
-function Match({id, selected}) {
-    const scribe = useSelector(state => state.firestore.data.scribes[id])
+function Request({req_id}) {
+    const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
+    
+
     return (
-        <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
-            <Text style={styles.match_name}>{`${scribe.name} ${selected?"(selected)":""}`}</Text>
-            <Text style={styles.match_rating}>{scribe.rating}</Text>
-        </TouchableOpacity>
+        <View style={styles.requestRoot}>
+
+            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, })}>
+                <Text style={styles.examName}>{request.examName}</Text>
+                {/* <Text style={styles.examDate}>{request.examDate.toLocaleStrrin}</Text> */}
+            </TouchableOpacity>
+        </View>
+
     )
 }
-function Matches({uid}) {
-    useFirestoreConnect(()=> [matchQuery])
-    const matches = useSelector(state => state.firestore.data.scribes)
-    let selectedData = useSelector(state => state.priority.P)
-    if (!isLoaded(matches)){    
+function Requests({uid}){
+    // useFirestoreConnect([
+    //     {
+    //         collection: 'requests',
+    //         where: [['uid', '==', uid], ['status', '==', 'found']],
+
+    //     }
+    // ])
+    const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='failed')))
+    if (!isLoaded(requests)){
         return (
             <Text style={styles.text1}>
                 Loading...
             </Text>
         )
+
     }
-    if (isEmpty(matches)) {
+    if (isEmpty(requests)){
         return (
             <Text>
-                Sorry {uid},
-                We couldn't connect you with anyone
+                No Requests
             </Text>
         )
     }
-    return Object.keys(matches).map((id, ind) => (
-        <Match id={id} selected = {(selectedData[id]===true)} key={`${ind}-${id}`}/>
+    return requests.map(({id: id}, ind) => (
+        <Request req_id={id}  key={`${ind}-${id}`}/>
     ))
 }
-function ShowMatches({ navigation, route: {params: {requestId}} }) {
+function RequestsC() {
     const lang = useSelector(state => state.userAppSettings.lang)
     
     const {uid} = useSelector(state => state.firebase.auth)
@@ -157,45 +176,18 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
     // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
         <View style={styles.container}>
-            <View style={styles.centered}>
+            
 
                 <Text style={styles.text1}>
-                Choose upto three volunteers from the list,
+                Volunteers Not Found For,
                 </Text>
-                <Text style={styles.text2}>
-                Showing 5 volunteers according to your requirement
-                </Text>
-                <Matches uid={uid}/>
-                <TouchableOpacity style={styles.ShowMatchesButton}
-                    onPress={() => {
-                        console.log("done pressed", requestId)
-                        firestore
-                        .update(
-                            {
-                                collection: 'requests',
-                                doc: requestId,
-                            },
-                            {
-                                volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
-                            }
-                        )
-                        .then(()=>{
-                            navigation.navigate('Home')
-                        })
-                        
-                    }}
-                >
-                    <Text style={styles.t1}>
-
-                        Next
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                
+            
+            <Requests uid={uid}/>
 
 
         </View>
     )
 }
 
-
-export default ShowMatches
+export default RequestsC

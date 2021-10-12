@@ -56,6 +56,47 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#616161",
     },
+    textA: {
+        color: "#3C8C88",
+        
+        fontSize: 16,
+        fontWeight : '700',
+        textAlign: 'center',
+        
+    },
+    textB: {
+        color: "#923737",
+        fontSize: 16,
+        fontWeight : '700',
+        textAlign: 'center',
+    },
+    textC: {
+        color: "#9E6E12",
+        fontSize: 16,
+        fontWeight : '700',
+        textAlign: 'center',
+    },
+    requestA:{
+        backgroundColor: "#BFE9E7",
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        marginHorizontal: 30,
+        marginVertical: 12,
+    },
+    requestB:{
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        backgroundColor:"#FDF1DB",
+        marginHorizontal: 30,
+        marginVertical: 12,
+    },
+    requestC:{
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        backgroundColor: "#FCC8D7",
+        marginHorizontal: 30,
+        marginVertical: 12,
+    },
     examName: {
         
     },
@@ -141,8 +182,22 @@ export class HomeTab extends Component {
                         </TouchableOpacity>
 
                     </View>
-                    <Requests uid={this.props.auth.uid}/>
-
+                    {/* <Requests uid={this.props.auth.uid}/> */}
+                    <TouchableOpacity style={styles.requestA} onPress={()=>{
+                        this.navigation.navigate('RequestsA')
+                    }}>
+                        <Text style = {styles.textA}>Volunteer Search Successful</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.requestB} onPress={()=>{
+                        this.navigation.navigate('RequestsB')
+                    }}>
+                        <Text style = {styles.textC}>Pending Requests</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.requestC} onPress={()=>{
+                        this.navigation.navigate('RequestsC')
+                    }}>
+                        <Text style = {styles.textB}>Volunteer Search Failed</Text>
+                    </TouchableOpacity>
                     
 
                 </View>
@@ -153,9 +208,17 @@ export class HomeTab extends Component {
 
 
 
-export default connect((state) => ({
-    auth: state.firebase.auth, 
-    lang: state.userAppSettings.lang
-}),
-    { removeAll }
+export default compose(
+    connect((state) => ({
+        auth: state.firebase.auth, 
+        lang: state.userAppSettings.lang
+    }),
+        { removeAll }
+    ),
+    firestoreConnect((props) => ([{
+        collection: 'requests',
+        where: [['uid', '==', props.auth.uid]],
+
+    }])),
+
 )(HomeTab)
