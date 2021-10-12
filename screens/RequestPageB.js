@@ -95,18 +95,11 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        let phoneNumber = ''
-                        if (Platform.OS === 'android') {
-                            phoneNumber = 'tel:${1234567890}';
-                        }
-                        else {
-                            phoneNumber = 'telprompt:${1234567890}';
-                        }
-                        Linking.openURL(phoneNumber);
+                        navigation.navigate('ShowMatches', {requestId: req_id, })
                     }}
                 >
                     <Text style={styles.t1}>
-                        Call Volunteer
+                        Reselect Scribes
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -43,7 +43,7 @@ function Request({req_id}) {
     return (
         <View style={styles.requestRoot}>
 
-            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, })}>
+            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPageC", {req_id: req_id, })}>
                 <Text style={styles.examName}>{request.examName}</Text>
                 {/* <Text style={styles.examDate}>{request.examDate.toLocaleStrrin}</Text> */}
             </TouchableOpacity>
