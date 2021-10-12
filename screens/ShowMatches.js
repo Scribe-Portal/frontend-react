@@ -168,7 +168,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                 <Matches uid={uid}/>
                 <TouchableOpacity style={styles.ShowMatchesButton}
                     onPress={() => {
-                        // console.log("done pressed", requestId)
+                        console.log("done pressed", requestId)
                         firestore
                         .update(
                             {

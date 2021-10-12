@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
     }
 
 });
-function RequestPage({ navigation, route: { params: { req_id} } }) {
-    
+function RequestPage({ navigation, route: { params: { req_id } } }) {
+
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-    
+
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
-                
+
                     {request.examName} on {new Date(request.examDate.seconds).toDateString()}
                 </Text>
             </View>

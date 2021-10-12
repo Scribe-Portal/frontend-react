@@ -19,7 +19,7 @@ export default class Splash extends Component {
         const { navigation } = this.props;
         return (
             <View style= {styles.container} onStartShouldSetResponder={() => {
-                console.log("touched")
+                // console.log("touched")
                 navigation.navigate("SelectLanguage")
             }}>
                 <Text style={styles.mainText}>

@@ -89,13 +89,13 @@ export class Login extends Component {
                         onPress = {() => {
                             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
                             .then((result) => {
-                                console.log(result)
+                                // console.log(result)
                                 ToastAndroid.showWithGravity("login successful", ToastAndroid.SHORT, ToastAndroid.CENTER) 
                             
                                 navigation.navigate('Home', {uid: result.uid})
                             })
                             .catch ((error) => {
-                                console.log(error)
+                                // console.log(error)
                                 ToastAndroid.showWithGravity("something wrong!", ToastAndroid.SHORT, ToastAndroid.CENTER) 
                                 
                             })

@@ -143,7 +143,7 @@ export class UploadDoc extends Component {
         }, (capture) => {
             if (capture.didCancel || capture.errorCode) {
                 if (capture.errorCode) {
-                    console.log(capture.errorMessage)
+                    // console.log(capture.errorMessage)
                 }
             }
             else {
@@ -185,7 +185,7 @@ export class UploadDoc extends Component {
         }, (capture) => {
             if (capture.didCancel || capture.errorCode) {
                 if (capture.errorCode) {
-                    console.log(capture.errorMessage)
+                    // console.log(capture.errorMessage)
                 }
             }
             else {

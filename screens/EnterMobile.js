@@ -118,13 +118,13 @@ function EnterMobile({ navigation }) {
                                         navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: mobile })
                                         break
                                     case firebase.PhoneAuthState.ERROR:
-                                        console.log('Verif error', phoneAuthSnapshot)
+                                        // console.log('Verif error', phoneAuthSnapshot)
                                         setErrorText("Can't send an OTP. Are you sure the number is right? ")
                                         break
                                 }
                             },
                             (error) => {
-                                console.log(error)
+                                // console.log(error)
                                 setErrorText("We're having some problems. try again later?")
                             })
 

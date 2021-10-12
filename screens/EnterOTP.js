@@ -125,7 +125,7 @@ export default function EnterOTP({ route, navigation }) {
                                     console.log(userDoc)
                                     if ("createdAt" in userDoc._data) {
                                         new_sign_in = false
-                                        console.log('not a new signin')
+                                        // console.log('not a new signin')
                                         firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({
@@ -136,7 +136,7 @@ export default function EnterOTP({ route, navigation }) {
                                         
                                     }
                                     else {
-                                        console.log(' a new signin')
+                                        // console.log(' a new signin')
                                         firestore.collection(isItAScribe?'scribes':'users')
                                             .doc(uid)
                                             .set({
@@ -164,7 +164,7 @@ export default function EnterOTP({ route, navigation }) {
                         })
                         .catch((err) => {
                             setStatus("Wrong OTP!")
-                            console.log(err)
+                            // console.log(err)
                         })
                     }}
             >
@@ -186,14 +186,14 @@ export default function EnterOTP({ route, navigation }) {
                                         verificationId = phoneAuthSnapshot.verificationId
                                         break
                                     case firebase_auth.PhoneAuthState.ERROR:
-                                        console.log('Verif error', phoneAuthSnapshot)
+                                        // console.log('Verif error', phoneAuthSnapshot)
                                         setStatus("Can't send the OTP, maybe try again later")
                                         
                                         break
                                 }
                             },
                             (error) => {
-                                console.log(error)
+                                // console.log(error)
                                 setStatus("Can't send the OTP, maybe try again later")
                             })
 

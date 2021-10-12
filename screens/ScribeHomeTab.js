@@ -261,7 +261,7 @@ export default function ScribeHomeTab () {
     else if (!isEmpty(requests)){
 
         let [markedDates, reqDetails] = calendarRequests(auth.uid, requests)
-        console.log(markedDates)
+        // console.log(markedDates)
         return (
             <ScrollView>
         

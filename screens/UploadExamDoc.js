@@ -112,7 +112,7 @@ export class UploadExamDoc extends Component {
         }, (capture) => {
             if (capture.didCancel || capture.errorCode) {
                 if (capture.errorCode) {
-                    console.log(capture.errorMessage)
+                    // console.log(capture.errorMessage)
                 }
             }
             else {
@@ -157,7 +157,7 @@ export class UploadExamDoc extends Component {
                 />
             )
         });
-        console.log(this.reqid)
+        // console.log(this.reqid)
 
         return (
             <View style={styles.container}>
