@@ -157,6 +157,7 @@ export class UploadExamDoc extends Component {
                 />
             )
         });
+        console.log(this.reqid)
 
         return (
             <View style={styles.container}>

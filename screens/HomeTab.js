@@ -64,23 +64,18 @@ const styles = StyleSheet.create({
     }
 });
 
-function Request({req_id, uid}) {
+function Request({req_id}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
-    const firestore = useFirestore()
+    
 
     return (
         <View style={styles.requestRoot}>
 
-            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, uid: uid})}>
+            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate("RequestPage", {req_id: req_id, })}>
                 <Text style={styles.examName}>{request.examName}</Text>
                 {/* <Text style={styles.examDate}>{request.examDate.toLocaleStrrin}</Text> */}
             </TouchableOpacity>
-            {/* <TouchableOpacity style={styles.removeBox} onPress={() => {
-                return firestore.delete(`requests/${req_id}`)
-            }}>
-                <Text style={styles.removeText}>REMOVE</Text>
-            </TouchableOpacity> */}
         </View>
 
     )
@@ -90,7 +85,6 @@ function Requests({uid}){
         {
             collection: 'requests',
             where: [['uid', '==', uid]],
-            storeAs: 'requests'
 
         }
     ])
@@ -111,7 +105,7 @@ function Requests({uid}){
         )
     }
     return requests.map(({id: id}, ind) => (
-        <Request req_id={id} uid={uid} key={`${ind}-${id}`}/>
+        <Request req_id={id}  key={`${ind}-${id}`}/>
     ))
 }
 export class HomeTab extends Component {
@@ -147,9 +141,9 @@ export class HomeTab extends Component {
                         </TouchableOpacity>
 
                     </View>
-                    <Requests uid={this.props.auth.uid}>
+                    <Requests uid={this.props.auth.uid}/>
 
-                    </Requests>
+                    
 
                 </View>
             </ScrollView>

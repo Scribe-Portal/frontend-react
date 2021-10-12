@@ -154,7 +154,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
-    console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
+    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -170,13 +170,19 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                     onPress={() => {
                         // console.log("done pressed", requestId)
                         firestore
-                        .collection('requests')
-                        .doc(requestId)
-                        .update({
-                            volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
+                        .update(
+                            {
+                                collection: 'requests',
+                                doc: requestId,
+                            },
+                            {
+                                volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
+                            }
+                        )
+                        .then(()=>{
+                            navigation.navigate('Home')
                         })
-                        console.log(Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true))
-                        navigation.navigate('Home')
+                        
                     }}
                 >
                     <Text style={styles.t1}>

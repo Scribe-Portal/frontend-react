@@ -102,7 +102,7 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 <Text>Gender</Text>
                 <TextInput onChangeText={setGender} style={styles.input} />
-                <Button title ="Date of Birth (DD MM YYYY)" onPress={showDatepicker}></Button>
+                <Button title ={`Date of Birth (${date.toDateString()})`} onPress={showDatepicker}></Button>
                 {show && (
                     <DateTimePicker
                         testID="datePicker"
