@@ -119,7 +119,7 @@ function Match({id, selected}) {
     const navigation = useNavigation()
     return (
         <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
-            <Text style={styles.match_name}>{scribe.name}</Text>
+            <Text style={styles.match_name}>{`${scribe.name} ${selected?"(selected)":""}`}</Text>
             <Text style={styles.match_rating}>{scribe.rating}</Text>
         </TouchableOpacity>
     )
