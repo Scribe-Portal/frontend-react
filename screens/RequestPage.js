@@ -54,12 +54,10 @@ const styles = StyleSheet.create({
     }
 
 });
-function RequestPage({ navigation, route: { params: { req_id, uid} } }) {
-    useFirestoreConnect(() => [
-        { collection: `requests`, doc: req_id}
-    ])
+function RequestPage({ navigation, route: { params: { req_id} } }) {
+    
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-    console.log(request)
+    
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
