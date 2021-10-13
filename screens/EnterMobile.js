@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
 });
 function EnterMobile({ navigation }) {
-    let [mobile, setMobile] = useState('+918076396576')
+    let [mobile, setMobile] = useState('8076396576')
     let [errorText, setErrorText] = useState('')
     forward=mobile
     // console.log(forward)
@@ -102,7 +102,7 @@ function EnterMobile({ navigation }) {
                 <Text style={styles.text3}>
                 Enter Your Mobile Number
                 </Text>
-                <TextInput placeholder="Enter Your Mobile No" onChangeText={setMobile} style={styles.input} defaultValue="+91" />
+                <TextInput placeholder="Enter Your Mobile No" onChangeText={setMobile} style={styles.input} defaultValue="" />
 
             </View>
             <View style={styles.lowerHalf}>
@@ -115,7 +115,7 @@ function EnterMobile({ navigation }) {
                                 switch (phoneAuthSnapshot.state) {
                                     case firebase.PhoneAuthState.CODE_SENT:
                                         // console.log('Verif code sent!', phoneAuthSnapshot)
-                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: mobile })
+                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: "+91"+mobile })
                                         break
                                     case firebase.PhoneAuthState.ERROR:
                                         // console.log('Verif error', phoneAuthSnapshot)
