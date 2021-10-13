@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { removeAll } from '../reducers/priorityReducer';
@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        top: 20,
+        
         color: "#616161",
         fontSize: 30,
         fontWeight: '700',
     },
     text2: {
-        top: 40,
+        
         width: 321,
         height: 48,
         color: "#3A3A3A",
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     },
     ShowMatchesButton: {
-        top:80,
+        
         backgroundColor: '#616161',
         borderColor: "#616161",
         borderRadius: 10,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
     scribeBox: {
 
-        top: 60,
+        
         margin: 5,
         padding: 13,
         borderWidth: 2,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     selectedScribeBox: {
-        top:60,
+        
         margin: 5,
         padding: 13,
         borderWidth: 2,
@@ -156,45 +156,48 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
     let selectedData = useSelector(state => state.priority.P)
     // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
-        <View style={styles.container}>
-            <View style={styles.centered}>
+        <ScrollView>
 
-                <Text style={styles.text1}>
-                Choose upto three volunteers from the list,
-                </Text>
-                <Text style={styles.text2}>
-                Showing 5 volunteers according to your requirement
-                </Text>
-                <Matches uid={uid}/>
-                <TouchableOpacity style={styles.ShowMatchesButton}
-                    onPress={() => {
-                        console.log("done pressed", requestId)
-                        firestore
-                        .update(
-                            {
-                                collection: 'requests',
-                                doc: requestId,
-                            },
-                            {
-                                volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
-                            }
-                        )
-                        .then(()=>{
-                            dispatch(removeAll())
-                            navigation.navigate('Home')
-                        })
-                        
-                    }}
-                >
-                    <Text style={styles.t1}>
+            <View style={styles.container}>
+                <View style={styles.centered}>
 
-                        Next
+                    <Text style={styles.text1}>
+                    Choose upto three volunteers from the list,
                     </Text>
-                </TouchableOpacity>
+                    <Text style={styles.text2}>
+                    Showing 5 volunteers according to your requirement
+                    </Text>
+                    <Matches uid={uid}/>
+                    <TouchableOpacity style={styles.ShowMatchesButton}
+                        onPress={() => {
+                            console.log("done pressed", requestId)
+                            firestore
+                            .update(
+                                {
+                                    collection: 'requests',
+                                    doc: requestId,
+                                },
+                                {
+                                    volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
+                                }
+                            )
+                            .then(()=>{
+                                dispatch(removeAll())
+                                navigation.navigate('Home')
+                            })
+                            
+                        }}
+                    >
+                        <Text style={styles.t1}>
+
+                            Next
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+
             </View>
-
-
-        </View>
+        </ScrollView>
     )
 }
 

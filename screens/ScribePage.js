@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
 });
 function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
     const scribe = useSelector(state => state.firestore.data.scribes[scribe_id])
+    const num_selected = useSelector(state => state.priority.num)
 
     const dispatch = useDispatch()
     return (
@@ -120,13 +121,17 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={selected?styles.priorityButton1:styles.priorityButton}
                     onPress={() => {
+                        console.log(num_selected)
                         if (selected){
 
                             dispatch(removeP({scribe_id: scribe_id}))
                         }
-                        else {
+                        else if (num_selected < 3){
 
                             dispatch(addP({scribe_id: scribe_id}))
+                        }
+                        else {
+                            console.log("cant add more")
                         }
                         navigation.navigate('ShowMatches', {scribe_id: scribe_id})
                     }}
@@ -134,7 +139,12 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                     <Text style={styles.t1}>
 
                         {
-                            (selected?"Discard this Volunteer":"Select this volunteer")   
+                            (selected
+                            ?"Discard this Volunteer"
+                            :(num_selected < 3
+                            ?"Select this volunteer"
+                            :"Can't select more than 3"
+                            ))   
                         }
                     </Text>
                 </TouchableOpacity>
