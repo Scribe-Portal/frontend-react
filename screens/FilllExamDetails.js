@@ -120,7 +120,9 @@ function FillExamDetails({ navigation }) {
                 </Text>
                 <Text>Name of Examination</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
+                <Text>Date of Examination (DDMMYYYY)</Text>
+                <TextInput onChangeText={setName} style={styles.input} />
+                {/* <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
                 {show && (
                     <DateTimePicker
                         testID="datepicker2"
@@ -130,7 +132,7 @@ function FillExamDetails({ navigation }) {
                         display="default"
                         onChange={onChange}
                     />
-                )}
+                )} */}
                 <View style={styles.spacing}></View>
                 <Button title ={`Time of Examination (${time.toLocaleTimeString()})`} onPress={showTimepicker}/>
                 {show2 && (
