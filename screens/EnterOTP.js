@@ -88,7 +88,13 @@ export default function EnterOTP({ route, navigation }) {
             <Text style={styles.text2}>
                 An OTP has been sent to {mobile}
             </Text>
-            <TextInput placeholder="Enter OTP" onChangeText={set_otp_input} style={styles.input} />
+            <TextInput 
+                placeholder="Enter OTP" 
+                onChangeText={set_otp_input} 
+                style={styles.input}
+                returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
+                keyboardType="phone-pad"
+            />
             {/* <OTPInputView
                 style={{ width: '80%', height: 300, justifyContent: 'space-around' }}
                 pinCount={6}

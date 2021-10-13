@@ -1,14 +1,15 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 
 import firebase from '@react-native-firebase/auth'
-var forward;
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+
         backgroundColor: "#E5E5E5",
+        justifyContent: 'space-evenly'
     },
     upperHalf: {
         flex: 1,
@@ -22,33 +23,49 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        top: 30,
-        textAlign:"center",
+
+        textAlign: "center",
         color: "#616161",
         fontSize: 30,
         fontWeight: '700',
     },
     text2: {
-        top: 60,
-        width: 321,
-        height: 48,
+
         textAlign: "center",
         color: "#3A3A3A",
         fontSize: 20,
         fontWeight: '700',
         fontFamily: "lucida grande",
+
     },
     text3: {
-        top: 150,
+        
         textAlign: "center",
         color: "#616161",
         fontSize: 25,
         fontWeight: '700',
     },
+    text4: {
+
+
+
+        textAlign: "center",
+        color: "#3A3A3A",
+        fontSize: 20,
+        fontWeight: '700',
+        fontFamily: "lucida grande",
+
+    },
+    errorTextBox: {
+
+        marginVertical: 20,
+    },
     langButton1: {
         backgroundColor: '#616161',
-        top: 140,
+        
         borderColor: "#616161",
+        marginHorizontal: 5,
+        marginVertical: 20,
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -65,12 +82,13 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        margin: 10,
-        top: 160,
+        marginHorizontal: 10,
+        marginVertical: 20,
+        
         alignContent: "center",
         justifyContent: 'space-around',
         height: 60,
-        width: 300,
+
         backgroundColor: "white"
     },
     t1: {
@@ -87,60 +105,69 @@ const styles = StyleSheet.create({
 function EnterMobile({ navigation }) {
     let [mobile, setMobile] = useState('8076396576')
     let [errorText, setErrorText] = useState('')
-    forward=mobile
-    // console.log(forward)
+    
     const lang = useSelector(state => state.userAppSettings.lang)
     return (
-        <View style={styles.container}>
-            <View style={styles.upperHalf}>
-                <Text style={styles.text1}>
-                    OTP Verification,
-                </Text>
-                <Text style={styles.text2}>
+        <ScrollView>
+
+
+
+            <Text style={styles.text1}>
+                OTP Verification,
+            </Text>
+            <Text style={styles.text2}>
                 We will send you a one-time password to this mobile number
-                </Text>
-                <Text style={styles.text3}>
+            </Text>
+            <Text style={styles.text3}>
                 Enter Your Mobile Number
+            </Text>
+            <TextInput
+                placeholder="Enter Your Mobile No"
+                onChangeText={setMobile}
+                style={styles.input}
+                defaultValue=""
+                returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
+                keyboardType="phone-pad"
+            />
+
+
+
+            <TouchableOpacity style={styles.langButton1}
+                onPress={() => {
+                    firebase().verifyPhoneNumber("+91" + mobile).on(
+                        'state_changed',
+                        (phoneAuthSnapshot) => {
+
+                            switch (phoneAuthSnapshot.state) {
+                                case firebase.PhoneAuthState.CODE_SENT:
+                                    // console.log('Verif code sent!', phoneAuthSnapshot)
+                                    navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: "+91" + mobile })
+                                    break
+                                case firebase.PhoneAuthState.ERROR:
+                                    console.log('Verif error', phoneAuthSnapshot)
+                                    setErrorText("Can't send an OTP. Are you sure the number is right? ")
+                                    break
+                            }
+                        },
+                        (error) => {
+                            // console.log(error)
+                            setErrorText("We're having some problems. try again later?")
+                        })
+
+                }}
+            >
+                <Text style={styles.t1}>
+                    Send OTP
                 </Text>
-                <TextInput placeholder="Enter Your Mobile No" onChangeText={setMobile} style={styles.input} defaultValue="" />
+            </TouchableOpacity>
 
-            </View>
-            <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.langButton1}
-                    onPress={() => {
-                        firebase().verifyPhoneNumber(mobile).on(
-                            'state_changed',
-                            (phoneAuthSnapshot) => {
+            <View style={styles.errorTextBox}>
 
-                                switch (phoneAuthSnapshot.state) {
-                                    case firebase.PhoneAuthState.CODE_SENT:
-                                        // console.log('Verif code sent!', phoneAuthSnapshot)
-                                        navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: "+91"+mobile })
-                                        break
-                                    case firebase.PhoneAuthState.ERROR:
-                                        // console.log('Verif error', phoneAuthSnapshot)
-                                        setErrorText("Can't send an OTP. Are you sure the number is right? ")
-                                        break
-                                }
-                            },
-                            (error) => {
-                                // console.log(error)
-                                setErrorText("We're having some problems. try again later?")
-                            })
-
-                    }}
-                >
-                    <Text style={styles.t1}>
-
-                        Send OTP
-                    </Text>
-                </TouchableOpacity>
-                <Text style={styles.text1}>
+                <Text style={styles.text4}>
                     {errorText}
                 </Text>
             </View>
-
-        </View>
+        </ScrollView>
     )
 }
 
