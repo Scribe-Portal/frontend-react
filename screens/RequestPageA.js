@@ -52,6 +52,17 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 30
     },
+    scribeBox: {
+
+        
+        marginVertical: 20,
+        padding: 13,
+        borderWidth: 2,
+        borderColor: "#616161",
+        backgroundColor: "#D4D4D4",
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
     t2: {
         color: "#616161",
         fontSize: 30,
@@ -62,7 +73,13 @@ const styles = StyleSheet.create({
 function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
+    useFirestoreConnect([
+        {
+            collection: 'scribes',
+            doc: request.finallySelectedVolu
+        }
+    ])
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[request.finallySelectedVolu])
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
@@ -82,6 +99,17 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
                     {request.examName} on {new Date(request.examDate.seconds).toDateString()}
                 </Text>
+
+                
+                {scribe && 
+                
+                    <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ViewOnlyScribePage", { scribe_id: request.finallySelectedVolu, selected: true })}>
+                        <Text style={styles.match_name}>{scribe.name + ", rated "}</Text>
+                        <Text style={styles.match_rating}>{scribe.rating}</Text>
+                    </TouchableOpacity>
+                }
+                
+
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
@@ -111,7 +139,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        navigation.navigate('CancelRequest', {requestId: req_id, })
+                        navigation.navigate('CancelRequest', { requestId: req_id, })
                     }}
                 >
                     <Text style={styles.t1}>

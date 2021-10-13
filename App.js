@@ -43,6 +43,7 @@ import RequestsB from './screens/RequestsB'
 import RequestsA from './screens/RequestsA'
 import RequestsC from './screens/RequestsC'
 import CancelRequest from './screens/CancelRequest'
+import ViewOnlyScribePage from './screens/ViewOnlyScribePage'
 // react-redux-firebase 
 const rrfConfig = {
   userProfile: 'users',
@@ -118,6 +119,7 @@ export class App extends Component {
               <Stack.Screen name="FillExamDetails" component={FillExamDetails} options={{ headerShown: false }} />
               <Stack.Screen name="ShowMatches" component={ShowMatches} options={{ headerShown: false }} />
               <Stack.Screen name="ScribePage" component={ScribePage} options={{ headerShown: false }} />
+              <Stack.Screen name="ViewOnlyScribePage" component={ViewOnlyScribePage} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageA" component={RequestPageA} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageB" component={RequestPageB} options={{ headerShown: false }} />
               <Stack.Screen name="RequestPageC" component={RequestPageC} options={{ headerShown: false }} />
