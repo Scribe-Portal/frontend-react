@@ -23,9 +23,6 @@ class Splash extends Component {
         if (this.props.uid !=="none") {
             this.props.navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
         }
-        if (this.props.lang!=="none"){
-            this.props.navigation.navigate("SelectRole")
-        }
     }
     render() {
         const { navigation } = this.props;
@@ -44,4 +41,4 @@ class Splash extends Component {
 export default connect((state) => ({
     lang: state.userAppSettings.lang,
     uid: state.userAppSettings.uid,
-}))
+}))(Splash)

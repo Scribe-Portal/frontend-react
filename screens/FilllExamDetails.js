@@ -85,7 +85,7 @@ function CombineDateAndTime(date, time) {
 };
 function FillExamDetails({ navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
-    const {uid} = useSelector(state => state.firebase.auth)
+    const uid = useSelector(state => state.userAppSettings.uid)
     let firestore = useFirestore()
     let [name, setName] = useState('')
     

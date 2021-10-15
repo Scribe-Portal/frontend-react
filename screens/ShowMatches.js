@@ -150,7 +150,7 @@ function Matches({uid}) {
 function ShowMatches({ navigation, route: {params: {requestId}} }) {
     const lang = useSelector(state => state.userAppSettings.lang)
     
-    const {uid} = useSelector(state => state.firebase.auth)
+    const uid = useSelector(state => state.userAppSettings.uid)
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)

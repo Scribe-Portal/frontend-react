@@ -133,7 +133,7 @@ export class UploadDoc extends Component {
             selectedEdu: '12th'
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
-        this.uid = props.auth.uid
+        this.uid = props.uid
         // this.firestore = props.firestore
     }
     eduCertif() {
@@ -312,7 +312,7 @@ export class UploadDoc extends Component {
 }
 const selectUserSettings = (state) => ({
     lang: state.userAppSettings.lang,
-    auth: state.firebase.auth,
+    uid: state.userAppSettings.uid,
     isItAScribe: state.userAppSettings.isItAScribe,
 })
 

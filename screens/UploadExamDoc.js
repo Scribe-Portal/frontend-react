@@ -99,7 +99,7 @@ export class UploadExamDoc extends Component {
             uploadedText: '',
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
-        this.uid = props.auth.uid
+        this.uid = props.uid
         this.reqid = props.route.params.requestId
     }
     setSelectedRadio(i){
@@ -141,8 +141,8 @@ export class UploadExamDoc extends Component {
         })
     }
     render() {
-        const { navigation, route: {params: {requestId}} } = this.props;
-        const { uid } = this.props.auth
+        const { navigation, uid, route: {params: {requestId}} } = this.props;
+        
         let radio_array=[]
         this.radioOptions = ["Admit Card", "Application Receipt"]
         this.radioOptions.forEach((doc, i, arr) => {
@@ -189,7 +189,7 @@ export class UploadExamDoc extends Component {
 }
 const selectUserSettings = (state) => ({
     lang: state.userAppSettings.lang,
-    auth: state.firebase.auth
+    uid: state.userAppSettings.uid,
 })
 
 export default connect(selectUserSettings)(UploadExamDoc)

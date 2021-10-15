@@ -80,7 +80,7 @@ function FillInfo({ navigation }) {
     let [date, setDate] = useState(new Date()) 
     
     let [show, setShow] = useState(false) 
-    const { uid } = useSelector(state => state.firebase.auth)
+    const uid = useSelector(state => state.userAppSettings.uid)
     const lang = useSelector(state => state.userAppSettings.lang)
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date 

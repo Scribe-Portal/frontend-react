@@ -42,7 +42,7 @@ function Request({req_id}) {
     const request = useSelector(({firestore: { data }})=> data.requests && data.requests[req_id])
     const navigation = useNavigation()
     
-
+    
     return (
         <View style={styles.requestRoot}>
 
@@ -85,10 +85,7 @@ function Requests({uid}){
 function RequestsA() {
     const lang = useSelector(state => state.userAppSettings.lang)
     
-    const {uid} = useSelector(state => state.firebase.auth)
-    const dispatch = useDispatch()
-    const firestore = useFirestore()
-    let selectedData = useSelector(state => state.priority.P)
+    const uid = useSelector(state => state.userAppSettings.uid)
     // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
         <View style={styles.container}>

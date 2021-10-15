@@ -5,11 +5,12 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollVi
 
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import OTPInputView from '@twotalltotems/react-native-otp-input' // something for OTP UI, ignore it;
 import { useFirestore } from 'react-redux-firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeUid } from '../reducers/userAppSettingsReducer';
 
 const styles = StyleSheet.create({
     container: {
@@ -87,7 +88,7 @@ export default function EnterOTP({ route, navigation }) {
     let [status, setStatus] = useState('')
     let firestore = useFirestore()
     const { uid } = useSelector(state => state.firebase.auth)
-
+    const dispatch = useDispatch();
     let new_sign_in = true
     return (
         <ScrollView>
@@ -141,7 +142,7 @@ export default function EnterOTP({ route, navigation }) {
                                     .then(userDoc => {
 
                                         console.log(userDoc)
-                                        if ("createdAt" in userDoc._data) {
+                                        if ("createdAt" in userDoc["_data"]) {
                                             new_sign_in = false
                                         }
                                         return AsyncStorage.getItem('fcmToken')
@@ -171,7 +172,7 @@ export default function EnterOTP({ route, navigation }) {
                                                 })
 
                                         }
-
+                                        dispatch(changeUid({newUid: uid}))
 
                                     })
                                     .then(() => {

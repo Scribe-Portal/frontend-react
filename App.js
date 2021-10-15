@@ -23,11 +23,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import firebase from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
+import messaging from "@react-native-firebase/messaging"
 import '@react-native-firebase/firestore' // <- needed if using firestore
 import userAppSettingsReducer from './reducers/userAppSettingsReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { persistReducer, persistStore } from 'redux-persist'
-
 import { createStore, combineReducers, compose } from 'redux'
 import {
   ReactReduxFirebaseProvider,

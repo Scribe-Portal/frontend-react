@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus } from '../reducers/userAppSettingsReducer';

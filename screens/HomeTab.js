@@ -210,14 +210,14 @@ export class HomeTab extends Component {
 
 export default compose(
     connect((state) => ({
-        auth: state.firebase.auth, 
+        uid: state.userAppSettings.uid, 
         lang: state.userAppSettings.lang
     }),
         
     ),
     firestoreConnect((props) => ([{
         collection: 'requests',
-        where: [['uid', '==', props.auth.uid]],
+        where: [['uid', '==', props.uid]],
 
     }])),
 

@@ -242,7 +242,7 @@ export default function ScribeHomeTab () {
     
     let [currDate, setCurrDate] = useState('')
     const requests = useSelector((state) => state.firestore.ordered.requests)
-    const auth = useSelector((state) => state.firebase.auth)
+    const uid = useSelector((state) => state.userAppSettings.uid)
     const lang = useSelector((state) => state.userAppSettings.lang)
     // console.log(auth.uid)
     if (!isLoaded(requests)) {
@@ -260,7 +260,7 @@ export default function ScribeHomeTab () {
     }
     else if (!isEmpty(requests)){
 
-        let [markedDates, reqDetails] = calendarRequests(auth.uid, requests)
+        let [markedDates, reqDetails] = calendarRequests(uid, requests)
         // console.log(markedDates)
         return (
             <ScrollView>

@@ -1,5 +1,5 @@
 import notifee, { AndroidImportance } from '@notifee/react-native'
-let c
+let c = {}
 export const channels = {
     Greet: {
         id: "Greet",
@@ -24,7 +24,7 @@ export async function initialise_channels () {
 }
 export default async function CommonMessages (message){
     const {msg_type, timestamp} = message.data
-    
+    console.log(message)
     switch (msg_type) {
         case 'Greet':
             
@@ -45,5 +45,15 @@ export default async function CommonMessages (message){
                 }
             })
             break;
+        default: 
+            notifee.displayNotification({
+                title: 'some info',
+                body: message.data.txt, 
+                android: {
+                    channelId: c['Neutral']
+                }
+            })
+            break;
+
     }
 }
