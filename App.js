@@ -48,11 +48,13 @@ import RequestsC from './screens/RequestsC'
 import CancelRequest from './screens/CancelRequest'
 import ViewOnlyScribePage from './screens/ViewOnlyScribePage'
 import { PersistGate } from 'redux-persist/integration/react'
+
+import CommonMessages, { initialise_channels } from './messages/volunteerMessages'
 // persisting user settings 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['lang', 'isItAScribe', 'uid']
+  whitelist: ['lang', 'isItAScribe', 'uid',]
 }
 // react-redux-firebase 
 const rrfConfig = {
@@ -98,11 +100,45 @@ const Stack = createStackNavigator()
 export class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      lang: 'en'
+  }
+  async checkPermission() {
+    const enabled = await messaging().hasPermission();
+    if (enabled) {
+        this.getToken();
+    } else {
+        this.requestPermission();
     }
-    
-    
+  }
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
+  }
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
+    }
+  }
+  async componentDidMount() {
+    defaultMessaging = messaging()
+    if (!defaultMessaging.isDeviceRegisteredForRemoteMessages){
+      await defaultMessaging.registerDeviceForRemoteMessages()
+    }
+    await this.getToken()
+    await this.checkPermission()
+    await initialise_channels()
+    defaultMessaging.onMessage(CommonMessages)
+    defaultMessaging.setBackgroundMessageHandler(CommonMessages)
   }
   render() {
     return (

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 
 import OTPInputView from '@twotalltotems/react-native-otp-input' // something for OTP UI, ignore it;
 import { useFirestore } from 'react-redux-firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
     container: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     text2: {
-        
+
         marginVertical: 10,
         marginHorizontal: 13,
         width: 321,
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
         fontFamily: "lucida grande",
     },
     langButton1: {
-        
-        
+
+
         marginVertical: 10,
         marginHorizontal: 20,
         backgroundColor: '#616161',
-        
+
         borderColor: "#616161",
         borderRadius: 10,
         padding: 10,
@@ -61,14 +62,14 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     input: {
-        
+
         marginVertical: 10,
         marginHorizontal: 13,
-        
+
         alignContent: "center",
         justifyContent: 'space-around',
         height: 60,
-        
+
         backgroundColor: "white"
     },
     t1: {
@@ -98,9 +99,9 @@ export default function EnterOTP({ route, navigation }) {
                 <Text style={styles.text2}>
                     An OTP has been sent to {mobile}
                 </Text>
-                <TextInput 
-                    placeholder="Enter OTP" 
-                    onChangeText={set_otp_input} 
+                <TextInput
+                    placeholder="Enter OTP"
+                    onChangeText={set_otp_input}
                     style={styles.input}
                     returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
                     keyboardType="phone-pad"
@@ -117,8 +118,8 @@ export default function EnterOTP({ route, navigation }) {
                     }}
                 /> */}
                 <TouchableOpacity style={styles.langButton1}
-                        onPress={() => {
-                            
+                    onPress={() => {
+
                         // console.log(`Code is ${code}, you are good to go!`)
 
                         const credential = firebase.auth.PhoneAuthProvider.credential(
@@ -130,51 +131,59 @@ export default function EnterOTP({ route, navigation }) {
 
                         fbWorkerAuth.signInWithCredential(credential)
                             .then((userCred) => {
-                                
-                                
+
+
                                 // console.log("verification OK")
                                 firestore
                                     .collection('users')
                                     .doc(uid)
                                     .get()
                                     .then(userDoc => {
+
                                         console.log(userDoc)
                                         if ("createdAt" in userDoc._data) {
                                             new_sign_in = false
+                                        }
+                                        return AsyncStorage.getItem('fcmToken')
+                                    })
+                                    .then(fcmToken => {
+                                        if (!new_sign_in) {
                                             console.log('not a new signin')
-                                            firestore.collection(isItAScribe?'scribes':'users')
+                                            firestore.collection(isItAScribe ? 'scribes' : 'users')
                                                 .doc(uid)
-                                                .set({
+                                                .update({
                                                     isItAScribe: isItAScribe,
                                                     appLang: lang,
-                                                    
+                                                    fcmToken: fcmToken,
                                                 })
-                                            
+
                                         }
                                         else {
                                             console.log(' a new signin')
-                                            firestore.collection(isItAScribe?'scribes':'users')
+                                            firestore.collection(isItAScribe ? 'scribes' : 'users')
                                                 .doc(uid)
-                                                .set({
+                                                .update({
                                                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                                                     isItAScribe: isItAScribe,
                                                     appLang: lang,
+                                                    fcmToken: fcmToken,
                                                     mobile: mobile
                                                 })
 
                                         }
 
+
                                     })
                                     .then(() => {
-                                            if (new_sign_in) {
+                                        if (new_sign_in) {
 
-                                                navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
-                                            }
-                                            else {
-                                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                                            }
-
+                                            navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
                                         }
+                                        else {
+                                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                        }
+
+                                    }
 
                                     )
                             })
@@ -182,45 +191,45 @@ export default function EnterOTP({ route, navigation }) {
                                 setStatus("Wrong OTP!")
                                 // console.log(err)
                             })
-                        }}
+                    }}
                 >
                     <Text style={styles.t1}>
 
-                        Proceed 
+                        Proceed
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.langButton1}
-                        onPress={() => {
-                            firebase_auth().verifyPhoneNumber(mobile).on(
-                                'state_changed',
-                                (phoneAuthSnapshot) => {
+                    onPress={() => {
+                        firebase_auth().verifyPhoneNumber(mobile).on(
+                            'state_changed',
+                            (phoneAuthSnapshot) => {
 
-                                    switch (phoneAuthSnapshot.state) {
-                                        case firebase_auth.PhoneAuthState.CODE_SENT:
-                                            // console.log('Verif code sent!', phoneAuthSnapshot)
-                                            setStatus("We've resent the OTP, hope you got it!")
-                                            verificationId = phoneAuthSnapshot.verificationId
-                                            break
-                                        case firebase_auth.PhoneAuthState.ERROR:
-                                            // console.log('Verif error', phoneAuthSnapshot)
-                                            setStatus("Can't send the OTP, maybe try again later")
-                                            
-                                            break
-                                    }
-                                },
-                                (error) => {
-                                    // console.log(error)
-                                    setStatus("Can't send the OTP, maybe try again later")
-                                })
+                                switch (phoneAuthSnapshot.state) {
+                                    case firebase_auth.PhoneAuthState.CODE_SENT:
+                                        // console.log('Verif code sent!', phoneAuthSnapshot)
+                                        setStatus("We've resent the OTP, hope you got it!")
+                                        verificationId = phoneAuthSnapshot.verificationId
+                                        break
+                                    case firebase_auth.PhoneAuthState.ERROR:
+                                        // console.log('Verif error', phoneAuthSnapshot)
+                                        setStatus("Can't send the OTP, maybe try again later")
 
-                        }}
+                                        break
+                                }
+                            },
+                            (error) => {
+                                // console.log(error)
+                                setStatus("Can't send the OTP, maybe try again later")
+                            })
+
+                    }}
                 >
                     <Text style={styles.t1}>
 
                         Didn't get OTP? Resend OTP
                     </Text>
                 </TouchableOpacity>
-                
+
                 <Text style={styles.text1}>{status}</Text>
 
 
