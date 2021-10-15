@@ -7,8 +7,8 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { compose } from 'redux';
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { store } from '../App';
-import { removeAll } from '../reducers/priorityReducer';
+
+
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -155,7 +155,7 @@ export class HomeTab extends Component {
         this.navigation = this.props.navigation
         
         this.handleClick = () => { 
-            // props.removeAll()
+            
             this.navigation.navigate('FillExamDetails')
         }
         this.handleClick = this.handleClick.bind(this)
@@ -213,7 +213,7 @@ export default compose(
         auth: state.firebase.auth, 
         lang: state.userAppSettings.lang
     }),
-        { removeAll }
+        
     ),
     firestoreConnect((props) => ([{
         collection: 'requests',
