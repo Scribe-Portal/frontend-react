@@ -111,6 +111,16 @@ function Settings({route, navigation}) {
                         Log Out
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button1}
+                    onPress={() => {
+                        navigation.navigate('SelectAvailability')
+                    }}
+                >
+                    <Text style={styles.t1}>
+
+                        Select Availability
+                    </Text>
+                </TouchableOpacity>
             </View>
 
 
