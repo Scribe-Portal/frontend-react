@@ -136,31 +136,48 @@ export default function EnterOTP({ route, navigation }) {
 
                                 // console.log("verification OK")
                                 firestore
-                                    .collection('users')
+                                    .collection(isItAScribe ? 'scribes' : 'users')
                                     .doc(uid)
                                     .get()
                                     .then(userDoc => {
 
-                                        console.log(userDoc)
-                                        if ("createdAt" in userDoc["_data"]) {
-                                            new_sign_in = false
-                                        }
+                                        // console.log(userDoc)
+                                        // if (userDoc["_data"] && ("createdAt" in userDoc["_data"])) {
+                                        new_sign_in = false
+                                        // }
                                         return AsyncStorage.getItem('fcmToken')
                                     })
                                     .then(fcmToken => {
-                                        if (!new_sign_in) {
-                                            console.log('not a new signin')
-                                            firestore.collection(isItAScribe ? 'scribes' : 'users')
-                                                .doc(uid)
-                                                .update({
-                                                    isItAScribe: isItAScribe,
-                                                    appLang: lang,
-                                                    fcmToken: fcmToken,
-                                                })
+                                        // if (!new_sign_in) {
+                                        // console.log('not a new signin')
+                                        firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                            .doc(uid)
+                                            .update({
+                                                isItAScribe: isItAScribe,
+                                                appLang: lang,
+                                                fcmToken: fcmToken,
+                                            })
 
-                                        }
-                                        else {
-                                            console.log(' a new signin')
+                                        // }
+                                        // else {
+                                        // console.log(' a new signin')
+                                        // firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                        //     .doc(uid)
+                                        //     .update({
+                                        //         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                        //         isItAScribe: isItAScribe,
+                                        //         appLang: lang,
+                                        //         fcmToken: fcmToken,
+                                        //         mobile: mobile
+                                        //     })
+
+                                        // }
+
+                                    })
+                                    .catch(() => {
+                                        AsyncStorage.getItem('fcmToken')
+                                        .then ((fcmToken) => {
+
                                             firestore.collection(isItAScribe ? 'scribes' : 'users')
                                                 .doc(uid)
                                                 .update({
@@ -170,12 +187,12 @@ export default function EnterOTP({ route, navigation }) {
                                                     fcmToken: fcmToken,
                                                     mobile: mobile
                                                 })
-
-                                        }
-                                        dispatch(changeUid({newUid: uid}))
+                                                .catch(err => {console.log('something seriously wrong')})
+                                        })
 
                                     })
                                     .then(() => {
+                                        dispatch(changeUid({ newUid: uid }))
                                         if (new_sign_in) {
 
                                             navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
@@ -184,9 +201,7 @@ export default function EnterOTP({ route, navigation }) {
                                             navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                                         }
 
-                                    }
-
-                                    )
+                                    })
                             })
                             .catch((err) => {
                                 setStatus("Wrong OTP!")
