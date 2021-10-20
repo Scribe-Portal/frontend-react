@@ -135,50 +135,43 @@ export default function EnterOTP({ route, navigation }) {
 
 
                                 // console.log("verification OK")
-                                firestore
-                                    .collection(isItAScribe ? 'scribes' : 'users')
-                                    .doc(uid)
-                                    .get()
-                                    .then(userDoc => {
+                                let fcmToken
+                                try {
 
-                                        // console.log(userDoc)
-                                        // if (userDoc["_data"] && ("createdAt" in userDoc["_data"])) {
-                                        new_sign_in = false
-                                        // }
-                                        return AsyncStorage.getItem('fcmToken')
-                                    })
-                                    .then(fcmToken => {
-                                        // if (!new_sign_in) {
-                                        // console.log('not a new signin')
-                                        firestore.collection(isItAScribe ? 'scribes' : 'users')
-                                            .doc(uid)
-                                            .update({
-                                                isItAScribe: isItAScribe,
-                                                appLang: lang,
-                                                fcmToken: fcmToken,
-                                            })
+                                    await AsyncStorage.getItem('fcmToken')
+                                }
+                                catch {
+                                    console.log("can't get fcm token return")
+                                    
+                                }
+                                let userDoc
+                                try {
+                                    userDoc = await firestore
+                                        .collection(isItAScribe ? 'scribes' : 'users')
+                                        .doc(uid)
+                                        .get()
+                                    if (userDoc.exists) {
+                                        try {
 
-                                        // }
-                                        // else {
-                                        // console.log(' a new signin')
-                                        // firestore.collection(isItAScribe ? 'scribes' : 'users')
-                                        //     .doc(uid)
-                                        //     .update({
-                                        //         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                        //         isItAScribe: isItAScribe,
-                                        //         appLang: lang,
-                                        //         fcmToken: fcmToken,
-                                        //         mobile: mobile
-                                        //     })
+                                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                                .doc(uid)
+                                                .update({
+                                                    isItAScribe: isItAScribe,
+                                                    appLang: lang,
+                                                    fcmToken: fcmToken,
+                                                })
+                                        }
+                                        catch (err) {
+                                            console.log('something seriously wrong 1, ' + err);
+                                        }
+                                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
-                                        // }
+                                    }
+                                    else {
 
-                                    })
-                                    .catch(() => {
-                                        AsyncStorage.getItem('fcmToken')
-                                        .then ((fcmToken) => {
+                                        try {
 
-                                            firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
                                                 .doc(uid)
                                                 .update({
                                                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -187,25 +180,22 @@ export default function EnterOTP({ route, navigation }) {
                                                     fcmToken: fcmToken,
                                                     mobile: mobile
                                                 })
-                                                .catch(err => {console.log('something seriously wrong')})
-                                        })
-
-                                    })
-                                    .then(() => {
-                                        dispatch(changeUid({ newUid: uid }))
-                                        if (new_sign_in) {
-
-                                            navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
                                         }
-                                        else {
-                                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                        catch (err) {
+                                            console.log('something seriously wrong 2, ' + err);
                                         }
+                                        navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+                                    }
 
-                                    })
+                                }
+                                catch (err) {
+                                    console.log('something seriously wrong 3, ' + err)
+                                }
+
                             })
                             .catch((err) => {
                                 setStatus("Wrong OTP!")
-                                // console.log(err)
+                                
                             })
                     }}
                 >
