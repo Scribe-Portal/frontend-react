@@ -24,7 +24,7 @@ export async function initialise_channels () {
 }
 export default async function CommonMessages (message){
     const {msg_type, timestamp} = message.data
-    console.log(message)
+    // console.log(message)
     switch (msg_type) {
         case 'Greet':
             

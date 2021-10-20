@@ -116,7 +116,7 @@ export class App extends Component {
         this.getToken();
     } catch (error) {
         // User has rejected permissions
-        console.log('permission rejected');
+        // console.log('permission rejected');
     }
   }
   async getToken() {

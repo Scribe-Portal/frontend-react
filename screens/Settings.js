@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeUid } from '../reducers/userAppSettingsReducer';
 
 useSelector
 const styles = StyleSheet.create({
@@ -68,8 +69,9 @@ const styles = StyleSheet.create({
     },
 
 });
-function Settings(props) {
+function Settings({route, navigation}) {
     const lang = useSelector(state => state.userAppSettings.lang)
+    const dispatch = useDispatch()
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -88,8 +90,6 @@ function Settings(props) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
-
-
                     }}
                 >
                     <Text style={styles.t1}>
@@ -98,9 +98,11 @@ function Settings(props) {
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button2}
+                <TouchableOpacity style={styles.button1}
                     onPress={() => {
 
+                        dispatch(changeUid({newUid: "none"}))
+                        navigation.reset({ index: 0, routes: [{ name: 'Splash' }] })
 
                     }}
                 >
