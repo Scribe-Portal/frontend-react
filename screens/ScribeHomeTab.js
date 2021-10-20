@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         padding: 5,
     },
-    redRequestText:{
+    redRequestText: {
         color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '200',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 2,
         backgroundColor: "#BD351C",
         color: "#FFFFFF",
-        
+
     },
     greenRequest: {
         justifyContent: 'space-between',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         padding: 5,
     },
-    greenRequestText:{
+    greenRequestText: {
         color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '200',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         padding: 2,
         backgroundColor: "#2C9609",
         color: "#FFFFFF",
-        
+
     },
     yellowRequest: {
         justifyContent: 'space-between',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         padding: 5,
     },
-    yellowRequestText:{
+    yellowRequestText: {
         color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '200',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         padding: 2,
         backgroundColor: "#CAC40E",
         color: "#FFFFFF",
-        
+
     },
     requestBox: {
         backgroundColor: "#D4D4D4",
@@ -147,106 +147,109 @@ const styles = StyleSheet.create({
 });
 
 function calendarRequests(uid, requests) {
-    
+
     // console.log(requests)
     const markedDates = {}, reqDetails = {}
     requests.forEach((req, ind) => {
         // console.log(req.examDate.toDate())
-        var dt = req.examDate.toDate().toISOString().split('T')[0]
-        if (req.status === "found") {
-            if (req.volunteer === uid) {
-                if (req.dt===undefined){
+        var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
+        if (dt) {
+
+            if (req.status === "found") {
+                if (req.volunteer === uid) {
+                    if (req.dt === undefined) {
+                        reqDetails[dt] = [(
+                            <View style={styles.greenRequest} key={ind}>
+                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+                                <TouchableOpacity style={styles.greenButton}>
+                                    <Text>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )]
+                    }
+                    else {
+    
+                        reqDetails[dt].append((
+                            <View style={styles.greenRequest} key={ind}>
+                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+                                <TouchableOpacity style={styles.greenButton}>
+                                    <Text>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ))
+                    }
+                    markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
+                }
+            }
+            else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
+                if (req.dt === undefined) {
                     reqDetails[dt] = [(
-                        <View style={styles.greenRequest} key = {ind}>
-                            <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style = {styles.greenButton}>
-                                <Text>Cancel</Text>
+                        <View style={styles.yellowRequest} key={ind}>
+                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+                            <TouchableOpacity style={styles.yellowButton}>
+                                <Text>Accept</Text>
                             </TouchableOpacity>
                         </View>
                     )]
                 }
                 else {
-
+    
                     reqDetails[dt].append((
-                        <View style={styles.greenRequest} key = {ind}>
-                            <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style = {styles.greenButton}>
-                                <Text>Cancel</Text>
+                        <View style={styles.yellowRequest} key={ind}>
+                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+                            <TouchableOpacity style={styles.yellowButton}>
+                                <Text>Accept</Text>
                             </TouchableOpacity>
                         </View>
                     ))
                 }
-                markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
-            }
-        }
-        else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
-            if (req.dt === undefined){
-                reqDetails[dt] = [(
-                    <View style={styles.yellowRequest} key = {ind}>
-                        <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                        <TouchableOpacity style = {styles.yellowButton}>
-                            <Text>Accept</Text>
-                        </TouchableOpacity>
-                    </View>
-                )]
+                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
             }
             else {
-    
-                reqDetails[dt].append((
-                    <View style={styles.yellowRequest} key = {ind}>
-                        <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                        <TouchableOpacity style = {styles.yellowButton}>
-                            <Text>Accept</Text>
-                        </TouchableOpacity>
-                    </View>
-                ))
-            }
-            markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
-        }
-        else {
-            if (req.dt === undefined){
-                reqDetails[dt] = [(
-                    <View style={styles.redRequest} key = {ind}>
-                        <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-                        <TouchableOpacity style = {styles.redButton}>
-                            <Text>Connect</Text>
-                        </TouchableOpacity>
-                    </View>
-                )]
-            }
-            else {
-            
-                reqDetails[dt].append(
-                    (
-                        <View style={styles.redRequest} key = {ind}>
+                if (req.dt === undefined) {
+                    reqDetails[dt] = [(
+                        <View style={styles.redRequest} key={ind}>
                             <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style = {styles.redButton}>
+                            <TouchableOpacity style={styles.redButton}>
                                 <Text>Connect</Text>
                             </TouchableOpacity>
                         </View>
+                    )]
+                }
+                else {
+    
+                    reqDetails[dt].append(
+                        (
+                            <View style={styles.redRequest} key={ind}>
+                                <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
+                                <TouchableOpacity style={styles.redButton}>
+                                    <Text>Connect</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
                     )
-                )
+                }
+                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
             }
-            markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
         }
     });
     // console.log(markedDates)
     return [markedDates, reqDetails]
 }
 
-export default function ScribeHomeTab () {
+export default function ScribeHomeTab() {
 
-    
+
     useFirestoreConnect(['requests'])
-    
-    
+
+
     let [currDate, setCurrDate] = useState('')
     const requests = useSelector((state) => state.firestore.ordered.requests)
     const uid = useSelector((state) => state.userAppSettings.uid)
     const lang = useSelector((state) => state.userAppSettings.lang)
     // console.log(auth.uid)
     if (!isLoaded(requests)) {
-        return(
+        return (
 
             <View style={styles.container}>
                 <View style={styles.upperHalf}>
@@ -258,21 +261,21 @@ export default function ScribeHomeTab () {
             </View>
         )
     }
-    else if (!isEmpty(requests)){
+    else if (!isEmpty(requests)) {
 
         let [markedDates, reqDetails] = calendarRequests(uid, requests)
         // console.log(markedDates)
         return (
             <ScrollView>
-        
+
                 <View style={styles.container}>
                     <View style={styles.upperHalf}>
-        
+
                         <Text style={styles.text1}>
                             Welcome.
                         </Text>
                     </View>
-        
+
                     <View style={styles.lowerHalf} >
                         {/* <MyRequests uid={this.props.auth.uid} />
                         <Requests uid={this.props.auth.uid} /> */}
@@ -292,7 +295,7 @@ export default function ScribeHomeTab () {
                         />
                     </View>
                     {(
-                        reqDetails[currDate]!==undefined )
+                        reqDetails[currDate] !== undefined)
                         ? reqDetails[currDate]
                         :
                         (
@@ -308,7 +311,7 @@ export default function ScribeHomeTab () {
         return (
             <View style={styles.container}>
                 <View style={styles.upperHalf}>
-    
+
                     <Text style={styles.text1}>
                         Nothing to show you.
                     </Text>
@@ -317,7 +320,7 @@ export default function ScribeHomeTab () {
 
         )
     }
-    
-    
+
+
 }
 
