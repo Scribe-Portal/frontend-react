@@ -101,6 +101,7 @@ export class UploadExamDoc extends Component {
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.uid = props.uid
         this.reqid = props.route.params.requestId
+
     }
     setSelectedRadio(i){
         this.setState({
@@ -170,7 +171,7 @@ export class UploadExamDoc extends Component {
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
                             
-                                navigation.navigate('ShowMatches', {requestId: requestId, scribe_id: 0})
+                                navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.dateSlot, scribe_id: 0})
                         }}
                     >
                         <Text style={styles.t1}>

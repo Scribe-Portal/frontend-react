@@ -110,10 +110,7 @@ const styles = StyleSheet.create({
 
 });
 
-const matchQuery = {
-    collection: "scribes",
-    queryParams: ["LimitToLast=7"]
-}
+const matchQuery = 
 function Match({id, selected}) {
     const scribe = useSelector(state => state.firestore.data.scribes[id])
     const navigation = useNavigation()
@@ -124,8 +121,11 @@ function Match({id, selected}) {
         </TouchableOpacity>
     )
 }
-function Matches({uid}) {
-    useFirestoreConnect(()=> [matchQuery])
+function Matches({uid, dateSlot}) {
+    useFirestoreConnect(()=> [{
+        collection: `dateslots/${dateSlot}`,
+        queryParams: ["LimitToLast=7"]
+    }])
     const matches = useSelector(state => state.firestore.data.scribes)
     let selectedData = useSelector(state => state.priority.P)
     if (!isLoaded(matches)){    
@@ -139,7 +139,7 @@ function Matches({uid}) {
         return (
             <Text>
                 Sorry {uid},
-                We couldn't connect you with anyone
+                We couldn't find any volunteers for these settings.
             </Text>
         )
     }
@@ -147,7 +147,7 @@ function Matches({uid}) {
         <Match id={id} selected = {(selectedData[id]===true)} key={`${ind}-${id}`}/>
     ))
 }
-function ShowMatches({ navigation, route: {params: {requestId}} }) {
+function ShowMatches({ navigation, route: {params: {requestId, dateSlot}} }) {
     const lang = useSelector(state => state.userAppSettings.lang)
     
     const uid = useSelector(state => state.userAppSettings.uid)
@@ -167,7 +167,7 @@ function ShowMatches({ navigation, route: {params: {requestId}} }) {
                     <Text style={styles.text2}>
                     Showing 5 volunteers according to your requirement
                     </Text>
-                    <Matches uid={uid}/>
+                    <Matches uid={uid} dateSlot={dateSlot}/>
                     <TouchableOpacity style={styles.ShowMatchesButton}
                         onPress={() => {
                             console.log("done pressed", requestId)

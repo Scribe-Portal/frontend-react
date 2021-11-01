@@ -4,10 +4,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Platform} from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
-import { AvailText } from '../translations';
+
 import firebase from '@react-native-firebase/app';
 import { CalendarList } from 'react-native-calendars';
-useSelector
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     }
 
 });
-function Avail({ navigation }) {
+function SelectAvailability({ navigation }) {
     let firestore = useFirestore()
     let [name, setName] = useState('')
     let [gender, setGender] = useState('')
@@ -95,7 +95,8 @@ function Avail({ navigation }) {
     const showDatepicker = () => {
         setShow(true)
     }
-
+    let maximumDate = new Date()
+    maximumDate.setDate(maximumDate.getDate() + 60)
     return (
         <ScrollView>
 
@@ -110,6 +111,7 @@ function Avail({ navigation }) {
                         pagingEnabled={true}
                         // Set custom calendarWidth.
                         calendarWidth={320}
+                        maxDate = {maximumDate}
                         onDayPress={(date) => {
                             // console.log(date.dateString)
                             setDate(date.dateString)
@@ -173,7 +175,7 @@ function Avail({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Mark myself unavailable this day (default)
+                        Unmark myself available this day
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.AvailButton}
@@ -196,4 +198,4 @@ function Avail({ navigation }) {
 
 }
 
-export default Avail
+export default SelectAvailability

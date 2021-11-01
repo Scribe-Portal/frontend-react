@@ -158,7 +158,7 @@ function FillExamDetails({ navigation }) {
                             examDate: CombineDateAndTime(date, time),
                             examLang: examLang,
                         })
-                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id}))
+                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: date.toDateString()}))
                     }}
                 >
                     <Text style={styles.t1}>

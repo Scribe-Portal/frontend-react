@@ -78,7 +78,7 @@ function Settings({route, navigation}) {
 
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
-
+                        
 
                     }}
                 >

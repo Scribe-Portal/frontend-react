@@ -50,6 +50,7 @@ import ViewOnlyScribePage from './screens/ViewOnlyScribePage'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import CommonMessages, { initialise_channels } from './messages/volunteerMessages'
+import SelectAvailability from './screens/SelectAvailability'
 // persisting user settings 
 const persistConfig = {
   key: 'root',
@@ -172,6 +173,7 @@ export class App extends Component {
                 <Stack.Screen name="CancelRequest" component={CancelRequest} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
+                <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
                 
               </Stack.Navigator>
             </NavigationContainer>
