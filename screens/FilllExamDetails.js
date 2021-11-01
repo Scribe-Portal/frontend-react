@@ -111,6 +111,8 @@ function FillExamDetails({ navigation }) {
     const showTimepicker = () => {
         setShow2(true)
     }
+    let maximumDate = new Date()
+    maximumDate.setDate(maximumDate.getDate()+60)
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -122,7 +124,7 @@ function FillExamDetails({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 <Text>Date of Examination (DDMMYYYY)</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                {/* <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
+                <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
                 {show && (
                     <DateTimePicker
                         testID="datepicker2"
@@ -131,8 +133,9 @@ function FillExamDetails({ navigation }) {
                         mode="date"
                         display="default"
                         onChange={onChange}
+                        maximumDate={maximumDate}
                     />
-                )} */}
+                )}
                 <View style={styles.spacing}></View>
                 <Button title ={`Time of Examination (${time.toLocaleTimeString()})`} onPress={showTimepicker}/>
                 {show2 && (
