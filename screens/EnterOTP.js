@@ -131,14 +131,14 @@ export default function EnterOTP({ route, navigation }) {
                         let fbWorkerAuth = firebase_auth()
 
                         fbWorkerAuth.signInWithCredential(credential)
-                            .then((userCred) => {
+                            .then(async (userCred) => {
 
 
                                 // console.log("verification OK")
                                 let fcmToken
                                 try {
 
-                                    await AsyncStorage.getItem('fcmToken')
+                                    fcmToken = await AsyncStorage.getItem('fcmToken')
                                 }
                                 catch {
                                     console.log("can't get fcm token return")
@@ -150,6 +150,7 @@ export default function EnterOTP({ route, navigation }) {
                                         .collection(isItAScribe ? 'scribes' : 'users')
                                         .doc(uid)
                                         .get()
+                                    console.log(isItAScribe, lang, fcmToken)
                                     if (userDoc.exists) {
                                         try {
 
@@ -164,6 +165,7 @@ export default function EnterOTP({ route, navigation }) {
                                         catch (err) {
                                             console.log('something seriously wrong 1, ' + err);
                                         }
+                                        dispatch(changeUid({newUid: uid}))
                                         navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
                                     }
@@ -173,7 +175,7 @@ export default function EnterOTP({ route, navigation }) {
 
                                             await firestore.collection(isItAScribe ? 'scribes' : 'users')
                                                 .doc(uid)
-                                                .update({
+                                                .set({
                                                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                                                     isItAScribe: isItAScribe,
                                                     appLang: lang,
@@ -184,6 +186,7 @@ export default function EnterOTP({ route, navigation }) {
                                         catch (err) {
                                             console.log('something seriously wrong 2, ' + err);
                                         }
+                                        dispatch(changeUid({newUid: uid}))
                                         navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
                                     }
 
