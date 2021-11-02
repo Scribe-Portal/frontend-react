@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { VolunteerPreferenceText } from '../translations'
 
@@ -156,40 +156,43 @@ export class VolunteerPreference extends Component {
         });
 
         return (
-            <View style={styles.container}>
-                <View style={styles.centered}>
+            <ScrollView>
 
-                    <Text style={styles.text1}>
-                        Volunteer Preference,
-                    </Text >                     
-                    <Text style={styles.text2}>Gender</Text>
-                    <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
-                    <Text style={styles.text3} >Qualification Preference</Text>
-                    {radio_array}
-                    <TouchableOpacity style={styles.button1}
-                        onPress={() => {
+                <View style={styles.container}>
+                    <View style={styles.centered}>
 
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Request Volunteer
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button2}
-                        onPress={() => {
+                        <Text style={styles.text1}>
+                            Volunteer Preference,
+                        </Text >                     
+                        <Text style={styles.text2}>Gender</Text>
+                        <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
+                        <Text style={styles.text3} >Qualification Preference</Text>
+                        {radio_array}
+                        <TouchableOpacity style={styles.button1}
+                            onPress={() => {
 
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                        Decide later
-                        </Text>
-                    </TouchableOpacity>
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                                Request Volunteer
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button2}
+                            onPress={() => {
+
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                            Decide later
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+
                 </View>
-
-
-            </View>
+            </ScrollView>
         )
     }
 }
