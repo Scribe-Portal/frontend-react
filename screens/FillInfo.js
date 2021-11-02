@@ -82,6 +82,7 @@ function FillInfo({ navigation }) {
     let [show, setShow] = useState(false) 
     const uid = useSelector(state => state.userAppSettings.uid)
     const lang = useSelector(state => state.userAppSettings.lang)
+    const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date 
         setShow(Platform.OS === 'ios') 
@@ -116,8 +117,9 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setEmail} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
+                        console.log(uid)
                         if (name !== '' && gender !== ''  && email !== '' ) {
-                            firestore.update(`users/${uid}`, {
+                            firestore.collection((isItAScribe)?"scribes":"users").doc(uid).update({
                                 name: name,
                                 gender: gender,
                                 DOB: date,
