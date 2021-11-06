@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { connect, useSelector } from 'react-redux';
 
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { isPlainObject } from '@reduxjs/toolkit';
-import { CalendarList } from 'react-native-calendars';
+import { Calendar, CalendarList } from 'react-native-calendars';
 import { RequestScribe } from '../translations';
 import { compose } from 'redux';
 
@@ -146,6 +146,96 @@ const styles = StyleSheet.create({
     }
 });
 
+// function calendarRequests(uid, requests) {
+
+//     // console.log(requests)
+//     const markedDates = {}, reqDetails = {}
+//     requests.forEach((req, ind) => {
+//         // console.log(req.examDate.toDate())
+//         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
+//         if (dt) {
+
+//             if (req.status === "found") {
+//                 if (req.volunteer === uid) {
+//                     if (req.dt === undefined) {
+//                         reqDetails[dt] = [(
+//                             <View style={styles.greenRequest} key={ind}>
+//                                 <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+//                                 <TouchableOpacity style={styles.greenButton}>
+//                                     <Text>Cancel</Text>
+//                                 </TouchableOpacity>
+//                             </View>
+//                         )]
+//                     }
+//                     else {
+    
+//                         reqDetails[dt].append((
+//                             <View style={styles.greenRequest} key={ind}>
+//                                 <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+//                                 <TouchableOpacity style={styles.greenButton}>
+//                                     <Text>Cancel</Text>
+//                                 </TouchableOpacity>
+//                             </View>
+//                         ))
+//                     }
+//                     markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
+//                 }
+//             }
+//             else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
+//                 if (req.dt === undefined) {
+//                     reqDetails[dt] = [(
+//                         <View style={styles.yellowRequest} key={ind}>
+//                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+//                             <TouchableOpacity style={styles.yellowButton}>
+//                                 <Text>Accept</Text>
+//                             </TouchableOpacity>
+//                         </View>
+//                     )]
+//                 }
+//                 else {
+    
+//                     reqDetails[dt].append((
+//                         <View style={styles.yellowRequest} key={ind}>
+//                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+//                             <TouchableOpacity style={styles.yellowButton}>
+//                                 <Text>Accept</Text>
+//                             </TouchableOpacity>
+//                         </View>
+//                     ))
+//                 }
+//                 markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
+//             }
+//             else {
+//                 if (req.dt === undefined) {
+//                     reqDetails[dt] = [(
+//                         <View style={styles.redRequest} key={ind}>
+//                             <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
+//                             <TouchableOpacity style={styles.redButton}>
+//                                 <Text>Connect</Text>
+//                             </TouchableOpacity>
+//                         </View>
+//                     )]
+//                 }
+//                 else {
+    
+//                     reqDetails[dt].append(
+//                         (
+//                             <View style={styles.redRequest} key={ind}>
+//                                 <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
+//                                 <TouchableOpacity style={styles.redButton}>
+//                                     <Text>Connect</Text>
+//                                 </TouchableOpacity>
+//                             </View>
+//                         )
+//                     )
+//                 }
+//                 markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
+//             }
+//         }
+//     });
+//     // console.log(markedDates)
+//     return [markedDates, reqDetails]
+// }
 function calendarRequests(uid, requests) {
 
     // console.log(requests)
@@ -153,36 +243,11 @@ function calendarRequests(uid, requests) {
     requests.forEach((req, ind) => {
         // console.log(req.examDate.toDate())
         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
+        // console.log(uid, typeof(uid), req.volunteersSelected)
         if (dt) {
+            if (req.volunteersAccepted && (uid in req.volunteersAccepted)) {
 
-            if (req.status === "found") {
-                if (req.volunteer === uid) {
-                    if (req.dt === undefined) {
-                        reqDetails[dt] = [(
-                            <View style={styles.greenRequest} key={ind}>
-                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                                <TouchableOpacity style={styles.greenButton}>
-                                    <Text>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )]
-                    }
-                    else {
-    
-                        reqDetails[dt].append((
-                            <View style={styles.greenRequest} key={ind}>
-                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                                <TouchableOpacity style={styles.greenButton}>
-                                    <Text>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-                        ))
-                    }
-                    markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
-                }
-            }
-            else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
-                if (req.dt === undefined) {
+                if (reqDetails[dt] === undefined) {
                     reqDetails[dt] = [(
                         <View style={styles.yellowRequest} key={ind}>
                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
@@ -193,11 +258,12 @@ function calendarRequests(uid, requests) {
                     )]
                 }
                 else {
-    
+            
                     reqDetails[dt].append((
                         <View style={styles.yellowRequest} key={ind}>
                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.yellowButton}>
+                            <TouchableOpacity style={styles.yellowButton}
+                            >
                                 <Text>Accept</Text>
                             </TouchableOpacity>
                         </View>
@@ -205,47 +271,58 @@ function calendarRequests(uid, requests) {
                 }
                 markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
             }
-            else {
-                if (req.dt === undefined) {
+            else if (req.volunteersSelected && ( req.volunteersSelected.indexOf(uid) > -1)) {
+                if (reqDetails[dt] === undefined) {
                     reqDetails[dt] = [(
-                        <View style={styles.redRequest} key={ind}>
-                            <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.redButton}>
-                                <Text>Connect</Text>
+                        <View style={styles.yellowRequest} key={ind}>
+                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+                            <TouchableOpacity style={styles.yellowButton}>
+                                <Text>Accept</Text>
                             </TouchableOpacity>
                         </View>
                     )]
                 }
                 else {
-    
-                    reqDetails[dt].append(
-                        (
-                            <View style={styles.redRequest} key={ind}>
-                                <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-                                <TouchableOpacity style={styles.redButton}>
-                                    <Text>Connect</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    )
+            
+                    reqDetails[dt].append((
+                        <View style={styles.yellowRequest} key={ind}>
+                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+                            <TouchableOpacity style={styles.yellowButton}
+                            >
+                                <Text>Accept</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))
                 }
-                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
+                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
+                
             }
         }
+
+        
     });
-    // console.log(markedDates)
+    // console.log("given markeddates ",markedDates)
     return [markedDates, reqDetails]
 }
-
 export default function ScribeHomeTab() {
+    
+    const uid = useSelector((state) => state.userAppSettings.uid)
 
-
-    useFirestoreConnect(['requests'])
-
+    useFirestoreConnect([
+        {
+            collection: 'requests',
+            where: ["volunteersSelected", "array-contains", uid]
+        },
+    ])
+    const requests = useSelector((state) => state.firestore.ordered.requests)
+    let markedDates, reqDetails
+    useEffect(() => {
+        markedDates, reqDetails = calendarRequests(uid, requests)
+        // console.log("marked dates", markedDates)
+        // console.log("req details", reqDetails)
+    }, [requests])
 
     let [currDate, setCurrDate] = useState('')
-    const requests = useSelector((state) => state.firestore.ordered.requests)
-    const uid = useSelector((state) => state.userAppSettings.uid)
     const lang = useSelector((state) => state.userAppSettings.lang)
     // console.log(auth.uid)
     if (!isLoaded(requests)) {
@@ -279,7 +356,8 @@ export default function ScribeHomeTab() {
                     <View style={styles.lowerHalf} >
                         {/* <MyRequests uid={this.props.auth.uid} />
                         <Requests uid={this.props.auth.uid} /> */}
-                        <CalendarList
+                        <Calendar
+                            enableSwipeMonths={true}
                             scrollEnabled={true}
                             markedDates={markedDates}
                             // Enable horizontal scrolling, default = false

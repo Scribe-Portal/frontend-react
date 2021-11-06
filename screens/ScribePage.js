@@ -121,7 +121,7 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={selected?styles.priorityButton1:styles.priorityButton}
                     onPress={() => {
-                        console.log(num_selected)
+                        // console.log(num_selected)
                         if (selected){
 
                             dispatch(removeP({scribe_id: scribe_id}))
@@ -131,7 +131,7 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                             dispatch(addP({scribe_id: scribe_id}))
                         }
                         else {
-                            console.log("cant add more")
+                            // console.log("cant add more")
                         }
                         navigation.navigate('ShowMatches', {scribe_id: scribe_id})
                     }}
