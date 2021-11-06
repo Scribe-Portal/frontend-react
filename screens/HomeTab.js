@@ -217,7 +217,7 @@ export default compose(
     ),
     firestoreConnect((props) => ([{
         collection: 'requests',
-        where: [['uid', '==', props.uid]],
+        where: [['uid', '==', (props.uid || "none")]],
 
     }])),
 
