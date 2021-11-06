@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUid } from '../reducers/userAppSettingsReducer';
+import { changeScribeStatus, changeUid } from '../reducers/userAppSettingsReducer';
 
 useSelector
 const styles = StyleSheet.create({
@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
     },
 
 });
-function Settings({route, navigation}) {
+function Settings({ route, navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
+    const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
@@ -78,7 +79,7 @@ function Settings({route, navigation}) {
 
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
-                        
+
 
                     }}
                 >
@@ -101,7 +102,8 @@ function Settings({route, navigation}) {
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
 
-                        dispatch(changeUid({newUid: "none"}))
+                        dispatch(changeUid({ newUid: "none" }))
+                        dispatch(changeScribeStatus({ newScribeStatus: false }))
                         navigation.reset({ index: 0, routes: [{ name: 'Splash' }] })
 
                     }}
@@ -115,12 +117,14 @@ function Settings({route, navigation}) {
                     onPress={() => {
                         navigation.navigate('SelectAvailability')
                     }}
+                    disabled={!isItAScribe}
                 >
                     <Text style={styles.t1}>
 
                         Select Availability
                     </Text>
                 </TouchableOpacity>
+
             </View>
 
 

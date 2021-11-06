@@ -62,11 +62,7 @@ function SelectRole({ navigation }) {
     const dispatch = useDispatch()
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
-    useEffect(() => {
-        if (isItAScribe!=="none") {
-            navigation.navigate('EnterMobile')
-        }
-    }, [])
+    
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
