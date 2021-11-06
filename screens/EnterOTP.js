@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView } from 'react-native';
 
+import RNOtpVerify from 'react-native-otp-verify';
 
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     },
 
 });
+
 export default function EnterOTP({ route, navigation }) {
 
     let { verificationId, mobile } = route.params
@@ -89,6 +91,126 @@ export default function EnterOTP({ route, navigation }) {
     let firestore = useFirestore()
     const { uid } = useSelector(state => state.firebase.auth)
     const dispatch = useDispatch();
+    const verifyOTP = () => {
+
+        // console.log(`Code is ${code}, you are good to go!`)
+        let credential
+        
+        
+
+        try {
+
+            if(otp_input) credential = firebase.auth.PhoneAuthProvider.credential(
+                verificationId,
+                otp_input,
+            )
+        }
+        catch (err) {
+            // console.log(err)
+        }
+        let fbWorkerAuth = firebase_auth()
+    
+        credential && fbWorkerAuth.signInWithCredential(credential)
+            .then(async (userCred) => {
+
+
+                // console.log("verification OK")
+                let fcmToken
+                try {
+
+                    fcmToken = await AsyncStorage.getItem('fcmToken')
+                }
+                catch {
+                    // console.log("can't get fcm token return")
+                    
+                }
+                let userDoc
+                try {
+                    userDoc = await firestore
+                        .collection(isItAScribe ? 'scribes' : 'users')
+                        .doc(uid)
+                        .get()
+                    // console.log(isItAScribe, lang, fcmToken)
+                    if (userDoc.exists) {
+                        try {
+
+                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                .doc(uid)
+                                .update({
+                                    isItAScribe: isItAScribe,
+                                    appLang: lang,
+                                    fcmToken: fcmToken,
+                                })
+                        }
+                        catch (err) {
+                            setStatus('something seriously wrong 1, ' + err);
+                        }
+                        dispatch(changeUid({newUid: uid}))
+                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+
+                    }
+                    else {
+
+                        try {
+
+                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
+                                .doc(uid)
+                                .set({
+                                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                    isItAScribe: isItAScribe,
+                                    appLang: lang,
+                                    fcmToken: fcmToken,
+                                    mobile: mobile
+                                })
+                        }
+                        catch (err) {
+                            setStatus('something seriously wrong 2, ' + err);
+                        }
+                        dispatch(changeUid({newUid: uid}))
+                        navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
+                    }
+
+                }
+                catch (err) {
+                    setStatus('something seriously wrong 3, ' + err)
+                }
+
+            })
+            .catch((err) => {
+                setStatus("Wrong OTP!")
+                
+            })
+        
+    }
+    
+    
+    useEffect(() => {
+        // console.log("hi")
+        RNOtpVerify.getHash()
+        .catch(setStatus)
+        // .then(console.log)
+        RNOtpVerify.getOtp()
+        .then(p =>
+            RNOtpVerify.addListener(message => {
+                // console.log("hi2", message)
+                try {
+                    if (message) {
+                        const messageArray = message.split(' ')
+                        // console.log(messageArray)
+                        set_otp_input(messageArray[0])
+                        
+                    }
+                } catch (err) {
+                    setStatus(err)
+                }
+            })
+        )
+        .catch(err => setStatus)
+
+        return () => {
+            RNOtpVerify.removeListener()
+        }
+    }, [])
     let new_sign_in = true
     return (
         <ScrollView>
@@ -102,6 +224,7 @@ export default function EnterOTP({ route, navigation }) {
                 </Text>
                 <TextInput
                     placeholder="Enter OTP"
+                    value={otp_input}
                     onChangeText={set_otp_input}
                     style={styles.input}
                     returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
@@ -119,88 +242,7 @@ export default function EnterOTP({ route, navigation }) {
                     }}
                 /> */}
                 <TouchableOpacity style={styles.langButton1}
-                    onPress={() => {
-
-                        // console.log(`Code is ${code}, you are good to go!`)
-
-                        const credential = firebase.auth.PhoneAuthProvider.credential(
-                            verificationId,
-                            otp_input,
-                        )
-                        // let fbWorkerApp = firebase.apps.find(app => app.name === 'auth-worker') || firebase.initializeApp(firebase.app().options, 'auth-worker')
-                        let fbWorkerAuth = firebase_auth()
-
-                        fbWorkerAuth.signInWithCredential(credential)
-                            .then(async (userCred) => {
-
-
-                                // console.log("verification OK")
-                                let fcmToken
-                                try {
-
-                                    fcmToken = await AsyncStorage.getItem('fcmToken')
-                                }
-                                catch {
-                                    console.log("can't get fcm token return")
-                                    
-                                }
-                                let userDoc
-                                try {
-                                    userDoc = await firestore
-                                        .collection(isItAScribe ? 'scribes' : 'users')
-                                        .doc(uid)
-                                        .get()
-                                    console.log(isItAScribe, lang, fcmToken)
-                                    if (userDoc.exists) {
-                                        try {
-
-                                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                                                .doc(uid)
-                                                .update({
-                                                    isItAScribe: isItAScribe,
-                                                    appLang: lang,
-                                                    fcmToken: fcmToken,
-                                                })
-                                        }
-                                        catch (err) {
-                                            console.log('something seriously wrong 1, ' + err);
-                                        }
-                                        dispatch(changeUid({newUid: uid}))
-                                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-
-                                    }
-                                    else {
-
-                                        try {
-
-                                            await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                                                .doc(uid)
-                                                .set({
-                                                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                                    isItAScribe: isItAScribe,
-                                                    appLang: lang,
-                                                    fcmToken: fcmToken,
-                                                    mobile: mobile
-                                                })
-                                        }
-                                        catch (err) {
-                                            console.log('something seriously wrong 2, ' + err);
-                                        }
-                                        dispatch(changeUid({newUid: uid}))
-                                        navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
-                                    }
-
-                                }
-                                catch (err) {
-                                    console.log('something seriously wrong 3, ' + err)
-                                }
-
-                            })
-                            .catch((err) => {
-                                setStatus("Wrong OTP!")
-                                
-                            })
-                    }}
+                    onPress={verifyOTP}
                 >
                     <Text style={styles.t1}>
 
