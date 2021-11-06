@@ -122,8 +122,8 @@ function FillExamDetails({ navigation }) {
                 </Text>
                 <Text>Name of Examination</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                <Text>Date of Examination (DDMMYYYY)</Text>
-                <TextInput onChangeText={setName} style={styles.input} />
+                {/* <Text>Date of Examination (DDMMYYYY)</Text>
+                <TextInput onChangeText={setName} style={styles.input} /> */}
                 <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
                 {show && (
                     <DateTimePicker
@@ -161,7 +161,7 @@ function FillExamDetails({ navigation }) {
                             examDate: CombineDateAndTime(date, time),
                             examLang: examLang,
                         })
-                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: date.toDateString()}))
+                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]}))
                     }}
                 >
                     <Text style={styles.t1}>

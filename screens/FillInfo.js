@@ -117,7 +117,7 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setEmail} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
-                        console.log(uid)
+                        // console.log(uid)
                         if (name !== '' && gender !== ''  && email !== '' ) {
                             firestore.collection((isItAScribe)?"scribes":"users").doc(uid).update({
                                 name: name,
