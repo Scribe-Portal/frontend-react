@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native';
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
@@ -110,10 +110,12 @@ const styles = StyleSheet.create({
 
 });
 
-const matchQuery = 
+
 function Match({id, selected}) {
     const scribe = useSelector(state => state.firestore.data.scribes[id])
+    
     const navigation = useNavigation()
+    
     return (
         <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
             <Text style={styles.match_name}>{`${scribe.name} ${selected?"(selected)":""}`}</Text>
@@ -123,12 +125,17 @@ function Match({id, selected}) {
 }
 function Matches({uid, dateSlot}) {
     useFirestoreConnect(()=> [{
-        collection: `dateslots/${dateSlot}`,
-        queryParams: ["LimitToLast=7"]
+        collection: 'dateslots',
+        doc: dateSlot,
+        subcollections:[{collection: "available"}],
+        queryParams: ["LimitToLast=10"],
+        storeAs: `dateslot_${dateSlot}`
     }])
-    const matches = useSelector(state => state.firestore.data.scribes)
+    const matches = useSelector(state => state.firestore.data[`dateslot_${dateSlot}`])
+    // console.log(matches)
     let selectedData = useSelector(state => state.priority.P)
     if (!isLoaded(matches)){    
+        // console.log(matches)
         return (
             <Text style={styles.text1}>
                 Loading...
@@ -148,57 +155,77 @@ function Matches({uid, dateSlot}) {
     ))
 }
 function ShowMatches({ navigation, route: {params: {requestId, dateSlot}} }) {
+    useFirestoreConnect([{collection: 'scribes' }])
+    const scribes = useSelector(state => state.firestore.data.scribes)
     const lang = useSelector(state => state.userAppSettings.lang)
     
     const uid = useSelector(state => state.userAppSettings.uid)
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
-    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
-    return (
-        <ScrollView>
+    if (!isLoaded(scribes)){
+        return (
+        <View>
+            <Text style={styles.text1}>
+                Loading...
+            </Text>
 
-            <View style={styles.container}>
-                <View style={styles.centered}>
-
-                    <Text style={styles.text1}>
-                    Choose upto three volunteers from the list,
-                    </Text>
-                    <Text style={styles.text2}>
-                    Showing 5 volunteers according to your requirement
-                    </Text>
-                    <Matches uid={uid} dateSlot={dateSlot}/>
-                    <TouchableOpacity style={styles.ShowMatchesButton}
-                        onPress={() => {
-                            console.log("done pressed", requestId)
-                            firestore
-                            .update(
-                                {
-                                    collection: 'requests',
-                                    doc: requestId,
-                                },
-                                {
-                                    volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
-                                }
-                            )
-                            .then(()=>{
-                                dispatch(removeAll())
-                                navigation.navigate('Home')
-                            })
-                            
-                        }}
-                    >
-                        <Text style={styles.t1}>
-
-                            Next
+        </View>
+        )
+    }
+    else {
+        return (
+            <ScrollView>
+    
+                <View style={styles.container}>
+                    <View style={styles.centered}>
+    
+                        <Text style={styles.text1}>
+                        Choose upto three volunteers from the list,
                         </Text>
-                    </TouchableOpacity>
+                        <Text style={styles.text2}>
+                        Showing 5 volunteers according to your requirement
+                        </Text>
+                        <Matches uid={uid} dateSlot={dateSlot}/>
+                        <TouchableOpacity style={styles.ShowMatchesButton}
+                            onPress={() => {
+                                // console.log("done pressed", requestId)
+                                firestore
+                                .update(
+                                    {
+                                        collection: 'requests',
+                                        doc: requestId,
+                                    },
+                                    {
+                                        volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
+                                    }
+                                )
+                                .then(()=>{
+                                    dispatch(removeAll())
+                                    navigation.navigate('Home')
+                                })
+                                
+                            }}
+                        >
+                            <Text style={styles.t1}>
+    
+                                Next
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+    
+    
                 </View>
-
-
-            </View>
-        </ScrollView>
-    )
+            </ScrollView>
+        )
+    }
+    // useEffect(() => {
+    //     console.log(dateSlot)
+    //     return () => {
+            
+    //     }
+    // }, [])
+    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
 }
 
 
