@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
-
+import RNSimData from 'react-native-sim-data'
 import firebase from '@react-native-firebase/auth'
 
 const styles = StyleSheet.create({
@@ -105,7 +105,10 @@ const styles = StyleSheet.create({
 function EnterMobile({ navigation }) {
     let [mobile, setMobile] = useState('8076396576')
     let [errorText, setErrorText] = useState('')
-    
+    useEffect(() => {
+        let mobile = RNSimData.getTelephoneNumber()
+        setMobile(mobile.substring(2, 12))
+    }, [])
     const lang = useSelector(state => state.userAppSettings.lang)
     return (
         <ScrollView>
@@ -124,6 +127,7 @@ function EnterMobile({ navigation }) {
             <TextInput
                 placeholder="Enter Your Mobile No"
                 onChangeText={setMobile}
+                value={mobile}
                 style={styles.input}
                 defaultValue=""
                 returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
