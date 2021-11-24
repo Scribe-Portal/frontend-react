@@ -103,11 +103,32 @@ const styles = StyleSheet.create({
 
 });
 function EnterMobile({ navigation }) {
-    let [mobile, setMobile] = useState('8076396576')
+    let [mobile, setMobile] = useState('')
     let [errorText, setErrorText] = useState('')
     useEffect(() => {
-        let mobile = RNSimData.getTelephoneNumber()
-        setMobile(mobile.substring(2, 12))
+        async function getMobileNumber() {
+            let mobileNumber = ''
+            try {
+    
+                mobileNumber = RNSimData.getSimInfo().phoneNumber0
+            }
+            catch {
+                try {
+    
+                    mobileNumber = RNSimData.getSimInfo().phoneNumber1
+                }
+                catch {
+                    mobileNumber = ''
+                }
+            }
+            // console.log(mobileNumber)
+            if (mobileNumber) return mobileNumber.substring(2, 12)
+
+            return mobileNumber
+        }
+        (async () => setMobile(await getMobileNumber()))()
+        
+        
     }, [])
     const lang = useSelector(state => state.userAppSettings.lang)
     return (
