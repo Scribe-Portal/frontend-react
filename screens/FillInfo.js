@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        margin: 10,
+        marginVertical: 10,
         height: 40,
         backgroundColor: "white"
     },
@@ -44,31 +44,28 @@ const styles = StyleSheet.create({
     },
     FillInfoButton: {
         backgroundColor: '#616161',
-        borderColor: "#616161",
+        
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
-    },
-    langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
-        borderRadius: 10,
-        padding: 5,
-        alignItems: 'center',
-        borderWidth: 3,
-
+        
     },
     t1: {
         color: "#FFFFFF",
         fontSize: 30
     },
-    t2: {
-        color: "#616161",
-        fontSize: 30,
-
+    dateOfBirthPicker: {
+        
+        backgroundColor: '#616161',
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    textInsideDoBPicker: {
+        color: "#FFFFFF",
+        fontSize: 15,
     }
-
 });
 function FillInfo({ navigation }) {
     let firestore = useFirestore()
@@ -103,7 +100,10 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 <Text>Gender</Text>
                 <TextInput onChangeText={setGender} style={styles.input} />
-                <Button title ={`Date of Birth (${date.toDateString()})`} onPress={showDatepicker}></Button>
+                <TouchableOpacity onPress={showDatepicker} style={styles.dateOfBirthPicker}>
+                    <Text style={styles.textInsideDoBPicker}>{`Date of Birth (${date.toDateString()})`}</Text>
+                </TouchableOpacity>
+                
                 {show && (
                     <DateTimePicker
                         testID="datePicker"
