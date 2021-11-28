@@ -109,7 +109,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        navigation.navigate('ShowMatches', {requestId: req_id, })
+                        navigation.navigate('ShowMatches', {requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected})
                     }}
                 >
                     <Text style={styles.t1}>

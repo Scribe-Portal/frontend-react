@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderRadius: 2,
         padding: 5,
+        marginVertical: 3,
+        marginHorizontal: 2,
+        borderRadius: 3,
     },
     yellowRequestText: {
         color: "#FFFFFF",
@@ -145,186 +148,110 @@ const styles = StyleSheet.create({
 
     }
 });
+function calendarRequests(uid, requests, setMarked, addRequestId) {
+    let requestIds = {}
 
-// function calendarRequests(uid, requests) {
-
-//     // console.log(requests)
-//     const markedDates = {}, reqDetails = {}
-//     requests.forEach((req, ind) => {
-//         // console.log(req.examDate.toDate())
-//         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
-//         if (dt) {
-
-//             if (req.status === "found") {
-//                 if (req.volunteer === uid) {
-//                     if (req.dt === undefined) {
-//                         reqDetails[dt] = [(
-//                             <View style={styles.greenRequest} key={ind}>
-//                                 <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-//                                 <TouchableOpacity style={styles.greenButton}>
-//                                     <Text>Cancel</Text>
-//                                 </TouchableOpacity>
-//                             </View>
-//                         )]
-//                     }
-//                     else {
-    
-//                         reqDetails[dt].append((
-//                             <View style={styles.greenRequest} key={ind}>
-//                                 <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-//                                 <TouchableOpacity style={styles.greenButton}>
-//                                     <Text>Cancel</Text>
-//                                 </TouchableOpacity>
-//                             </View>
-//                         ))
-//                     }
-//                     markedDates[dt] = { selected: true, marked: true, selectedColor: 'green' }
-//                 }
-//             }
-//             else if (req.firstP === uid || req.secondP === uid || req.thirdP === uid) {
-//                 if (req.dt === undefined) {
-//                     reqDetails[dt] = [(
-//                         <View style={styles.yellowRequest} key={ind}>
-//                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-//                             <TouchableOpacity style={styles.yellowButton}>
-//                                 <Text>Accept</Text>
-//                             </TouchableOpacity>
-//                         </View>
-//                     )]
-//                 }
-//                 else {
-    
-//                     reqDetails[dt].append((
-//                         <View style={styles.yellowRequest} key={ind}>
-//                             <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-//                             <TouchableOpacity style={styles.yellowButton}>
-//                                 <Text>Accept</Text>
-//                             </TouchableOpacity>
-//                         </View>
-//                     ))
-//                 }
-//                 markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
-//             }
-//             else {
-//                 if (req.dt === undefined) {
-//                     reqDetails[dt] = [(
-//                         <View style={styles.redRequest} key={ind}>
-//                             <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-//                             <TouchableOpacity style={styles.redButton}>
-//                                 <Text>Connect</Text>
-//                             </TouchableOpacity>
-//                         </View>
-//                     )]
-//                 }
-//                 else {
-    
-//                     reqDetails[dt].append(
-//                         (
-//                             <View style={styles.redRequest} key={ind}>
-//                                 <Text style={styles.redRequestText}>{req.examName} in {req.examLang} </Text>
-//                                 <TouchableOpacity style={styles.redButton}>
-//                                     <Text>Connect</Text>
-//                                 </TouchableOpacity>
-//                             </View>
-//                         )
-//                     )
-//                 }
-//                 markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'red' }
-//             }
-//         }
-//     });
-//     // console.log(markedDates)
-//     return [markedDates, reqDetails]
-// }
-function calendarRequests(uid, requests) {
-
-    // console.log(requests)
-    const markedDates = {}, reqDetails = {}
     requests.forEach((req, ind) => {
-        // console.log(req.examDate.toDate())
-        var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
-        // console.log(uid, typeof(uid), req.volunteersSelected)
-        if (dt) {
-            if (req.volunteersAccepted && (uid in req.volunteersAccepted)) {
 
-                if (reqDetails[dt] === undefined) {
-                    reqDetails[dt] = [(
-                        <View style={styles.yellowRequest} key={ind}>
-                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.yellowButton}>
-                                <Text>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )]
-                }
-                else {
-            
-                    reqDetails[dt].append((
-                        <View style={styles.yellowRequest} key={ind}>
-                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.yellowButton}
-                            >
-                                <Text>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))
-                }
-                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
+        var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
+
+        if (dt) {
+            if (req.volunteersAccepted && uid !== req.volunteersAccepted) {
+
             }
-            else if (req.volunteersSelected && ( req.volunteersSelected.indexOf(uid) > -1)) {
-                if (reqDetails[dt] === undefined) {
-                    reqDetails[dt] = [(
-                        <View style={styles.yellowRequest} key={ind}>
-                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.yellowButton}>
-                                <Text>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )]
-                }
-                else {
-            
-                    reqDetails[dt].append((
-                        <View style={styles.yellowRequest} key={ind}>
-                            <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                            <TouchableOpacity style={styles.yellowButton}
-                            >
-                                <Text>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))
-                }
-                markedDates[req.examDate.toDate().toISOString().split('T')[0]] = { selected: true, marked: true, selectedColor: 'yellow' }
-                
+            else if (req.volunteersAccepted && (uid === req.volunteersAccepted)) {
+                setMarked(dt, 'green')
+                if (requestIds[dt]) requestIds[dt].push(req.id)
+                else requestIds[dt] = [req.id,];
+
+            }
+            else if (req.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1)) {
+                setMarked(dt, 'yellow')
+                if (requestIds[dt]) requestIds[dt].push(req.id)
+                else requestIds[dt] = [req.id,];
+
             }
         }
 
-        
+
     });
     // console.log("given markeddates ",markedDates)
-    return [markedDates, reqDetails]
+    return requestIds
 }
+function RequestFooter({ uid, requests, currentDate }) {
+    const firestore = useFirestore()
+    return (
+        <View>
+
+            {
+
+                requests && requests.map(
+                    (req_id, ind) => {
+                        const req = useSelector((state) => state.firestore.data.requests[req_id])
+
+                        return (
+
+                            (req && req.volunteersAccepted && req.volunteersAccepted === uid)
+                                ?
+                                (<View style={styles.greenRequest} key={ind}>
+                                    <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+                                    <TouchableOpacity style={styles.greenButton}
+                                        onPress={() => {
+                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: null })
+                                        }}
+                                    >
+                                        <Text>Reject</Text>
+                                    </TouchableOpacity>
+                                </View>)
+                                :
+                                (<View style={styles.yellowRequest} key={ind}>
+                                    <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
+                                    <TouchableOpacity style={styles.yellowButton}
+                                        onPress={() => {
+
+                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: uid })
+                                        }}
+                                    >
+                                        <Text>Accept</Text>
+                                    </TouchableOpacity>
+                                </View>)
+                        )
+                    }
+                )
+            }
+        </View>
+    )
+}
+
 export default function ScribeHomeTab() {
-    
+
     const uid = useSelector((state) => state.userAppSettings.uid)
 
     useFirestoreConnect([
         {
             collection: 'requests',
-            where: ["volunteersSelected", "array-contains", uid]
+            where: ["volunteersSelected", "array-contains", uid],
         },
     ])
     const requests = useSelector((state) => state.firestore.ordered.requests)
-    let markedDates, reqDetails
-    useEffect(() => {
-        markedDates, reqDetails = calendarRequests(uid, requests)
-        // console.log("marked dates", markedDates)
-        // console.log("req details", reqDetails)
-    }, [requests])
-
+    let [markedDates, setMarkedDates] = useState({});
+    let [currRequests, setCurrRequests] = useState([]);
     let [currDate, setCurrDate] = useState('')
+    let [requestIds, setRequestIds] = useState({});
+
+    useEffect(() => {
+        if (requests) setRequestIds(calendarRequests(
+            uid,
+            requests,
+            (dt, markedColor) => setMarkedDates({ ...markedDates, [dt]: { selected: true, marked: true, selectedColor: markedColor } }),
+        ))
+
+        // console.log(requestIds)
+        setCurrRequests(requestIds[currDate] || [])
+    }, [requests,])
+
     const lang = useSelector((state) => state.userAppSettings.lang)
-    // console.log(auth.uid)
+
     if (!isLoaded(requests)) {
         return (
 
@@ -340,7 +267,7 @@ export default function ScribeHomeTab() {
     }
     else if (!isEmpty(requests)) {
 
-        let [markedDates, reqDetails] = calendarRequests(uid, requests)
+
         // console.log(markedDates)
         return (
             <ScrollView>
@@ -367,19 +294,15 @@ export default function ScribeHomeTab() {
                             // Set custom calendarWidth.
                             calendarWidth={320}
                             onDayPress={(date) => {
-                                // console.log(date.dateString)
+
                                 setCurrDate(date.dateString)
+                                setCurrRequests(requestIds[date.dateString] || [])
+                                // console.log(requestIds)
+                                // console.log(requestIds[date.dateString])
                             }}
                         />
                     </View>
-                    {(
-                        reqDetails[currDate] !== undefined)
-                        ? reqDetails[currDate]
-                        :
-                        (
-                            <Text>Nothing here</Text>
-                        )
-                    }
+                    <RequestFooter uid={uid} requests={currRequests} currentDate={currDate} />
 
                 </View>
             </ScrollView>
@@ -389,10 +312,21 @@ export default function ScribeHomeTab() {
         return (
             <View style={styles.container}>
                 <View style={styles.upperHalf}>
+                    <Calendar
+                        enableSwipeMonths={true}
+                        scrollEnabled={true}
 
-                    <Text style={styles.text1}>
-                        Nothing to show you.
-                    </Text>
+                        // Enable horizontal scrolling, default = false
+                        horizontal={true}
+                        // Enable paging on horizontal, default = false
+                        pagingEnabled={true}
+                        // Set custom calendarWidth.
+                        calendarWidth={320}
+                        onDayPress={(date) => {
+                            // console.log(date.dateString)
+                            setCurrDate(date.dateString)
+                        }}
+                    />
                 </View>
             </View>
 

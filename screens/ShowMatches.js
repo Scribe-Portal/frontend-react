@@ -4,7 +4,7 @@ import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { removeAll } from '../reducers/priorityReducer';
+import { addP, removeAll } from '../reducers/priorityReducer';
 
 const styles = StyleSheet.create({
     container: {
@@ -154,13 +154,25 @@ function Matches({uid, dateSlot}) {
         <Match id={id} selected = {(selectedData[id]===true)} key={`${ind}-${id}`}/>
     ))
 }
-function ShowMatches({ navigation, route: {params: {requestId, dateSlot}} }) {
+function ShowMatches({ navigation, route: {params: {requestId, dateSlot, selectedVolus}} }) {
+    
     useFirestoreConnect([{collection: 'scribes' }])
+    
     const scribes = useSelector(state => state.firestore.data.scribes)
     const lang = useSelector(state => state.userAppSettings.lang)
     
     const uid = useSelector(state => state.userAppSettings.uid)
     const dispatch = useDispatch()
+    useEffect(() => {
+        if (selectedVolus) {
+            selectedVolus.forEach((volunteer) => {
+                dispatch(addP({scribe_id: volunteer}))
+            })
+        }
+        return () => {
+            
+        }
+    }, [])
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
     if (!isLoaded(scribes)){
