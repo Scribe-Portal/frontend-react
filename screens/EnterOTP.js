@@ -230,17 +230,6 @@ export default function EnterOTP({ route, navigation }) {
                     returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
                     keyboardType="phone-pad"
                 />
-                {/* <OTPInputView
-                    style={{ width: '80%', height: 300, justifyContent: 'space-around' }}
-                    pinCount={6}
-                    code={otp_input} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-                    onCodeChanged={set_otp_input}
-                    autoFocusOnLoad
-                    codeInputFieldStyle={styles.underlineStyleBase}
-                    codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                    onCodeFilled={
-                    }}
-                /> */}
                 <TouchableOpacity style={styles.langButton1}
                     onPress={verifyOTP}
                 >
