@@ -105,34 +105,34 @@ class App extends Component {
   async checkPermission() {
     const enabled = await messaging().hasPermission();
     if (enabled) {
-        this.getToken();
+      this.getToken();
     } else {
-        this.requestPermission();
+      this.requestPermission();
     }
   }
   async requestPermission() {
     try {
-        await firebase.messaging().requestPermission();
-        // User has authorised
-        this.getToken();
+      await firebase.messaging().requestPermission();
+      // User has authorised
+      this.getToken();
     } catch (error) {
-        // User has rejected permissions
-        // console.log('permission rejected');
+      // User has rejected permissions
+      // console.log('permission rejected');
     }
   }
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     if (!fcmToken) {
-        fcmToken = await messaging().getToken();
-        if (fcmToken) {
-            // user has a device token
-            await AsyncStorage.setItem('fcmToken', fcmToken);
-        }
+      fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        // user has a device token
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
     }
   }
   async componentDidMount() {
     defaultMessaging = messaging()
-    if (!defaultMessaging.isDeviceRegisteredForRemoteMessages){
+    if (!defaultMessaging.isDeviceRegisteredForRemoteMessages) {
       await defaultMessaging.registerDeviceForRemoteMessages()
     }
     await this.getToken()
@@ -145,7 +145,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          
+
           <ReactReduxFirebaseProvider {...rrfProps}>
             <NavigationContainer style={styles.root}>
               <Stack.Navigator initialRouteName="Splash">
@@ -174,7 +174,7 @@ class App extends Component {
                 <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
-                
+
               </Stack.Navigator>
             </NavigationContainer>
           </ReactReduxFirebaseProvider>
@@ -184,5 +184,5 @@ class App extends Component {
     )
   }
 }
-App = codePush(App)
+App = codePush({ checkFrequency: codePush.CheckFrequency.MANUAL })(App)
 export default App
