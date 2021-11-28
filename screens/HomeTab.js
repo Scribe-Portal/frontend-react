@@ -80,22 +80,25 @@ const styles = StyleSheet.create({
         backgroundColor: "#BFE9E7",
         paddingHorizontal: 16,
         paddingVertical: 25,
-        marginHorizontal: 30,
+        marginHorizontal: 10,
         marginVertical: 12,
+        borderRadius: 10,
     },
     requestB:{
         paddingHorizontal: 16,
         paddingVertical: 25,
         backgroundColor:"#FDF1DB",
-        marginHorizontal: 30,
+        marginHorizontal: 10,
         marginVertical: 12,
+        borderRadius: 10,
     },
     requestC:{
         paddingHorizontal: 16,
         paddingVertical: 25,
         backgroundColor: "#FCC8D7",
-        marginHorizontal: 30,
+        marginHorizontal: 10,
         marginVertical: 12,
+        borderRadius: 10,
     },
     examName: {
         
@@ -167,13 +170,6 @@ export class HomeTab extends Component {
             <ScrollView>
 
                 <View style={styles.container}>
-                    <View style={styles.upperHalf}>
-
-                        <Text style={styles.text1}>
-                            Welcome.
-                        </Text>
-                    </View>
-
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
