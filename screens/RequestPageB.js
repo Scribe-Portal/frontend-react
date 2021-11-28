@@ -64,6 +64,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
     const dispatch = useDispatch()
+    
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -78,10 +79,23 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     }
 
                 </Text>
-                <Text style={styles.text2}>
+                <Text style={styles.text1}>
 
-                    {request.examName} on {new Date(request.examDate.seconds).toDateString()}
+                    {request.examName} 
                 </Text>
+                <Text style={styles.text1}>
+
+                    {new Date(request.examDate.seconds * 1000).toDateString()}
+                </Text>
+                <Text style={styles.text1}>
+
+                    {request.examLang}
+                </Text>
+                <Text style={styles.text1}>
+
+                    {new Date(request.examDate.seconds).toLocaleTimeString()}
+                </Text>
+                
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
