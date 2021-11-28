@@ -251,6 +251,7 @@ export default function EnterOTP({ route, navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.langButton1}
                     onPress={() => {
+                        crashlytics().log('Login button pressed')
                         firebase_auth().verifyPhoneNumber(mobile).on(
                             'state_changed',
                             (phoneAuthSnapshot) => {

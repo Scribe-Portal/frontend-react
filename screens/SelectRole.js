@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { createStoreHook } from 'react-redux';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus } from '../reducers/userAppSettingsReducer';
 import { SelectYourRole, Volunteer, RequestScribe } from '../translations'
-
+import crashlytics from '@react-native-firebase/crashlytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -73,6 +74,7 @@ function SelectRole({ navigation }) {
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.langButton1}
                     onPress={() => {
+                        crashlytics().log('Needy selected in SelectRole')
                         dispatch(changeScribeStatus({newScribeStatus: false}))
                         navigation.navigate('EnterMobile')
                     }}
@@ -85,6 +87,7 @@ function SelectRole({ navigation }) {
                 <TouchableOpacity style={styles.langButton2}>
                     <Text style={styles.t2}
                         onPress={() => {
+                            crashlytics().log('Volunteer Selected in SelectRole')
                             dispatch(changeScribeStatus({newScribeStatus: true}))
                             navigation.navigate('EnterMobile')
                         }}

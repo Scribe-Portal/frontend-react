@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, PermissionsAndroid } from 'react-native'
 import { useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
 import firebase from '@react-native-firebase/auth'
@@ -107,27 +107,50 @@ function EnterMobile({ navigation }) {
     let [errorText, setErrorText] = useState('')
     useEffect(() => {
         async function getMobileNumber() {
-            let mobileNumber = ''
             try {
-    
-                mobileNumber = RNSimData.getSimInfo().phoneNumber0
-            }
-            catch {
-                try {
-    
-                    mobileNumber = RNSimData.getSimInfo().phoneNumber1
-                }
-                catch {
-                    mobileNumber = ''
-                }
-            }
-            // console.log(mobileNumber)
-            if (mobileNumber) return mobileNumber.substring(2, 12)
 
-            return mobileNumber
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+                    {
+                      title: "Permission to see phone number",
+                      message:"This app can auto fill your phone number if you permit it.",
+                      buttonNeutral: "Not now",
+                      buttonNegative: "Decline",
+                      buttonPositive: "OK"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("You can read the phone state")
+                    let mobileNumber = ''
+                    try {
+            
+                        mobileNumber = RNSimData.getSimInfo().phoneNumber0
+                    }
+                    catch {
+                        try {
+            
+                            mobileNumber = RNSimData.getSimInfo().phoneNumber1
+                        }
+                        catch {
+                            mobileNumber = ''
+                        }
+                    }
+                    // console.log(mobileNumber)
+                    if (mobileNumber) return mobileNumber.substring(2, 12)
+        
+                    return mobileNumber
+                } else {
+                    console.log("permission denied")
+                }
+            }
+            catch (err) {
+                console.warn(err)
+            }
         }
         (async () => setMobile(await getMobileNumber()))()
-        
+        return () => {
+            
+        }
         
     }, [])
     const lang = useSelector(state => state.userAppSettings.lang)
