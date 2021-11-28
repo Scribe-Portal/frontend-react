@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ScribePortal</string>
+    <string name="CodePushDeploymentKey" moduleConfig="true">c8GrGQ9Qyx7txwiaqdHW3tOoGfZFMUMt6mKRA</string>
 </resources>

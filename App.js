@@ -4,7 +4,7 @@
 import 'react-native-gesture-handler'
 
 import React, { Component } from 'react'
-
+import codePush from 'react-native-code-push';
 import Splash from './screens/SplashScreen'
 import SelectLanguage from './screens/SelectLanguage'
 import SelectRole from './screens/SelectRole'
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 
 const Stack = createStackNavigator()
 
-export class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
   }
@@ -184,5 +184,5 @@ export class App extends Component {
     )
   }
 }
-
+App = codePush(App)
 export default App
