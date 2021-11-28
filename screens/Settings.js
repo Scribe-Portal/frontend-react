@@ -4,14 +4,14 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus, changeUid } from '../reducers/userAppSettingsReducer';
 
-useSelector
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#D4D4D4",
-        justifyContent: 'space-around',
+        
 
-        alignItems: 'center',
+        
     },
     input: {
         margin: 10,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     centered: {
         flex: 1,
-        margin: 20,
+        marginTop: 20,
 
     },
     text1: {
@@ -35,11 +35,10 @@ const styles = StyleSheet.create({
     button1: {
         margin: 5,
         backgroundColor: '#616161',
-        borderColor: "#616161",
         borderRadius: 10,
-        padding: 5,
+        padding: 7,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     button2: {
         margin: 4,
@@ -111,17 +110,6 @@ function Settings({ route, navigation }) {
                     <Text style={styles.t1}>
 
                         Log Out
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button1}
-                    onPress={() => {
-                        navigation.navigate('SelectAvailability')
-                    }}
-                    disabled={!isItAScribe}
-                >
-                    <Text style={styles.t1}>
-
-                        Select Availability
                     </Text>
                 </TouchableOpacity>
 
