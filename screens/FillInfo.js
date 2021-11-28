@@ -100,7 +100,7 @@ function FillInfo({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 <Text>Gender</Text>
                 <TextInput onChangeText={setGender} style={styles.input} />
-                <TouchableOpacity onPress={showDatepicker} style={styles.dateOfBirthPicker}>
+                <TouchableOpacity onPress={showDatepicker} style={styles.dateOfBirthPicker} onPress={showDatepicker}>
                     <Text style={styles.textInsideDoBPicker}>{`Date of Birth (${date.toDateString()})`}</Text>
                 </TouchableOpacity>
                 
