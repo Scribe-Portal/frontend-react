@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "380046350969-o662aegcafkl7b4qacsvm7pe1rbcndm6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scribeportal",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "380046350969-nj2qv65nhq8d3e27c4gjrsupls5lq9p9.apps.googleusercontent.com",
           "client_type": 3
         }
