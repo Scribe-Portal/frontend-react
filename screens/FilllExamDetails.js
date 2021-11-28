@@ -179,6 +179,7 @@ function FillExamDetails({ navigation }) {
                             examName: name,
                             examDate: CombineDateAndTime(date, time),
                             examLang: examLang,
+                            dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0],
                         })
                         .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]}))
                     }}

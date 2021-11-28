@@ -109,39 +109,25 @@ function EnterMobile({ navigation }) {
         async function getMobileNumber() {
             try {
 
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-                    {
-                      title: "Permission to see phone number",
-                      message:"This app can auto fill your phone number if you permit it.",
-                      buttonNeutral: "Not now",
-                      buttonNegative: "Decline",
-                      buttonPositive: "OK"
-                    }
-                );
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    console.log("You can read the phone state")
-                    let mobileNumber = ''
+                
+                let mobileNumber = ''
+                try {
+        
+                    mobileNumber = RNSimData.getSimInfo().phoneNumber0
+                }
+                catch {
                     try {
-            
-                        mobileNumber = RNSimData.getSimInfo().phoneNumber0
+        
+                        mobileNumber = RNSimData.getSimInfo().phoneNumber1
                     }
                     catch {
-                        try {
-            
-                            mobileNumber = RNSimData.getSimInfo().phoneNumber1
-                        }
-                        catch {
-                            mobileNumber = ''
-                        }
+                        mobileNumber = ''
                     }
-                    // console.log(mobileNumber)
-                    if (mobileNumber) return mobileNumber.substring(2, 12)
-        
-                    return mobileNumber
-                } else {
-                    console.log("permission denied")
                 }
+                // console.log(mobileNumber)
+                if (mobileNumber) return mobileNumber.substring(2, 12)
+    
+                return ''
             }
             catch (err) {
                 console.warn(err)
