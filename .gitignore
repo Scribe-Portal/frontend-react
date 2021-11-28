@@ -40,6 +40,8 @@ yarn-error.log
 
 # package-lock.json
 
+# firebase stuff
+google-services.json
 # BUCK
 buck-out/
 \.buckd/
