@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        margin: 10,
+        marginVertical: 10,
         height: 40,
+        borderRadius: 5,
         backgroundColor: "white"
     },
     centered: {
@@ -46,11 +47,10 @@ const styles = StyleSheet.create({
     },
     FillExamDetailsButton: {
         backgroundColor: '#616161',
-        borderColor: "#616161",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
         backgroundColor: "#D4D4D4",
@@ -69,6 +69,19 @@ const styles = StyleSheet.create({
         color: "#616161",
         fontSize: 30,
 
+    },
+    
+    datePicker: {
+        
+        backgroundColor: '#616161',
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    textInsideDatePicker: {
+        color: "#FFFFFF",
+        fontSize: 15,
     }
 
 });
@@ -124,7 +137,13 @@ function FillExamDetails({ navigation }) {
                 <TextInput onChangeText={setName} style={styles.input} />
                 {/* <Text>Date of Examination (DDMMYYYY)</Text>
                 <TextInput onChangeText={setName} style={styles.input} /> */}
-                <Button title ={`Date of Examination (${date.toDateString()})`} onPress={showDatepicker}/>
+                <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
+                    <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
+                    <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
+                </TouchableOpacity>
+                
                 {show && (
                     <DateTimePicker
                         testID="datepicker2"
@@ -137,7 +156,7 @@ function FillExamDetails({ navigation }) {
                     />
                 )}
                 <View style={styles.spacing}></View>
-                <Button title ={`Time of Examination (${time.toLocaleTimeString()})`} onPress={showTimepicker}/>
+                
                 {show2 && (
                     <DateTimePicker
                         testID="datepicker3"
