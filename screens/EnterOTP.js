@@ -12,6 +12,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input' // something fo
 import { useFirestore } from 'react-redux-firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeUid } from '../reducers/userAppSettingsReducer';
+import crashlytics from '@react-native-firebase/crashlytics'
 
 const styles = StyleSheet.create({
     container: {

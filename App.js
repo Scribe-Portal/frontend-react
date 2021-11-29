@@ -184,5 +184,5 @@ class App extends Component {
     )
   }
 }
-App = codePush({ checkFrequency: codePush.CheckFrequency.MANUAL })(App)
-export default App
+export default codePush({ checkFrequency: codePush.CheckFrequency.MANUAL })(App)
+

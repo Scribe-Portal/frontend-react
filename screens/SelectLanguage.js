@@ -86,7 +86,7 @@ function SelectLanguage({navigation}) {
                     >
                         <Text style={styles.t1}>
 
-                            English
+                            Flinstones
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}

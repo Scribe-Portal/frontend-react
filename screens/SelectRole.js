@@ -63,7 +63,21 @@ function SelectRole({ navigation }) {
     const dispatch = useDispatch()
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
-    
+    useEffect(() => {
+        (async () => {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+                {
+                    title: "Permission to see phone number",
+                    message: "This app can auto fill your phone number if you permit it.",
+                    buttonNeutral: "Not now",
+                    buttonNegative: "Decline",
+                    buttonPositive: "OK"
+                }
+            )
+        })()
+        return () => {}
+    }, [])
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -75,7 +89,7 @@ function SelectRole({ navigation }) {
                 <TouchableOpacity style={styles.langButton1}
                     onPress={() => {
                         crashlytics().log('Needy selected in SelectRole')
-                        dispatch(changeScribeStatus({newScribeStatus: false}))
+                        dispatch(changeScribeStatus({ newScribeStatus: false }))
                         navigation.navigate('EnterMobile')
                     }}
                 >
@@ -88,7 +102,7 @@ function SelectRole({ navigation }) {
                     <Text style={styles.t2}
                         onPress={() => {
                             crashlytics().log('Volunteer Selected in SelectRole')
-                            dispatch(changeScribeStatus({newScribeStatus: true}))
+                            dispatch(changeScribeStatus({ newScribeStatus: true }))
                             navigation.navigate('EnterMobile')
                         }}
                     >

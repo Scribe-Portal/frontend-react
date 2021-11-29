@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import CodePush from 'react-native-code-push';
-import { Bar } from 'react-native-progress';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import codePush from 'react-native-code-push'
+import { Bar } from 'react-native-progress'
+import crashlytics from '@react-native-firebase/crashlytics'
+import { connect } from 'react-redux'
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
@@ -20,11 +21,15 @@ const styles = StyleSheet.create({
 class Splash extends Component {
     constructor(props) {
         super(props)
-        this.goAhead.bind(this)
         this.state = {
-            updateStatus: "Checking for updates...",
-            downloadProgress: 0,
+            updateStatus: "",
+            downloadProgress: false,
         }
+        this.goAhead.bind(this)
+        this.setupdateStatus.bind(this)
+        this.setDownloadState.bind(this)
+        this.syncStatusChange.bind(this)
+        this.downloadProgressChange.bind(this)
     }
     goAhead() {
         if (this.props.uid !== "none") {
@@ -35,52 +40,61 @@ class Splash extends Component {
 
         }
     }
-    async componentDidMount() {
-        const update = await CodePush.checkForUpdate();
-        // If mandatory update -> Init CodePush sync flow
-        if (update && update.isMandatory) {
-            const { IMMEDIATE } = CodePush.InstallMode;
-            return await CodePush.sync(
-                { installMode: IMMEDIATE, updateDialog: true },
-                status => {
+    setupdateStatus(statusText) {
+        this.setState({ updateStatus: statusText });
+    }
+    setDownloadState(downloadProgress) {
+        this.setState({ downloadProgress: downloadProgress })
+    }
+    syncStatusChange = (status) => {
 
-                    switch (status) {
-                        case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-                            this.setState({ updateStatus: "Checking for updates..." })
-                            break;
-                        case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-                            this.setState({ updateStatus: "Downloading updates..." })
-                            break;
-                        case codePush.SyncStatus.INSTALLING_UPDATE:
-                            this.setState({ updateStatus: "Installing updates..." })
-                            break;
-                        case codePush.SyncStatus.UP_TO_DATE:
-                            this.goAhead();
-                            break;
-                        case codePush.SyncStatus.UPDATE_INSTALLED:
-                            this.goAhead();
-                            break;
-                    }
-                },
-                ({ receivedBytes, totalBytes, }) => {
-                    this.setState({ downloadProgress: receivedBytes / totalBytes })
-                },
-                () => { } // Don't remove this function (github.com/Microsoft/react-native-code-push/issues/516)
-            );
+        switch (status) {
+            case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+                this.setupdateStatus("Checking for updates...")
+                break
+            case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+                this.setupdateStatus("Downloading updates...")
+                break
+            case codePush.SyncStatus.INSTALLING_UPDATE:
+                this.setupdateStatus("Installing updates...")
+                break
+            case codePush.SyncStatus.UP_TO_DATE:
+                this.goAhead()
+                break
+            case codePush.SyncStatus.UPDATE_INSTALLED:
+                crashlytics().log("update installed.")
+                this.goAhead()
+                break
+            case codePush.SyncStatus.UNKNOWN_ERROR:
+                this.setupdateStatus("Unknown error")
+                crashlytics().log("unknown error updating from appcenter")
+                break
+            case codePush.SyncStatus.UPDATE_IGNORED:
+                crashlytics().log("update cancelled by user")
+                this.goAhead()
+                break
+            case codePush.SyncStatus.AWAITING_USER_ACTION:
+                this.setupdateStatus("awaiting user action");
+                break
         }
-        else {
-            this.goAhead()
-        }
+    }
+    downloadProgressChange = ({ receivedBytes, totalBytes }) => {
+        this.setDownloadState({ downloadProgress: receivedBytes / totalBytes })
+    }
+    async componentDidMount() {
+        const { IMMEDIATE } = codePush.InstallMode;
+        await codePush.sync(
+            {installMode: IMMEDIATE, updateDialog: true},
+            this.syncStatusChange,
+            this.downloadProgressChange
+        )
 
     }
     render() {
-        const { navigation } = this.props;
+        const { navigation } = this.props
         return (
-            <View style={styles.container}
-            // onStartShouldSetResponder={() => {
-            //     navigation.navigate("SelectLanguage")
-            // }}
-            >
+            <View style={styles.container}>
+
                 <Text style={styles.mainText}>
                     Scribe
                 </Text>
@@ -88,7 +102,7 @@ class Splash extends Component {
                     {this.state.updateStatus}
                 </Text>
 
-                <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.downloadProgress} />
+                <Bar style={{ margin: 10 }} width={100} height={30} progress={this.state.downloadProgress} />
             </View>
         )
     }
