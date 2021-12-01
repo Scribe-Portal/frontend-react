@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native'
@@ -20,6 +21,7 @@ const styles = StyleSheet.create({
 function News() {
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
+    const navigation = useNavigation()
     return (
         <TouchableOpacity style={styles.button1}
             onPress={() => {
