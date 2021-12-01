@@ -7,7 +7,7 @@ import { changeLang } from '../reducers/userAppSettingsReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
     },
     upperHalf: {
         flex: 1,
@@ -20,14 +20,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 35,
         fontWeight: '700',
         fontFamily: "lucida grande",
 
     },
     text2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 20,
         fontWeight: '700',
         fontFamily: "lucida grande",
@@ -35,16 +35,16 @@ const styles = StyleSheet.create({
     },
     langButton1: {
         top: 71.72,
-        backgroundColor:'#616161',
-        borderColor: "#616161",
+        backgroundColor:'#19939A',
+
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
-        backgroundColor:"#E5E5E5",
-        borderColor: "#616161",
+        backgroundColor:"#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }
@@ -86,7 +86,7 @@ function SelectLanguage({navigation}) {
                     >
                         <Text style={styles.t1}>
 
-                            Flinstones
+                            English
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.langButton2}

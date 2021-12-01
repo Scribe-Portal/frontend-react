@@ -7,7 +7,7 @@ import { VolunteerPreferenceText } from '../translations'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'center',
 
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     text1: {
        top: 20,
        textAlign: "center",
-       color: "#616161",
+       color: "#19939A",
        fontSize: 30,
        fontWeight: '700',
     },
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     button1: {
         top:95,
         margin: 5,
-        backgroundColor: '#616161',
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     button2: {
         top:105,
         margin: 4,
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     },

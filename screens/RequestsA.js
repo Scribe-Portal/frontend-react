@@ -8,14 +8,14 @@ import { setNull } from '../reducers/priorityReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'center',
 
 
     },
     text1: {
         top: 0,
-        color: "#616161",
+        color: "#19939A",
         alignSelf: "flex-start",
         
         fontSize: 30,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 5,
         borderWidth: 2,
-        borderColor: "#616161",
+        borderColor: "#19939A",
         padding: 10,
         backgroundColor: "#BFE9E7",
     },

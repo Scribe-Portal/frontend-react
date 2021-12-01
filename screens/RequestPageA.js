@@ -9,7 +9,7 @@ import { changeLang } from '../reducers/userAppSettingsReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
     },
     upperHalf: {
         flex: 1,
@@ -32,16 +32,16 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     priorityButton: {
-        backgroundColor: '#616161',
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         padding: 13,
         borderWidth: 2,
-        borderColor: "#616161",
-        backgroundColor: "#D4D4D4",
+        borderColor: "#19939A",
+        backgroundColor: "#B4E2DF",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }

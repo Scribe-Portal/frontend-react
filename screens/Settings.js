@@ -8,7 +8,7 @@ import { changeScribeStatus, changeUid } from '../reducers/userAppSettingsReduce
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
         
 
         
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     },
     button1: {
         margin: 5,
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 7,
         alignItems: 'center',
@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
     },
     button2: {
         margin: 4,
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
-        color: "#616161",
+        color: "#19939A",
         alignItems: 'center',
         borderWidth: 3,
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     },

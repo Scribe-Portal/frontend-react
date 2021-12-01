@@ -8,7 +8,7 @@ import  DateTimePicker from '@react-native-community/datetimepicker';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'center',
 
 
@@ -46,15 +46,15 @@ const styles = StyleSheet.create({
         minHeight: 10,
     },
     FillExamDetailsButton: {
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
         
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     },
     
     datePicker: {
         
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',

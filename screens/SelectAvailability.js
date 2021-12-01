@@ -11,7 +11,7 @@ import { Calendar } from 'react-native-calendars';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
     },
     input: {
         margin: 10,
@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
 
     },
     AvailButton: {
-        backgroundColor: '#616161',
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         margin: 10,
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }

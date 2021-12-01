@@ -9,7 +9,7 @@ import { changeLang } from '../reducers/userAppSettingsReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
     },
     upperHalf: {
         flex: 1,
@@ -22,26 +22,26 @@ const styles = StyleSheet.create({
     },
     text1: {
         top: 20,
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
     text3: {
         top: 10,
-        color: "#616161",
+        color: "#19939A",
         fontSize: 20,
         fontWeight: '400',
     },
     text6: {
         top: 10,
         textAlign: "right",
-        color: "#616161",
+        color: "#19939A",
         fontSize: 20,
         fontWeight: '400',
     },
     text4: {
         top: 60,
-        color: "#616161",
+        color: "#19939A",
         fontSize: 22,
         fontWeight: '400',
     },
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     },
     priorityButton: {
         top:80,
-        backgroundColor: '#616161',
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }

@@ -9,7 +9,7 @@ import { addP, removeAll } from '../reducers/priorityReducer';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'center',
 
 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     text1: {
         
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
     },
     ShowMatchesButton: {
         
-        backgroundColor: '#616161',
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
         borderWidth: 3,
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 13,
         borderWidth: 2,
-        borderColor: "#616161",
-        backgroundColor: "#D4D4D4",
+        borderColor: "#19939A",
+        backgroundColor: "#B4E2DF",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 13,
         borderWidth: 2,
-        borderColor: "#616161",
+        borderColor: "#19939A",
         backgroundColor: "#52F6F7",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
     
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     },

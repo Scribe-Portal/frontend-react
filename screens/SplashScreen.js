@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
     },
     mainText: {
         color: "#828282",
@@ -23,7 +23,7 @@ class Splash extends Component {
         super(props)
         this.state = {
             updateStatus: "",
-            downloadProgress: false,
+            downloadProgress: 0,
         }
         this.goAhead.bind(this)
         this.setupdateStatus.bind(this)

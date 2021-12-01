@@ -9,7 +9,7 @@ useSelector
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'center',
 
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
     },
     FillInfoButton: {
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         
         borderRadius: 10,
         padding: 5,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     dateOfBirthPicker: {
         
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',

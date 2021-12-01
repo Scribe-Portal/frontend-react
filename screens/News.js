@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 const styles = StyleSheet.create({
     button1: {
         margin: 5,
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         
         borderRadius: 10,
         padding: 7,

@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
     },
     header: {
         flex: 1,
@@ -58,7 +58,7 @@ function Home({ route, navigation }) {
             />
                 <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
                     <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
-                    <Tab.Screen name="News" component={News}/>
+                    <Tab.Screen name="Status" component={News}/>
                     <Tab.Screen name="Notifications" component={Notifications}/>
                     <Tab.Screen name="Settings" component={Settings}/>
                 </Tab.Navigator>

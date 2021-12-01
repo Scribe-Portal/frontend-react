@@ -15,7 +15,7 @@ import { compose } from 'redux';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
     },
     text1: {
         flex: 1,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     requestButton: {
         flex: 1,
         margin: 10,
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 20,
         justifyContent: 'space-around',
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 
     },
     requestBox: {
-        backgroundColor: "#D4D4D4",
+        backgroundColor: "#B4E2DF",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 10,
         borderWidth: 2,
-        borderColor: "#616161",
+        borderColor: "#19939A",
     },
     myRequests: {
         borderRadius: 10,

@@ -17,7 +17,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'space-evenly',
         paddingVertical: 20,
     },
@@ -56,13 +56,11 @@ const styles = StyleSheet.create({
 
         marginVertical: 10,
         marginHorizontal: 20,
-        backgroundColor: '#616161',
-
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     input: {
 

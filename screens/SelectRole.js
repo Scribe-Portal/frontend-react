@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import { createStoreHook } from 'react-redux';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus } from '../reducers/userAppSettingsReducer';
@@ -9,7 +9,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
     },
     upperHalf: {
         flex: 1,
@@ -25,23 +25,23 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: "20%",
         textAlign: "center",
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
     langButton1: {
-        backgroundColor: '#616161',
+        backgroundColor: '#19939A',
         top: "20.75%",
-        borderColor: "#616161",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         top: "2.75%",
-        borderColor: "#616161",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }

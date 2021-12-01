@@ -8,7 +8,7 @@ import firebase from '@react-native-firebase/auth'
 const styles = StyleSheet.create({
     container: {
 
-        backgroundColor: "#E5E5E5",
+        backgroundColor: "#B4E2DF",
         justifyContent: 'space-evenly'
     },
     upperHalf: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     text1: {
 
         textAlign: "center",
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     text3: {
         
         textAlign: "center",
-        color: "#616161",
+        color: "#19939A",
         fontSize: 25,
         fontWeight: '700',
     },
@@ -61,19 +61,17 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     langButton1: {
-        backgroundColor: '#616161',
-        
-        borderColor: "#616161",
+        backgroundColor: '#19939A',
         marginHorizontal: 5,
         marginVertical: 20,
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
-        backgroundColor: "#D4D4D4",
-        borderColor: "#616161",
+        backgroundColor: "#B4E2DF",
+        borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     t2: {
-        color: "#616161",
+        color: "#19939A",
         fontSize: 30,
 
     }
