@@ -104,6 +104,8 @@ function FillExamDetails({ navigation }) {
     
     let [time, setTime] = useState(new Date())
     let [examLang, setExamLang] = useState('')
+    let [address, setAddress] = useState('')
+    let [pinCode, setPinCode] = useState('')
     let [date, setDate] = useState(new Date()) 
     
     let [show, setShow] = useState(false) 
@@ -169,6 +171,10 @@ function FillExamDetails({ navigation }) {
                 )}
                 <Text>Language of Examination</Text>
                 <TextInput onChangeText={setExamLang} style={styles.input} />
+                <Text>Address of Exam Center</Text>
+                <TextInput onChangeText={setAddress} style={styles.input} />
+                <Text>Pincode</Text>
+                <TextInput onChangeText={setPinCode} style={styles.input} />
                 <TouchableOpacity style={styles.FillExamDetailsButton}
                     onPress={() => {
                         firestore
@@ -179,6 +185,8 @@ function FillExamDetails({ navigation }) {
                             examName: name,
                             examDate: CombineDateAndTime(date, time),
                             examLang: examLang,
+                            examAddress: address,
+                            examPinCode: pinCode,
                             dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0],
                         })
                         .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]}))

@@ -73,10 +73,13 @@ function FillInfo({ navigation }) {
     let [gender, setGender] = useState('')
     let [DOB, setDOB] = useState('')
     let [email, setEmail] = useState('')
+    let [address, setAddress] = useState('')
+    let [pinCode, setPinCode] = useState('')
     
     let [date, setDate] = useState(new Date()) 
     
     let [show, setShow] = useState(false) 
+    
     const uid = useSelector(state => state.userAppSettings.uid)
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
@@ -115,6 +118,12 @@ function FillInfo({ navigation }) {
                 )}
                 <Text>Email</Text>
                 <TextInput onChangeText={setEmail} style={styles.input} />
+                
+                <Text>Address</Text>
+                <TextInput onChangeText={setAddress} style={styles.input} />
+                
+                <Text>Pin Code</Text>
+                <TextInput onChangeText={setPinCode} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
                     onPress={() => {
                         // console.log(uid)
@@ -124,7 +133,8 @@ function FillInfo({ navigation }) {
                                 gender: gender,
                                 DOB: date,
                                 email: email,
-                                
+                                address: address,
+                                pinCode: pinCode,
                             })
                             navigation.navigate('VolunteerPreference')
                         }
