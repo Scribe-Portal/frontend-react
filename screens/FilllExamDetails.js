@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform }
 import { useSelector } from 'react-redux';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { FillExamDetailsText } from '../translations'
-import  DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        
+
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -70,9 +71,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
-    
+
     datePicker: {
-        
+
         backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
@@ -82,12 +83,25 @@ const styles = StyleSheet.create({
     textInsideDatePicker: {
         color: "#FFFFFF",
         fontSize: 15,
-    }
+    },
+    
+    itemStyle: {
+        fontSize: 10,
+        fontFamily: "Roboto-Regular",
+        color: "#007aff"
+    },
+    pickerStyle: {
+        width: "100%",
+        height: 40,
+        color: "#007aff",
+        fontSize: 14,
+        fontFamily: "Roboto-Regular"
+    },
 
 });
 function CombineDateAndTime(date, time) {
-    const mins = ("0"+ time.getMinutes()).slice(-2);
-    const hours = ("0"+ time.getHours()).slice(-2);
+    const mins = ("0" + time.getMinutes()).slice(-2);
+    const hours = ("0" + time.getHours()).slice(-2);
     const timeString = hours + ":" + mins + ":00";
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -101,33 +115,34 @@ function FillExamDetails({ navigation }) {
     const uid = useSelector(state => state.userAppSettings.uid)
     let firestore = useFirestore()
     let [name, setName] = useState('')
-    
+
     let [time, setTime] = useState(new Date())
     let [examLang, setExamLang] = useState('')
     let [address, setAddress] = useState('')
     let [pinCode, setPinCode] = useState('')
-    let [date, setDate] = useState(new Date()) 
-    
-    let [show, setShow] = useState(false) 
-    let [show2, setShow2] = useState(false) 
+    let [date, setDate] = useState(new Date())
+
+    let [show, setShow] = useState(false)
+    let [show2, setShow2] = useState(false)
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date 
-        setShow(Platform.OS === 'ios') 
-        setDate(new Date(currentDate)) 
+        const currentDate = selectedDate || date
+        setShow(Platform.OS === 'ios')
+        setDate(new Date(currentDate))
     }
     const showDatepicker = () => {
         setShow(true)
-    } 
+    }
     const onChange2 = (event, selectedDate) => {
-        const currentDate = selectedDate || date 
-        setShow2(Platform.OS === 'ios') 
-        setTime(new Date(currentDate)) 
+        const currentDate = selectedDate || date
+        setShow2(Platform.OS === 'ios')
+        setTime(new Date(currentDate))
     }
     const showTimepicker = () => {
         setShow2(true)
     }
+    let languages = ["English", "Hindi", "Computer Based Test"]
     let maximumDate = new Date()
-    maximumDate.setDate(maximumDate.getDate()+60)
+    maximumDate.setDate(maximumDate.getDate() + 60)
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -137,15 +152,13 @@ function FillExamDetails({ navigation }) {
                 </Text>
                 <Text>Name of Examination</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
-                {/* <Text>Date of Examination (DDMMYYYY)</Text>
-                <TextInput onChangeText={setName} style={styles.input} /> */}
                 <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
                     <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
                     <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
                 </TouchableOpacity>
-                
+
                 {show && (
                     <DateTimePicker
                         testID="datepicker2"
@@ -158,7 +171,7 @@ function FillExamDetails({ navigation }) {
                     />
                 )}
                 <View style={styles.spacing}></View>
-                
+
                 {show2 && (
                     <DateTimePicker
                         testID="datepicker3"
@@ -169,27 +182,45 @@ function FillExamDetails({ navigation }) {
                         onChange={onChange2}
                     />
                 )}
-                <Text>Language of Examination</Text>
-                <TextInput onChangeText={setExamLang} style={styles.input} />
+                <Picker
+                    itemStyle={styles.itemStyle}
+                    mode="dropdown"
+                    style={styles.pickerStyle}
+                    selectedValue={examLang}
+                    onValueChange={setExamLang}
+                >
+                    {languages.map((item, ind) => (
+                        <Picker.Item
+                            color="#0087F0"
+                            label={item}
+                            value={item}
+                            key={ind}
+                            index={ind}
+                        />
+                    ))}
+                </Picker>
                 <Text>Address of Exam Center</Text>
                 <TextInput onChangeText={setAddress} style={styles.input} />
                 <Text>Pincode</Text>
                 <TextInput onChangeText={setPinCode} style={styles.input} />
                 <TouchableOpacity style={styles.FillExamDetailsButton}
                     onPress={() => {
-                        firestore
-                        .collection(`requests`)
-                        .add({
-                            status: 'pending',
-                            uid: uid,
-                            examName: name,
-                            examDate: CombineDateAndTime(date, time),
-                            examLang: examLang,
-                            examAddress: address,
-                            examPinCode: pinCode,
-                            dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0],
-                        })
-                        .then((docRef) => navigation.navigate('UploadExamDoc', {requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]}))
+                        if (name !== '' && address !== '') {
+
+                            firestore
+                                .collection(`requests`)
+                                .add({
+                                    status: 'pending',
+                                    uid: uid,
+                                    examName: name,
+                                    examDate: CombineDateAndTime(date, time),
+                                    examLang: examLang,
+                                    examAddress: address,
+                                    examPinCode: pinCode,
+                                    dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0],
+                                })
+                                .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))
+                        }
                     }}
                 >
                     <Text style={styles.t1}>

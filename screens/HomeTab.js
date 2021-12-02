@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     requestA:{
-        backgroundColor: "#BFE9E7",
+        backgroundColor: "#9933FF",
         paddingHorizontal: 16,
         paddingVertical: 25,
         marginHorizontal: 10,
