@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import codePush from 'react-native-code-push'
 import { Bar } from 'react-native-progress'
 import crashlytics from '@react-native-firebase/crashlytics'
@@ -95,9 +95,8 @@ class Splash extends Component {
         return (
             <View style={styles.container}>
 
-                <Text style={styles.mainText}>
-                    Scribe
-                </Text>
+                
+                <Image source={require('../assets/main_logo.jpg')}></Image>
                 <Text style={styles.subText}>
                     {this.state.updateStatus}
                 </Text>
