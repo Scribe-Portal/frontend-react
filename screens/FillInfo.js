@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button }
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
+import { PLACEHOLDERS } from '@babel/types';
 useSelector
 const styles = StyleSheet.create({
     container: {
@@ -75,6 +76,7 @@ function FillInfo({ navigation }) {
     let [email, setEmail] = useState('')
     let [address, setAddress] = useState('')
     let [pinCode, setPinCode] = useState('')
+    let [PL, setPL] = useState('')
     
     let [date, setDate] = useState(new Date()) 
     
@@ -97,7 +99,7 @@ function FillInfo({ navigation }) {
             <View style={styles.centered}>
 
                 <Text style={styles.text1}>
-                    Fill Your Information,
+                    Fill Your Information
                 </Text>
                 <Text>Name</Text>
                 <TextInput onChangeText={setName} style={styles.input} />
@@ -121,7 +123,13 @@ function FillInfo({ navigation }) {
                 
                 <Text>Address</Text>
                 <TextInput onChangeText={setAddress} style={styles.input} />
-                
+                {isItAScribe && (
+                    <View>
+                        <Text>Preferred Languages</Text>
+                        <TextInput onChangeText={setPL} style={styles.input} />
+                    </View>
+
+                )}
                 <Text>Pin Code</Text>
                 <TextInput onChangeText={setPinCode} style={styles.input} />
                 <TouchableOpacity style={styles.FillInfoButton}
@@ -135,6 +143,7 @@ function FillInfo({ navigation }) {
                                 email: email,
                                 address: address,
                                 pinCode: pinCode,
+                                languages: PL,
                             })
                             navigation.navigate('VolunteerPreference')
                         }

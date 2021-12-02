@@ -87,6 +87,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderRadius: 2,
         padding: 5,
+        marginVertical: 3,
+        marginHorizontal: 2,
+        borderRadius: 3,
     },
     greenRequestText: {
         color: "#FFFFFF",
@@ -270,15 +273,9 @@ export default function ScribeHomeTab() {
 
         // console.log(markedDates)
         return (
-            <ScrollView>
+            <ScrollView style={styles.container}>
 
-                <View style={styles.container}>
-                    <View style={styles.upperHalf}>
-
-                        <Text style={styles.text1}>
-                            Welcome.
-                        </Text>
-                    </View>
+                <View>
 
                     <View style={styles.lowerHalf} >
                         {/* <MyRequests uid={this.props.auth.uid} />
@@ -310,7 +307,7 @@ export default function ScribeHomeTab() {
     }
     else {
         return (
-            <View style={styles.container}>
+            <ScrollView>
                 <View style={styles.upperHalf}>
                     <Calendar
                         enableSwipeMonths={true}
@@ -328,7 +325,7 @@ export default function ScribeHomeTab() {
                         }}
                     />
                 </View>
-            </View>
+            </ScrollView>
 
         )
     }

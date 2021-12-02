@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         color: "#19939A",
         fontSize: 35,
         fontWeight: '700',
+        textAlign: "center",
         fontFamily: "lucida grande",
 
     },
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
         color: "#19939A",
         fontSize: 20,
         fontWeight: '700',
+        textAlign: "center",
         fontFamily: "lucida grande",
 
     },

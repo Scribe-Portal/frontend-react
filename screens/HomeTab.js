@@ -169,9 +169,9 @@ export class HomeTab extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={styles.container}>
 
-                <View style={styles.container}>
+                <View>
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
