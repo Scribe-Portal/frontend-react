@@ -280,9 +280,6 @@ export class UploadDoc extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.UploadDocButton}
                         onPress={() => {
-                            // if (this.state.selectedRadioButton === -1 || this.state.eduCertifUploaded === -1) {
-                            //     return
-                            // }
                             if (isItAScribe) {
                                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                             }

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'center',
+        
 
 
     },
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 13,
         borderWidth: 2,
+        borderRadius: 5,
         borderColor: "#19939A",
         backgroundColor: "#B4E2DF",
         flexDirection: "row",
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
         
         margin: 5,
         padding: 13,
+        borderRadius: 5,
         borderWidth: 2,
         borderColor: "#19939A",
         backgroundColor: "#52F6F7",
@@ -193,7 +195,7 @@ function ShowMatches({ navigation, route: {params: {requestId, dateSlot, selecte
                     <View style={styles.centered}>
     
                         <Text style={styles.text1}>
-                        Choose upto three volunteers from the list,
+                        Choose upto three volunteers from the list
                         </Text>
                         <Text style={styles.text2}>
                         Showing 5 volunteers according to your requirement

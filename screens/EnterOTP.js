@@ -18,15 +18,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'space-evenly',
-        paddingVertical: 20,
     },
     underlineStyleBase: {
         backgroundColor: "white",
         color: "black",
-
-
-
+        
+        
+        
+    },
+    inner_container: {
+        
+        justifyContent: 'space-evenly',
+        paddingVertical: 20,
     },
     codeInputHighlightStyle: {
     },
@@ -212,9 +215,9 @@ export default function EnterOTP({ route, navigation }) {
     }, [])
     let new_sign_in = true
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
 
-            <View style={styles.container}>
+            <View style={styles.inner_container}>
                 <Text style={styles.text1}>
                     OTP Verification,
                 </Text>

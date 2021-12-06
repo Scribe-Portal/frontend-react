@@ -7,20 +7,29 @@ import firebase from '@react-native-firebase/auth'
 
 const styles = StyleSheet.create({
     container: {
-
+        flex: 1,
+        justifyContent: "space-evenly",
+    },
+    inner_container: {
+        flexGrow: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'space-evenly'
+
+
     },
-    upperHalf: {
-        flex: 1,
-        alignContent: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
+    middle_spacing: {
+        flex: 0,
+        flexGrow: 1,
+        
+
+
     },
-    lowerHalf: {
-        flex: 1,
-        margin: 20,
-        justifyContent: 'space-around'
+    c1: {
+        
+        
+    },
+    c2: {
+        
+        
     },
     text1: {
 
@@ -39,16 +48,13 @@ const styles = StyleSheet.create({
 
     },
     text3: {
-        
+
         textAlign: "center",
         color: "#19939A",
         fontSize: 25,
         fontWeight: '700',
     },
     text4: {
-
-
-
         textAlign: "center",
         color: "#3A3A3A",
         fontSize: 20,
@@ -57,7 +63,7 @@ const styles = StyleSheet.create({
 
     },
     errorTextBox: {
-
+        
         marginVertical: 20,
     },
     langButton1: {
@@ -67,7 +73,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        
+
+
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -78,11 +85,10 @@ const styles = StyleSheet.create({
         borderWidth: 3,
 
     },
-
     input: {
         marginHorizontal: 10,
         marginVertical: 20,
-        
+
         alignContent: "center",
         justifyContent: 'space-around',
         height: 60,
@@ -107,15 +113,15 @@ function EnterMobile({ navigation }) {
         async function getMobileNumber() {
             try {
 
-                
+
                 let mobileNumber = ''
                 try {
-        
+
                     mobileNumber = RNSimData.getSimInfo().phoneNumber0
                 }
                 catch {
                     try {
-        
+
                         mobileNumber = RNSimData.getSimInfo().phoneNumber1
                     }
                     catch {
@@ -124,7 +130,7 @@ function EnterMobile({ navigation }) {
                 }
                 // console.log(mobileNumber)
                 if (mobileNumber) return mobileNumber.substring(2, 12)
-    
+
                 return ''
             }
             catch (err) {
@@ -133,73 +139,83 @@ function EnterMobile({ navigation }) {
         }
         (async () => setMobile(await getMobileNumber()))()
         return () => {
-            
+
         }
-        
+
     }, [])
     const lang = useSelector(state => state.userAppSettings.lang)
     return (
-        <ScrollView>
+        <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
 
 
-            <Text style={styles.text1}>
-                OTP Verification,
-            </Text>
-            <Text style={styles.text2}>
-                We will send you a one-time password to this mobile number
-            </Text>
-            <Text style={styles.text3}>
-                Enter Your Mobile Number
-            </Text>
-            <TextInput
-                placeholder="Enter Your Mobile No"
-                onChangeText={setMobile}
-                value={mobile}
-                style={styles.input}
-                defaultValue=""
-                returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
-                keyboardType="phone-pad"
-            />
+                <View style={styles.c1}>
+                    <Text style={styles.text1}>
+                        OTP Verification,
+                    </Text>
+                    <Text style={styles.text2}>
+                        We will send you a one-time password to this mobile number
+                    </Text>
+                    <Text style={styles.text3}>
+                        Enter Your Mobile Number
+                    </Text>
+                </View>
+                <View style={styles.middle_spacing}>
+                    
+                </View>
+                <View style={styles.c2}>
+                    <TextInput
+                        placeholder="Enter Your Mobile No"
+                        onChangeText={setMobile}
+                        value={mobile}
+                        style={styles.input}
+                        defaultValue=""
+                        returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
+                        keyboardType="phone-pad"
+                    />
 
 
 
-            <TouchableOpacity style={styles.langButton1}
-                onPress={() => {
-                    firebase().verifyPhoneNumber("+91" + mobile).on(
-                        'state_changed',
-                        (phoneAuthSnapshot) => {
+                    <TouchableOpacity style={styles.langButton1}
+                        onPress={() => {
+                            firebase().verifyPhoneNumber("+91" + mobile).on(
+                                'state_changed',
+                                (phoneAuthSnapshot) => {
 
-                            switch (phoneAuthSnapshot.state) {
-                                case firebase.PhoneAuthState.CODE_SENT:
-                                    // console.log('Verif code sent!', phoneAuthSnapshot)
-                                    navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: "+91" + mobile })
-                                    break
-                                case firebase.PhoneAuthState.ERROR:
-                                    // console.log('Verif error', phoneAuthSnapshot)
-                                    setErrorText("Can't send an OTP. Are you sure the number is right? ")
-                                    break
-                            }
-                        },
-                        (error) => {
-                            // console.log(error)
-                            setErrorText("We're having some problems. try again later?")
-                        })
+                                    switch (phoneAuthSnapshot.state) {
+                                        case firebase.PhoneAuthState.CODE_SENT:
+                                            // console.log('Verif code sent!', phoneAuthSnapshot)
+                                            navigation.navigate('EnterOTP', { verificationId: phoneAuthSnapshot.verificationId, mobile: "+91" + mobile })
+                                            break
+                                        case firebase.PhoneAuthState.ERROR:
+                                            // console.log('Verif error', phoneAuthSnapshot)
+                                            setErrorText("Can't send an OTP. Are you sure the number is right? ")
+                                            break
+                                    }
+                                },
+                                (error) => {
+                                    // console.log(error)
+                                    setErrorText("We're having some problems. try again later?")
+                                })
 
-                }}
-            >
-                <Text style={styles.t1}>
-                    Send OTP
-                </Text>
-            </TouchableOpacity>
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Send OTP
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
-            <View style={styles.errorTextBox}>
+                <View style={styles.errorTextBox}>
 
-                <Text style={styles.text4}>
-                    {errorText}
-                </Text>
-            </View>
-        </ScrollView>
+                    <Text style={styles.text4}>
+                        {errorText}
+                    </Text>
+                </View>
+            </ScrollView>
+        </View>
+
     )
 }
 

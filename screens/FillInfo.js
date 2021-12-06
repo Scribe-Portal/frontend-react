@@ -136,7 +136,9 @@ function FillInfo({ navigation }) {
                     onPress={() => {
                         // console.log(uid)
                         if (name !== '' && gender !== ''  && email !== '' ) {
-                            firestore.collection((isItAScribe)?"scribes":"users").doc(uid).update({
+                            firestore.collection(isItAScribe?"scribes":"users")
+                            .doc(uid)
+                            .update({
                                 name: name,
                                 gender: gender,
                                 DOB: date,
@@ -145,7 +147,10 @@ function FillInfo({ navigation }) {
                                 pinCode: pinCode,
                                 languages: PL,
                             })
-                            navigation.navigate('VolunteerPreference')
+                            .then(() => {
+                                    navigation.navigate('VolunteerPreference')
+                                }
+                            )
                         }
 
                     }}

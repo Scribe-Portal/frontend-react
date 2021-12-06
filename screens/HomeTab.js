@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         borderColor: "#19939A",
     },
     textA: {
-        color: "#3C8C88",
+        color: "#FFFFFF",
         
         fontSize: 16,
         fontWeight : '700',
