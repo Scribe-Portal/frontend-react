@@ -59,7 +59,7 @@ function Home({ route, navigation }) {
                 <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
                     <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
                     <Tab.Screen name="Status" component={News}/>
-                    <Tab.Screen name="Notifications" component={Notifications}/>
+                    
                     <Tab.Screen name="Settings" component={Settings}/>
                 </Tab.Navigator>
         </View>

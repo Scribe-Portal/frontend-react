@@ -120,8 +120,8 @@ function Match({id, selected}) {
     
     return (
         <TouchableOpacity style={selected?styles.selectedScribeBox:styles.scribeBox} onPress={() => navigation.navigate("ScribePage", {scribe_id: id, selected: selected})}>
-            <Text style={styles.match_name}>{`${scribe.name} ${selected?"(selected)":""}`}</Text>
-            <Text style={styles.match_rating}>{scribe.rating}</Text>
+            <Text style={styles.match_name}>{`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} ${selected?"(selected)":""}`}</Text>
+            <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}</Text>
         </TouchableOpacity>
     )
 }

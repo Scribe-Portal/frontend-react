@@ -6,12 +6,17 @@ import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
+import { ScrollView } from 'react-native';
 useSelector
 const styles = StyleSheet.create({
+    
     container: {
         flex: 1,
+        justifyContent: "space-evenly",
+    },
+    inner_container: {
+        flexGrow: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'center',
 
 
     },
@@ -96,6 +101,8 @@ function FillInfo({ navigation }) {
     
     return (
         <View style={styles.container}>
+        <ScrollView style={styles.inner_container}>
+
             <View style={styles.centered}>
 
                 <Text style={styles.text1}>
@@ -161,6 +168,7 @@ function FillInfo({ navigation }) {
                     </Text>
                 </TouchableOpacity>
             </View>
+        </ScrollView>
 
 
         </View>

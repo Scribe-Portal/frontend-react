@@ -98,12 +98,12 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
-                    {scribe.name}
+                    {`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}
                     
                 </Text>
                 <Text style={styles.text6}>
                     Rating:
-                    {scribe.rating}
+                    {`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}
                 </Text>
                 <Text style={styles.text3}>
                     Voulnteered 15 times
@@ -112,10 +112,7 @@ function ScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
                 Reviews
                 </Text>
                 <Text style={styles.text2}>
-
-                    {
-                        scribe.review
-                    }
+                {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`} 
                 </Text>
             </View>
             <View style={styles.lowerHalf}>

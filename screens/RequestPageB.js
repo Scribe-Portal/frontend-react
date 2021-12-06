@@ -93,7 +93,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </Text>
                 <Text style={styles.text1}>
 
-                    {new Date(request.examDate.seconds).toLocaleTimeString()}
+                    {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
                 
             </View>

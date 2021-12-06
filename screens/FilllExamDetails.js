@@ -128,12 +128,14 @@ function FillExamDetails({ navigation }) {
         const currentDate = selectedDate || date
         setShow(Platform.OS === 'ios')
         setDate(new Date(currentDate))
+        console.log(selectedDate)
     }
     const showDatepicker = () => {
         setShow(true)
     }
     const onChange2 = (event, selectedDate) => {
         const currentDate = selectedDate || date
+        console.log(selectedDate)
         setShow2(Platform.OS === 'ios')
         setTime(new Date(currentDate))
     }
@@ -213,11 +215,11 @@ function FillExamDetails({ navigation }) {
                                     status: 'pending',
                                     uid: uid,
                                     examName: name,
-                                    examDate: CombineDateAndTime(date, time),
+                                    examDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes()),
                                     examLang: examLang,
                                     examAddress: address,
                                     examPinCode: pinCode,
-                                    dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0],
+                                    dateSlot: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
                                 })
                                 .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))
                         }

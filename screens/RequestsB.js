@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 
@@ -89,7 +90,7 @@ function RequestsB() {
     // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
     return (
         <View style={styles.container}>
-            
+            <ScrollView>
 
                 <Text style={styles.text1}>
                 Volunteers Search Pending For,
@@ -97,6 +98,8 @@ function RequestsB() {
                 
             
             <Requests uid={uid}/>
+            </ScrollView>
+
 
 
         </View>

@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
     button1: {
         margin: 5,
         backgroundColor: '#19939A',
-        
+
         borderRadius: 10,
         padding: 7,
         alignItems: 'center',
-        
+
     },
     t1: {
         color: "#FFFFFF",
@@ -23,17 +23,20 @@ function News() {
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const navigation = useNavigation()
     return (
-        <TouchableOpacity style={styles.button1}
-            onPress={() => {
-                navigation.navigate('SelectAvailability')
-            }}
-            disabled={!isItAScribe}
-        >
-            <Text style={styles.t1}>
+        (isItAScribe &&
 
-                Select Availability
-            </Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.button1}
+                onPress={() => {
+                    navigation.navigate('SelectAvailability')
+                }}
+                disabled={!isItAScribe}
+            >
+                <Text style={styles.t1}>
+
+                    Select Availability
+                </Text>
+            </TouchableOpacity>
+        )
     )
 }
 

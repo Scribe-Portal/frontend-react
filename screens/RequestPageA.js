@@ -104,8 +104,8 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 {scribe && 
                 
                     <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ViewOnlyScribePage", { scribe_id: request.finallySelectedVolu, selected: true })}>
-                        <Text style={styles.match_name}>{scribe.name + ", rated "}</Text>
-                        <Text style={styles.match_rating}>{scribe.rating}</Text>
+                        <Text style={styles.match_name}>{`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}</Text>
+                        <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}</Text>
                     </TouchableOpacity>
                 }
                 
