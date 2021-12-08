@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button }
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
+import messaging from '@react-native-firebase/messaging';
 useSelector
 const styles = StyleSheet.create({
     container: {
@@ -91,6 +92,16 @@ function FillInfo({ navigation }) {
     const showDatepicker = () => {
         setShow(true)
     } 
+
+    const checkToken = async () => {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+           console.log(fcmToken);
+           return fcmToken;
+        } 
+       }
+       
+       const FireT=checkToken().then(fcmtoken=>{return fcmtoken})
     
     return (
         <View style={styles.container}>
@@ -135,6 +146,7 @@ function FillInfo({ navigation }) {
                                 email: email,
                                 address: address,
                                 pinCode: pinCode,
+                               
                             })
                             navigation.navigate('VolunteerPreference')
                         }
