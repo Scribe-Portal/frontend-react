@@ -41,7 +41,7 @@ import RequestPageA from './screens/RequestPageA'
 import RequestPageB from './screens/RequestPageB';
 import RequestPageC from './screens/RequestPageC';
 import RequestPageForScribePendingRequest from './screens/RequestPageForScribePendingRequest'
-import RequestPageForScribeOwnRequest from './screens/RequestPageForScribeOwnRequest'
+import RequestPageForScribe from './screens/RequestPageForScribe'
 import RequestsB from './screens/RequestsB'
 import RequestsA from './screens/RequestsA'
 import RequestsC from './screens/RequestsC'
@@ -171,8 +171,7 @@ class App extends Component {
                 <Stack.Screen name="RequestsB" component={RequestsB} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestsC" component={RequestsC} options={{ headerShown: false }} />
                 <Stack.Screen name="CancelRequest" component={CancelRequest} options={{ headerShown: false }} />
-                <Stack.Screen name="RequestPageForScribeOwnRequest" component={RequestPageForScribeOwnRequest} options={{ headerShown: false }} />
-                <Stack.Screen name="RequestPageForScribePendingRequest" component={RequestPageForScribePendingRequest} options={{ headerShown: false }} />
+                <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
 
               </Stack.Navigator>

@@ -159,16 +159,13 @@ function calendarRequests(uid, requests, setMarked, addRequestId) {
         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
 
         if (dt) {
-            if (req.volunteersSelected && uid !== req.volunteersSelected) {
-
-            }
-            else if (req.volunteersSelected && (uid === req.volunteersSelected)) {
+            if (req.volunteerAccepted && (uid === req.volunteerAccepted)) {
                 setMarked(dt, 'green')
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
 
             }
-            else if (req.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1)) {
+            else if (req.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req.volunteerAccepted === "none") {
                 setMarked(dt, 'yellow')
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];

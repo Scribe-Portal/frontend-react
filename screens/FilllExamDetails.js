@@ -220,6 +220,7 @@ function FillExamDetails({ navigation }) {
                                     examAddress: address,
                                     examPinCode: pinCode,
                                     dateSlot: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+                                    volunteerAccepted: "none"
                                 })
                                 .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))
                         }

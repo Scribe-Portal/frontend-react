@@ -79,13 +79,13 @@ function RequestsA() {
     const lang = useSelector(state => state.userAppSettings.lang)
     
     const uid = useSelector(state => state.userAppSettings.uid)
-    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
+    
     return (
         <View style={styles.container}>
             
 
                 <Text style={styles.text1}>
-                Volunteers Found For,
+                Volunteer Search Successful
                 </Text>
                 
             
