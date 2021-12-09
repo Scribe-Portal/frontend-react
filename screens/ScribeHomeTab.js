@@ -200,7 +200,7 @@ function RequestFooter({ uid, requests, currentDate }) {
                                     <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
                                     <TouchableOpacity style={styles.greenButton}
                                         onPress={() => {
-                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: null })
+                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: null, status: 'pending' })
                                         }}
                                     >
                                         <Text>Reject</Text>
@@ -212,7 +212,7 @@ function RequestFooter({ uid, requests, currentDate }) {
                                     <TouchableOpacity style={styles.yellowButton}
                                         onPress={() => {
 
-                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: uid })
+                                            if (req.status==='pending') firestore.update(`requests/${req_id}`, { volunteersAccepted: uid, status: 'accepted' })
                                         }}
                                     >
                                         <Text>Accept</Text>
