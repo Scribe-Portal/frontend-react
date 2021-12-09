@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
-import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
-import { changeLang } from '../reducers/userAppSettingsReducer';
+
+
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        
 
     },
     t1: {
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
 
     const firestore = useFirestore()
-    const request = useSelector(state => state.firestore.data.myRequests && state.firestore.data.myRequests[req_id])
+    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
     const dispatch = useDispatch()
-    if (request) {
+    if (request.status === "pending") {
         return (
             <View style={styles.container}>
                 <View style={styles.upperHalf}>
@@ -69,17 +69,14 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.priorityButton}
+                    <TouchableOpacity style={styles.greenButton}
                         onPress={() => {
-                            firestore.update(`requests/${req_id}`, { status: 'pending', volunteer: '' })
+                            if (request.status==="pending") firestore.update(`requests/${req_id}`, { volunteersSelected: , status: 'accepted' })
                             navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+
                         }}
-
                     >
-                        <Text style={styles.t1}>
-
-                            Cancel
-                        </Text>
+                        <Text>Reject</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
@@ -97,7 +94,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     }
     else {
         return (<View style={styles.container}>
-            <Text>whoops!</Text>
+            <Text>whoops, something's not right!</Text>
         </View>)
     }
 }

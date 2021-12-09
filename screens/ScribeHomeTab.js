@@ -159,10 +159,10 @@ function calendarRequests(uid, requests, setMarked, addRequestId) {
         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
 
         if (dt) {
-            if (req.volunteersAccepted && uid !== req.volunteersAccepted) {
+            if (req.volunteersSelected && uid !== req.volunteersSelected) {
 
             }
-            else if (req.volunteersAccepted && (uid === req.volunteersAccepted)) {
+            else if (req.volunteersSelected && (uid === req.volunteersSelected)) {
                 setMarked(dt, 'green')
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
@@ -183,6 +183,7 @@ function calendarRequests(uid, requests, setMarked, addRequestId) {
 }
 function RequestFooter({ uid, requests, currentDate }) {
     const firestore = useFirestore()
+    const navigation = useNavigation()
     return (
         <View>
 
@@ -191,33 +192,17 @@ function RequestFooter({ uid, requests, currentDate }) {
                 requests && requests.map(
                     (req_id, ind) => {
                         const req = useSelector((state) => state.firestore.data.requests[req_id])
-
                         return (
-
-                            (req && req.volunteersAccepted && req.volunteersAccepted === uid)
-                                ?
-                                (<View style={styles.greenRequest} key={ind}>
-                                    <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                                    <TouchableOpacity style={styles.greenButton}
-                                        onPress={() => {
-                                            firestore.update(`requests/${req_id}`, { volunteersAccepted: null, status: 'pending' })
-                                        }}
-                                    >
-                                        <Text>Reject</Text>
-                                    </TouchableOpacity>
-                                </View>)
-                                :
-                                (<View style={styles.yellowRequest} key={ind}>
-                                    <Text style={styles.yellowRequestText}>{req.examName} in {req.examLang} </Text>
-                                    <TouchableOpacity style={styles.yellowButton}
-                                        onPress={() => {
-
-                                            if (req.status==='pending') firestore.update(`requests/${req_id}`, { volunteersAccepted: uid, status: 'accepted' })
-                                        }}
-                                    >
-                                        <Text>Accept</Text>
-                                    </TouchableOpacity>
-                                </View>)
+                            <View style={styles.greenRequest} key={ind}>
+                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+                                <TouchableOpacity style={styles.greenButton}
+                                    onPress={() => {
+                                        navigation.navigate('RequestPageForScribe', {uid: uid, req_id: req_id})
+                                    }}
+                                >
+                                    <Text>Details</Text>
+                                </TouchableOpacity>
+                            </View>
                         )
                     }
                 )
