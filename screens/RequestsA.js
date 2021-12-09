@@ -55,14 +55,7 @@ function Request({req_id}) {
     )
 }
 function Requests({uid}){
-    // useFirestoreConnect([
-    //     {
-    //         collection: 'requests',
-    //         where: [['uid', '==', uid], ['status', '==', 'found']],
-
-    //     }
-    // ])
-    const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='found')))
+    const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='accepted')))
     if (!isLoaded(requests)){
         return (
             <Text style={styles.text1}>

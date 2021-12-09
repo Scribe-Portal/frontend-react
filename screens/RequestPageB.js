@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     text2: {
         color: "#828282",
         fontSize: 20,
+        textAlign: 'left',
         fontWeight: '500',
     },
     priorityButton: {
@@ -79,19 +80,19 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     }
 
                 </Text>
-                <Text style={styles.text1}>
+                <Text style={styles.text2}>
 
                     {request.examName} 
                 </Text>
-                <Text style={styles.text1}>
+                <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toDateString()}
                 </Text>
-                <Text style={styles.text1}>
+                <Text style={styles.text2}>
 
                     {request.examLang}
                 </Text>
-                <Text style={styles.text1}>
+                <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>

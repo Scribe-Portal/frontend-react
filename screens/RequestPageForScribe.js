@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     }
 
 })
-function RequestPageForScribePendingRequest({ navigation, route: { params: { req_id, uid } } }) {
+function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
 
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.myRequests && state.firestore.data.myRequests[req_id])
@@ -102,4 +102,4 @@ function RequestPageForScribePendingRequest({ navigation, route: { params: { req
     }
 }
 
-export default RequestPageForScribePendingRequest
+export default RequestPageForScribe
