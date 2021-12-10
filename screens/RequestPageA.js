@@ -91,12 +91,19 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 </Text>
                 <Text style={styles.text2}>
 
-                    {request?.examName || "Unknown"}
+                    Exam Name: {request?.examName || "Unknown"}
                 </Text>
                 <Text style={styles.text2}>
 
-                    {new Date(request.examDate.seconds * 1000).toDateString()}
+                    Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
                 </Text>
+                <Text style={styles.text2}> Exam Languages</Text>
+                {request.examLang && 
+                    
+                    <Text style={styles.text2}>
+                        {request.examLang}
+                    </Text>
+                }
                 {request.Hindi &&
                     <Text style={styles.text2}>
                         Hindi
@@ -114,7 +121,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 }
                 <Text style={styles.text2}>
 
-                    {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                    Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
 
 
@@ -125,7 +132,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
             </View>
             <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ViewOnlyScribePage", { scribe_id: request?.volunteerAccepted, selected: true })}>
+                <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ScribePage", { scribe_id: request?.volunteerAccepted, selected: true, modifiable: false})}>
                     <Text style={styles.t1}>View Scribe Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}

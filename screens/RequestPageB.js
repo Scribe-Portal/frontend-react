@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { useNavigation } from '@react-navigation/native';
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,11 +15,11 @@ const styles = StyleSheet.create({
     upperHalf: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        padding: 10,
     },
     lowerHalf: {
         flex: 1,
-        margin: 20,
+        margin: 10,
         justifyContent: 'space-around'
     },
     text1: {
@@ -57,22 +58,39 @@ const styles = StyleSheet.create({
         color: "#19939A",
         fontSize: 30,
 
-    }
+    },
+    scribeBox: {
+        
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        marginVertical: 5,
+        borderWidth: 2,
+        borderColor: "#19939A",
+        padding: 10,
+        backgroundColor: "#FDF1DB",
+    },
+    scribeName: {},
 
 });
 function ScribeName({ scribe_id, ind }) {
-    useFirestoreConnect(() => [
-        { collection: 'scribes', doc: scribe_id }
-    ])
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
+    const navigation = useNavigation()
     return (
-        <Text style={styles.text2} key={ind}>{scribe?.name || "can't load name"}</Text>
+
+        <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ScribePage", { scribe_id: scribe_id, selected: true, modifiable: false })}>
+
+            <Text style={styles.scribeName}>{scribe?.name || "can't load name"}</Text>
+
+        </TouchableOpacity>
     )
 }
 function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
+    useFirestoreConnect(() => [
+        { collection: 'scribes', where: ['__name__', 'in', request.volunteersSelected] }
+    ])
     const dispatch = useDispatch()
 
     return (
@@ -91,14 +109,23 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </Text>
                 <Text style={styles.text2}>
 
-                    {request.examName}
+                    Exam Name: {request.examName}
                 </Text>
                 <Text style={styles.text2}>
 
-                    {new Date(request.examDate.seconds * 1000).toDateString()}
-                </Text>{request.Hindi &&
+                    Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
+                </Text>
+                <Text style={styles.text2}>
+                    Exam Language
+                </Text>
+                {request.Hindi &&
                     <Text style={styles.text2}>
                         Hindi
+                    </Text>
+                }
+                {request.examLang &&
+                    <Text style={styles.text2}>
+                        {request.examLang}
                     </Text>
                 }
                 {request.English &&
@@ -113,13 +140,13 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 }
                 <Text style={styles.text2}>
 
-                    {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                    Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
                 <Text style={styles.text2}>
 
                     Scribes selected:
                 </Text>
-                {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} ind={ind}></ScribeName>))}
+                {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} key={ind}></ScribeName>))}
 
             </View>
             <View style={styles.lowerHalf}>
