@@ -234,7 +234,7 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     )}
-                    <Text>Mode of Examination</Text>
+
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}

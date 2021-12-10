@@ -7,7 +7,6 @@ import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
 useSelector
 const styles = StyleSheet.create({
     
@@ -99,16 +98,6 @@ function FillInfo({ navigation }) {
     const showDatepicker = () => {
         setShow(true)
     } 
-
-    const checkToken = async () => {
-        const fcmToken = await messaging().getToken();
-        if (fcmToken) {
-           console.log(fcmToken);
-           return fcmToken;
-        } 
-       }
-       
-       const FireT=checkToken().then(fcmtoken=>{return fcmtoken})
     
     return (
         <View style={styles.container}>

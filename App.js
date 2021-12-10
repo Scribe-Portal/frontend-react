@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
 import 'react-native-gesture-handler'
-import PushController from './screens/PushNotifM';
+
 import React, { Component } from 'react'
 import codePush from 'react-native-code-push';
 import Splash from './screens/SplashScreen'
@@ -145,7 +145,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-        <PushController/>
+
           <ReactReduxFirebaseProvider {...rrfProps}>
             <NavigationContainer style={styles.root}>
               <Stack.Navigator initialRouteName="Splash">
