@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         padding: 2,
         backgroundColor: "#2C9609",
         color: "#FFFFFF",
-
+        marginVertical: 5,
     },
     yellowRequest: {
         justifyContent: 'space-between',

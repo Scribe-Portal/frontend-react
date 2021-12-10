@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     scribeBox: {
 
-        
+
         marginVertical: 20,
         padding: 13,
         borderWidth: 2,
@@ -73,14 +73,8 @@ const styles = StyleSheet.create({
 function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-    useFirestoreConnect([
-        {
-            collection: 'scribes',
-            doc: request.finallySelectedVolu
-        }
-    ])
-    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[request.finallySelectedVolu])
-    const dispatch = useDispatch()
+    
+    
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -97,21 +91,32 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 </Text>
                 <Text style={styles.text2}>
 
-                    {request.examName} on {new Date(request.examDate.seconds).toDateString()}
+                    {request.examName}
+                </Text>
+                <Text style={styles.text2}>
+
+                    {new Date(request.examDate.seconds * 1000).toDateString()}
+                </Text>
+                <Text style={styles.text2}>
+
+                    {request.examLang}
+                </Text>
+                <Text style={styles.text2}>
+
+                    {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
 
+
                 
-                {scribe && 
+
                 
-                    <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ViewOnlyScribePage", { scribe_id: request.finallySelectedVolu, selected: true })}>
-                        <Text style={styles.match_name}>{`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}</Text>
-                        <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}</Text>
-                    </TouchableOpacity>
-                }
-                
+
 
             </View>
             <View style={styles.lowerHalf}>
+                <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ViewOnlyScribePage", { scribe_id: request?.volunteerAccepted, selected: true })}>
+                    <Text style={styles.t1}>View Scribe Details</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
                         navigation.goBack()

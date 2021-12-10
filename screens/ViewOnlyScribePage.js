@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeP } from '../reducers/priorityReducer'
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
@@ -63,40 +64,53 @@ const styles = StyleSheet.create({
     }
 
 });
-function ViewOnlyScribePage({ navigation, route: { params: {scribe_id} } }) {
-    const scribe = useSelector(state => state.firestore.data.scribes[scribe_id])
+function ViewOnlyScribePage({ navigation, route: { params: {scribe_id, selected} } }) {
+    useFirestoreConnect(() => [
+        {collection: 'scribes', doc: scribe_id}
+    ])
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     
 
-    
-    return (
-        <View style={styles.container}>
-            
-                <Text style={styles.text1}>
-                    {`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}
-                    
-                </Text>
-                <Text style={styles.text6}>
-                    
-                    {`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}
-                </Text>
-                <Text style={styles.text3}>
-                    Voulnteered 15 times
-                </Text>
-                <Text style={styles.text4}>
-                Reviews
-                </Text>
-                <Text style={styles.text2}>
+    if (scribe) {
 
-                    
-                        {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`} 
-                    
-                </Text>
-            
+        return (
+            <View style={styles.container}>
                 
-            
+                    <Text style={styles.text1}>
+                        {`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}
+                        
+                    </Text>
+                    <Text style={styles.text6}>
+                        
+                        {`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}
+                    </Text>
+                    <Text style={styles.text3}>
+                        Voulnteered 15 times
+                    </Text>
+                    <Text style={styles.text4}>
+                    Reviews
+                    </Text>
+                    <Text style={styles.text2}>
+    
+                        
+                            {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`} 
+                        
+                    </Text>
+                
+                    
+                
+    
+            </View>
+        )
+    }
+    else {
+        return (
 
-        </View>
-    )
+            <View style={styles.container}>
+                <Text>Can't find the person.</Text>
+            </View>
+        )
+    }
 }
 
 export default ViewOnlyScribePage
