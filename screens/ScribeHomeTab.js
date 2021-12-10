@@ -97,7 +97,9 @@ const styles = StyleSheet.create({
         fontWeight: '200',
     },
     greenButton: {
-        borderRadius: 3,
+        borderRadius: 5,
+        paddingHorizontal: 5,
+        marginHorizontal: 5,
         padding: 2,
         backgroundColor: "#2C9609",
         color: "#FFFFFF",
@@ -178,9 +180,25 @@ function calendarRequests(uid, requests, setMarked, addRequestId) {
     // console.log("given markeddates ",markedDates)
     return requestIds
 }
-function RequestFooter({ uid, requests, currentDate }) {
-    const firestore = useFirestore()
+function RequestBoxFooter({uid, req_id, }) {
     const navigation = useNavigation()
+    const req = useSelector((state) => state.firestore.data.requests[req_id])
+    return (
+        
+            <TouchableOpacity style={styles.greenButton}
+                onPress={() => {
+                    navigation.navigate('RequestPageForScribe', {uid: uid, req_id: req_id})
+                }}
+            >
+            <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
+                
+            </TouchableOpacity>
+        
+    )
+}
+function RequestsFooter({ uid, requests,  }) {
+    
+    
     return (
         <View>
 
@@ -188,18 +206,8 @@ function RequestFooter({ uid, requests, currentDate }) {
 
                 requests && requests.map(
                     (req_id, ind) => {
-                        const req = useSelector((state) => state.firestore.data.requests[req_id])
                         return (
-                            <View style={styles.greenRequest} key={ind}>
-                                <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                                <TouchableOpacity style={styles.greenButton}
-                                    onPress={() => {
-                                        navigation.navigate('RequestPageForScribe', {uid: uid, req_id: req_id})
-                                    }}
-                                >
-                                    <Text>Details</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <RequestBoxFooter uid={uid} req_id={req_id} key={ind}/>
                         )
                     }
                 )
@@ -281,7 +289,7 @@ export default function ScribeHomeTab() {
                             }}
                         />
                     </View>
-                    <RequestFooter uid={uid} requests={currRequests} currentDate={currDate} />
+                    <RequestsFooter uid={uid} requests={currRequests} />
 
                 </View>
             </ScrollView>
