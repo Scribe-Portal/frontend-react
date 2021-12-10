@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { FillExamDetailsText } from '../translations'
@@ -10,9 +10,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'center',
-
-
+        
+        
+    },
+    inner_container:{
+        
     },
     input: {
         marginVertical: 10,
@@ -71,6 +73,16 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
+    radioRoot: {
+        backgroundColor: "white",
+        flexDirection: 'row',
+        padding: 10,
+        margin: 7,
+        borderRadius: 5,
+    },
+    radioText: {
+        margin: 7,
+    },
 
     datePicker: {
 
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 15,
     },
-    
+
     itemStyle: {
         fontSize: 10,
         fontFamily: "Roboto-Regular",
@@ -99,6 +111,38 @@ const styles = StyleSheet.create({
     },
 
 });
+function RadioButton({ i, text, selectedRadioButton, handleChange }) {
+    return (
+        <TouchableOpacity
+            style={styles.radioRoot}
+            onPress={handleChange}
+        >
+            <View style={{
+                height: 24,
+                width: 24,
+                borderRadius: 12,
+                borderWidth: 2,
+                borderColor: '#000',
+                alignItems: 'center',
+                margin: 5,
+                justifyContent: 'center',
+            }}>
+                {
+                    selectedRadioButton == i ?
+                        <View style={{
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
+                            backgroundColor: '#000',
+                        }} />
+                        : null
+                }
+            </View>
+            <Text style={styles.radioText}>{text}</Text>
+        </TouchableOpacity>
+
+    );
+}
 function CombineDateAndTime(date, time) {
     const mins = ("0" + time.getMinutes()).slice(-2);
     const hours = ("0" + time.getHours()).slice(-2);
@@ -117,13 +161,15 @@ function FillExamDetails({ navigation }) {
     let [name, setName] = useState('')
 
     let [time, setTime] = useState(new Date())
-    let [examLang, setExamLang] = useState('')
+    
     let [address, setAddress] = useState('')
     let [pinCode, setPinCode] = useState('')
     let [date, setDate] = useState(new Date())
 
     let [show, setShow] = useState(false)
     let [show2, setShow2] = useState(false)
+    let [selectedRadio, setSelectedRadio] = useState(0);
+
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
         setShow(Platform.OS === 'ios')
@@ -147,91 +193,87 @@ function FillExamDetails({ navigation }) {
     maximumDate.setDate(maximumDate.getDate() + 60)
     return (
         <View style={styles.container}>
-            <View style={styles.centered}>
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
-                <Text style={styles.text1}>
-                    Fill Your Information
-                </Text>
-                <Text>Name of Examination</Text>
-                <TextInput onChangeText={setName} style={styles.input} />
-                <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
-                    <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
-                    <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
-                </TouchableOpacity>
+                <View style={styles.centered}>
 
-                {show && (
-                    <DateTimePicker
-                        testID="datepicker2"
-                        value={date}
-                        locale="in-IN"
-                        mode="date"
-                        display="default"
-                        onChange={onChange}
-                        maximumDate={maximumDate}
-                    />
-                )}
-                <View style={styles.spacing}></View>
-
-                {show2 && (
-                    <DateTimePicker
-                        testID="datepicker3"
-                        value={time}
-                        locale="in-IN"
-                        mode="time"
-                        display="default"
-                        onChange={onChange2}
-                    />
-                )}
-                <Picker
-                    itemStyle={styles.itemStyle}
-                    mode="dropdown"
-                    style={styles.pickerStyle}
-                    selectedValue={examLang}
-                    onValueChange={setExamLang}
-                >
-                    {languages.map((item, ind) => (
-                        <Picker.Item
-                            color="#0087F0"
-                            label={item}
-                            value={item}
-                            key={ind}
-                            index={ind}
-                        />
-                    ))}
-                </Picker>
-                <Text>Address of Exam Center</Text>
-                <TextInput onChangeText={setAddress} style={styles.input} />
-                <Text>Pincode</Text>
-                <TextInput onChangeText={setPinCode} style={styles.input} />
-                <TouchableOpacity style={styles.FillExamDetailsButton}
-                    onPress={() => {
-                        if (name !== '' && address !== '') {
-
-                            firestore
-                                .collection(`requests`)
-                                .add({
-                                    status: 'pending',
-                                    uid: uid,
-                                    examName: name,
-                                    examDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes()),
-                                    examLang: examLang,
-                                    examAddress: address,
-                                    examPinCode: pinCode,
-                                    dateSlot: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-                                    volunteerAccepted: "none"
-                                })
-                                .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))
-                        }
-                    }}
-                >
-                    <Text style={styles.t1}>
-
-                        Save and Next
+                    <Text style={styles.text1}>
+                        Fill Your Information
                     </Text>
-                </TouchableOpacity>
-            </View>
+                    <Text>Name of Examination</Text>
+                    <TextInput onChangeText={setName} style={styles.input} />
+                    <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
+                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
+                        <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
+                    </TouchableOpacity>
+
+                    {show && (
+                        <DateTimePicker
+                            testID="datepicker2"
+                            value={date}
+                            locale="in-IN"
+                            mode="date"
+                            display="default"
+                            onChange={onChange}
+                            maximumDate={maximumDate}
+                        />
+                    )}
+                    <View style={styles.spacing}></View>
+
+                    {show2 && (
+                        <DateTimePicker
+                            testID="datepicker3"
+                            value={time}
+                            locale="in-IN"
+                            mode="time"
+                            display="default"
+                            onChange={onChange2}
+                        />
+                    )}
+                    {languages.map((item, i) => (
+                        <RadioButton
+                            i={i}
+                            key={i}
+                            text={item} // arr is ["aadhar card", ...]
+                            selectedRadioButton={selectedRadio}
+                            handleChange={() => { setSelectedRadio(i) }}
+                        />
+
+                    ))}
+                    <Text>Address of Exam Center</Text>
+                    <TextInput onChangeText={setAddress} style={styles.input} />
+                    <Text>Pincode</Text>
+                    <TextInput onChangeText={setPinCode} style={styles.input} />
+                    <TouchableOpacity style={styles.FillExamDetailsButton}
+                        onPress={() => {
+                            if (name !== '' && address !== '') {
+
+                                firestore
+                                    .collection(`requests`)
+                                    .add({
+                                        status: 'pending',
+                                        uid: uid,
+                                        examName: name,
+                                        examDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes()),
+                                        examLang: languages[selectedRadio],
+                                        examAddress: address,
+                                        examPinCode: pinCode,
+                                        dateSlot: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+                                        volunteerAccepted: "none"
+                                    })
+                                    .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))
+                            }
+                        }}
+                    >
+                        <Text style={styles.t1}>
+
+                            Save and Next
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
 
 
         </View>
