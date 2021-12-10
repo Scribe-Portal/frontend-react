@@ -101,6 +101,7 @@ export class UploadExamDoc extends Component {
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.uid = props.uid
         this.reqid = props.route.params.requestId
+        
         // console.log(this.props.route.params.dateSlot)
     }
     setSelectedRadio(i){
@@ -143,21 +144,6 @@ export class UploadExamDoc extends Component {
     }
     render() {
         const { navigation, uid, route: {params: {requestId}} } = this.props;
-        
-        let radio_array=[]
-        this.radioOptions = ["Admit Card", "Application Receipt"]
-        this.radioOptions.forEach((doc, i, arr) => {
-
-            radio_array.push(
-                <RadioButton
-                    i={i}
-                    key={i}
-                    text={arr[i]} // arr is ["aadhar card", ...]
-                    selectedRadioButton={this.state.selectedRadioButton}
-                    handleChange={() => {this.setSelectedRadio(i)}}
-                />
-            )
-        });
         // console.log(this.reqid)
 
         return (
@@ -167,7 +153,16 @@ export class UploadExamDoc extends Component {
                     <Text style={styles.text1}>
                         Upload Documents
                     </Text>
-                    {radio_array}
+                    {["Admit Card", "Application Receipt"].map((item, i) => (
+                        <RadioButton
+                            i={i}
+                            key={i}
+                            text={item} // arr is ["aadhar card", ...]
+                            selectedRadioButton={this.state.selectedRadioButton}
+                            handleChange={() => {this.setSelectedRadio(i)}}
+                        />
+
+                    ))}
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
                             
