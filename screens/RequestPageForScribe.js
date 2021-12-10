@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     upperHalf: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: 15,
     },
     lowerHalf: {
         flex: 1,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     text2: {
         color: "#828282",
-        fontSize: 20,
+        fontSize: 30,
         textAlign: 'left',
         fontWeight: '500',
     },
@@ -74,6 +74,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
         }
     ])
     const busy = useSelector(state => state.firestore.data.acceptedVolunteers && state.firestore.data.acceptedVolunteers[uid])
+    console.log(busy, request.status)
     if (request?.status === "pending" && !busy) {
         return (
             <View style={styles.container}>
@@ -96,12 +97,12 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.greenButton}
+                    <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
                             if (request.status === "pending") firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
                             navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                             firestore.collection('dateslots')
-                                .doc(date.dateString)
+                                .doc(request.dateSlot)
                                 .collection('acceptedVolunteers')
                                 .doc(uid)
                                 .set({
@@ -109,7 +110,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                 })
                         }}
                     >
-                        <Text>Accept</Text>
+                        <Text style={styles.t1}>Accept</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
@@ -147,12 +148,12 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.greenButton}
+                    <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
-                            if (request.status === "pending") firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
+                            if (request.status === "accepted") firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
                             navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                             firestore.collection('dateslots')
-                                .doc(date.dateString)
+                                .doc(request.dateSlot)
                                 .collection('acceptedVolunteers')
                                 .doc(uid)
                                 .delete()
@@ -162,7 +163,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
 
                         }}
                     >
-                        <Text>Reject</Text>
+                        <Text style={styles.t1}>Reject</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
