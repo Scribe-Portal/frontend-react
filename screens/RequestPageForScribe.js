@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
+        justifyContent: "space-evenly"
     },
     upperHalf: {
         flex: 1,
@@ -182,7 +183,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     }
     else {
         return (<View style={styles.container}>
-            <Text>whoops, this page is not for you!</Text>
+            <Text style={styles.text2}>whoops, this page is not for you!</Text>
             <TouchableOpacity style={styles.priorityButton}
                 onPress={() => {
                     navigation.goBack()
