@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
+import PushNotification from "react-native-push-notification";
 import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
 
@@ -78,6 +79,7 @@ export class SignUp extends Component {
                                 return;
                             }
                             console.log("yeah, that's a good signup")
+                            
                             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
                             .then((userCredential) => {                                
                                 firebase.firestore()
