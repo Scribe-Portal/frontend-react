@@ -180,25 +180,25 @@ function calendarRequests(uid, requests, setMarked, addRequestId) {
     // console.log("given markeddates ",markedDates)
     return requestIds
 }
-function RequestBoxFooter({uid, req_id, }) {
+function RequestBoxFooter({ uid, req_id, }) {
     const navigation = useNavigation()
     const req = useSelector((state) => state.firestore.data.requests[req_id])
     return (
-        
-            <TouchableOpacity style={styles.greenButton}
-                onPress={() => {
-                    navigation.navigate('RequestPageForScribe', {uid: uid, req_id: req_id})
-                }}
-            >
-            <Text style={styles.greenRequestText}>{req.examName} in {req.examLang} </Text>
-                
-            </TouchableOpacity>
-        
+
+        <TouchableOpacity style={styles.greenButton}
+            onPress={() => {
+                navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id })
+            }}
+        >
+            <Text style={styles.greenRequestText}>{req.examName} </Text>
+
+        </TouchableOpacity>
+
     )
 }
-function RequestsFooter({ uid, requests,  }) {
-    
-    
+function RequestsFooter({ uid, requests, }) {
+
+
     return (
         <View>
 
@@ -207,7 +207,7 @@ function RequestsFooter({ uid, requests,  }) {
                 requests && requests.map(
                     (req_id, ind) => {
                         return (
-                            <RequestBoxFooter uid={uid} req_id={req_id} key={ind}/>
+                            <RequestBoxFooter uid={uid} req_id={req_id} key={ind} />
                         )
                     }
                 )

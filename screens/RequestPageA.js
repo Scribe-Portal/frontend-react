@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
 function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-    
-    
+
+
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -91,25 +91,36 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                 </Text>
                 <Text style={styles.text2}>
 
-                    {request.examName}
+                    {request?.examName || "Unknown"}
                 </Text>
                 <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toDateString()}
                 </Text>
-                <Text style={styles.text2}>
-
-                    {request.examLang}
-                </Text>
+                {request.Hindi &&
+                    <Text style={styles.text2}>
+                        Hindi
+                    </Text>
+                }
+                {request.English &&
+                    <Text style={styles.text2}>
+                        English
+                    </Text>
+                }
+                {request.CBT &&
+                    <Text style={styles.text2}>
+                        CBT
+                    </Text>
+                }
                 <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
 
 
-                
 
-                
+
+
 
 
             </View>

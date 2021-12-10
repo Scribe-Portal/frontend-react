@@ -60,12 +60,21 @@ const styles = StyleSheet.create({
     }
 
 });
+function ScribeName({ scribe_id, ind }) {
+    useFirestoreConnect(() => [
+        { collection: 'scribes', doc: scribe_id }
+    ])
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
+    return (
+        <Text style={styles.text2} key={ind}>{scribe?.name || "can't load name"}</Text>
+    )
+}
 function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
     const dispatch = useDispatch()
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -75,28 +84,43 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                         (request.status == 'found')
                             ? "Volunteer found for,"
                             : ((request.status == 'pending')
-                                ? "Volunteer search pending for,"
+                                ? "Volunteer search pending"
                                 : "Volunteer not found")
                     }
 
                 </Text>
                 <Text style={styles.text2}>
 
-                    {request.examName} 
+                    {request.examName}
                 </Text>
                 <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toDateString()}
-                </Text>
-                <Text style={styles.text2}>
-
-                    {request.examLang}
-                </Text>
+                </Text>{request.Hindi &&
+                    <Text style={styles.text2}>
+                        Hindi
+                    </Text>
+                }
+                {request.English &&
+                    <Text style={styles.text2}>
+                        English
+                    </Text>
+                }
+                {request.CBT &&
+                    <Text style={styles.text2}>
+                        CBT
+                    </Text>
+                }
                 <Text style={styles.text2}>
 
                     {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                 </Text>
-                
+                <Text style={styles.text2}>
+
+                    Scribes selected:
+                </Text>
+                {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} ind={ind}></ScribeName>))}
+
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
@@ -110,7 +134,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        navigation.navigate('ShowMatches', {requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected})
+                        navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected })
                     }}
                 >
                     <Text style={styles.t1}>
@@ -119,7 +143,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        navigation.navigate('CancelRequest', {requestId: req_id, })
+                        navigation.navigate('CancelRequest', { requestId: req_id, })
                     }}
                 >
                     <Text style={styles.t1}>

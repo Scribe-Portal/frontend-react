@@ -27,7 +27,7 @@ class Splash extends Component {
         }
         this.goAhead.bind(this)
         this.setupdateStatus.bind(this)
-        this.setDownloadState.bind(this)
+        
         this.syncStatusChange.bind(this)
         this.downloadProgressChange.bind(this)
     }
@@ -42,9 +42,6 @@ class Splash extends Component {
     }
     setupdateStatus(statusText) {
         this.setState({ updateStatus: statusText });
-    }
-    setDownloadState(downloadProgress) {
-        this.setState({ downloadProgress: downloadProgress })
     }
     syncStatusChange = (status) => {
 
@@ -79,7 +76,7 @@ class Splash extends Component {
         }
     }
     downloadProgressChange = ({ receivedBytes, totalBytes }) => {
-        this.setDownloadState({ downloadProgress: receivedBytes / totalBytes })
+        this.setState({ downloadProgress: receivedBytes / totalBytes })
     }
     async componentDidMount() {
         const { IMMEDIATE } = codePush.InstallMode;

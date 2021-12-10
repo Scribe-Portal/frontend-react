@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
-        
-        
+
+
     },
-    inner_container:{
-        
+    inner_container: {
+
     },
     input: {
         marginVertical: 10,
@@ -128,7 +128,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 justifyContent: 'center',
             }}>
                 {
-                    selectedRadioButton == i ?
+                    selectedRadioButton ?
                         <View style={{
                             height: 12,
                             width: 12,
@@ -161,11 +161,13 @@ function FillExamDetails({ navigation }) {
     let [name, setName] = useState('')
 
     let [time, setTime] = useState(new Date())
-    
+
     let [address, setAddress] = useState('')
     let [pinCode, setPinCode] = useState('')
     let [date, setDate] = useState(new Date())
-
+    let [English, setEnglish] = useState(false);
+    let [CBT, setCBT] = useState(false);
+    let [Hindi, setHindi] = useState(false);
     let [show, setShow] = useState(false)
     let [show2, setShow2] = useState(false)
     let [selectedRadio, setSelectedRadio] = useState(0);
@@ -232,16 +234,24 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     )}
-                    {languages.map((item, i) => (
-                        <RadioButton
-                            i={i}
-                            key={i}
-                            text={item} // arr is ["aadhar card", ...]
-                            selectedRadioButton={selectedRadio}
-                            handleChange={() => { setSelectedRadio(i) }}
-                        />
 
-                    ))}
+                    <RadioButton
+                        text="English"
+                        selectedRadioButton={English}
+                        handleChange={() => { setEnglish(!English) }}
+                    />
+                    <RadioButton
+                        text="Hindi"
+                        selectedRadioButton={Hindi}
+                        handleChange={() => { setHindi(!Hindi) }}
+                    />
+                    <RadioButton
+                        text="CBT"
+                        selectedRadioButton={CBT}
+                        handleChange={() => { setCBT(!CBT) }}
+                    />
+
+
                     <Text>Address of Exam Center</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
                     <Text>Pincode</Text>
@@ -257,7 +267,9 @@ function FillExamDetails({ navigation }) {
                                         uid: uid,
                                         examName: name,
                                         examDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes()),
-                                        examLang: languages[selectedRadio],
+                                        English: English,
+                                        Hindi: Hindi,
+                                        CBT: CBT,
                                         examAddress: address,
                                         examPinCode: pinCode,
                                         dateSlot: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,

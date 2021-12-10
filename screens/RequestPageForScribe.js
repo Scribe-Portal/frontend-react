@@ -70,7 +70,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
         {
             collection: 'dateslots',
             doc: request.dateSlot,
-            subcollections: [{collection: 'acceptedVolunteers'}],
+            subcollections: [{ collection: 'acceptedVolunteers' }],
             storeAs: 'acceptedVolunteers'
         }
     ])
@@ -87,11 +87,21 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     <Text style={styles.text2}>
 
                         {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>
-                    <Text style={styles.text2}>
-
-                        {request.examLang}
-                    </Text>
+                    </Text>{request.Hindi &&
+                        <Text style={styles.text2}>
+                            Hindi
+                        </Text>
+                    }
+                    {request.English &&
+                        <Text style={styles.text2}>
+                            English
+                        </Text>
+                    }
+                    {request.CBT &&
+                        <Text style={styles.text2}>
+                            CBT
+                        </Text>
+                    }
                     <Text style={styles.text2}>
 
                         {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
@@ -138,11 +148,21 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     <Text style={styles.text2}>
 
                         {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>
-                    <Text style={styles.text2}>
-
-                        {request.examLang}
-                    </Text>
+                    </Text>{request.Hindi &&
+                        <Text style={styles.text2}>
+                            Hindi
+                        </Text>
+                    }
+                    {request.English &&
+                        <Text style={styles.text2}>
+                            English
+                        </Text>
+                    }
+                    {request.CBT &&
+                        <Text style={styles.text2}>
+                            CBT
+                        </Text>
+                    }
                     <Text style={styles.text2}>
 
                         {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
