@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
 import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
+import { sendEmail } from './sendemail';
 
 const styles = StyleSheet.create({
     container: {
