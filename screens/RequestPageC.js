@@ -22,12 +22,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: 'center',
     },
     text2: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '500',
     },
@@ -73,7 +74,7 @@ function RequestPageC({ navigation, route: { params: { req_id } } }) {
                         (request.status == 'found')
                             ? "Volunteer found for,"
                             : ((request.status == 'pending')
-                                ? "Volunteer search pending for,"
+                                ? "Volunteer search,"
                                 : "Volunteer not found")
                     }
 

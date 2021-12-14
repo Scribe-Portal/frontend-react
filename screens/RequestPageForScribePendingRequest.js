@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
     },

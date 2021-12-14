@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
     },
     text1: {
-        color: "#828282",
+        color: "#000000",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     t1: {
         color: "#FFFFFF",
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: 'row',
         padding: 20,
-        margin: 10,
+        marginVertical: 10,
+        borderRadius: 10,
     },
 
 });
@@ -97,14 +98,16 @@ export class UploadExamDoc extends Component {
             selectedRadioButton: 0,
             uploadProgress: 0,
             uploadedText: '',
+            examDocUploaded: false,
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.uid = props.uid
         this.reqid = props.route.params.requestId
-        
+        this.radioOptions = ["Admit Card", "Application Receipt"]
         // console.log(this.props.route.params.dateSlot)
     }
     setSelectedRadio(i){
+       
         this.setState({
             selectedRadioButton: i
         })
@@ -126,13 +129,14 @@ export class UploadExamDoc extends Component {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
                 task.then(() => {
-                    this.setState({ uploadedText: "Uploaded!"})
+                    this.setState({ uploadedText: "Uploaded!", examDocUploaded: true})
+
                 })
                 firebase_storage().ref(`examDoc/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
                     .collection(`users/${this.uid}/requests`)
                     .doc(this.reqid)
-                    .update(
+                    .set(
                         {
                             examDocUrl: url,
                             examDocType: this.radioOptions[this.state.selectedRadioButton]
@@ -153,7 +157,7 @@ export class UploadExamDoc extends Component {
                     <Text style={styles.text1}>
                         Upload Documents
                     </Text>
-                    {["Admit Card", "Application Receipt"].map((item, i) => (
+                    {this.radioOptions.map((item, i) => (
                         <RadioButton
                             i={i}
                             key={i}
@@ -165,8 +169,7 @@ export class UploadExamDoc extends Component {
                     ))}
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
-                            
-                                navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
+                            if (this.state.examDocUploaded) navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
                         }}
                     >
                         <Text style={styles.t1}>
@@ -174,7 +177,7 @@ export class UploadExamDoc extends Component {
                             Save and Next
                         </Text>
                     </TouchableOpacity>
-                    <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
+                    <Bar style={{ marginVertical: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
                     <Text style={styles.text1}>{this.state.uploadedText}</Text>
                 </View>
 

@@ -21,35 +21,24 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        top: 20,
+        
         color: "#19939A",
         fontSize: 30,
+        textAlign: 'center',
         fontWeight: '700',
     },
-    text3: {
-        top: 10,
-        color: "#19939A",
-        fontSize: 20,
-        fontWeight: '400',
-    },
-    text6: {
-        top: 10,
-        textAlign: "right",
-        color: "#19939A",
-        fontSize: 20,
-        fontWeight: '400',
-    },
-    text4: {
-        top: 60,
-        color: "#19939A",
-        fontSize: 22,
-        fontWeight: '400',
-    },
+    
     text2: {
-        top: 80,
-        color: "#828282",
-        fontSize: 20,
-        fontWeight: '300',
+        color: "#9E6E12",
+        fontSize: 16,
+        fontWeight : '700',
+        textAlign: 'left',
+    },
+    volunteerBox: {
+        backgroundColor:"#FDF1DB",
+        borderRadius: 10,
+        padding: 7,
+        marginVertical: 5,
     },
     priorityButton: {
         top: 80,
@@ -90,7 +79,8 @@ const styles = StyleSheet.create({
 
 });
 function ScribePage({ navigation, route: { params: { scribe_id, selected, modifiable } } }) {
-    const scribe = useSelector(state => state.firestore.data.scribes[scribe_id])
+    
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     const num_selected = useSelector(state => state.priority.num)
 
     const dispatch = useDispatch()
@@ -98,27 +88,41 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
         <View style={styles.container}>
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
-                    {`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} `}
+                    Volunteer Details
 
                 </Text>
-                <Text style={styles.text6}>
-                    Rating:
-                    {`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}
-                </Text>
-                <Text style={styles.text3}>
-                    Voulnteered 15 times
-                </Text>
-                <Text style={styles.text4}>
-                    Reviews
-                </Text>
-                <Text style={styles.text2}>
-                    {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`}
-                </Text>
+                <View style={styles.volunteerBox}>
+                    <Text style={styles.text2}>
+                        {`Name: ${(typeof scribe?.name === 'string') ? scribe?.name : "Unnamed"} `}
+
+                    </Text>
+                    <Text style={styles.text2}>
+                        {`Gender: ${(typeof scribe?.gender === 'string') ? scribe?.gender : "Unknown"} `}
+
+                    </Text>
+                    <Text style={styles.text2}>
+                        {`Preferred Languages: ${(typeof scribe?.languages === 'string') ? scribe?.languages : "Unnamed"} `}
+
+                    </Text>
+                    <Text style={styles.text2}>
+                        Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "unrated"}/5`}
+                    </Text>
+                    <Text style={styles.text2}>
+                        Voulnteered 15 times
+                    </Text>
+                    <Text style={styles.text2}>
+                        Reviews:
+                    </Text>
+                    <Text style={styles.text2}>
+                        {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`}
+                    </Text>
+
+                </View>
             </View>
             
             
             <View style={styles.lowerHalf}>
-                {modifiable && 
+                {modifiable ?
                     <TouchableOpacity style={selected ? styles.priorityButton1 : styles.priorityButton}
                         onPress={() => {
                             // console.log(num_selected)
@@ -148,6 +152,7 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
                             }
                         </Text>
                     </TouchableOpacity>
+                    : null
                 }
             </View>
             

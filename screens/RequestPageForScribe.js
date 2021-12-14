@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         paddingHorizontal: 15,
+        paddingVertical: 10,
     },
     lowerHalf: {
         flex: 1,
@@ -23,12 +24,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
     },
     text2: {
-        color: "#828282",
+        color: "#000000",
         fontSize: 30,
         textAlign: 'left',
         fontWeight: '500',
@@ -66,6 +67,34 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
 
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    const showAcceptDialog = () => {
+        return Alert.alert(
+            "Confirmation",
+            "Accepting the request puts you in a position of responsibility to complete the task, failing which might incur NEGATIVE NSS hours.",
+            [
+                {
+                    text: "Accept",
+                    onPress: () => {
+                        firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted'})
+                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                        firestore.collection('dateslots')
+                            .doc(request.dateSlot)
+                            .collection('acceptedVolunteers')
+                            .doc(uid)
+                            .set({
+                                req_id: req_id
+                            })
+                    }
+                },
+                {
+                    text: "Go Back", 
+                    onPress: () => {
+                    }
+                }
+            ]
+
+        )
+    }
     useFirestoreConnect([
         {
             collection: 'dateslots',
@@ -75,7 +104,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
         }
     ])
     const busy = useSelector(state => state.firestore.data.acceptedVolunteers && state.firestore.data.acceptedVolunteers[uid])
-    console.log(busy, request.status)
+    
     if (request?.status === "pending" && !busy) {
         return (
             <View style={styles.container}>
@@ -109,17 +138,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                 </View>
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            if (request.status === "pending") firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            firestore.collection('dateslots')
-                                .doc(request.dateSlot)
-                                .collection('acceptedVolunteers')
-                                .doc(uid)
-                                .set({
-                                    req_id: req_id
-                                })
-                        }}
+                        onPress={showAcceptDialog}
                     >
                         <Text style={styles.t1}>Accept</Text>
                     </TouchableOpacity>
@@ -137,51 +156,58 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
             </View>
         )
     }
-    else if (request?.status === "accepted" && uid === request.volunteerAccepted) {
+    else if (request?.status === "accepted" && uid === request?.volunteerAccepted) {
         return (
             <View style={styles.container}>
                 <View style={styles.upperHalf}>
                     <Text style={styles.text2}>
 
-                        {request.examName}
+                        Exam Name: {request?.examName}
                     </Text>
                     <Text style={styles.text2}>
 
-                        {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>{request.Hindi &&
+                        Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                    </Text>
+                    <Text style={styles.text2}>
+                        Mode of Exam:
+                    </Text>
+                    {request?.examLang ?
+                        <Text style={styles.text2}>
+                            {request?.examLang}
+                        </Text> : null
+                    }
+                    {request?.Hindi ?
                         <Text style={styles.text2}>
                             Hindi
-                        </Text>
+                        </Text> : null
                     }
-                    {request.English &&
+                    {request?.English ?
                         <Text style={styles.text2}>
                             English
-                        </Text>
+                        </Text> : null
                     }
-                    {request.CBT &&
+                    {request?.CBT ?
                         <Text style={styles.text2}>
                             CBT
-                        </Text>
+                        </Text> : null
                     }
                     <Text style={styles.text2}>
 
-                        {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                        Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Address: {request?.examAddress}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Pin Code: {request?.examPinCode}
                     </Text>
                 </View>
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
-                            if (request.status === "accepted") firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            firestore.collection('dateslots')
-                                .doc(request.dateSlot)
-                                .collection('acceptedVolunteers')
-                                .doc(uid)
-                                .delete()
-                                .catch((err) => {
-                                    setErrText('You never marked available this day!')
-                                })
-
+                            navigation.navigate("CancelRequestForScribe", {req_id: req_id, dateSlot: request.dateSlot})
                         }}
                     >
                         <Text style={styles.t1}>Reject</Text>
@@ -203,7 +229,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     }
     else {
         return (<View style={styles.container}>
-            <Text style={styles.text2}>whoops, this page is not for you!</Text>
+            <Text style={styles.text2}>You can't select more than one scribe for a day </Text>
             <TouchableOpacity style={styles.priorityButton}
                 onPress={() => {
                     navigation.goBack()

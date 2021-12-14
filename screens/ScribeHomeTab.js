@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
     },
     text1: {
         flex: 1,
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
     text2: {
         flex: 1,
         padding: 20,
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '500',
     },
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     lowerHalf: {
         flex: 1,
-        margin: 20,
+        margin: 10,
         justifyContent: 'space-around'
     },
     requestButton: {
@@ -99,9 +99,9 @@ const styles = StyleSheet.create({
     greenButton: {
         borderRadius: 5,
         paddingHorizontal: 5,
-        marginHorizontal: 5,
+        marginHorizontal: 10,
         padding: 2,
-        backgroundColor: "#2C9609",
+        backgroundColor: '#19939A',
         color: "#FFFFFF",
         marginVertical: 5,
     },
@@ -153,24 +153,28 @@ const styles = StyleSheet.create({
 
     }
 });
-function calendarRequests(uid, requests, setMarked, addRequestId) {
+function calendarRequests(uid, requests, setMarked, isGreen) {
     let requestIds = {}
 
     requests.forEach((req, ind) => {
 
         var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
-
+        
         if (dt) {
-            if (req.volunteerAccepted && (uid === req.volunteerAccepted)) {
+            if (req?.status==='accepted' && req?.volunteerAccepted && (uid === req.volunteerAccepted)) {
                 setMarked(dt, 'green')
+                // console.log(dt, "set to green")
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
 
             }
-            else if (req.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req.volunteerAccepted === "none") {
-                setMarked(dt, 'yellow')
+            else if (req?.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req.volunteerAccepted === "none" && req?.status==="pending") {
+                if (!isGreen(dt)) {
+                    // console.log(dt, "is not green, setting it yellow")
+                    setMarked(dt, 'yellow')
+                }
                 if (requestIds[dt]) requestIds[dt].push(req.id)
-                else requestIds[dt] = [req.id,];
+                else requestIds[dt] = [req.id,]
 
             }
         }
@@ -232,15 +236,22 @@ export default function ScribeHomeTab() {
     let [currDate, setCurrDate] = useState('')
     let [requestIds, setRequestIds] = useState({});
 
+    const setMarked = (dt, markedColor) => {
+        setMarkedDates({ ...markedDates, [dt]: { selectedColor: markedColor, selected: true, marked: true} })
+
+    }
+    const isGreen = (dt) => (markedDates[dt]?.selectedColor === 'green')
     useEffect(() => {
         if (requests) setRequestIds(calendarRequests(
             uid,
             requests,
-            (dt, markedColor) => setMarkedDates({ ...markedDates, [dt]: { selected: true, marked: true, selectedColor: markedColor } }),
+            setMarked,
+            isGreen,
         ))
 
         // console.log(requestIds)
         setCurrRequests(requestIds[currDate] || [])
+        
     }, [requests,])
 
     const lang = useSelector((state) => state.userAppSettings.lang)
@@ -279,13 +290,11 @@ export default function ScribeHomeTab() {
                             // Enable paging on horizontal, default = false
                             pagingEnabled={true}
                             // Set custom calendarWidth.
-                            calendarWidth={320}
+                            
                             onDayPress={(date) => {
 
                                 setCurrDate(date.dateString)
                                 setCurrRequests(requestIds[date.dateString] || [])
-                                // console.log(requestIds)
-                                // console.log(requestIds[date.dateString])
                             }}
                         />
                     </View>

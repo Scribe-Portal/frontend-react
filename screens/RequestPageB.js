@@ -1,16 +1,19 @@
 /* eslint-disable prettier/prettier */
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
-import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
-import { changeLang } from '../reducers/userAppSettingsReducer';
+import { StyleSheet, Text, View, Linking, TouchableOpacity, ScrollView } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer'
+import { changeLang } from '../reducers/userAppSettingsReducer'
 // hi
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
+    },
+    inner_container: {
+        flexGrow: 1,
     },
     upperHalf: {
         flex: 1,
@@ -23,12 +26,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#000000",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: 'center',
     },
     text2: {
-        color: "#828282",
+        color: "#000000",
         fontSize: 20,
         textAlign: 'left',
         fontWeight: '500',
@@ -39,7 +43,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        marginVertical: 3,
+
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
 
     },
     scribeBox: {
-        
+
         justifyContent: 'space-between',
         borderRadius: 10,
         marginVertical: 5,
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
     },
     scribeName: {},
 
-});
+})
 function ScribeName({ scribe_id, ind }) {
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     const navigation = useNavigation()
@@ -88,96 +93,103 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
-    useFirestoreConnect(() => [
-        { collection: 'scribes', where: ['__name__', 'in', request.volunteersSelected] }
+    if (request?.volunteersSelected) useFirestoreConnect(() => [
+        { collection: 'scribes', where: ['__name__', 'in', (request?.volunteersSelected || ['none'])] }
     ])
     const dispatch = useDispatch()
 
     return (
         <View style={styles.container}>
-            <View style={styles.upperHalf}>
-                <Text style={styles.text1}>
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
-                    {
-                        (request.status == 'found')
-                            ? "Volunteer found for,"
-                            : ((request.status == 'pending')
-                                ? "Volunteer search pending"
-                                : "Volunteer not found")
+                <View style={styles.upperHalf}>
+                    <Text style={styles.text1}>
+
+                        {
+                            (request.status == 'found')
+                                ? "Volunteer found for,"
+                                : ((request.status == 'pending')
+                                    ? "Volunteer search pending"
+                                    : "Volunteer not found")
+                        }
+
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Name: {request.examName}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
+                    </Text>
+                    <Text style={styles.text2}>
+                        Exam Language
+                    </Text>
+                    {request.Hindi ?
+                        <Text style={styles.text2}>
+                            Hindi
+                        </Text>
+                        : null
                     }
-
-                </Text>
-                <Text style={styles.text2}>
-
-                    Exam Name: {request.examName}
-                </Text>
-                <Text style={styles.text2}>
-
-                    Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
-                </Text>
-                <Text style={styles.text2}>
-                    Exam Language
-                </Text>
-                {request.Hindi &&
+                    {request.examLang ?
+                        <Text style={styles.text2}>
+                            {request.examLang}
+                        </Text>
+                        : null
+                    }
+                    {request.English ?
+                        <Text style={styles.text2}>
+                            English
+                        </Text>
+                        : null
+                    }
+                    {request.CBT ?
+                        <Text style={styles.text2}>
+                            CBT
+                        </Text>
+                        : null
+                    }
                     <Text style={styles.text2}>
-                        Hindi
-                    </Text>
-                }
-                {request.examLang &&
-                    <Text style={styles.text2}>
-                        {request.examLang}
-                    </Text>
-                }
-                {request.English &&
-                    <Text style={styles.text2}>
-                        English
-                    </Text>
-                }
-                {request.CBT &&
-                    <Text style={styles.text2}>
-                        CBT
-                    </Text>
-                }
-                <Text style={styles.text2}>
 
-                    Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
-                </Text>
-                <Text style={styles.text2}>
+                        Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                    </Text>
+                    <Text style={styles.text2}>
 
-                    Scribes selected:
-                </Text>
-                {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} key={ind}></ScribeName>))}
+                        Scribes selected:
+                    </Text>
+                    {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} key={ind}></ScribeName>))}
 
-            </View>
-            <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.goBack()
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Go Back
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected })
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Reselect Scribes
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.navigate('CancelRequest', { requestId: req_id, })
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Cancel Request
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                </View>
+                <View style={styles.lowerHalf}>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Go Back
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Reselect Scribes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.navigate('CancelRequest', { requestId: req_id, })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Cancel Request
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
 
         </View>
     )

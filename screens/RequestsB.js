@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
     },
     text1: {
         top: 0,
+        marginHorizontal: 5,
         color: "#19939A",
-        alignSelf: "flex-start",
+        textAlign: 'center',
         
         fontSize: 30,
         fontWeight: '700',
@@ -54,13 +55,7 @@ function Request({req_id}) {
     )
 }
 function Requests({uid}){
-    // useFirestoreConnect([
-    //     {
-    //         collection: 'requests',
-    //         where: [['uid', '==', uid], ['status', '==', 'found']],
 
-    //     }
-    // ])
     const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='pending')))
     if (!isLoaded(requests)){
         return (
@@ -88,13 +83,13 @@ function RequestsB() {
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
-    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
+    
     return (
         <View style={styles.container}>
             <ScrollView>
 
                 <Text style={styles.text1}>
-                Volunteers Search Pending For,
+                Volunteer Search Pending
                 </Text>
                 
             

@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
     },
     centered: {
         flex: 1,
-        marginTop: 20,
+        marginTop: 10,
 
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
 
         fontWeight: '700',

@@ -23,7 +23,7 @@ function News() {
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const navigation = useNavigation()
     return (
-        (isItAScribe &&
+        (isItAScribe ?
 
             <TouchableOpacity style={styles.button1}
                 onPress={() => {
@@ -35,7 +35,7 @@ function News() {
 
                     Select Availability
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> : null
         )
     )
 }

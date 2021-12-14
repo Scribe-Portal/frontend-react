@@ -13,11 +13,12 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        top:50,
-        margin:0.5,
-        width:"97%",
+        top: 50,
+        margin: 0.5,
+        width: "97%",
         height: 60,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        borderRadius: 5,
     },
     centered: {
         flex: 1,
@@ -25,11 +26,11 @@ const styles = StyleSheet.create({
 
     },
     text1: {
-       top: 20,
-       textAlign: "center",
-       color: "#19939A",
-       fontSize: 30,
-       fontWeight: '700',
+        top: 20,
+        textAlign: "center",
+        color: "#19939A",
+        fontSize: 30,
+        fontWeight: '700',
     },
     text2: {
         top: 40,
@@ -49,24 +50,24 @@ const styles = StyleSheet.create({
 
     },
     button1: {
-        top:95,
+        top: 95,
         margin: 5,
         backgroundColor: '#19939A',
         borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+
     },
     button2: {
-        top:105,
+        top: 105,
         margin: 4,
         backgroundColor: "#B4E2DF",
         borderColor: "#19939A",
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+
 
     },
     t1: {
@@ -79,17 +80,18 @@ const styles = StyleSheet.create({
 
     },
     textInpu: {
-        position:"absolute",
+        position: "absolute",
         top: 160,
-        flex:-1,
-        width:300
+        flex: -1,
+        width: 300
     },
-    radioRoot:{
-        top:80,
-        width:"95%",
+    radioRoot: {
+        top: 80,
+        width: "95%",
         backgroundColor: "white",
         flexDirection: 'row',
-        padding: 20,
+        padding: 10,
+        borderRadius: 5,
         margin: 5,
     },
 
@@ -108,6 +110,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 borderColor: '#000',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginHorizontal: 4,
             }}>
                 {
                     selectedRadioButton == i ?
@@ -120,7 +123,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                         : null
                 }
             </View>
-            <Text>{text}</Text>
+            <Text style={styles.radioText}>{text}</Text>
         </TouchableOpacity>
 
     );
@@ -133,15 +136,15 @@ export class VolunteerPreference extends Component {
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
     }
-    setSelectedRadio(i){
+    setSelectedRadio(i) {
         this.setState({
             selectedRadioButton: i
         })
     }
     render() {
-        const { navigation,lang } = this.props;
-        let radio_array=[]
-        let radioOptions = ["10th Pass", "12th Pass", "Graduate"]
+        const { navigation, lang } = this.props;
+        let radio_array = []
+        let radioOptions = ["None", "10th Pass", "12th Pass", "Graduate"]
         radioOptions.forEach((doc, i, arr) => {
 
             radio_array.push(
@@ -150,22 +153,22 @@ export class VolunteerPreference extends Component {
                     key={i}
                     text={arr[i]} // arr is ["aadhar card", ...]
                     selectedRadioButton={this.state.selectedRadioButton}
-                    handleChange={() => {this.setSelectedRadio(i)}}
+                    handleChange={() => { this.setSelectedRadio(i) }}
                 />
             )
         });
 
         return (
-            <ScrollView>
 
-                <View style={styles.container}>
+            <View style={styles.container}>
+                <ScrollView>
                     <View style={styles.centered}>
 
                         <Text style={styles.text1}>
-                            Volunteer Preference,
-                        </Text >                     
+                            Volunteer Preference
+                        </Text>
                         <Text style={styles.text2}>Gender</Text>
-                        <TextInput onChangeText={(t) => {this.setState({name: t})}} style={styles.input}/>
+                        <TextInput onChangeText={(t) => { this.setState({ name: t }) }} style={styles.input} />
                         <Text style={styles.text3} >Qualification Preference</Text>
                         {radio_array}
                         <TouchableOpacity style={styles.button1}
@@ -185,17 +188,17 @@ export class VolunteerPreference extends Component {
                             }}
                         >
                             <Text style={styles.t1}>
-                            Decide later
+                                Decide later
                             </Text>
                         </TouchableOpacity>
                     </View>
 
 
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
 }
-const selectUserSettings = (state) => ({lang: state.userAppSettings.lang})
+const selectUserSettings = (state) => ({ lang: state.userAppSettings.lang })
 
 export default connect(selectUserSettings)(VolunteerPreference)

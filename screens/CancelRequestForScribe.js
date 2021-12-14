@@ -12,23 +12,27 @@ const styles = StyleSheet.create({
         backgroundColor: "#B4E2DF",
     },
     upperHalf: {
-        flex: 1,
         
-        
+        marginHorizontal: 10,
+        alignItems: 'stretch',
     },
     lowerHalf: {
-        flex: 1,
-        margin: 20,
+        marginHorizontal: 10,  
+        
         justifyContent: 'space-around'
     },
     text1: {
         color: "#19939A",
+        textAlign: 'center',
         fontSize: 30,
+        
         fontWeight: '700',
     },
     text2: {
-        color: "#FFFFFF",
+        color: "#000000",
+        textAlign: 'center',
         fontSize: 20,
+        textAlign: 'center',
         fontWeight: '500',
     },
     priorityButton: {
@@ -37,7 +41,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        marginVertical: 10,
+        
+        
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        
 
     },
     t1: {
@@ -58,15 +64,16 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        margin: 10,
+        marginVertical: 10,
+        
         height: 40,
         backgroundColor: "white"
     },
 
 });
-function CancelRequest({ navigation, route: { params: { requestId} } }) {
-
-    
+function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlot } } }) {
+    const uid = useSelector((state) => state.userAppSettings.uid)
+    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     const firestore = useFirestore()
     let [cancelReason, setCancelReason]  = useState('')
     return (
@@ -76,9 +83,12 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
 
                     Reason for Cancellation
                 </Text>
+                <Text style={styles.text2}>
+
+                    Rejecting the request might incur NEGATIVE NSS hours. Please consider the consequences before you cancel. Cancel only if necessary.
+                </Text>
                 <TextInput onChangeText={setCancelReason} style={styles.input}/>
 
-                
             </View>
             <View style={styles.lowerHalf}>
                 <TouchableOpacity style={styles.priorityButton}
@@ -92,15 +102,24 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        
+                        if (request.status === "accepted") {
 
-                        firestore.update({collection:'requests', doc: requestId}, {status: 'cancelled', cancelReason: cancelReason})
+                            firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
+                            firestore.collection("scribe_cancellations").add({uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                        }
+                        firestore.collection('dateslots')
+                            .doc(dateSlot)
+                            .collection('acceptedVolunteers')
+                            .doc(uid)
+                            .delete()
+                            .catch((err) => {
+                                
+                            })
                         navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                        
                     }}
                 >
                     <Text style={styles.t1}>
-                        Cancel
+                        Reject
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -109,4 +128,4 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
     )
 }
 
-export default CancelRequest
+export default CancelRequestForScribe

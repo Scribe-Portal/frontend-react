@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#000000",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: 'row',
         padding: 10,
-        margin: 7,
+        marginVertical: 7,
         borderRadius: 5,
     },
     radioText: {
@@ -176,14 +176,14 @@ function FillExamDetails({ navigation }) {
         const currentDate = selectedDate || date
         setShow(Platform.OS === 'ios')
         setDate(new Date(currentDate))
-        console.log(selectedDate)
+        // console.log(selectedDate)
     }
     const showDatepicker = () => {
         setShow(true)
     }
     const onChange2 = (event, selectedDate) => {
         const currentDate = selectedDate || date
-        console.log(selectedDate)
+        // console.log(selectedDate)
         setShow2(Platform.OS === 'ios')
         setTime(new Date(currentDate))
     }
@@ -211,7 +211,7 @@ function FillExamDetails({ navigation }) {
                         <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
                     </TouchableOpacity>
 
-                    {show && (
+                    {show ? (
                         <DateTimePicker
                             testID="datepicker2"
                             value={date}
@@ -221,10 +221,10 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange}
                             maximumDate={maximumDate}
                         />
-                    )}
+                    ) : null}
                     <View style={styles.spacing}></View>
 
-                    {show2 && (
+                    {show2 ? (
                         <DateTimePicker
                             testID="datepicker3"
                             value={time}
@@ -233,8 +233,8 @@ function FillExamDetails({ navigation }) {
                             display="default"
                             onChange={onChange2}
                         />
-                    )}
-
+                    ) : null}
+                    <Text>Name of Examination</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}

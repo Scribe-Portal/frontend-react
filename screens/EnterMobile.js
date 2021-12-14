@@ -14,7 +14,27 @@ import firebase from '@react-native-firebase/app'
 const styles_confirmed = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "space-evenly",
+    },
+    inner_container: {
+        flexGrow: 1,
+        
         backgroundColor: "#B4E2DF",
+    },
+    middle_spacing: {
+        flex: 0,
+        flexGrow: 1,
+        
+    },
+    c1: {
+        
+        
+        
+    },
+    c2: {
+        justifyContent: "flex-end",
+        
+        
     },
     underlineStyleBase: {
         backgroundColor: "white",
@@ -23,18 +43,13 @@ const styles_confirmed = StyleSheet.create({
 
 
     },
-    inner_container: {
-
-        justifyContent: 'space-evenly',
-        paddingVertical: 20,
-    },
     codeInputHighlightStyle: {
     },
     text1: {
 
         marginVertical: 10,
         marginHorizontal: 13,
-        color: "#828282",
+        color: "#3A3A3A",
         fontSize: 30,
         fontWeight: '700',
         textAlign: 'center'
@@ -55,7 +70,7 @@ const styles_confirmed = StyleSheet.create({
 
 
         marginVertical: 10,
-        marginHorizontal: 20,
+        marginHorizontal: 5,
         backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 10,
@@ -65,8 +80,8 @@ const styles_confirmed = StyleSheet.create({
     input: {
 
         marginVertical: 10,
-        marginHorizontal: 13,
-
+        marginHorizontal: 5,
+        borderRadius: 5,
         alignContent: "center",
         justifyContent: 'space-around',
         height: 60,
@@ -88,15 +103,10 @@ const styles = StyleSheet.create({
     inner_container: {
         flexGrow: 1,
         backgroundColor: "#B4E2DF",
-
-
     },
     middle_spacing: {
         flex: 0,
         flexGrow: 1,
-
-
-
     },
     c1: {
 
@@ -124,7 +134,7 @@ const styles = StyleSheet.create({
     },
     text3: {
 
-        textAlign: "center",
+        marginHorizontal: 5,
         color: "#19939A",
         fontSize: 25,
         fontWeight: '700',
@@ -143,7 +153,7 @@ const styles = StyleSheet.create({
     },
     langButton1: {
         backgroundColor: '#19939A',
-        marginHorizontal: 5,
+        marginHorizontal: 10,
         marginVertical: 20,
         borderRadius: 10,
         padding: 10,
@@ -163,7 +173,7 @@ const styles = StyleSheet.create({
     input: {
         marginHorizontal: 10,
         marginVertical: 20,
-
+        borderRadius: 5,
         alignContent: "center",
         justifyContent: 'space-around',
         height: 60,
@@ -354,7 +364,7 @@ function EnterMobile({ navigation }) {
             catch (err) {
                 
                 setStatus("Wrong OTP!", err)
-                console.log(err)
+                // console.log(err)
                 return
             }
         }
@@ -367,69 +377,76 @@ function EnterMobile({ navigation }) {
 
     if (confirm) { // when the OTP has been sent, and is yet to be verified
         return (
-            <ScrollView style={styles_confirmed.container}>
+            <View style={styles_confirmed.container}>
+                <ScrollView contentContainerStyle={styles_confirmed.inner_container}>
 
-                <View style={styles_confirmed.inner_container}>
-                    <Text style={styles_confirmed.text1}>
-                        OTP Verification,
-                    </Text>
-                    <Text style={styles_confirmed.text2}>
-                        An OTP has been sent to {mobile}
-                    </Text>
-                    <TextInput
-                        placeholder="Enter OTP"
-                        value={otp_input}
-                        onChangeText={set_otp_input}
-                        style={styles_confirmed.input}
-                        returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
-                        keyboardType="phone-pad"
-                    />
-                    <TouchableOpacity style={styles_confirmed.langButton1}
-                        onPress={verifyOTP}
-                    >
-                        <Text style={styles_confirmed.t1}>
-
-                            Proceed
+                    <View style={styles_confirmed.c1}>
+                        <Text style={styles_confirmed.text1}>
+                            OTP Verification
                         </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles_confirmed.langButton1}
-                        onPress={() => {
-                            crashlytics().log('Login button pressed')
-                            firebase_auth().verifyPhoneNumber(mobile).on(
-                                'state_changed',
-                                (phoneAuthSnapshot) => {
-
-                                    switch (phoneAuthSnapshot.state) {
-                                        case firebase_auth.PhoneAuthState.CODE_SENT:
-                                            // console.log('Verif code sent!', phoneAuthSnapshot)
-                                            setStatus("We've resent the OTP, hope you got it!")
-                                            verificationId = phoneAuthSnapshot.verificationId
-                                            break
-                                        case firebase_auth.PhoneAuthState.ERROR:
-                                            // console.log('Verif error', phoneAuthSnapshot)
-                                            setStatus("Can't send the OTP, maybe try again later")
-
-                                            break
-                                    }
-                                },
-                                (error) => {
-                                    // console.log(error)
-                                    setStatus("Can't send the OTP, maybe try again later")
-                                })
-
-                        }}
-                    >
-                        <Text style={styles_confirmed.t1}>
-
-                            Didn't get OTP? Resend OTP
+                        <Text style={styles_confirmed.text2}>
+                            An OTP has been sent to {mobile}
                         </Text>
-                    </TouchableOpacity>
+                        <TextInput
+                            placeholder="Enter OTP"
+                            value={otp_input}
+                            onChangeText={set_otp_input}
+                            style={styles_confirmed.input}
+                            returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
+                            keyboardType="phone-pad"
+                        />
 
-                    <Text style={styles_confirmed.text1}>{status}</Text>
+                    </View>
+                    <View style={styles_confirmed.middle_spacing}></View>
+                    <View styles={styles_confirmed.c2}>
+                        
+                        <TouchableOpacity style={styles_confirmed.langButton1}
+                            onPress={verifyOTP}
+                        >
+                            <Text style={styles_confirmed.t1}>
 
+                                Proceed
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles_confirmed.langButton1}
+                            onPress={() => {
+                                crashlytics().log('Login button pressed')
+                                firebase_auth().verifyPhoneNumber(mobile).on(
+                                    'state_changed',
+                                    (phoneAuthSnapshot) => {
 
-                </View>
-            </ScrollView>
+                                        switch (phoneAuthSnapshot.state) {
+                                            case firebase_auth.PhoneAuthState.CODE_SENT:
+                                                // console.log('Verif code sent!', phoneAuthSnapshot)
+                                                setStatus("We've resent the OTP, hope you got it!")
+                                                verificationId = phoneAuthSnapshot.verificationId
+                                                break
+                                            case firebase_auth.PhoneAuthState.ERROR:
+                                                // console.log('Verif error', phoneAuthSnapshot)
+                                                setStatus("Can't send the OTP, maybe try again later")
+
+                                                break
+                                        }
+                                    },
+                                    (error) => {
+                                        // console.log(error)
+                                        setStatus("Can't send the OTP, maybe try again later")
+                                    })
+
+                            }}
+                        >
+                            <Text style={styles_confirmed.t1}>
+
+                                Didn't get OTP? Resend OTP
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Text style={styles_confirmed.text1}>{status}</Text>
+
+                    </View>
+
+                </ScrollView>
+            </View>
 
         )
     }
@@ -443,19 +460,19 @@ function EnterMobile({ navigation }) {
 
                     <View style={styles.c1}>
                         <Text style={styles.text1}>
-                            OTP Verification,
+                            OTP Verification
                         </Text>
                         <Text style={styles.text2}>
                             We will send you a one-time password to this mobile number
-                        </Text>
-                        <Text style={styles.text3}>
-                            Enter Your Mobile Number
                         </Text>
                     </View>
                     <View style={styles.middle_spacing}>
 
                     </View>
                     <View style={styles.c2}>
+                        <Text style={styles.text3}>
+                            Enter Your Mobile Number
+                        </Text>
                         <TextInput
                             placeholder="Enter Your Mobile No"
                             onChangeText={setMobile}

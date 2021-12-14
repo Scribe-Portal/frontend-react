@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 18,
         fontWeight: '700',
     },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
     },
     text3: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 15,
         fontWeight: '200',
     },
@@ -128,7 +128,7 @@ export class UploadDoc extends Component {
             selectedRadioButton: -1,
             uploadProgress: 0,
             uploadedText: '',
-            eduCertifUploaded: -1,
+            eduCertifUploaded: false,
             uploadedText2: '',
             selectedEdu: '12th'
         }
@@ -157,7 +157,7 @@ export class UploadDoc extends Component {
                 task.then(() => {
                     this.setState({
                         uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
-                        eduCertifUploaded: 1,
+                        eduCertifUploaded: true,
                     })
 
                 })
@@ -176,8 +176,6 @@ export class UploadDoc extends Component {
         })
     }
     setSelectedRadio(i) {
-        // console.log('uid: ', this.uid);
-        // console.log(this.props.auth)
 
         launchImageLibrary({
             mediaType: 'photo',
@@ -256,7 +254,7 @@ export class UploadDoc extends Component {
                             style={styles.pickerStyle}
                             selectedValue={this.state.selectedEdu}
                             onValueChange={this.onValueChangeCat.bind(this)}
-                        >
+                        >   
                             {edus.map((item, ind) => (
                                 <Picker.Item
                                     color="#0087F0"
@@ -280,12 +278,15 @@ export class UploadDoc extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.UploadDocButton}
                         onPress={() => {
-                            if (isItAScribe) {
-                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            }
-                            else {
-                                navigation.navigate('VolunteerPreference')
-                            }
+                            
+
+                                if (isItAScribe) {
+                                    navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                }
+                                else {
+                                    navigation.navigate('VolunteerPreference')
+                                }
+                            
 
                         }}
                     >
@@ -293,6 +294,16 @@ export class UploadDoc extends Component {
                         <Text style={styles.t1}>
 
                             Save and Next
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.UploadDocButton}
+                        onPress={() => {
+                            
+                        }}
+                    >
+
+                        <Text style={styles.t1}>
+                            Do it later
                         </Text>
                     </TouchableOpacity>
 
