@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid } fro
 import PushNotification from "react-native-push-notification";
 import firebase from 'firebase'
 import { EnterYourEmail } from '../translations'
+import { sendEmail } from './sendemail';
 
 const styles = StyleSheet.create({
     container: {

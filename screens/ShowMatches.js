@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeAll } from '../reducers/priorityReducer';
+import messaging from '@react-native-firebase/messaging';
 
 const styles = StyleSheet.create({
     container: {
@@ -215,6 +216,34 @@ function ShowMatches({ navigation, route: {params: {requestId, dateSlot, selecte
                                     }
                                 )
                                 .then(()=>{
+                                    sendEmail(
+                                        'user@domain.com',
+                                           'Scribe Request',
+                                        'You have been alloted a scribe request please check the app',
+                                     { cc: ' sprakhar2002@gmail.com; {scribe email id}; {anybody if you wanna send}' }
+                                    ).then(() => {
+                                        console.log('Your message was successfully sent!');
+                                    });
+                                    const registrationToken = '{fcm token}';
+
+const message = {
+    notification: {
+        title: 'Scribe request',
+        body: 'You have been alloted a scribe request please check the app'
+  },
+  token: registrationToken
+};
+
+// Send a message to the device corresponding to the provided
+// registration token.
+messaging().sendMessage(message)
+  .then((response) => {
+    // Response is a message ID string.
+    console.log('Successfully sent message:', response);
+  })
+  .catch((error) => {
+    console.log('Error sending message:', error);
+  });
                                     dispatch(removeAll())
                                     navigation.navigate('Home')
                                 })
