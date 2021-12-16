@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     
     text2: {
         color: "#9E6E12",
-        fontSize: 16,
-        fontWeight : '700',
+        fontSize: 20,
+        fontWeight : '300',
         textAlign: 'left',
     },
     volunteerBox: {

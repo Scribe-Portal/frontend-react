@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#000000",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
         textAlign: 'center',
     },
     text2: {
-        color: "#000000",
+        color: "#19939A",
         fontSize: 20,
         textAlign: 'left',
         fontWeight: '500',

@@ -38,9 +38,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#000000",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+    },
+    text2: {
+        color: "#19939A",
+        fontSize: 20,
+        fontWeight: '400',
     },
     tsmall: {
 
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     },
     textInsideDatePicker: {
         color: "#FFFFFF",
-        fontSize: 15,
+        fontSize: 20,
     },
 
     itemStyle: {
@@ -202,13 +207,14 @@ function FillExamDetails({ navigation }) {
                     <Text style={styles.text1}>
                         Fill Your Information
                     </Text>
-                    <Text>Name of Examination</Text>
+                    <Text style={styles.text2}>Name of Examination</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
                     <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
+                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()
+                        })`}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
+                        <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.getHours()}:${time.getMinutes()})`}</Text>
                     </TouchableOpacity>
 
                     {show ? (
@@ -234,7 +240,7 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     ) : null}
-                    <Text>Name of Examination</Text>
+                    <Text style={styles.text2}>Name of Examination</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
@@ -252,9 +258,9 @@ function FillExamDetails({ navigation }) {
                     />
 
 
-                    <Text>Address of Exam Center</Text>
+                    <Text style={styles.text2}>Address of Exam Center</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    <Text>Pincode</Text>
+                    <Text style={styles.text2}>Pincode</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {

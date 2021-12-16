@@ -220,7 +220,6 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                             onPress={() => {
                                 // console.log("done pressed", requestId)
                                 firestore
-<<<<<<< HEAD
                                     .update(
                                         {
                                             collection: 'requests',
@@ -235,50 +234,6 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                         navigation.navigate('Home')
                                     })
 
-=======
-                                .update(
-                                    {
-                                        collection: 'requests',
-                                        doc: requestId,
-                                    },
-                                    {
-                                        volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer]==true)
-                                    }
-                                )
-                                .then(()=>{
-                                    sendEmail(
-                                        'user@domain.com',
-                                           'Scribe Request',
-                                        'You have been alloted a scribe request please check the app',
-                                     { cc: ' sprakhar2002@gmail.com; {scribe email id}; {anybody if you wanna send}' }
-                                    ).then(() => {
-                                        console.log('Your message was successfully sent!');
-                                    });
-                                    const registrationToken = '{fcm token}';
-
-const message = {
-    notification: {
-        title: 'Scribe request',
-        body: 'You have been alloted a scribe request please check the app'
-  },
-  token: registrationToken
-};
-
-// Send a message to the device corresponding to the provided
-// registration token.
-messaging().sendMessage(message)
-  .then((response) => {
-    // Response is a message ID string.
-    console.log('Successfully sent message:', response);
-  })
-  .catch((error) => {
-    console.log('Error sending message:', error);
-  });
-                                    dispatch(removeAll())
-                                    navigation.navigate('Home')
-                                })
-                                
->>>>>>> 3243634a0ea4db5486897c0ca896590c54590435
                             }}
                         >
                             <Text style={styles.t1}>

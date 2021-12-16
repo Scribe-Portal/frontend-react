@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
     },
     t2: {
         color: "#19939A",

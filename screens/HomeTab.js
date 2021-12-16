@@ -61,20 +61,20 @@ const styles = StyleSheet.create({
     textA: {
         color: "#FFFFFF",
         
-        fontSize: 16,
+        fontSize: 20,
         fontWeight : '700',
         textAlign: 'center',
         
     },
     textB: {
         color: "#923737",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight : '700',
         textAlign: 'center',
     },
     textC: {
         color: "#9E6E12",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight : '700',
         textAlign: 'center',
     },

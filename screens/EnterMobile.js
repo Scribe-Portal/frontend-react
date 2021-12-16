@@ -49,7 +49,7 @@ const styles_confirmed = StyleSheet.create({
 
         marginVertical: 10,
         marginHorizontal: 13,
-        color: "#3A3A3A",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
         textAlign: 'center'
@@ -61,7 +61,7 @@ const styles_confirmed = StyleSheet.create({
         width: 321,
         height: 48,
         textAlign: "center",
-        color: "#3A3A3A",
+        color: "#19939A",
         fontSize: 20,
         fontWeight: '700',
         fontFamily: "lucida grande",
@@ -90,7 +90,7 @@ const styles_confirmed = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 25,
     },
 
 });
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     inner_container: {
         flexGrow: 1,
         backgroundColor: "#B4E2DF",
+        paddingTop: 15,
     },
     middle_spacing: {
         flex: 0,
@@ -121,20 +122,23 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#19939A",
         fontSize: 30,
+        marginVertical: 7,
         fontWeight: '700',
     },
     text2: {
-
+        
         textAlign: "center",
-        color: "#3A3A3A",
+        color: "#19939A",
+        
+        
         fontSize: 20,
         fontWeight: '700',
         fontFamily: "lucida grande",
 
     },
     text3: {
-
-        marginHorizontal: 5,
+        textAlign: 'center',
+        marginHorizontal: 10,
         color: "#19939A",
         fontSize: 25,
         fontWeight: '700',
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
     },
     t2: {
         color: "#19939A",
@@ -387,6 +391,10 @@ function EnterMobile({ navigation }) {
                         <Text style={styles_confirmed.text2}>
                             An OTP has been sent to {mobile}
                         </Text>
+
+                    </View>
+                    <View style={styles_confirmed.middle_spacing}></View>
+                    <View styles={styles_confirmed.c2}>
                         <TextInput
                             placeholder="Enter OTP"
                             value={otp_input}
@@ -395,10 +403,6 @@ function EnterMobile({ navigation }) {
                             returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
                             keyboardType="phone-pad"
                         />
-
-                    </View>
-                    <View style={styles_confirmed.middle_spacing}></View>
-                    <View styles={styles_confirmed.c2}>
                         
                         <TouchableOpacity style={styles_confirmed.langButton1}
                             onPress={verifyOTP}

@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
-        
 
-        
+
+
     },
     input: {
         margin: 10,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 7,
         alignItems: 'center',
-        
+
     },
     button2: {
         margin: 4,
@@ -112,7 +112,17 @@ function Settings({ route, navigation }) {
                         Log Out
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button1}
+                    onPress={() => {
+                        navigation.navigate('UploadDoc')
+                    }}
 
+                >
+                    <Text style={styles.t1}>
+
+                        Upload Documents
+                    </Text>
+                </TouchableOpacity>
             </View>
 
 
