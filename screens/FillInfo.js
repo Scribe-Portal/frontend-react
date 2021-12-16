@@ -232,7 +232,7 @@ function FillInfo({ navigation }) {
                     <TouchableOpacity style={styles.FillInfoButton}
                         onPress={() => {
 
-                            if (name !== '' && radio !== '' && email !== '' && address !== '') {
+                            if (name !== '' && radio !== '' && email !== '' && address !== '' && PL !== '' && (!isItAScribe || (eno !== ''))) {
                                 firestore.collection(isItAScribe ? "scribes" : "users")
                                     .doc(uid)
                                     .update({
@@ -246,7 +246,7 @@ function FillInfo({ navigation }) {
                                         eno: eno,
                                     })
                                     .then(() => {
-                                        navigation.navigate('UploadDoc')
+                                        navigation.navigate('UploadDoc', { fromHome: false})
                                     })
                             }
 

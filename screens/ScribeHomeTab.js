@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#B4E2DF",
     },
+    inner_container: {
+        flexGrow: 1,
+        backgroundColor: "#B4E2DF",
+    },
     text1: {
         flex: 1,
         color: "#19939A",
@@ -96,6 +100,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '200',
     },
+    selectedGreenButton: {
+        borderRadius: 5,
+        paddingHorizontal: 5,
+        marginHorizontal: 10,
+        padding: 2,
+        backgroundColor: '#339933',
+        color: "#FFFFFF",
+        marginVertical: 5,
+    },
     greenButton: {
         borderRadius: 5,
         paddingHorizontal: 5,
@@ -153,48 +166,53 @@ const styles = StyleSheet.create({
 
     }
 });
-function calendarRequests(uid, requests, setMarked, isGreen) {
+function calendarRequests(uid, requests, setMarked) {
     let requestIds = {}
 
     requests.forEach((req, ind) => {
 
-        var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
-        
+        var dt = req?.dateSlot
         if (dt) {
             if (req?.status==='accepted' && req?.volunteerAccepted && (uid === req.volunteerAccepted)) {
-                setMarked(dt, 'green')
+                
+                setMarked((previouslyMarked) => ({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))
                 // console.log(dt, "set to green")
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
-
+                
             }
-            else if (req?.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req.volunteerAccepted === "none" && req?.status==="pending") {
-                if (!isGreen(dt)) {
-                    // console.log(dt, "is not green, setting it yellow")
-                    setMarked(dt, 'yellow')
-                }
+            else if (req?.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req?.volunteerAccepted === "none" && req?.status==="pending") {
+                // console.log("marked ", dt)
+                setMarked((previouslyMarked) => ({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,]
-
+                
+            }
+            else {
+                
+                // console.log("request: ", req?.dateSlot, req?.volunteersSelected.indexOf(uid), req?.volunteerAccepted, req?.status)
+                
             }
         }
+        else {
 
+        }
 
     });
     // console.log("given markeddates ",markedDates)
     return requestIds
 }
-function RequestBoxFooter({ uid, req_id, }) {
+function RequestBoxFooter({ uid, req_id }) {
     const navigation = useNavigation()
     const req = useSelector((state) => state.firestore.data.requests[req_id])
     return (
 
-        <TouchableOpacity style={styles.greenButton}
+        <TouchableOpacity style={(req.status==="accepted") ? styles.selectedGreenButton : styles.greenButton}
             onPress={() => {
                 navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id })
             }}
         >
-            <Text style={styles.greenRequestText}>{req.examName} </Text>
+            <Text style={styles.greenRequestText}>{`${req.examName} ${req.status==="accepted" ? "(accepted)" : ""}`}  </Text>
 
         </TouchableOpacity>
 
@@ -236,17 +254,17 @@ export default function ScribeHomeTab() {
     let [currDate, setCurrDate] = useState('')
     let [requestIds, setRequestIds] = useState({});
 
-    const setMarked = (dt, markedColor) => {
-        setMarkedDates({ ...markedDates, [dt]: { selectedColor: markedColor, selected: true, marked: true} })
+    // const setMarked = (dt) => {
+    //     setMarkedDates({ ...markedDates, [dt]: { selectedColor: 'green', selected: true, marked: true} })
 
-    }
-    const isGreen = (dt) => (markedDates[dt]?.selectedColor === 'green')
+    // }
+    
     useEffect(() => {
         if (requests) setRequestIds(calendarRequests(
             uid,
             requests,
-            setMarked,
-            isGreen,
+            setMarkedDates,
+            
         ))
 
         // console.log(requestIds)
@@ -292,7 +310,7 @@ export default function ScribeHomeTab() {
                             // Set custom calendarWidth.
                             
                             onDayPress={(date) => {
-
+                                
                                 setCurrDate(date.dateString)
                                 setCurrRequests(requestIds[date.dateString] || [])
                             }}

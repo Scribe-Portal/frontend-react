@@ -100,6 +100,17 @@ function Settings({ route, navigation }) {
 
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
+                        navigation.navigate('UploadDoc', {fromHome: true})
+                    }}
+
+                >
+                    <Text style={styles.t1}>
+
+                        Upload Documents
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button1}
+                    onPress={() => {
 
                         dispatch(changeUid({ newUid: "none" }))
                         dispatch(changeScribeStatus({ newScribeStatus: false }))
@@ -110,17 +121,6 @@ function Settings({ route, navigation }) {
                     <Text style={styles.t1}>
 
                         Log Out
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button1}
-                    onPress={() => {
-                        navigation.navigate('UploadDoc')
-                    }}
-
-                >
-                    <Text style={styles.t1}>
-
-                        Upload Documents
                     </Text>
                 </TouchableOpacity>
             </View>

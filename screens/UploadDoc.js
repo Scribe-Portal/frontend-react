@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
     radioText: {
         margin: 7,
     },
+    picker: {
+
+    },
 
 });
 function RadioButton({ i, text, selectedRadioButton, handleChange }) {
@@ -279,8 +282,13 @@ export class UploadDoc extends Component {
     }
     nextButton() {
         
-        const { navigation, isItAScribe, firestore, uid } = this.props
-        if (isItAScribe) {
+        const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
+        if (fromHome) {
+            
+            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+        }
+        
+        else if (isItAScribe) {
             navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
         }
         else {
@@ -339,7 +347,7 @@ export class UploadDoc extends Component {
                                     <Text style={styles.text1}>
                                         Highest Educational Qualification
                                     </Text>
-                                    <View style={{ flex: 0.7, fontSize: 14 }}>
+                                    <View style={styles.picker}>
                                         <Picker
                                             itemStyle={styles.itemStyle}
                                             mode="dropdown"
@@ -380,9 +388,7 @@ export class UploadDoc extends Component {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.UploadDocButton}
-                            onPress={() => {
-
-                            }}
+                            onPress={this.nextButton.bind(this)}
                         >
 
                             <Text style={styles.t1}>

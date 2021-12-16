@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     },
     upperHalf: {
         flex: 1,
+        marginHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: "center",
         fontFamily: "lucida grande",
-        paddingHorizontal: 2,
+        
 
     },
     langButton1: {

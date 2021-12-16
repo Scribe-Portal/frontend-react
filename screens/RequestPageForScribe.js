@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 
@@ -12,27 +12,53 @@ const styles = StyleSheet.create({
         backgroundColor: "#B4E2DF",
         justifyContent: "space-evenly"
     },
+    inner_container: {
+        flexGrow: 1,
+        backgroundColor: "#B4E2DF",
+    },
     upperHalf: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         paddingHorizontal: 15,
         paddingVertical: 10,
     },
     lowerHalf: {
         flex: 1,
         margin: 20,
-        justifyContent: 'space-around'
+        justifyContent: 'flex-end'
     },
+
     text1: {
-        color: "#FFFFFF",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: 'center',
     },
     text2: {
-        color: "#000000",
+        color: "#19939A",
+        fontSize: 20,
+        fontWeight: '400',
+    },
+
+    _text1: {
+
+        color: "#9E6E12",
         fontSize: 30,
+        textAlign: 'center',
+        fontWeight: '700',
+    },
+
+    _text2: {
+        color: "#9E6E12",
+        fontSize: 20,
+        fontWeight: '300',
         textAlign: 'left',
-        fontWeight: '500',
+    },
+    volunteerBox: {
+        backgroundColor: "#FDF1DB",
+        borderRadius: 10,
+        padding: 7,
+        marginVertical: 5,
     },
     priorityButton: {
         backgroundColor: '#19939A',
@@ -40,6 +66,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
+        marginVertical: 5,
 
     },
     langButton2: {
@@ -63,6 +90,38 @@ const styles = StyleSheet.create({
     }
 
 })
+function UserBox({ uid }) {
+    useFirestoreConnect(() => [
+        { collection: 'users', doc: uid }
+    ])
+    const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
+
+
+
+    return (
+        <View style={styles.volunteerBox}>
+            <Text style={styles._text1}>
+                User Details
+
+            </Text>
+            <Text style={styles._text2}>
+                {`Name: ${(typeof user?.name === 'string') ? user?.name : "Unnamed"} `}
+
+            </Text>
+            <Text style={styles._text2}>
+                {`Gender: ${(typeof user?.gender === 'string') ? user?.gender : "Unknown"} `}
+
+            </Text>
+            <Text style={styles._text2}>
+                {`Preferred Languages: ${(typeof user?.languages === 'string') ? user?.languages : "Unknown"} `}
+
+            </Text>
+
+        </View>
+
+    )
+}
+
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
 
     const firestore = useFirestore()
@@ -75,7 +134,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                 {
                     text: "Accept",
                     onPress: () => {
-                        firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted'})
+                        firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
                         navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                         firestore.collection('dateslots')
                             .doc(request.dateSlot)
@@ -87,7 +146,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     }
                 },
                 {
-                    text: "Go Back", 
+                    text: "Go Back",
                     onPress: () => {
                     }
                 }
@@ -104,54 +163,84 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
         }
     ])
     const busy = useSelector(state => state.firestore.data.acceptedVolunteers && state.firestore.data.acceptedVolunteers[uid])
-    
+
     if (request?.status === "pending" && !busy) {
         return (
             <View style={styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style={styles.text2}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                        {request.examName}
-                    </Text>
-                    <Text style={styles.text2}>
+                    <View style={styles.upperHalf}>
 
-                        {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>{request.Hindi &&
-                        <Text style={styles.text2}>
-                            Hindi
-                        </Text>
-                    }
-                    {request.English &&
-                        <Text style={styles.text2}>
-                            English
-                        </Text>
-                    }
-                    {request.CBT &&
-                        <Text style={styles.text2}>
-                            CBT
-                        </Text>
-                    }
-                    <Text style={styles.text2}>
+                        <Text style={styles.text1}>
 
-                        {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
-                    </Text>
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={showAcceptDialog}
-                    >
-                        <Text style={styles.t1}>Accept</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            navigation.goBack()
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Go Back
+                            Exam Details
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.text2}>
+
+                            Exam Name: {request?.examName}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                        </Text>
+                        <Text style={styles.text2}>
+                            Mode of Exam:
+                        </Text>
+                        {request?.examLang ?
+                            <Text style={styles.text2}>
+                                {request?.examLang}
+                            </Text> : null
+                        }
+                        {request?.Hindi ?
+                            <Text style={styles.text2}>
+                                Hindi
+                            </Text> : null
+                        }
+                        {request?.English ?
+                            <Text style={styles.text2}>
+                                English
+                            </Text> : null
+                        }
+                        {request?.CBT ?
+                            <Text style={styles.text2}>
+                                CBT
+                            </Text> : null
+                        }
+                        <Text style={styles.text2}>
+
+                            Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Address: {request?.examAddress}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Pin Code: {request?.examPinCode}
+                        </Text>
+                        {request?.uid ?
+                            <UserBox uid={uid} />
+                            : null
+                        }
+
+                    </View>
+                    <View style={styles.lowerHalf}>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={showAcceptDialog}
+                        >
+                            <Text style={styles.t1}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.goBack()
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                                Go Back
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
 
             </View>
         )
@@ -159,69 +248,79 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     else if (request?.status === "accepted" && uid === request?.volunteerAccepted) {
         return (
             <View style={styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style={styles.text2}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                        Exam Name: {request?.examName}
-                    </Text>
-                    <Text style={styles.text2}>
+                    <View style={styles.upperHalf}>
 
-                        Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
-                    </Text>
-                    <Text style={styles.text2}>
-                        Mode of Exam:
-                    </Text>
-                    {request?.examLang ?
+                        <Text style={styles.text1}> Exam Details </Text>
                         <Text style={styles.text2}>
-                            {request?.examLang}
-                        </Text> : null
-                    }
-                    {request?.Hindi ?
-                        <Text style={styles.text2}>
-                            Hindi
-                        </Text> : null
-                    }
-                    {request?.English ?
-                        <Text style={styles.text2}>
-                            English
-                        </Text> : null
-                    }
-                    {request?.CBT ?
-                        <Text style={styles.text2}>
-                            CBT
-                        </Text> : null
-                    }
-                    <Text style={styles.text2}>
 
-                        Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
-                    </Text>
-                    <Text style={styles.text2}>
-
-                        Exam Address: {request?.examAddress}
-                    </Text>
-                    <Text style={styles.text2}>
-
-                        Exam Pin Code: {request?.examPinCode}
-                    </Text>
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            navigation.navigate("CancelRequestForScribe", {req_id: req_id, dateSlot: request.dateSlot})
-                        }}
-                    >
-                        <Text style={styles.t1}>Reject</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            navigation.goBack()
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Go Back
+                            Exam Name: {request?.examName}
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.text2}>
+
+                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                        </Text>
+                        <Text style={styles.text2}>
+                            Mode of Exam:
+                        </Text>
+                        {request?.examLang ?
+                            <Text style={styles.text2}>
+                                {request?.examLang}
+                            </Text> : null
+                        }
+                        {request?.Hindi ?
+                            <Text style={styles.text2}>
+                                Hindi
+                            </Text> : null
+                        }
+                        {request?.English ?
+                            <Text style={styles.text2}>
+                                English
+                            </Text> : null
+                        }
+                        {request?.CBT ?
+                            <Text style={styles.text2}>
+                                CBT
+                            </Text> : null
+                        }
+                        <Text style={styles.text2}>
+
+                            Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Address: {request?.examAddress}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Pin Code: {request?.examPinCode}
+                        </Text>
+                        {request?.uid ?
+                            <UserBox uid={uid} />
+                            : null
+                        }
+                    </View>
+
+                    <View style={styles.lowerHalf}>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.navigate("CancelRequestForScribe", { req_id: req_id, dateSlot: request.dateSlot })
+                            }}
+                        >
+                            <Text style={styles.t1}>Reject</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.goBack()
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                                Go Back
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
 
             </View>
         )
@@ -229,16 +328,23 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     }
     else {
         return (<View style={styles.container}>
-            <Text style={styles.text2}>You can't select more than one scribe for a day </Text>
-            <TouchableOpacity style={styles.priorityButton}
-                onPress={() => {
-                    navigation.goBack()
-                }}
-            >
-                <Text style={styles.t1}>
-                    Go Back
-                </Text>
-            </TouchableOpacity>
+            <View style={styles.upperHalf}>
+
+                <Text style={styles.text2}>You can't select more than one scribe for a day </Text>
+            </View>
+            <View style={styles.lowerHalf}>
+
+
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress={() => {
+                        navigation.goBack()
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Go Back
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>)
     }
 }
