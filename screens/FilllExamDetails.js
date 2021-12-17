@@ -243,7 +243,7 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     ) : null}
-                    <Text style={styles.text2}>Name of Examination</Text>
+                    <Text style={styles.text2}>Mode of Examination</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
