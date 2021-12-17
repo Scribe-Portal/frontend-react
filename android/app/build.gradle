@@ -78,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -230,6 +230,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 project.ext.vectoricons = [
     iconFontNames: [ 'FontAwesome.ttf' ] // Name of the font files you want to copy
 ]
+-keep class com.facebook.react.turbomodule.** { *; }
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 // apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"

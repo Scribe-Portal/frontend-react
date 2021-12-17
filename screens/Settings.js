@@ -74,6 +74,7 @@ function Settings({ route, navigation }) {
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
+        
             <View style={styles.centered}>
 
                 <TouchableOpacity style={styles.button1}

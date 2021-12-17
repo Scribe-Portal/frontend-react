@@ -205,7 +205,7 @@ function FillExamDetails({ navigation }) {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Fill Your Information
+                        Fill Your Exam Details
                     </Text>
                     <Text style={styles.text2}>Name of Examination</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
