@@ -214,7 +214,10 @@ function FillExamDetails({ navigation }) {
                         })`}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.getHours()}:${time.getMinutes()})`}</Text>
+                        <Text style={styles.textInsideDatePicker}>
+                        
+                        {`Time of Examination (${String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')})`}
+                        </Text>
                     </TouchableOpacity>
 
                     {show ? (

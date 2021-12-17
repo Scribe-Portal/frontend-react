@@ -85,13 +85,15 @@ const styles = StyleSheet.create({
     itemStyle: {
         fontSize: 10,
         fontFamily: "Roboto-Regular",
-        color: "#007aff"
+        color: "#000000",
     },
     pickerStyle: {
         width: "100%",
         height: 40,
-        color: "#007aff",
+        backgroundColor: "#FFFFFF",
+        
         fontSize: 14,
+        borderRadius: 5,
         fontFamily: "Roboto-Regular"
     },
     textStyle: {
@@ -101,7 +103,9 @@ const styles = StyleSheet.create({
     radioText: {
         margin: 7,
     },
-    picker: {
+    picker: {},
+    pickerView: {
+        marginVertical: 20,
 
     },
 
@@ -147,16 +151,20 @@ export class UploadDoc extends Component {
             uploadedText: '',
             eduCertifUploaded: false,
             disabCertifUploaded: false,
+            idCertifUploaded: false,
+            buttonDisabled: false,
             uploadedText2: '',
             selectedEdu: '12th'
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
+        this.eduCertif = this.eduCertif.bind(this)
         this.uid = props.uid
         this.radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
 
         // this.firestore = props.firestore
     }
     disabCertif() {
+        this.setState({buttonDisabled: true})
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
@@ -168,8 +176,8 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                    .ref(`DisabCertif/${this.uid}`)
-                    .putFile(capture["assets"][0]["uri"])
+                .ref(`DisabCertif/${this.uid}`)
+                .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
@@ -180,24 +188,26 @@ export class UploadDoc extends Component {
                         uploadedText2: "Disability Certificate Uploaded " ,
                         disabCertifUploaded: true,
                     })
-
+                    
                 })
                 firebase_storage().ref(`DisabCertif/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
-                        .collection('users')
-                        .doc(this.uid)
+                    .collection('users')
+                    .doc(this.uid)
                         .update(
                             {
                                 disabCertURL: url,
                                 
                             })
-                    this.setState({disabCertifUploaded: true})
-                })
+                            
+                            this.setState({disabCertifUploaded: true, buttonDisabled: false})
+                        })
                 
-            }
-        })
+                    }
+                })
     }
     eduCertif() {
+        this.setState({buttonDisabled: true})
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
@@ -233,11 +243,11 @@ export class UploadDoc extends Component {
                                 eduCertType: this.state.selectedEdu
                             })
                         })
-                        this.setState({eduCertifUploaded: true})
+                        this.setState({eduCertifUploaded: true, buttonDisabled: false})
                         
                     }
-        })
-    }
+                })
+            }
     setSelectedRadio(i) {
         this.setState({
             selectedRadioButton: i
@@ -253,8 +263,8 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                    .ref(`IdentityDoc/${this.uid}`)
-                    .putFile(capture["assets"][0]["uri"])
+                .ref(`IdentityDoc/${this.uid}`)
+                .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
@@ -275,6 +285,7 @@ export class UploadDoc extends Component {
                                 identityDocURL: url,
                                 identityDocType: this.radioOptions[this.state.selectedRadioButton]
                             })
+                        this.setState({idCertifUploaded: true})
                 })
 
             }
@@ -285,11 +296,33 @@ export class UploadDoc extends Component {
         const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
         if (fromHome) {
             
-            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
         }
         
         else if (isItAScribe) {
-            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
         }
         else {
             firestore.collection(isItAScribe ? "scribes" : "users")
@@ -297,6 +330,7 @@ export class UploadDoc extends Component {
             .update({
                 eduCertifUploaded: this.state.eduCertifUploaded,
                 disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
             })
             .then(() => {
                 
@@ -342,7 +376,7 @@ export class UploadDoc extends Component {
                         {
                             isItAScribe ? (
 
-                                <View>
+                                <View style={styles.pickerView}>
 
                                     <Text style={styles.text1}>
                                         Highest Educational Qualification
@@ -357,7 +391,7 @@ export class UploadDoc extends Component {
                                         >
                                             {edus.map((item, ind) => (
                                                 <Picker.Item
-                                                    color="#0087F0"
+                                                    
                                                     label={item}
                                                     value={item}
                                                     key={ind}
@@ -380,6 +414,7 @@ export class UploadDoc extends Component {
 
                         <TouchableOpacity style={styles.UploadDocButton}
                             onPress={this.nextButton.bind(this)}
+                            disabled={this.state.buttonDisabled}
                         >
 
                             <Text style={styles.t1}>
@@ -389,6 +424,7 @@ export class UploadDoc extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.UploadDocButton}
                             onPress={this.nextButton.bind(this)}
+                            disabled={this.state.buttonDisabled}
                         >
 
                             <Text style={styles.t1}>

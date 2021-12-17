@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -158,15 +158,37 @@ export class HomeTab extends Component {
     constructor(props) {
         super(props)
         this.navigation = this.props.navigation
-        
-        this.handleClick = () => { 
+        const { user } = this.props
+        this.handleClick = () => {
             
-            this.navigation.navigate('FillExamDetails')
+            if (user?.disabCertifUploaded && user?.idCertifUploaded) {
+                
+                this.navigation.navigate('FillExamDetails')
+                
+            }
+            else {
+                this.showDialog1()
+            }
         }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang
     }
+    
+    showDialog1 = () => {
+        return Alert.alert(
+            "Documents",
+            "You need to first upload documents by going to \"Upload Documents\" under Settings",
+            [
+                
+                {
+                    text: "OK",
+                    onPress: () => {
+                    }
+                }
+            ]
 
+        )
+    }
     render() {
         return (
             <ScrollView style={styles.container}>
@@ -217,6 +239,12 @@ export default compose(
         collection: 'requests',
         where: [['uid', '==', (props.uid || "none")]],
 
+    },
+    {
+        collection: 'users',
+        doc: props.uid,
     }])),
+    connect((state, props) => ({user: state.firestore.data.users && state.firestore.data.users[props.uid]}))
+    
 
 )(HomeTab)
