@@ -230,6 +230,45 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                         }
                                     )
                                     .then(() => {
+                                        Object.keys(selectedData).filter(volunteer => selectedData[volunteer] == true).map(
+                                            (volunteer, ind) => {
+                                                if (scribes && scribes[volunteer]) {
+                                                    
+                                                    sendEmail(
+                                                        (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
+                                                        'Scribe Request',
+                                                        'You have been alloted a scribe request please check the app',
+                                                        { cc: ' sprakhar2002@gmail.com;' }
+                                                    ).then(() => {
+                                                        console.log('Your message was successfully sent!');
+                                                    });
+                                                    if ( scribes[volunteer].fcmToken) {
+
+                                                        const registrationToken = scribes[volunteer].fcmToken;
+
+                                                        const message = {
+                                                            notification: {
+                                                                title: 'Scribe request',
+                                                                body: 'You have been alloted a scribe request please check the app'
+                                                            },
+                                                            token: registrationToken
+                                                        };
+
+                                                        // Send a message to the device corresponding to the provided
+                                                        // registration token.
+                                                        messaging().sendMessage(message)
+                                                            .then((response) => {
+                                                                // Response is a message ID string.
+                                                                console.log('Successfully sent message:', response);
+                                                            })
+                                                            .catch((error) => {
+                                                                console.log('Error sending message:', error);
+                                                            });
+                                                    }
+                                                }
+                                            }
+                                        )
+                                        
                                         dispatch(removeAll())
                                         navigation.navigate('Home')
                                     })
