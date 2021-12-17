@@ -116,7 +116,7 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 justifyContent: 'center',
             }}>
                 {
-                    selectedRadioButton === i ?
+                    selectedRadioButton ?
                         <View style={{
                             height: 12,
                             width: 12,
@@ -141,6 +141,10 @@ function FillInfo({ navigation }) {
     let [pinCode, setPinCode] = useState('')
     let [eno, setEno] = useState('')
     let [radio, setRadio] = useState('')
+    let [English, setEnglish] = useState(false);
+    let [CBT, setCBT] = useState(false);
+    let [Hindi, setHindi] = useState(false);
+    let [Math, setMath] = useState(false);
     let [PL, setPL] = useState('')
 
     let [date, setDate] = useState(new Date())
@@ -208,13 +212,27 @@ function FillInfo({ navigation }) {
 
                     <Text style={styles.text2}>Address</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    {isItAScribe ? (
-                        <View>
-                            <Text style={styles.text2}>Preferred Languages</Text>
-                            <TextInput onChangeText={setPL} style={styles.input} />
-                        </View>
+                    <RadioButton
+                        text="English"
+                        selectedRadioButton={English}
+                        handleChange={() => { setEnglish(!English) }}
+                    />
+                    <RadioButton
+                        text="Hindi"
+                        selectedRadioButton={Hindi}
+                        handleChange={() => { setHindi(!Hindi) }}
+                    />
+                    <RadioButton
+                        text="CBT"
+                        selectedRadioButton={CBT}
+                        handleChange={() => { setCBT(!CBT) }}
+                    />
+                    <RadioButton
+                        text="Maths"
+                        selectedRadioButton={Math}
+                        handleChange={() => { setMath(!Math) }}
+                    />
 
-                    ) : null}
                     {isItAScribe ? (
                         <View>
                             <Text style={styles.text2}>Entry Number</Text>
@@ -244,6 +262,10 @@ function FillInfo({ navigation }) {
                                         pinCode: pinCode,
                                         languages: PL,
                                         eno: eno,
+                                        English: English,
+                                        Hindi: Hindi,
+                                        CBT: CBT,
+                                        Math: Math,
                                     })
                                     .then(() => {
                                         navigation.navigate('UploadDoc', { fromHome: false})

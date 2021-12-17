@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     input: {
         marginVertical: 10,
         
-        height: 40,
+        height: 100,
         backgroundColor: "white"
     },
 

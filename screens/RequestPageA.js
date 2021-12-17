@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
         margin: 20,
         justifyContent: 'space-around'
     },
+    text3: {
+        color: "#19939A",
+        fontSize: 22,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
     text1: {
         color: "#19939A",
         fontSize: 30,
@@ -31,7 +37,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text2: {
-        color: "#000000",
+        
+        color: "#19939A",
         textAlign: "left",
         fontSize: 20,
         fontWeight: '500',
@@ -120,6 +127,10 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                                     : "Volunteer not found")
                         }
 
+                    </Text>
+                    <Text style={styles.text3}>
+
+                        Exam Details
                     </Text>
                     <Text style={styles.text2}>
 

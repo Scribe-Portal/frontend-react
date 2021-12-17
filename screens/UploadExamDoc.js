@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { connect } from 'react-redux'
 import firebase_storage from '@react-native-firebase/storage'
 import firebase_firestore from '@react-native-firebase/firestore'
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#B4E2DF",
         justifyContent: 'center',
-
+        
 
     },
     input: {
@@ -20,13 +20,18 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: "white"
     },
-    centered: {
+    inner_container: {
         flex: 1,
-        margin: 20,
+        flexGrow: 1,
+        marginHorizontal: 20,
 
     },
+    middle_spacing: {
+        flexGrow: 1,
+        // backgroundColor: "red",
+    },
     text1: {
-        color: "#000000",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -152,7 +157,7 @@ export class UploadExamDoc extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.centered}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
                     <Text style={styles.text1}>
                         Upload Documents
@@ -167,6 +172,7 @@ export class UploadExamDoc extends Component {
                         />
 
                     ))}
+                    <View style={styles.middle_spacing}></View>
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
                             navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
@@ -179,7 +185,7 @@ export class UploadExamDoc extends Component {
                     </TouchableOpacity>
                     <Bar style={{ marginVertical: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
                     <Text style={styles.text1}>{this.state.uploadedText}</Text>
-                </View>
+                </ScrollView>
 
 
             </View>
