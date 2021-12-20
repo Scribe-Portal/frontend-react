@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeAll } from '../reducers/priorityReducer';
 import messaging from '@react-native-firebase/messaging';
+import { sendEmail } from './sendemail';
 
 const styles = StyleSheet.create({
     container: {
