@@ -3,6 +3,7 @@ const initialState = {
     lang: 'none',
     isItAScribe: "none",
     uid: 'none',
+    tempuid: 'none',
 }
 const userAppSettingsSlice = createSlice({
     name: 'userAppSettings',
@@ -16,11 +17,14 @@ const userAppSettingsSlice = createSlice({
         },
         changeUid(state, action) {
             state.uid = action.payload.newUid
+        },
+        changeTempUid(state, action) {
+            state.tempuid = action.payload.newUid
         }
     }
 
 })
 
-export const { changeLang, changeScribeStatus, changeUid } = userAppSettingsSlice.actions
+export const { changeLang, changeScribeStatus, changeUid, changeTempUid } = userAppSettingsSlice.actions
 
 export default userAppSettingsSlice.reducer

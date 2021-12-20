@@ -7,6 +7,8 @@ import { useFirestore } from 'react-redux-firebase';
 import { FillInfoText } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changeTempUid } from '../reducers/userAppSettingsReducer';
 useSelector
 const styles = StyleSheet.create({
 
@@ -150,8 +152,8 @@ function FillInfo({ navigation }) {
     let [date, setDate] = useState(new Date())
 
     let [show, setShow] = useState(false)
-
-    const uid = useSelector(state => state.userAppSettings.uid)
+    const dispatch = useDispatch()
+    const uid = useSelector(state => state.userAppSettings.tempuid)
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const onChange = (event, selectedDate) => {
@@ -268,8 +270,10 @@ function FillInfo({ navigation }) {
                                         Math: Math,
                                     })
                                     .then(() => {
+                                        dispatch(changeUid({newUid: uid}))
                                         navigation.navigate('UploadDoc', { fromHome: false})
                                     })
+
                             }
 
                         }}
