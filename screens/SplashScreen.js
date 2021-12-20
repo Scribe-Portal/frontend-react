@@ -32,6 +32,7 @@ class Splash extends Component {
         this.downloadProgressChange.bind(this)
     }
     goAhead() {
+        console.log(this.props.uid)
         if (this.props.uid !== "none") {
             this.props.navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
         }

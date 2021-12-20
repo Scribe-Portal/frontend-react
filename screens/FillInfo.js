@@ -253,6 +253,7 @@ function FillInfo({ navigation }) {
 
                     <Text style={styles.text2}>Address</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
+                    <Text style={styles.text2}>Mode of Exam</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}

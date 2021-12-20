@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, View, Linking, TouchableOpacity, ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
@@ -98,9 +98,8 @@ function ScribeName({ scribe_id, ind }) {
 function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
-    if (request?.volunteersSelected) useFirestoreConnect(() => [
-        { collection: 'scribes', where: ['__name__', 'in', (request?.volunteersSelected || ['none'])] }
+    useFirestoreConnect(() => [
+        { collection: 'scribes', where: ['__name__', 'in', (request?.volunteersSelected || ["", ""])]  }
     ])
     const dispatch = useDispatch()
 
@@ -112,9 +111,9 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     <Text style={styles.text1}>
 
                         {
-                            (request.status == 'found')
+                            (request?.status == 'found')
                                 ? "Volunteer found for,"
-                                : ((request.status == 'pending')
+                                : ((request?.status == 'pending')
                                     ? "Volunteer search pending"
                                     : "Volunteer not found")
                         }
@@ -126,34 +125,34 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     </Text>
                     <Text style={styles.text2}>
 
-                        Exam Name: {request.examName}
+                        Exam Name: {request?.examName}
                     </Text>
                     <Text style={styles.text2}>
 
-                        Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
+                        Exam Date: {new Date(request?.examDate?.seconds * 1000).toDateString()}
                     </Text>
                     <Text style={styles.text2}>
                         Exam Language
                     </Text>
-                    {request.Hindi ?
+                    {request?.Hindi ?
                         <Text style={styles.text2}>
                             Hindi
                         </Text>
                         : null
                     }
-                    {request.examLang ?
+                    {request?.examLang ?
                         <Text style={styles.text2}>
                             {request.examLang}
                         </Text>
                         : null
                     }
-                    {request.English ?
+                    {request?.English ?
                         <Text style={styles.text2}>
                             English
                         </Text>
                         : null
                     }
-                    {request.CBT ?
+                    {request?.CBT ?
                         <Text style={styles.text2}>
                             CBT
                         </Text>
@@ -161,7 +160,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     }
                     <Text style={styles.text2}>
 
-                        Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                        Exam Time: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
                     </Text>
                     <Text style={styles.text2}>
 
@@ -182,7 +181,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
-                            navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request.dateSlot, selectedVolus: request.volunteersSelected })
+                            navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request?.dateSlot, selectedVolus: request?.volunteersSelected })
                         }}
                     >
                         <Text style={styles.t1}>

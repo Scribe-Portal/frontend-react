@@ -56,7 +56,7 @@ import CancelRequestForScribe from './screens/CancelRequestForScribe';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['lang', 'isItAScribe', 'uid',]
+  whitelist: ['lang', 'isItAScribe', 'uid', 'tempuid']
 }
 // react-redux-firebase 
 const rrfConfig = {

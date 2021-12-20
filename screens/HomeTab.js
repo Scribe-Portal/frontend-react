@@ -158,17 +158,17 @@ export class HomeTab extends Component {
     constructor(props) {
         super(props)
         this.navigation = this.props.navigation
-        const { user } = this.props
+        // const { user } = this.props
         this.handleClick = () => {
             
-            if (user?.disabCertifUploaded && user?.idCertifUploaded) {
+            
                 
                 this.navigation.navigate('FillExamDetails')
                 
-            }
-            else {
-                this.showDialog1()
-            }
+            
+            // else {
+            //     this.showDialog1()
+            // }
         }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang

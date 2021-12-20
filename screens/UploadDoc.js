@@ -291,7 +291,55 @@ export class UploadDoc extends Component {
             }
         })
     }
-    nextButton() {
+    nextButton1() {
+        
+        const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
+        if (fromHome) {
+            
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
+        }
+        
+        else if (isItAScribe && this.state.eduCertifUploaded && this.state.idCertifUploaded) {
+
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
+        }
+        else if (!isItAScribe && this.state.disabCertifUploaded && this.state.idCertifUploaded){
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                
+                navigation.navigate('VolunteerPreference')
+            })
+        }
+    }
+    nextButton2() {
         
         const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
         if (fromHome) {
@@ -413,7 +461,7 @@ export class UploadDoc extends Component {
                         }
 
                         <TouchableOpacity style={styles.UploadDocButton}
-                            onPress={this.nextButton.bind(this)}
+                            onPress={this.nextButton1.bind(this)}
                             disabled={this.state.buttonDisabled}
                         >
 
@@ -423,7 +471,7 @@ export class UploadDoc extends Component {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.UploadDocButton}
-                            onPress={this.nextButton.bind(this)}
+                            onPress={this.nextButton2.bind(this)}
                             disabled={this.state.buttonDisabled}
                         >
 

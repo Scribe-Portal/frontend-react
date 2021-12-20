@@ -101,13 +101,7 @@ const styles = StyleSheet.create({
 
 })
 function UserBox({ uid, showMobile }) {
-    useFirestoreConnect(() => [
-        { collection: 'users', doc: uid }
-    ])
     const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
-
-
-
     return (
         <View style={styles.volunteerBox}>
             <Text style={styles._text1}>
@@ -147,13 +141,20 @@ function UserBox({ uid, showMobile }) {
 
         </View>
 
-    )
+)
 }
 
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
-
+    
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    {
+        request &&
+        useFirestoreConnect(() => [
+            { collection: 'users', doc: request?.uid }
+        ])
+    }
+    const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
     const showAcceptDialog = () => {
         return Alert.alert(
             "Confirmation",
@@ -173,7 +174,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             .then(async () => {
 
                                 await sendEmail(
-                                    (typeof { needy.email } === "string") ? { needy.email } : "default_error_email_address",
+                                    (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
                                     'Scribe Request',
                                     'You have been alloted a scribe request please check the app',
                                     { cc: ' sprakhar2002@gmail.com;' }
