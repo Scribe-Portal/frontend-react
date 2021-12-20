@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '700',
     },
-
+    
     _text2: {
         color: "#9E6E12",
         fontSize: 20,
@@ -69,14 +69,23 @@ const styles = StyleSheet.create({
         marginVertical: 5,
 
     },
+    priorityButton2: {
+        backgroundColor: "#9E6E12",
+        borderColor: "#19939A",
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        marginVertical: 5,
+
+    },
     langButton2: {
         backgroundColor: "#B4E2DF",
         borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-
-
+        
+        
     },
 
     t1: {
@@ -90,7 +99,7 @@ const styles = StyleSheet.create({
     }
 
 })
-function UserBox({ uid }) {
+function UserBox({ uid, showMobile }) {
     useFirestoreConnect(() => [
         { collection: 'users', doc: uid }
     ])
@@ -116,6 +125,24 @@ function UserBox({ uid }) {
                 {`Preferred Languages: ${(typeof user?.languages === 'string') ? user?.languages : "Unknown"} `}
 
             </Text>
+            {showMobile ? (
+                <TouchableOpacity style={styles.priorityButton2}
+                    onPress={() => {
+                        let phoneNumber = ''
+                        if (Platform.OS === 'android') {
+                            phoneNumber = `tel:${user?.mobile}`;
+                        }
+                        else {
+                            phoneNumber = `telprompt:${user?.mobile}`;
+                        }
+                        Linking.openURL(phoneNumber);
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Call
+                    </Text>
+                </TouchableOpacity>
+            ) : null}
 
         </View>
 
