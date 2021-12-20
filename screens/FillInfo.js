@@ -133,6 +133,38 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
 
     );
 }
+function RadioButton2({ i, text, selectedRadioButton, handleChange }) {
+    return (
+        <TouchableOpacity
+            style={styles.radioRoot}
+            onPress={handleChange}
+        >
+            <View style={{
+                height: 24,
+                width: 24,
+                borderRadius: 12,
+                borderWidth: 2,
+                borderColor: '#000',
+                alignItems: 'center',
+                margin: 5,
+                justifyContent: 'center',
+            }}>
+                {
+                    (selectedRadioButton === i) ?
+                        <View style={{
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
+                            backgroundColor: '#000',
+                        }} />
+                        : null
+                }
+            </View>
+            <Text style={styles.radioText}>{text}</Text>
+        </TouchableOpacity>
+
+    );
+}
 function FillInfo({ navigation }) {
     let firestore = useFirestore()
     let [name, setName] = useState('')
@@ -185,19 +217,19 @@ function FillInfo({ navigation }) {
 
                     ) : null}
                     <Text style={styles.text2}>Gender</Text>
-                    <RadioButton
+                    <RadioButton2
                         text="Male"
                         i={0}
                         selectedRadioButton={radio}
                         handleChange={() => { setRadio(0) }}
                     />
-                    <RadioButton
+                    <RadioButton2
                         text="Female"
                         i={1}
                         selectedRadioButton={radio}
                         handleChange={() => { setRadio(1) }}
                     />
-                    <RadioButton
+                    <RadioButton2
                         text="Prefer not to say"
                         i={2}
                         selectedRadioButton={radio}

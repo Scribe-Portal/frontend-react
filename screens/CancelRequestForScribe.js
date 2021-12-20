@@ -12,20 +12,20 @@ const styles = StyleSheet.create({
         backgroundColor: "#B4E2DF",
     },
     upperHalf: {
-        
+
         marginHorizontal: 10,
         alignItems: 'stretch',
     },
     lowerHalf: {
-        marginHorizontal: 10,  
-        
+        marginHorizontal: 10,
+
         justifyContent: 'space-around'
     },
     text1: {
         color: "#19939A",
         textAlign: 'center',
         fontSize: 30,
-        
+
         fontWeight: '700',
     },
     text2: {
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
         padding: 5,
         alignItems: 'center',
         marginVertical: 10,
-        
-        
+
+
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        
+
 
     },
     t1: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     input: {
         marginVertical: 10,
-        
+
         height: 100,
         backgroundColor: "white"
     },
@@ -75,7 +75,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
     const uid = useSelector((state) => state.userAppSettings.uid)
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     const firestore = useFirestore()
-    let [cancelReason, setCancelReason]  = useState('')
+    let [cancelReason, setCancelReason] = useState('')
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -87,7 +87,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
 
                     Rejecting the request might incur NEGATIVE NSS hours. Please consider the consequences before you cancel. Cancel only if necessary.
                 </Text>
-                <TextInput onChangeText={setCancelReason} style={styles.input}/>
+                <TextInput onChangeText={setCancelReason} style={styles.input} />
 
             </View>
             <View style={styles.lowerHalf}>
@@ -105,17 +105,29 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                         if (request.status === "accepted") {
 
                             firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                            firestore.collection("scribe_cancellations").add({uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                            firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
                         }
                         firestore.collection('dateslots')
                             .doc(dateSlot)
                             .collection('acceptedVolunteers')
                             .doc(uid)
                             .delete()
-                            .catch((err) => {
-                                
+                            .then(() => {
+                                sendEmail(
+                                    "scribeportalapp@gmail.com",
+                                    'Scribe Request Rejected',
+                                    'Request Date ' +  request?.examDate + '\n Volunteer name ' +  uid + '\n Reason ' +  cancelReason + 'Request: ' + req_id ,
+                                    { cc: ' sprakhar2002@gmail.com;' }
+                                ).then(() => {
+                                    console.log('Your message was successfully sent!');
+                                });
                             })
-                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            .catch((err) => {
+
+                            }).then(() => {
+
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            })
                     }}
                 >
                     <Text style={styles.t1}>

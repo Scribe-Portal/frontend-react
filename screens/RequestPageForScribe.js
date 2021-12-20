@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
-
+import messaging from '@react-native-firebase/messaging';
+import { sendEmail } from './sendemail';
 
 // hi
 const styles = StyleSheet.create({
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '700',
     },
-    
+
     _text2: {
         color: "#9E6E12",
         fontSize: 20,
@@ -84,8 +85,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        
-        
+
+
     },
 
     t1: {
@@ -162,7 +163,6 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     text: "Accept",
                     onPress: () => {
                         firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
-                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                         firestore.collection('dateslots')
                             .doc(request.dateSlot)
                             .collection('acceptedVolunteers')
@@ -170,7 +170,44 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             .set({
                                 req_id: req_id
                             })
+                            .then(async () => {
+                                
+                                await sendEmail(
+                                    (typeof { needy.email } === "string") ? { needy.email } : "default_error_email_address",
+                                    'Scribe Request',
+                                    'You have been alloted a scribe request please check the app',
+                                    { cc: ' sprakhar2002@gmail.com;' }
+                                    )
+                                })
+                                .then(async () => {
+                                    console.log('Your message was successfully sent!');
+                                    const registrationToken = scribes[volunteer].fcmToken;
+                                    
+                                    const message = {
+                                        notification: {
+                                            title: 'Scribe request',
+                                            body: 'Your request has been accepted'
+                                        },
+                                        token: registrationToken
+                                    };
+                                    
+                                    // Send a message to the device corresponding to the provided
+                                    // registration token.
+                                    return await messaging().sendMessage(message)
+                                })
+                                .then((response) => {
+                                    // Response is a message ID string.
+                                    console.log('Successfully sent message:', response);
+                            })
+                            .catch((error) => {
+                                console.log('Error sending message:', error);
+                            })
+                            .then((res) => {
+                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+
+                            })
                     }
+
                 },
                 {
                     text: "Go Back",
@@ -323,9 +360,10 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
 
                             Exam Pin Code: {request?.examPinCode}
                         </Text>
-                        {request?.uid ?
-                            <UserBox uid={uid} />
-                            : null
+                        {
+                            request?.uid ?
+                                <UserBox uid={uid} />
+                                : null
                         }
                     </View>
 

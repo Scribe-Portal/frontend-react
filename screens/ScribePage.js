@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addP, removeP } from '../reducers/priorityReducer'
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
+
 // hi
 const styles = StyleSheet.create({
     container: {
