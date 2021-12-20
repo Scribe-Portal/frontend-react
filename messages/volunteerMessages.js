@@ -38,8 +38,8 @@ export default async function CommonMessages (message){
             break;
         case 'Neutral':
             notifee.displayNotification({
-                title: 'some info',
-                body: message.data.txt, 
+                title: message.notification.title,
+                body: message.notification.body, 
                 android: {
                     channelId: c['Neutral']
                 }

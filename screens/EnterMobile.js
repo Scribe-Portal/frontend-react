@@ -11,6 +11,7 @@ import RNOtpVerify from 'react-native-otp-verify';
 
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
+import messaging from '@react-native-firebase/messaging';
 const styles_confirmed = StyleSheet.create({
     container: {
         flex: 1,
@@ -283,13 +284,10 @@ function EnterMobile({ navigation }) {
         }
     }
     const setFirestoreEntry = async () => {
-        let fcmToken
-        try {
-            fcmToken = await AsyncStorage.getItem('fcmToken')
-        }
-        catch {
-            console.log("can't get the fcm token")
-        }
+        await messaging().registerDeviceForRemoteMessages();
+
+        // Get the token
+        const fcmToken = await messaging().getToken();
         let userDoc
         try {
             userDoc = await firestore

@@ -13,6 +13,7 @@ import { useFirestore } from 'react-redux-firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeUid } from '../reducers/userAppSettingsReducer';
 import crashlytics from '@react-native-firebase/crashlytics'
+import messaging from '@react-native-firebase/messaging';
 
 const styles = StyleSheet.create({
     container: {
@@ -117,15 +118,11 @@ export default function EnterOTP({ route, navigation }) {
 
 
                 // console.log("verification OK")
-                let fcmToken
-                try {
+               // Register the device with FCM
+                await messaging().registerDeviceForRemoteMessages();
 
-                    fcmToken = await AsyncStorage.getItem('fcmToken')
-                }
-                catch {
-                    // console.log("can't get fcm token return")
-                    
-                }
+                    // Get the token
+                const fcmToken = await messaging().getToken();
                 let userDoc
                 try {
                     userDoc = await firestore
