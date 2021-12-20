@@ -171,33 +171,33 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                 req_id: req_id
                             })
                             .then(async () => {
-                                
+
                                 await sendEmail(
                                     (typeof { needy.email } === "string") ? { needy.email } : "default_error_email_address",
                                     'Scribe Request',
                                     'You have been alloted a scribe request please check the app',
                                     { cc: ' sprakhar2002@gmail.com;' }
-                                    )
-                                })
-                                .then(async () => {
-                                    console.log('Your message was successfully sent!');
-                                    const registrationToken = scribes[volunteer].fcmToken;
-                                    
-                                    const message = {
-                                        notification: {
-                                            title: 'Scribe request',
-                                            body: 'Your request has been accepted'
-                                        },
-                                        token: registrationToken
-                                    };
-                                    
-                                    // Send a message to the device corresponding to the provided
-                                    // registration token.
-                                    return await messaging().sendMessage(message)
-                                })
-                                .then((response) => {
-                                    // Response is a message ID string.
-                                    console.log('Successfully sent message:', response);
+                                )
+                            })
+                            .then(async () => {
+                                console.log('Your message was successfully sent!');
+                                const registrationToken = scribes[volunteer].fcmToken;
+
+                                const message = {
+                                    notification: {
+                                        title: 'Scribe request',
+                                        body: 'Your request has been accepted'
+                                    },
+                                    token: registrationToken
+                                };
+
+                                // Send a message to the device corresponding to the provided
+                                // registration token.
+                                return await messaging().sendMessage(message)
+                            })
+                            .then((response) => {
+                                // Response is a message ID string.
+                                console.log('Successfully sent message:', response);
                             })
                             .catch((error) => {
                                 console.log('Error sending message:', error);
