@@ -177,6 +177,13 @@ function FillInfo({ navigation }) {
                     </Text>
                     <Text style={styles.text2}>Name</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
+                    {isItAScribe ? (
+                        <View>
+                            <Text style={styles.text2}>Entry Number</Text>
+                            <TextInput onChangeText={setEno} style={styles.input} />
+                        </View>
+
+                    ) : null}
                     <Text style={styles.text2}>Gender</Text>
                     <RadioButton
                         text="Male"
@@ -235,13 +242,6 @@ function FillInfo({ navigation }) {
                         handleChange={() => { setMath(!Math) }}
                     />
 
-                    {isItAScribe ? (
-                        <View>
-                            <Text style={styles.text2}>Entry Number</Text>
-                            <TextInput onChangeText={setEno} style={styles.input} />
-                        </View>
-
-                    ) : null}
                     <Text style={styles.text2}>Pin Code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
 
