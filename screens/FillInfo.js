@@ -8,7 +8,7 @@ import { FillInfoText } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { changeTempUid } from '../reducers/userAppSettingsReducer';
+import { changeUid } from '../reducers/userAppSettingsReducer';
 useSelector
 const styles = StyleSheet.create({
 
