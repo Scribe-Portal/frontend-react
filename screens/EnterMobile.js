@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
 
 import { useFirestore } from 'react-redux-firebase';
-import { changeUid } from '../reducers/userAppSettingsReducer'
+import { changeTempUid } from '../reducers/userAppSettingsReducer'
 
 import RNOtpVerify from 'react-native-otp-verify';
 
@@ -279,7 +279,7 @@ function EnterMobile({ navigation }) {
     // function to verify the OTP
     const onAuthStateChanged = (user) => {
         if (user) {
-            dispatch(changeUid({ newUid: user.uid }))
+            dispatch(changeTempUid({ newUid: user.uid }))
         }
     }
     const setFirestoreEntry = async () => {
@@ -318,7 +318,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
-                dispatch(changeUid({ newUid: uid }))
+                dispatch(changeTempUid({ newUid: uid }))
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
             }
@@ -349,7 +349,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 2, ' + err);
                 }
-                dispatch(changeUid({ newUid: uid }))
+                dispatch(changeTempUid({ newUid: uid }))
                 navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
             }
 
