@@ -67,7 +67,7 @@ function Requests({ uid }) {
     }
     if (isEmpty(requests)) {
         return (
-            <Text>
+            <Text style={styles.text1}>
                 No Requests
             </Text>
         )

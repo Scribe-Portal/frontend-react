@@ -138,9 +138,9 @@ class App extends Component {
     }
     await this.getToken()
     await this.checkPermission()
-    await initialise_channels()
-    defaultMessaging.onMessage(CommonMessages)
-    defaultMessaging.setBackgroundMessageHandler(CommonMessages)
+    // await initialise_channels()
+    // defaultMessaging.onMessage(CommonMessages)
+    // defaultMessaging.setBackgroundMessageHandler(CommonMessages)
   }
   render() {
     return (

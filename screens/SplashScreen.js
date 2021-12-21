@@ -63,8 +63,9 @@ class Splash extends Component {
                 crashlytics().log("update installed.")
                 this.goAhead()
                 break
-            case codePush.SyncStatus.UNKNOWN_ERROR:
-                this.setupdateStatus("Unknown error")
+                case codePush.SyncStatus.UNKNOWN_ERROR:
+                    this.setupdateStatus("Unknown error")
+                    this.goAhead()
                 crashlytics().log("unknown error updating from appcenter")
                 break
             case codePush.SyncStatus.UPDATE_IGNORED:
@@ -81,11 +82,18 @@ class Splash extends Component {
     }
     async componentDidMount() {
         const { IMMEDIATE } = codePush.InstallMode;
-        await codePush.sync(
-            {installMode: IMMEDIATE, updateDialog: true},
-            this.syncStatusChange,
-            this.downloadProgressChange
-        )
+        try {
+
+            await codePush.sync(
+                {installMode: IMMEDIATE, updateDialog: true},
+                this.syncStatusChange,
+                this.downloadProgressChange
+            )
+        }
+        catch {
+            crashlytics().log("codepush sync error")
+            this.goAhead()
+        }
 
     }
     render() {

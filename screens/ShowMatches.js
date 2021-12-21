@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
         backgroundColor: "#B4E2DF",

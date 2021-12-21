@@ -173,16 +173,16 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             })
                             .then(async () => {
 
-                                await sendEmail(
-                                    (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
-                                    'Scribe Request',
-                                    'You have been alloted a scribe request please check the app',
-                                    { cc: ' sprakhar2002@gmail.com;' }
-                                )
+                                // await sendEmail(
+                                //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
+                                //     'Scribe Request',
+                                //     'You have been alloted a scribe request please check the app',
+                                //     { cc: ' sprakhar2002@gmail.com;' }
+                                // )
                             })
                             .then(async () => {
                                 console.log('Your message was successfully sent!');
-                                const registrationToken = scribes[volunteer].fcmToken;
+                                const registrationToken = user?.fcmToken;
 
                                 const message = {
                                     notification: {

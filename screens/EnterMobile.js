@@ -3,12 +3,12 @@ import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, PermissionsAndroid } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
-
+import crashlytics from '@react-native-firebase/crashlytics'
 import { useFirestore } from 'react-redux-firebase';
 import { changeTempUid } from '../reducers/userAppSettingsReducer'
 
 import RNOtpVerify from 'react-native-otp-verify';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
 const styles_confirmed = StyleSheet.create({

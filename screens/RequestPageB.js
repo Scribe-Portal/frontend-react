@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     text3: {
         color: "#19939A",
         fontSize: 22,
-        fontWeight: '600',
+        fontWeight: '700',
         textAlign: 'center',
     },
     text2: {
@@ -99,7 +99,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     useFirestoreConnect(() => [
-        { collection: 'scribes', where: ['__name__', 'in', (request?.volunteersSelected || ["", ""])]  }
+        { collection: 'scribes',  }
     ])
     const dispatch = useDispatch()
 

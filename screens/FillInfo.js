@@ -257,22 +257,22 @@ function FillInfo({ navigation }) {
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
-                        handleChange={() => { setEnglish(!English) }}
+                        handleChange={() => { setEnglish(!English); setPL(1)}}
                     />
                     <RadioButton
                         text="Hindi"
                         selectedRadioButton={Hindi}
-                        handleChange={() => { setHindi(!Hindi) }}
+                        handleChange={() => { setHindi(!Hindi); setPL(1) }}
                     />
                     <RadioButton
                         text="CBT"
                         selectedRadioButton={CBT}
-                        handleChange={() => { setCBT(!CBT) }}
+                        handleChange={() => { setCBT(!CBT); setPL(1) }}
                     />
                     <RadioButton
                         text="Maths"
                         selectedRadioButton={Math}
-                        handleChange={() => { setMath(!Math) }}
+                        handleChange={() => { setMath(!Math); setPL(1) }}
                     />
 
                     <Text style={styles.text2}>Pin Code</Text>
@@ -284,7 +284,9 @@ function FillInfo({ navigation }) {
 
                     <TouchableOpacity style={styles.FillInfoButton}
                         onPress={() => {
-                            
+                            console.log(eno)
+                            console.log(PL)
+                            console.log((!isItAScribe || (eno !== '' && PL !== '')) )
                             if (name !== '' && radio !== '' && email !== '' && address !== ''  && (!isItAScribe || (eno !== '' && PL !== ''))) {
                                 firestore.collection(isItAScribe ? "scribes" : "users")
                                     .doc(uid)
