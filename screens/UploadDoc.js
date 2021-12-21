@@ -341,49 +341,28 @@ export class UploadDoc extends Component {
     }
     nextButton2() {
         
-        const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
+        const { route: {params: {fromHome}}, navigation, isItAScribe } = this.props
         if (fromHome) {
             
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
+            
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                 
                 
-            })
+            
         }
         
         else if (isItAScribe) {
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
+            
+            
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                 
                 
-            })
+            
         }
         else {
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
                 
                 navigation.navigate('VolunteerPreference')
-            })
+            
         }
     }
     onValueChangeCat(newVal) {

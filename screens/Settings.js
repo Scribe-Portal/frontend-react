@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeScribeStatus, changeUid } from '../reducers/userAppSettingsReducer';
+import { changeScribeStatus, changeTempUid, changeUid } from '../reducers/userAppSettingsReducer';
 
 
 const styles = StyleSheet.create({
@@ -114,6 +114,7 @@ function Settings({ route, navigation }) {
                     onPress={() => {
 
                         dispatch(changeUid({ newUid: "none" }))
+                        dispatch(changeTempUid({newUid: "none"}))
                         dispatch(changeScribeStatus({ newScribeStatus: false }))
                         navigation.reset({ index: 0, routes: [{ name: 'Splash' }] })
 

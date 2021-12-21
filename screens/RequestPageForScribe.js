@@ -117,20 +117,23 @@ function UserBox({ uid, showMobile }) {
 
             </Text>
             <Text style={styles._text2}>
-                {`Preferred Languages: ${(typeof user?.languages === 'string') ? user?.languages : "Unknown"} `}
+                {`Preferred Languages: ${(typeof user?.languages === 'string') ? user?.languages : ""} ${user?.English ? "English" : ""} ${user?.Hindi ? "Hindi" : ""} ${user?.Math ? "Maths" : ""}`}
 
             </Text>
             {showMobile ? (
                 <TouchableOpacity style={styles.priorityButton2}
                     onPress={() => {
-                        let phoneNumber = ''
-                        if (Platform.OS === 'android') {
-                            phoneNumber = `tel:${user?.mobile}`;
+                        if (user?.mobile) {
+
+                            let phoneNumber = ''
+                            if (Platform.OS === 'android') {
+                                phoneNumber = `tel:${user?.mobile}`;
+                            }
+                            else {
+                                phoneNumber = `telprompt:${user?.mobile}`;
+                            }
+                            Linking.openURL(phoneNumber);
                         }
-                        else {
-                            phoneNumber = `telprompt:${user?.mobile}`;
-                        }
-                        Linking.openURL(phoneNumber);
                     }}
                 >
                     <Text style={styles.t1}>
@@ -171,7 +174,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             .set({
                                 req_id: req_id
                             })
-                            .then(async () => {
+                            // .then(async () => {
 
                                 // await sendEmail(
                                 //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
@@ -179,9 +182,9 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                 //     'You have been alloted a scribe request please check the app',
                                 //     { cc: ' sprakhar2002@gmail.com;' }
                                 // )
-                            })
+                            // })
                             .then(async () => {
-                                console.log('Your message was successfully sent!');
+                                // console.log('Your message was successfully sent!');
                                 const registrationToken = user?.fcmToken;
 
                                 const message = {
@@ -190,7 +193,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                         body: 'Your request has been accepted'
                                     },
                                     token: registrationToken
-                                };
+                                }
 
                                 // Send a message to the device corresponding to the provided
                                 // registration token.
@@ -202,10 +205,6 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             })
                             .catch((error) => {
                                 console.log('Error sending message:', error);
-                            })
-                            .then((res) => {
-                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-
                             })
                     }
 
@@ -284,7 +283,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             Exam Pin Code: {request?.examPinCode}
                         </Text>
                         {request?.uid ?
-                            <UserBox uid={uid} />
+                            <UserBox uid={uid} showMobile={false}/>
                             : null
                         }
 
@@ -363,7 +362,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         {
                             request?.uid ?
-                                <UserBox uid={uid} />
+                                <UserBox uid={uid} showMobile={true}/>
                                 : null
                         }
                     </View>

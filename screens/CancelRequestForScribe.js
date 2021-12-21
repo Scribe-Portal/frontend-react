@@ -97,37 +97,40 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                     }}
                 >
                     <Text style={styles.t1}>
-                        Go Back, Ignore this page.
+                        Go Back
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={() => {
-                        if (request.status === "accepted") {
+                        if (cancelReason) {
 
-                            firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                            firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                            if (request.status === "accepted") {
+
+                                firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
+                                firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                            }
+                            firestore.collection('dateslots')
+                                .doc(dateSlot)
+                                .collection('acceptedVolunteers')
+                                .doc(uid)
+                                .delete()
+                                // .then(() => {
+                                    // sendEmail(
+                                    //     "scribeportalapp@gmail.com",
+                                    //     'Scribe Request Rejected',
+                                    //     'Request Date ' +  request?.examDate + '\n Volunteer name ' +  uid + '\n Reason ' +  cancelReason + 'Request: ' + req_id ,
+                                    //     { cc: ' sprakhar2002@gmail.com;' }
+                                    // ).then(() => {
+                                    //     console.log('Your message was successfully sent!');
+                                    // });
+                                // })
+                                .catch((err) => {
+                                    console.log(err)
+                                }).then(() => {
+
+                                    navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                })
                         }
-                        firestore.collection('dateslots')
-                            .doc(dateSlot)
-                            .collection('acceptedVolunteers')
-                            .doc(uid)
-                            .delete()
-                            .then(() => {
-                                sendEmail(
-                                    "scribeportalapp@gmail.com",
-                                    'Scribe Request Rejected',
-                                    'Request Date ' +  request?.examDate + '\n Volunteer name ' +  uid + '\n Reason ' +  cancelReason + 'Request: ' + req_id ,
-                                    { cc: ' sprakhar2002@gmail.com;' }
-                                ).then(() => {
-                                    console.log('Your message was successfully sent!');
-                                });
-                            })
-                            .catch((err) => {
-
-                            }).then(() => {
-
-                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            })
                     }}
                 >
                     <Text style={styles.t1}>

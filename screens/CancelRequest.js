@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 });
 function CancelRequest({ navigation, route: { params: { requestId} } }) {
 
-    
+    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[requestId])
     const firestore = useFirestore()
     let [cancelReason, setCancelReason]  = useState('')
     return (
@@ -95,6 +95,20 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
                         
 
                         firestore.update({collection:'requests', doc: requestId}, {status: 'cancelled', cancelReason: cancelReason})
+                        if (request?.volunteerAccepted !== "none") {
+                            try {
+
+                                firestore.collection('dateslots')
+                                        .doc(dateSlot)
+                                        .collection('acceptedVolunteers')
+                                        .doc(request.dateSlot)
+                                        .delete()
+                            }
+                            catch{
+                                firestore.update({collection:'requests', doc: requestId}, {status: 'pending', })
+                                console.log("something wrong 4")
+                            }
+                        }
                         navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
                         
                     }}

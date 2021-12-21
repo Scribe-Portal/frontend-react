@@ -83,7 +83,7 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
     
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     const num_selected = useSelector(state => state.priority.num)
-
+    
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>
@@ -107,6 +107,9 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
                     </Text>
                     <Text style={styles.text2}>
                         Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "unrated"}/5`}
+                    </Text>
+                    <Text style={styles.text2}>
+                        Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "unknown"}`}
                     </Text>
                     <Text style={styles.text2}>
                         Voulnteered 15 times

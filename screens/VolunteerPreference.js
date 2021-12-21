@@ -178,7 +178,7 @@ export class VolunteerPreference extends Component {
                             }}
                         >
                             <Text style={styles.t1}>
-                                Request Volunteer
+                                Next
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button2}

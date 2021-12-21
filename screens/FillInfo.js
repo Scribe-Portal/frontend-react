@@ -253,7 +253,7 @@ function FillInfo({ navigation }) {
 
                     <Text style={styles.text2}>Address</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    <Text style={styles.text2}>Mode of Exam</Text>
+                    <Text style={styles.text2}>Preferred Modes</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
@@ -284,9 +284,7 @@ function FillInfo({ navigation }) {
 
                     <TouchableOpacity style={styles.FillInfoButton}
                         onPress={() => {
-                            console.log(eno)
-                            console.log(PL)
-                            console.log((!isItAScribe || (eno !== '' && PL !== '')) )
+                            
                             if (name !== '' && radio !== '' && email !== '' && address !== ''  && (!isItAScribe || (eno !== '' && PL !== ''))) {
                                 firestore.collection(isItAScribe ? "scribes" : "users")
                                     .doc(uid)
@@ -306,6 +304,7 @@ function FillInfo({ navigation }) {
                                     })
                                     .then(() => {
                                         dispatch(changeUid({newUid: uid}))
+                                        console.log("the final uid - ", uid)
                                         navigation.navigate('UploadDoc', { fromHome: false})
                                     })
 

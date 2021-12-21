@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 
 
 function Match({ id, selected }) {
-    const scribe = useSelector(state => state.firestore.data.scribes[id])
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[id])
 
     const navigation = useNavigation()
 
@@ -235,14 +235,14 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                             (volunteer, ind) => {
                                                 if (scribes && scribes[volunteer]) {
                                                     
-                                                    sendEmail(
-                                                        (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
-                                                        'Scribe Request',
-                                                        'You have been alloted a scribe request please check the app',
-                                                        { cc: ' sprakhar2002@gmail.com;' }
-                                                    ).then(() => {
-                                                        console.log('Your message was successfully sent!');
-                                                    });
+                                                    // sendEmail(
+                                                    //     (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
+                                                    //     'Scribe Request',
+                                                    //     'You have been alloted a scribe request please check the app.',
+                                                    //     { cc: 'sprakhar2002@gmail.com;' }
+                                                    // ).then(() => {
+                                                    //     console.log('Your message was successfully sent!')
+                                                    // });
                                                     if ( scribes[volunteer].fcmToken) {
 
                                                         const registrationToken = scribes[volunteer].fcmToken;
@@ -260,10 +260,10 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                                         messaging().sendMessage(message)
                                                             .then((response) => {
                                                                 // Response is a message ID string.
-                                                                console.log('Successfully sent message:', response);
+                                                                console.log('Successfully sent message:', response)
                                                             })
                                                             .catch((error) => {
-                                                                console.log('Error sending message:', error);
+                                                                console.log('Error sending message:', error)
                                                             });
                                                     }
                                                 }
@@ -271,8 +271,8 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                         )
                                         
                                         dispatch(removeAll())
-                                        navigation.navigate('Home')
                                     })
+                                navigation.navigate('Home')
 
                             }}
                         >

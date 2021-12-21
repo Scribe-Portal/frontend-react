@@ -202,9 +202,10 @@ function EnterMobile({ navigation }) {
     let [errorText, setErrorText] = useState('')
     let [otp_input, set_otp_input] = useState('')
     let [status, setStatus] = useState('')
+    
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
-    const uid = useSelector(state => state.userAppSettings.uid)
+    const uid = useSelector(state => state.userAppSettings.tempuid)
     let firestore = useFirestore()
     const dispatch = useDispatch()
 
@@ -279,10 +280,11 @@ function EnterMobile({ navigation }) {
     }, []);
     // function to verify the OTP
     const onAuthStateChanged = async (user) => {
-        if (user.uid) {
+        if (user) {
             dispatch(changeTempUid({ newUid: user.uid }))
-            console.log("hte temp uid is, ", user.uid )
-            await setFirestoreEntry()
+            console.log("the temp uid is, ", user.uid )
+            setFirestoreEntry()
+            
         }
     }
     const setFirestoreEntry = async () => {
@@ -318,7 +320,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
-                dispatch(changeTempUid({ newUid: uid }))
+                
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
             }
@@ -349,7 +351,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 2, ' + err);
                 }
-                dispatch(changeTempUid({ newUid: uid }))
+                
                 navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
             }
 
@@ -359,10 +361,8 @@ function EnterMobile({ navigation }) {
         }
     }
     const verifyOTP = async () => {
-        
-
             try {
-                return await confirm.confirm(otp_input)
+                await confirm.confirm(otp_input)
                 
             }
             catch (err) {
@@ -371,12 +371,6 @@ function EnterMobile({ navigation }) {
                 // console.log(err)
                 return
             }
-        
-        
-            
-        
-        
-        
     }
 
     if (confirm) { // when the OTP has been sent, and is yet to be verified
@@ -414,7 +408,7 @@ function EnterMobile({ navigation }) {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles_confirmed.langButton1}
                             onPress={() => {
-                                crashlytics().log('Login button pressed')
+                                
                                 firebase_auth().verifyPhoneNumber(mobile).on(
                                     'state_changed',
                                     (phoneAuthSnapshot) => {
