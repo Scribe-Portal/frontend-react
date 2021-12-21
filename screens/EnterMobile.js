@@ -278,9 +278,11 @@ function EnterMobile({ navigation }) {
         return subscriber; // unsubscribe on unmount
     }, []);
     // function to verify the OTP
-    const onAuthStateChanged = (user) => {
-        if (user) {
+    const onAuthStateChanged = async (user) => {
+        if (user.uid) {
             dispatch(changeTempUid({ newUid: user.uid }))
+            console.log("hte temp uid is, ", user.uid )
+            await setFirestoreEntry()
         }
     }
     const setFirestoreEntry = async () => {
@@ -357,11 +359,11 @@ function EnterMobile({ navigation }) {
         }
     }
     const verifyOTP = async () => {
-        if (!firebase_auth().currentUser){
+        
 
             try {
-                await confirm.confirm(otp_input)
-                await setFirestoreEntry()
+                return await confirm.confirm(otp_input)
+                
             }
             catch (err) {
                 
@@ -369,10 +371,10 @@ function EnterMobile({ navigation }) {
                 // console.log(err)
                 return
             }
-        }
-        else {
-            setFirestoreEntry()
-        }
+        
+        
+            
+        
         
         
     }
