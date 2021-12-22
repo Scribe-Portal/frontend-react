@@ -242,7 +242,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Go back
+                        back
                     </Text>
                 </TouchableOpacity>
 

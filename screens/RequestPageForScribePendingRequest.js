@@ -88,7 +88,7 @@ function RequestPageForScribePendingRequest({ navigation, route: { params: { req
                         }}
                     >
                         <Text style={styles.t1}>
-                            Go Back
+                            Back
                         </Text>
                     </TouchableOpacity>
                 </View>

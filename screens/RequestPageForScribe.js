@@ -210,7 +210,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
 
                 },
                 {
-                    text: "Go Back",
+                    text: "Back",
                     onPress: () => {
                     }
                 }
@@ -300,7 +300,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             }}
                         >
                             <Text style={styles.t1}>
-                                Go Back
+                                Back
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -381,7 +381,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             }}
                         >
                             <Text style={styles.t1}>
-                                Go Back
+                                Back
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -406,7 +406,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                     }}
                 >
                     <Text style={styles.t1}>
-                        Go Back
+                        Back
                     </Text>
                 </TouchableOpacity>
             </View>

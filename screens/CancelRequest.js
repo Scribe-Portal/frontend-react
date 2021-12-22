@@ -87,7 +87,7 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
                     }}
                 >
                     <Text style={styles.t1}>
-                        Go Back, Ignore this page.
+                        Back
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}

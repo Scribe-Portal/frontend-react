@@ -91,7 +91,7 @@ function RequestPageC({ navigation, route: { params: { req_id } } }) {
                     }}
                 >
                     <Text style={styles.t1}>
-                        Go Back
+                        Back
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
