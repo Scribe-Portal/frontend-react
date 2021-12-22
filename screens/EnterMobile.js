@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { useFirestore } from 'react-redux-firebase';
-import { changeTempUid } from '../reducers/userAppSettingsReducer'
+import { changeTempUid, changeUid } from '../reducers/userAppSettingsReducer'
 
 import RNOtpVerify from 'react-native-otp-verify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -282,35 +282,35 @@ function EnterMobile({ navigation }) {
     const onAuthStateChanged = async (user) => {
         if (user) {
             dispatch(changeTempUid({ newUid: user.uid }))
-            console.log("the temp uid is, ", user.uid )
-            setFirestoreEntry()
+            
             
         }
     }
     const setFirestoreEntry = async () => {
-        await messaging().registerDeviceForRemoteMessages();
+        // await messaging().registerDeviceForRemoteMessages();
 
         // Get the token
-        const fcmToken = await messaging().getToken();
+        const fcmToken = await messaging().getToken()
+        const user_id = firebase_auth().currentUser.uid
         let userDoc
         try {
             userDoc = await firestore
                 .collection(isItAScribe ? 'scribes' : 'users')
-                .doc(uid)
+                .doc(user_id)
                 .get()
             // console.log(isItAScribe, lang, fcmToken)
             if (userDoc.exists) {
                 try {
 
                     if (fcmToken) await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                        .doc(uid)
+                        .doc(user_id)
                         .update({
                             isItAScribe: isItAScribe,
                             appLang: lang,
                             fcmToken: fcmToken,
                         })
                     else await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                        .doc(uid)
+                        .doc(user_id)
                         .update({
                             isItAScribe: isItAScribe,
                             appLang: lang,
@@ -320,7 +320,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
-                
+                dispatch(changeUid({newUid: uid}))
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
             }
@@ -329,7 +329,7 @@ function EnterMobile({ navigation }) {
                 try {
 
                     if (fcmToken) await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                        .doc(uid)
+                        .doc(user_id)
                         .set({
                             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                             isItAScribe: isItAScribe,
@@ -338,7 +338,7 @@ function EnterMobile({ navigation }) {
                             mobile: mobile
                         })
                     else await firestore.collection(isItAScribe ? 'scribes' : 'users')
-                        .doc(uid)
+                        .doc(user_id)
                         .set({
                             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                             isItAScribe: isItAScribe,
@@ -363,13 +363,21 @@ function EnterMobile({ navigation }) {
     const verifyOTP = async () => {
             try {
                 await confirm.confirm(otp_input)
-                
+                await setFirestoreEntry()
             }
             catch (err) {
-                
+                if (uid !== "none") {
+                    try {
+
+                        await setFirestoreEntry()
+                    }
+                    catch (err) {
+                        setStatus("Wrong OTP and invalid auth!", err)
+                    }
+                }
                 setStatus("Wrong OTP!", err)
                 // console.log(err)
-                return
+                
             }
     }
 
@@ -399,7 +407,7 @@ function EnterMobile({ navigation }) {
                         />
                         
                         <TouchableOpacity style={styles_confirmed.langButton1}
-                            onPress={verifyOTP}
+                            onPress={() => verifyOTP()}
                         >
                             <Text style={styles_confirmed.t1}>
 
