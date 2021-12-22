@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     t1: {
         flex: 1,
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 40,
+        
         
     },
     
@@ -158,22 +159,6 @@ export class HomeTab extends Component {
                         </TouchableOpacity>
 
                     </View>
-                    {/* <Requests uid={this.props.auth.uid}/> */}
-                    <TouchableOpacity style={styles.requestA} onPress={()=>{
-                        this.navigation.navigate('RequestsA')
-                    }}>
-                        <Text style = {styles.textA}>Volunteer Search Successful</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.requestB} onPress={()=>{
-                        this.navigation.navigate('RequestsB')
-                    }}>
-                        <Text style = {styles.textC}>Pending Requests</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.requestC} onPress={()=>{
-                        this.navigation.navigate('RequestsC')
-                    }}>
-                        <Text style = {styles.textB}>Volunteer Search Failed</Text>
-                    </TouchableOpacity>
                     
 
                 </View>

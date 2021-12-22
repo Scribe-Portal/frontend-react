@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator} from '@react-navigation/material-top-tab
 import HomeTab from './HomeTab'
 import Settings from './Settings'
 import Notifications from './Notification'
+import News from './News'
 import NewsScribe from './NewsScribe'
 import ScribeHomeTab from './ScribeHomeTab'
 import { useSelector } from 'react-redux'
@@ -58,7 +59,7 @@ function Home({ route, navigation }) {
             />
                 <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
                     <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
-                    <Tab.Screen name="Status" component={News}/>
+                    <Tab.Screen name="Status" children={() => isItAScribe?<NewsScribe/>:<News/>}/>
                     
                     <Tab.Screen name="Settings" component={Settings}/>
                 </Tab.Navigator>
