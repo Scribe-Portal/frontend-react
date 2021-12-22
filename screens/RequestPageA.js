@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Linking, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Alert, Linking, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     text3: {
         color: "#19939A",
         fontSize: 22,
-        fontWeight: '600',
+        fontWeight: '700',
         textAlign: 'center',
     },
     text1: {
@@ -87,18 +87,26 @@ function PhoneButtton({ scribe_id }) {
         { collection: 'scribes', doc: scribe_id }
     ])
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
-    
+    const showMobileNotFound = () => {
+        return Alert.alert("Not found", "The phone number couldn't be found!")
+    }
     return (
         <TouchableOpacity style={styles.priorityButton}
             onPress={() => {
-                let phoneNumber = ''
-                if (Platform.OS === 'android') {
-                    phoneNumber = `tel:${scribe?.mobile}`;
+                if (scribe?.mobile) {
+
+                    let phoneNumber = ''
+                    if (Platform.OS === 'android') {
+                        phoneNumber = `tel:${scribe?.mobile}`;
+                    }
+                    else {
+                        phoneNumber = `telprompt:${scribe?.mobile}`;
+                    }
+                    Linking.openURL(phoneNumber);
                 }
                 else {
-                    phoneNumber = `telprompt:${scribe?.mobile}`;
+                    showMobileNotFound()
                 }
-                Linking.openURL(phoneNumber);
             }}
         >
             <Text style={styles.t1}>

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus, changeTempUid, changeUid } from '../reducers/userAppSettingsReducer';
 
@@ -72,6 +72,32 @@ function Settings({ route, navigation }) {
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const dispatch = useDispatch()
+    const showLogoutDialog = () => {
+        return Alert.alert(
+            "Confirmation",
+            "Are you sure you want to Log out?",
+            [
+                {
+                    text: "No",
+                    onPress: () => {
+                        
+                    }
+                },
+                {
+                    text: "Yes, log out",
+                    onPress: () => {
+                        dispatch(changeUid({ newUid: "none" }))
+                        dispatch(changeTempUid({newUid: "none"}))
+                        dispatch(changeScribeStatus({ newScribeStatus: false }))
+                        navigation.reset({ index: 0, routes: [{ name: 'Splash' }] })
+                        
+                    }
+
+                },
+            ]
+
+        )
+    }
     return (
         <View style={styles.container}>
         
@@ -111,14 +137,7 @@ function Settings({ route, navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button1}
-                    onPress={() => {
-
-                        dispatch(changeUid({ newUid: "none" }))
-                        dispatch(changeTempUid({newUid: "none"}))
-                        dispatch(changeScribeStatus({ newScribeStatus: false }))
-                        navigation.reset({ index: 0, routes: [{ name: 'Splash' }] })
-
-                    }}
+                    onPress={showLogoutDialog}
                 >
                     <Text style={styles.t1}>
 
