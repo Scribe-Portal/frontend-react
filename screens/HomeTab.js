@@ -58,50 +58,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#19939A",
     },
-    textA: {
-        color: "#FFFFFF",
-        
-        fontSize: 20,
-        fontWeight : '700',
-        textAlign: 'center',
-        
-    },
-    textB: {
-        color: "#923737",
-        fontSize: 20,
-        fontWeight : '700',
-        textAlign: 'center',
-    },
-    textC: {
-        color: "#9E6E12",
-        fontSize: 20,
-        fontWeight : '700',
-        textAlign: 'center',
-    },
-    requestA:{
-        backgroundColor: "#9933FF",
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
-    requestB:{
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        backgroundColor:"#FDF1DB",
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
-    requestC:{
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        backgroundColor: "#FCC8D7",
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
     examName: {
         
     },

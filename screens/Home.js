@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator} from '@react-navigation/material-top-tab
 import HomeTab from './HomeTab'
 import Settings from './Settings'
 import Notifications from './Notification'
-import News from './News'
+import NewsScribe from './NewsScribe'
 import ScribeHomeTab from './ScribeHomeTab'
 import { useSelector } from 'react-redux'
 
