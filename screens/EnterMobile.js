@@ -292,7 +292,7 @@ function EnterMobile({ navigation }) {
         // Get the token
         const fcmToken = await messaging().getToken()
         const user_id = firebase_auth().currentUser.uid
-        dispatch(changeTempUid({newUid: uid}))
+        dispatch(changeTempUid({newUid: user_id}))
         let userDoc
         try {
             userDoc = await firestore
