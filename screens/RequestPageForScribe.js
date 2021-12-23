@@ -283,7 +283,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             Exam Pin Code: {request?.examPinCode}
                         </Text>
                         {request?.uid ?
-                            <UserBox uid={uid} showMobile={false}/>
+                            <UserBox uid={request?.uid} showMobile={false}/>
                             : null
                         }
 
@@ -362,7 +362,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         {
                             request?.uid ?
-                                <UserBox uid={uid} showMobile={true}/>
+                                <UserBox uid={request?.uid} showMobile={true}/>
                                 : null
                         }
                     </View>
