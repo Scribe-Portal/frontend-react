@@ -292,6 +292,7 @@ function EnterMobile({ navigation }) {
         // Get the token
         const fcmToken = await messaging().getToken()
         const user_id = firebase_auth().currentUser.uid
+        dispatch(changeTempUid({newUid: uid}))
         let userDoc
         try {
             userDoc = await firestore
@@ -320,7 +321,7 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
-                dispatch(changeUid({newUid: uid}))
+                dispatch(changeUid({newUid: user_id}))
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
             }
