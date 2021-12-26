@@ -101,6 +101,9 @@ function SelectAvailability({ navigation }) {
     useEffect(() => {
         setMarkedDates(getMarkedDates(availableDays))
     }, [ availableDays ])
+    const unmarkDate = (dt) => {
+        setMarkedDates((alreadyMarkedDates) => ({...alreadyMarkedDates, [dt]: {selected: false}}))
+    }
 
     let [date, setDate] = useState(new Date())
 
@@ -224,6 +227,7 @@ function SelectAvailability({ navigation }) {
                             .catch((err) => {
                                 // console.log('cant delete 2')
                             })
+                        unmarkDate(date.dateString)
                         setRecentlyDisabled1(false)
                         setRecentlyDisabled2(true)
 
