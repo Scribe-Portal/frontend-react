@@ -7,7 +7,7 @@ export const RequestScribe = {
     'hi': 'मुंशी (स्क्राइब) निवेदन करे'
 }
 export const Volunteer = {
-    'en': 'Volunteer for Needy',
+    'en': 'Apply to Volunteer',
     'hi': 'वालंटियर (स्वयंसेवा)'
 }
 export const LoginText = {

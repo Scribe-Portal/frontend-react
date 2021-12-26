@@ -377,7 +377,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                             if (supported) {
                                                 Linking.openURL(request.examDocUrl);
                                             } else {
-                                                console.log("Don't know how to open URI: " + this.props.url);
+                                                console.log("Don't know how to open URI: " + request.examDocUrl);
                                             }
                                         });
                                     }}
