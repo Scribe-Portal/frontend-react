@@ -139,7 +139,7 @@ export class UploadExamDoc extends Component {
                 })
                 firebase_storage().ref(`examDoc/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
-                    .collection(`users/${this.uid}/requests`)
+                    .collection(`requests`)
                     .doc(this.reqid)
                     .set(
                         {
