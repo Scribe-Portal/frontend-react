@@ -251,8 +251,6 @@ function FillInfo({ navigation }) {
                     <Text style={styles.text2}>Email</Text>
                     <TextInput onChangeText={setEmail} style={styles.input} />
 
-                    <Text style={styles.text2}>Address</Text>
-                    <TextInput onChangeText={setAddress} style={styles.input} />
                     <Text style={styles.text2}>Preferred Modes</Text>
                     <RadioButton
                         text="English"
@@ -274,8 +272,10 @@ function FillInfo({ navigation }) {
                         selectedRadioButton={Math}
                         handleChange={() => { setMath(!Math); setPL(1) }}
                     />
+                    <Text style={styles.text2}>Address</Text>
+                    <TextInput onChangeText={setAddress} style={styles.input} />
 
-                    <Text style={styles.text2}>Pin Code</Text>
+                    <Text style={styles.text2}>PIN Code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
 
                 </View>

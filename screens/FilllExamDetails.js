@@ -263,7 +263,7 @@ function FillExamDetails({ navigation }) {
 
                     <Text style={styles.text2}>Address of Exam Center</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    <Text style={styles.text2}>Pincode</Text>
+                    <Text style={styles.text2}>PIN code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
