@@ -144,18 +144,18 @@ function UserBox({ uid, showMobile }) {
 
         </View>
 
-)
+    )
 }
 
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
-    
+
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     {
         request &&
-        useFirestoreConnect(() => [
-            { collection: 'users', doc: request?.uid }
-        ])
+            useFirestoreConnect(() => [
+                { collection: 'users', doc: request?.uid }
+            ])
     }
     const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
     const showAcceptDialog = () => {
@@ -176,12 +176,12 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             })
                             // .then(async () => {
 
-                                // await sendEmail(
-                                //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
-                                //     'Scribe Request',
-                                //     'You have been alloted a scribe request please check the app',
-                                //     { cc: ' sprakhar2002@gmail.com;' }
-                                // )
+                            // await sendEmail(
+                            //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
+                            //     'Scribe Request',
+                            //     'You have been alloted a scribe request please check the app',
+                            //     { cc: ' sprakhar2002@gmail.com;' }
+                            // )
                             // })
                             .then(async () => {
                                 // console.log('Your message was successfully sent!');
@@ -283,7 +283,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             Exam Pin Code: {request?.examPinCode}
                         </Text>
                         {request?.uid ?
-                            <UserBox uid={request?.uid} showMobile={false}/>
+                            <UserBox uid={request?.uid} showMobile={false} />
                             : null
                         }
 
@@ -362,12 +362,31 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         {
                             request?.uid ?
-                                <UserBox uid={request?.uid} showMobile={true}/>
+                                <UserBox uid={request?.uid} showMobile={true} />
                                 : null
                         }
                     </View>
 
                     <View style={styles.lowerHalf}>
+                        {request?.examDocUrl ?
+                            (
+
+                                <TouchableOpacity style={styles.priorityButton}
+                                    onPress={() => {
+                                        Linking.canOpenURL(request.examDocUrl).then(supported => {
+                                            if (supported) {
+                                                Linking.openURL(request.examDocUrl);
+                                            } else {
+                                                console.log("Don't know how to open URI: " + this.props.url);
+                                            }
+                                        });
+                                    }}
+                                >
+                                    <Text style={styles.t1}>Download Exam Document</Text>
+                                </TouchableOpacity>
+                            )
+                            : null
+                        }
                         <TouchableOpacity style={styles.priorityButton}
                             onPress={() => {
                                 navigation.navigate("CancelRequestForScribe", { req_id: req_id, dateSlot: request.dateSlot })
