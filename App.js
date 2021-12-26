@@ -52,6 +52,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import CommonMessages, { initialise_channels } from './messages/volunteerMessages'
 import SelectAvailability from './screens/SelectAvailability'
 import CancelRequestForScribe from './screens/CancelRequestForScribe';
+import ProfileSettings from './screens/ProfileSettings';
 // persisting user settings 
 const persistConfig = {
   key: 'root',
@@ -175,6 +176,7 @@ class App extends Component {
                 <Stack.Screen name="CancelRequestForScribe" component={CancelRequestForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
+                <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
 
               </Stack.Navigator>
             </NavigationContainer>

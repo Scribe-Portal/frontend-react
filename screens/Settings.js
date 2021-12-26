@@ -117,6 +117,7 @@ function Settings({ route, navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button1}
                     onPress={() => {
+                        navigation.navigate('ProfileSettings', {fromSettings: true})
                     }}
                 >
                     <Text style={styles.t1}>
