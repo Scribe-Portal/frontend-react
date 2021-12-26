@@ -172,15 +172,6 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                 <View style={styles.lowerHalf}>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
-                            navigation.goBack()
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Back
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
                             navigation.navigate('ShowMatches', { requestId: req_id, dateSlot: request?.dateSlot, selectedVolus: request?.volunteersSelected })
                         }}
                     >
@@ -190,11 +181,29 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
+                            navigation.navigate('UploadExamDoc', { onto: "RequestPageB", from: "RequestPageB", requestId: req_id })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Upload Exam Documents
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
                             navigation.navigate('CancelRequest', { requestId: req_id, })
                         }}
                     >
                         <Text style={styles.t1}>
                             Cancel Request
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Back
                         </Text>
                     </TouchableOpacity>
                 </View>

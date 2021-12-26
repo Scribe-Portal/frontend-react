@@ -152,7 +152,7 @@ export class UploadExamDoc extends Component {
         })
     }
     render() {
-        const { navigation, uid, route: {params: {requestId}} } = this.props;
+        const { navigation, uid, route: {params: {requestId, onto}} } = this.props;
         // console.log(this.reqid)
 
         return (
@@ -175,7 +175,12 @@ export class UploadExamDoc extends Component {
                     <View style={styles.middle_spacing}></View>
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
-                            navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
+                            if (onto==="RequestPageB") {
+                                navigation.navigate("RequestPageB", {req_id: req_id, })
+                            }
+                            else {
+                                navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
+                            }
                         }}
                     >
                         <Text style={styles.t1}>
