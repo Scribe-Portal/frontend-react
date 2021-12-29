@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeLang } from '../reducers/userAppSettingsReducer';
 import { useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { ProfileSettingsText } from '../translations'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -162,13 +163,13 @@ function ProfileSettings({ navigation }) {
                     <Text style={styles.text1}>
                         Change Languange
                     </Text>
-                    <RadioButton
+                    <RadioButton2
                         text="English"
                         i="en"
                         selectedRadioButton={lang}
                         handleChange={() => { dispatch(changeLang({newLang: "en"})) }}
                     />
-                    <RadioButton
+                    <RadioButton2
                         text="Hindi"
                         i="hi"
                         selectedRadioButton={lang}
