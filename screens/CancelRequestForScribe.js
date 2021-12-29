@@ -76,6 +76,59 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     const firestore = useFirestore()
     let [cancelReason, setCancelReason] = useState('')
+    const showCancelDialog = () => {
+        if (cancelReason === '') {
+
+            return Alert.alert(
+                "No Reason Given",
+                "Please give a reason for cancellation",
+                [
+                    {
+                        text: "OK",
+                    },
+                ]
+    
+            )
+        }
+        else {
+
+            return Alert.alert(
+                "Confirmation",
+                "Are you sure you want to reject the request",
+                [
+                    {
+                        text: "Back",
+                        onPress: () => {
+                            navigation.goBack()
+                        }
+                    },
+                    {
+                        text: "Yes, I want to cancel",
+                        onPress: () => {
+                            if (request.status === "accepted") {
+
+                                firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
+                                firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                            }
+                            firestore.collection('dateslots')
+                                .doc(dateSlot)
+                                .collection('acceptedVolunteers')
+                                .doc(uid)
+                                .delete()
+                                .catch((err) => {
+                                    console.log(err)
+                                }).then(() => {
+
+                                    navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                                })
+                        }
+    
+                    },
+                ]
+    
+            )
+        }
+    }
     return (
         <View style={styles.container}>
             <View style={styles.upperHalf}>
@@ -101,37 +154,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        if (cancelReason) {
-
-                            if (request.status === "accepted") {
-
-                                firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                                firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
-                            }
-                            firestore.collection('dateslots')
-                                .doc(dateSlot)
-                                .collection('acceptedVolunteers')
-                                .doc(uid)
-                                .delete()
-                                // .then(() => {
-                                    // sendEmail(
-                                    //     "scribeportalapp@gmail.com",
-                                    //     'Scribe Request Rejected',
-                                    //     'Request Date ' +  request?.examDate + '\n Volunteer name ' +  uid + '\n Reason ' +  cancelReason + 'Request: ' + req_id ,
-                                    //     { cc: ' sprakhar2002@gmail.com;' }
-                                    // ).then(() => {
-                                    //     console.log('Your message was successfully sent!');
-                                    // });
-                                // })
-                                .catch((err) => {
-                                    console.log(err)
-                                }).then(() => {
-
-                                    navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                                })
-                        }
-                    }}
+                    onPress={showCancelDialog}
                 >
                     <Text style={styles.t1}>
                         Reject

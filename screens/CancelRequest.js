@@ -73,41 +73,57 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
     const firestore = useFirestore()
     let [cancelReason, setCancelReason]  = useState('')
     const showCancelDialog = () => {
-        return Alert.alert(
-            "Confirmation",
-            "Are you sure you want to cancel the request?",
-            [
-                {
-                    text: "Back",
-                    onPress: () => {
-                        navigation.goBack()
-                    }
-                },
-                {
-                    text: "Yes, I want to cancel",
-                    onPress: () => {
-                        firestore.update({collection:'requests', doc: requestId}, {status: 'cancelled', cancelReason: cancelReason})
-                        if (request?.volunteerAccepted !== "none") {
-                            try {
+        if (cancelReason === '') {
 
-                                firestore.collection('dateslots')
-                                        .doc(dateSlot)
-                                        .collection('acceptedVolunteers')
-                                        .doc(request.dateSlot)
-                                        .delete()
-                            }
-                            catch{
-                                firestore.update({collection:'requests', doc: requestId}, {status: 'pending', })
-                                console.log("something wrong 4")
-                            }
+            return Alert.alert(
+                "No Reason Given",
+                "Please give a reason for cancellation",
+                [
+                    {
+                        text: "OK",
+                    },
+                ]
+    
+            )
+        }
+        else {
+
+            return Alert.alert(
+                "Confirmation",
+                "Are you sure you want to cancel the request?",
+                [
+                    {
+                        text: "Back",
+                        onPress: () => {
+                            navigation.goBack()
                         }
-                        navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                    }
-
-                },
-            ]
-
-        )
+                    },
+                    {
+                        text: "Yes, I want to cancel",
+                        onPress: () => {
+                            firestore.update({collection:'requests', doc: requestId}, {status: 'cancelled', cancelReason: cancelReason})
+                            if (request?.volunteerAccepted !== "none") {
+                                try {
+    
+                                    firestore.collection('dateslots')
+                                            .doc(dateSlot)
+                                            .collection('acceptedVolunteers')
+                                            .doc(request.dateSlot)
+                                            .delete()
+                                }
+                                catch{
+                                    firestore.update({collection:'requests', doc: requestId}, {status: 'pending', })
+                                    console.log("something wrong 4")
+                                }
+                            }
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                        }
+    
+                    },
+                ]
+    
+            )
+        }
     }
     return (
         <View style={styles.container}>
