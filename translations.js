@@ -1,5 +1,5 @@
 export const SelectYourRole = {
-    'en': 'Select Your Role.',
+    'en': 'Select Your Role',
     'hi': 'अपनी भूमिका चुने'
 }
 export const RequestScribe = {

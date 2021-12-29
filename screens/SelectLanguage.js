@@ -73,9 +73,9 @@ function SelectLanguage({navigation}) {
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
                     <Text style= {styles.text1}>
-                        Select your Language.
+                        Select your Language
                         {"\n"}{"\n"}
-                        अपनी भाषा चुने.
+                        अपनी भाषा चुने
                         {"\n"}
                     </Text>
                     <Text style= {styles.text2}>
