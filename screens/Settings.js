@@ -84,7 +84,7 @@ function Settings({ route, navigation }) {
                     }
                 },
                 {
-                    text: "Yes, log out",
+                    text: "Yes",
                     onPress: () => {
                         dispatch(changeUid({ newUid: "none" }))
                         dispatch(changeTempUid({newUid: "none"}))

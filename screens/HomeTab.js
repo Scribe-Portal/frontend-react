@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     t1: {
         flex: 1,
         color: "#FFFFFF",
-        fontSize: 40,
+        fontSize: 50,
         
         
     },
