@@ -175,11 +175,13 @@ function FillExamDetails({ navigation }) {
     let [Hindi, setHindi] = useState(false);
     let [show, setShow] = useState(false)
     let [show2, setShow2] = useState(false)
-    let [selectedRadio, setSelectedRadio] = useState(0);
+    let [touched1, setTouched1] = useState(false)
+    let [touched2, setTouched2] = useState(false)
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
         setShow(Platform.OS === 'ios')
+        setTouched1(true)
         setDate(new Date(currentDate))
         // console.log(selectedDate)
     }
@@ -189,6 +191,7 @@ function FillExamDetails({ navigation }) {
     const onChange2 = (event, selectedDate) => {
         const currentDate = selectedDate || date
         // console.log(selectedDate)
+        setTouched2(true)
         setShow2(Platform.OS === 'ios')
         setTime(new Date(currentDate))
     }
@@ -210,13 +213,13 @@ function FillExamDetails({ navigation }) {
                     <Text style={styles.text2}>Name of Examination</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
                     <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()
+                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${touched1 ? (String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()) : "Press to choose"
                         })`}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
                         <Text style={styles.textInsideDatePicker}>
                         
-                        {`Time of Examination (${String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')})`}
+                        {`Time of Examination (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : "Press to choose"})`}
                         </Text>
                     </TouchableOpacity>
 
