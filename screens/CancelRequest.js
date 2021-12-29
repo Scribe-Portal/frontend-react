@@ -132,7 +132,7 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
 
                     Reason for Cancellation
                 </Text>
-                <TextInput onChangeText={setCancelReason} style={styles.input}/>
+                <TextInput multiline={true} numberOfLines={10} onChangeText={setCancelReason} style={styles.input}/>
 
                 
             </View>

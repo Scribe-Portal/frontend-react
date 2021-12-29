@@ -140,7 +140,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
 
                     Rejecting the request might incur NEGATIVE NSS hours. Please consider the consequences before you cancel. Cancel only if necessary.
                 </Text>
-                <TextInput onChangeText={setCancelReason} style={styles.input} />
+                <TextInput multiline={true} numberOfLines={10} onChangeText={setCancelReason} style={styles.input} />
 
             </View>
             <View style={styles.lowerHalf}>
