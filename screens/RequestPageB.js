@@ -102,7 +102,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
         { collection: 'scribes',  }
     ])
     const dispatch = useDispatch()
-
+    console.log(req_id)
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.inner_container}>

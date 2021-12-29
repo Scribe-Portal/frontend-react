@@ -23,6 +23,15 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    text2: {
+        
+        marginHorizontal: 5,
+        color: "#19939A",
+        textAlign: 'center',
+        
+        fontSize: 18,
+        fontWeight: '700',
+    },
     requestBox: {
         flexDirection: "row",
         justifyContent: 'space-between',
@@ -90,6 +99,9 @@ function RequestsB() {
 
                 <Text style={styles.text1}>
                 Volunteer Search Pending
+                </Text>
+                <Text style={styles.text2}>
+                    Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
                 </Text>
                 
             

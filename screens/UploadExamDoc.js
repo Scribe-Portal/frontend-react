@@ -141,7 +141,7 @@ export class UploadExamDoc extends Component {
                     firebase_firestore()
                     .collection(`requests`)
                     .doc(this.reqid)
-                    .set(
+                    .update(
                         {
                             examDocUrl: url,
                             examDocType: this.radioOptions[this.state.selectedRadioButton]
