@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, Linking } f
 import { useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus, changeTempUid, changeUid } from '../reducers/userAppSettingsReducer';
 
-var NSSFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSdoK6B8czhAmA3MTE4Q5V92w-V2N5suKy9MH5hLxugoeTOMZw/viewform?usp=sf_link"
+const NSSFormURL = "https://forms.gle/arHtSEfV12jBVsxj9"
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -160,7 +160,7 @@ function Settings({ route, navigation }) {
                     >
                         <Text style={styles.t1}>
 
-                            Fill NSS Form
+                            Avail NSS Hours
                         </Text>
                     </TouchableOpacity>
 
