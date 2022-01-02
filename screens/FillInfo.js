@@ -250,31 +250,36 @@ function FillInfo({ navigation }) {
                     )}
                     <Text style={styles.text2}>Email</Text>
                     <TextInput onChangeText={setEmail} style={styles.input} />
-
-                    <Text style={styles.text2}>Are you comfortable giving exams in English?</Text>
-                    <RadioButton
-                        text="Yes"
-                        selectedRadioButton={English}
-                        handleChange={() => { setEnglish(!English); setPL(1)}}
-                    />
-                    <Text style={styles.text2}>Are you comfortable giving exams in Hindi?</Text>
-                    <RadioButton
-                        text="Yes"
-                        selectedRadioButton={Hindi}
-                        handleChange={() => { setHindi(!Hindi); setPL(1) }}
-                    />
-                    <Text style={styles.text2}>Are you comfortable giving exams in CBT?</Text>
-                    <RadioButton
-                        text="Yes"
-                        selectedRadioButton={CBT}
-                        handleChange={() => { setCBT(!CBT); setPL(1) }}
-                    />
-                    <Text style={styles.text2}>Are you comfortable giving exams in Math?</Text>
-                    <RadioButton
-                        text="Yes"
-                        selectedRadioButton={Math}
-                        handleChange={() => { setMath(!Math); setPL(1) }}
-                    />
+                    {
+                        isItAScribe ? (
+                            <View>
+                                <Text style={styles.text2}>Are you comfortable giving exams in English?</Text>
+                                <RadioButton
+                                    text="Yes"
+                                    selectedRadioButton={English}
+                                    handleChange={() => { setEnglish(!English); setPL(1)}}
+                                />
+                                <Text style={styles.text2}>Are you comfortable giving exams in Hindi?</Text>
+                                <RadioButton
+                                    text="Yes"
+                                    selectedRadioButton={Hindi}
+                                    handleChange={() => { setHindi(!Hindi); setPL(1) }}
+                                />
+                                <Text style={styles.text2}>Are you comfortable giving exams in CBT?</Text>
+                                <RadioButton
+                                    text="Yes"
+                                    selectedRadioButton={CBT}
+                                    handleChange={() => { setCBT(!CBT); setPL(1) }}
+                                />
+                                <Text style={styles.text2}>Are you comfortable giving exams in Math?</Text>
+                                <RadioButton
+                                    text="Yes"
+                                    selectedRadioButton={Math}
+                                    handleChange={() => { setMath(!Math); setPL(1) }}
+                                />
+                            </View>
+                        ) : null
+                    }
                     <Text style={styles.text2}>Address</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
 
