@@ -177,6 +177,7 @@ class App extends Component {
                 <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
                 <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
+                <Stack.Screen name="AboutNSS" component={AboutNSS} options={{ headerShown: false }} />
 
               </Stack.Navigator>
             </NavigationContainer>
