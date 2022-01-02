@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, Linking, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Linking, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
