@@ -300,7 +300,7 @@ function EnterMobile({ navigation }) {
                 .doc(user_id)
                 .get()
             // console.log(isItAScribe, lang, fcmToken)
-            if (userDoc.exists) {
+            if (userDoc.exists && userDoc.data().name) {
                 try {
 
                     if (fcmToken) await firestore.collection(isItAScribe ? 'scribes' : 'users')

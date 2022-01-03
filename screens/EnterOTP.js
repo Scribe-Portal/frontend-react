@@ -216,7 +216,7 @@ export default function EnterOTP({ route, navigation }) {
 
             <View style={styles.inner_container}>
                 <Text style={styles.text1}>
-                    OTP Verification,
+                    OTP Verification
                 </Text>
                 <Text style={styles.text2}>
                     An OTP has been sent to {mobile}
