@@ -116,10 +116,6 @@ function UserBox({ uid, showMobile }) {
                 {`Gender: ${(typeof user?.gender === 'string') ? user?.gender : "Unknown"} `}
 
             </Text>
-            <Text style={styles._text2}>
-                {`Preferred Languages: ${(typeof user?.languages === 'string') ? user?.languages : ""} ${user?.English ? "English" : ""} ${user?.Hindi ? "Hindi" : ""} ${user?.Math ? "Maths" : ""}`}
-
-            </Text>
             {showMobile ? (
                 <TouchableOpacity style={styles.priorityButton2}
                     onPress={() => {

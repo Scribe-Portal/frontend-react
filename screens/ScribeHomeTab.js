@@ -168,38 +168,45 @@ const styles = StyleSheet.create({
 });
 function calendarRequests(uid, requests, setMarked) {
     let requestIds = {}
-
+    
     requests.forEach((req, ind) => {
 
         var dt = req?.dateSlot
+        console.log(dt)
+        console.log(req?.examDate)
+        
+        
         if (dt) {
+            
+            
             if (req?.status==='accepted' && req?.volunteerAccepted && (uid === req.volunteerAccepted)) {
                 
-                setMarked((previouslyMarked) => ({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))
-                // console.log(dt, "set to green")
+                setMarked((previouslyMarked) => (JSON.parse(JSON.stringify({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))))
+                
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
                 
             }
             else if (req?.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req?.volunteerAccepted === "none" && req?.status==="pending") {
-                // console.log("marked ", dt)
-                setMarked((previouslyMarked) => ({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))
+                
+                setMarked((previouslyMarked) => (JSON.parse(JSON.stringify({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))))
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,]
                 
             }
             else {
                 
-                // console.log("request: ", req?.dateSlot, req?.volunteersSelected.indexOf(uid), req?.volunteerAccepted, req?.status)
+                
                 
             }
         }
         else {
-
+            
+            
         }
 
     });
-    // console.log("given markeddates ",markedDates)
+    
     return requestIds
 }
 function RequestBoxFooter({ uid, req_id }) {
@@ -253,6 +260,9 @@ export default function ScribeHomeTab() {
     let [currRequests, setCurrRequests] = useState([]);
     let [currDate, setCurrDate] = useState('')
     let [requestIds, setRequestIds] = useState({});
+    let maximumDate = new Date()
+    let minimumDate = new Date()
+    maximumDate.setDate(maximumDate.getDate() + 60)
 
     // const setMarked = (dt) => {
     //     setMarkedDates({ ...markedDates, [dt]: { selectedColor: 'green', selected: true, marked: true} })
@@ -262,7 +272,7 @@ export default function ScribeHomeTab() {
     useEffect(() => {
         if (requests) setRequestIds(calendarRequests(
             uid,
-            requests,
+            requests.filter(req => (minimumDate <= Date.parse(req?.dateSlot) && maximumDate >= Date.parse(req?.dateSlot))),
             setMarkedDates,
             
         ))
@@ -271,6 +281,10 @@ export default function ScribeHomeTab() {
         setCurrRequests(requestIds[currDate] || [])
         
     }, [requests,])
+    useEffect(() => {
+        
+        console.log(markedDates)
+    }, [markedDates,])
 
     const lang = useSelector((state) => state.userAppSettings.lang)
 
@@ -288,8 +302,8 @@ export default function ScribeHomeTab() {
         )
     }
     else if (!isEmpty(requests)) {
-
-
+        
+    
         // console.log(markedDates)
         return (
             <ScrollView style={styles.container}>
@@ -302,7 +316,10 @@ export default function ScribeHomeTab() {
                         <Calendar
                             enableSwipeMonths={true}
                             scrollEnabled={true}
+                            minDate={minimumDate}
+                            maxDate={maximumDate}
                             markedDates={markedDates}
+                            
                             // Enable horizontal scrolling, default = false
                             horizontal={true}
                             // Enable paging on horizontal, default = false

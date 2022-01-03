@@ -246,7 +246,7 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     ) : null}
-                    <Text style={styles.text2}>Mode of Examination</Text>
+                    <Text style={styles.text2}>Language of Examination</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
@@ -257,8 +257,9 @@ function FillExamDetails({ navigation }) {
                         selectedRadioButton={Hindi}
                         handleChange={() => { setHindi(!Hindi) }}
                     />
+                    <Text style={styles.text2}>Is the exam Computer Based Test (CBT)</Text>
                     <RadioButton
-                        text="CBT"
+                        text="Yes"
                         selectedRadioButton={CBT}
                         handleChange={() => { setCBT(!CBT) }}
                     />
@@ -284,7 +285,7 @@ function FillExamDetails({ navigation }) {
                                         CBT: CBT,
                                         examAddress: address,
                                         examPinCode: pinCode,
-                                        dateSlot: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+                                        dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0],
                                         volunteerAccepted: "none"
                                     })
                                     .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))

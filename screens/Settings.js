@@ -166,6 +166,17 @@ function Settings({ route, navigation }) {
 
                 : null}
                 <TouchableOpacity style={styles.button1}
+                    onPress={() => {
+                        navigation.navigate('AboutNSS', {fromHome: true})
+                    }}
+
+                >
+                    <Text style={styles.t1}>
+
+                        About NSS
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button1}
                     onPress={showLogoutDialog}
                 >
                     <Text style={styles.t1}>

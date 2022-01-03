@@ -293,7 +293,7 @@ function FillInfo({ navigation }) {
                     <TouchableOpacity style={styles.FillInfoButton}
                         onPress={() => {
                             
-                            if (name !== '' && radio !== '' && email !== '' && address !== '' && PL !== '' && (!isItAScribe || (eno !== ''))) {
+                            if (name !== '' && radio !== '' && email !== '' && address !== '' && (!isItAScribe || (eno !== '' && PL !== ''))) {
                                 firestore.collection(isItAScribe ? "scribes" : "users")
                                     .doc(uid)
                                     .update({
