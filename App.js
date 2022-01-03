@@ -53,6 +53,7 @@ import CommonMessages, { initialise_channels } from './messages/volunteerMessage
 import SelectAvailability from './screens/SelectAvailability'
 import CancelRequestForScribe from './screens/CancelRequestForScribe';
 import ProfileSettings from './screens/ProfileSettings';
+import AboutNSS from './screens/AboutNSS';
 // persisting user settings 
 const persistConfig = {
   key: 'root',

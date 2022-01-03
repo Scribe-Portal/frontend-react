@@ -21,6 +21,17 @@ const styles = StyleSheet.create({
         color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: "center",
+    },
+    c1: {
+        marginHorizontal: 20,
+        
+        alignItems: 'center',
+        marginVertical: 15,
+    },
+    c2: {
+        marginHorizontal: 20,
+        marginVertical: 10,
     },
     text2: {
         color: "#19939A",
@@ -47,9 +58,11 @@ function AboutNSS({ navigation }) {
             <ScrollView contentContainerStyle={styles.inner_container}>
 
 
-
                 <View style={styles.c1}>
+
                     <Image source={require('../assets/nss_logo.jpg')}></Image>
+                </View>
+                <View style={styles.c2}>
                     <Text style={styles.text1}>
                         About NSS
                     </Text>
