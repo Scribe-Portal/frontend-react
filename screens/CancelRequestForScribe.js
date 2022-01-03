@@ -103,7 +103,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                         }
                     },
                     {
-                        text: "Yes, I want to cancel",
+                        text: "Yes",
                         onPress: () => {
                             if (request.status === "accepted") {
 
@@ -157,7 +157,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                     onPress={showCancelDialog}
                 >
                     <Text style={styles.t1}>
-                        Reject
+                        Confirm Rejection
                     </Text>
                 </TouchableOpacity>
             </View>
