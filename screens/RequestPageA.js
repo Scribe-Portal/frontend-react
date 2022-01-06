@@ -186,6 +186,16 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                     <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ScribePage", { scribe_id: request?.volunteerAccepted, selected: true, modifiable: false })}>
                         <Text style={styles.t1}>View Scribe Details</Text>
                     </TouchableOpacity>
+                    
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.navigate('UploadExamDoc', { onto: "RequestPageA", from: "RequestPageA", requestId: req_id })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Upload Exam Documents
+                        </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {
                             navigation.goBack()
