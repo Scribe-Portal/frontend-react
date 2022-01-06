@@ -105,7 +105,7 @@ function UserBox({ uid, showMobile }) {
     return (
         <View style={styles.volunteerBox}>
             <Text style={styles._text1}>
-                User Details
+                Candidate Details
 
             </Text>
             <Text style={styles._text2}>
@@ -113,7 +113,7 @@ function UserBox({ uid, showMobile }) {
 
             </Text>
             <Text style={styles._text2}>
-                {`Gender: ${(typeof user?.gender === 'string') ? user?.gender : "Unknown"} `}
+                {`Gender: ${(typeof user?.gender === 'string') ?  (user?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
 
             </Text>
             {showMobile ? (
