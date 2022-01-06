@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
+        textAlign: 'center'
     },
     t2: {
         color: "#19939A",
