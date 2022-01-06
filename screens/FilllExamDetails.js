@@ -269,6 +269,10 @@ function FillExamDetails({ navigation }) {
                     <TextInput onChangeText={setAddress} style={styles.input} />
                     <Text style={styles.text2}>PIN code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
+                    <Text style={styles.text2}>
+                    
+                        Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
+                    </Text>
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
                             if (name !== '' && address !== '') {
