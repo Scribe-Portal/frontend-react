@@ -46,6 +46,7 @@ import RequestsB from './screens/RequestsB'
 import RequestsA from './screens/RequestsA'
 import RequestsC from './screens/RequestsC'
 import CancelRequest from './screens/CancelRequest'
+import ReviewVolunteer from "./screens/ReviewVolunteer"
 import ViewOnlyScribePage from './screens/ViewOnlyScribePage'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -181,6 +182,7 @@ class App extends Component {
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
                 <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
                 <Stack.Screen name="AboutNSS" component={AboutNSS} options={{ headerShown: false }} />
+                <Stack.Screen name="ReviewVolunteer" component={ReviewVolunteer} options={{ headerShown: false }} />
 
               </Stack.Navigator>
             </NavigationContainer>

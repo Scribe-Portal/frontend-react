@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     lowerHalf: {
-        flex: 1,
+        
         margin: 20,
         justifyContent: 'space-around'
     },
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
+        marginVertical: 5,
         alignItems: 'center',
 
     },
@@ -188,6 +189,9 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                     {request?.volunteerAccepted ? <PhoneButtton scribe_id={request.volunteerAccepted}/>: null}
                     <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ScribePage", { scribe_id: request?.volunteerAccepted, selected: true, modifiable: false })}>
                         <Text style={styles.t1}>View Scribe Details</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ReviewVolunteer", { scribe_id: request?.volunteerAccepted, req_id: req_id, selected: true, modifiable: false })}>
+                        <Text style={styles.t1}>Review</Text>
                     </TouchableOpacity>
                     
                     <TouchableOpacity style={styles.priorityButton}
