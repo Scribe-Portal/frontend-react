@@ -1,5 +1,5 @@
 {
-  "name": "ScribePortal",
+  "name": "scribeportal",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -67,5 +67,17 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "```\r cry in pain\r ```\r ## How to use/run\r ```\r don't\r ```\r ## Who are you?\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scribe-Portal/frontend-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Scribe-Portal/frontend-react/issues"
+  },
+  "homepage": "https://github.com/Scribe-Portal/frontend-react#readme"
 }

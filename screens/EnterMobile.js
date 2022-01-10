@@ -372,18 +372,27 @@ function EnterMobile({ navigation }) {
                 const message={
                     data: {
                         type: 'OTP',
-                        notif: 'OTP has been sent to the no 7409444981'
+                        notif: 'OTP has been sent to your number'
                     },
-                    token: fcmToken
                 };
-                messaging().sendMessage({
-                    data: {
-                      type: 'OTP',
-                      notif: 'OTP has been sent to the no 7409444981',
-                    },
-                    token: fcmToken
-                  });
-                
+                // messaging().sendMessage({
+                //     data: {
+                //       type: 'OTP',
+                //       notif: 'OTP has been sent to the no 7409444981',
+                //     },
+                //     token: fcmToken
+                //   });
+                fetch("https://scribenotif.herokuapp.com/",{
+                    method: 'POST',
+                    body: JSON.stringify({
+                        registrationToken: fcmToken,
+                        message: message,
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                console.log("fetched")
                 navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
             }
 

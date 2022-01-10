@@ -54,6 +54,24 @@ export default async function CommonMessages (message){
                 }
             })
             break;
+            case 'AcceptS': 
+            notifee.displayNotification({
+                title: 'Request accepted', 
+                body: 'Your Scribe Request has been accepted please check the app',
+                android: {
+                    channelId: c['Neutral']
+                }
+            })
+            break;
+            case 'Accept': 
+            notifee.displayNotification({
+                title: 'New Request', 
+                body: 'You have a new scribe request',
+                android: {
+                    channelId: c['Neutral']
+                }
+            })
+            break;
         default: 
             notifee.displayNotification({
                 title: 'some info',
