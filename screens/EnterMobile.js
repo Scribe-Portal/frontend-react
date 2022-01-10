@@ -321,6 +321,22 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
+                
+                console.log("notif trial")
+                const message={
+                    data: {
+                        type: 'OTP',
+                        notif: 'OTP has been sent to the no 7409444981'
+                    },
+                    token: fcmToken
+                };
+                messaging().sendMessage(message)
+                .then((response) => {
+                    console.log("Succesfully sent the otp greeting",response)
+                })
+                .catch((error)=>{
+                    console.log("Error in sending the message:",error)
+                });
                 dispatch(changeUid({newUid: user_id}))
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
@@ -352,6 +368,21 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 2, ' + err);
                 }
+                console.log("notif trial")
+                const message={
+                    data: {
+                        type: 'OTP',
+                        notif: 'OTP has been sent to the no 7409444981'
+                    },
+                    token: fcmToken
+                };
+                messaging().sendMessage({
+                    data: {
+                      type: 'OTP',
+                      notif: 'OTP has been sent to the no 7409444981',
+                    },
+                    token: fcmToken
+                  });
                 
                 navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
             }
