@@ -66,7 +66,7 @@ function AboutNSS({ navigation }) {
 
                 <View style={styles.c1}>
 
-                    <Image source={require('../assets/nss_logo_updated_1.jpg')}></Image>
+                    <Image source={require('../assets/nss_logo_updated_3.png')}></Image>
                 </View>
                 <View style={styles.c2}>
                     <Text style={styles.text1}>

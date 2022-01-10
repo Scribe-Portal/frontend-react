@@ -106,7 +106,7 @@ class Splash extends Component {
             <View style={styles.container}>
 
                 
-                <Image source={require('../assets/nss_logo_small_updated_1.jpg')}></Image>
+                <Image source={require('../assets/nss_logo_small_updated_3.png')}></Image>
                 <Text style={styles.nss_logo_text}> NSS, IITD </Text>
                 <Image source={require('../assets/main_logo.jpg')}></Image>
                 <Text style={styles.subText}>
