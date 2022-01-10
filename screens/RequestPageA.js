@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Alert, Linking, TouchableOpacity, ScrollView } 
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
+import xdate from '../xdate'
 import { changeLang } from '../reducers/userAppSettingsReducer';
 // hi
 const styles = StyleSheet.create({
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
+        textAlign: 'center'
     },
     scribeBox: {
 
@@ -119,6 +121,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
         <View style={styles.container}>
@@ -146,9 +149,9 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                     </Text>
                     <Text style={styles.text2}>
 
-                        Exam Date: {new Date(request.examDate.seconds * 1000).toDateString()}
+                        Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                     </Text>
-                    <Text style={styles.text2}>Exam Languages:</Text>
+                    <Text style={styles.text2}>Exam Languages: </Text>
                     {request.examLang ?
                         <Text style={styles.text2}>
                             {request.examLang}
@@ -185,6 +188,16 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                     {request?.volunteerAccepted ? <PhoneButtton scribe_id={request.volunteerAccepted}/>: null}
                     <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ScribePage", { scribe_id: request?.volunteerAccepted, selected: true, modifiable: false })}>
                         <Text style={styles.t1}>View Scribe Details</Text>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.navigate('UploadExamDoc', { onto: "RequestPageA", from: "RequestPageA", requestId: req_id })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Upload Exam Documents
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={() => {

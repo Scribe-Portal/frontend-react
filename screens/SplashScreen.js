@@ -12,6 +12,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#DEFCFC",
     },
+    nss_logo_text: {
+        alignItems: 'center',
+        fontSize: 15,
+    },
     mainText: {
         color: "#FFFFFF",
         fontSize: 30,
@@ -102,6 +106,8 @@ class Splash extends Component {
             <View style={styles.container}>
 
                 
+                <Image source={require('../assets/nss_logo_small_updated_1.jpg')}></Image>
+                <Text style={styles.nss_logo_text}> NSS, IITD </Text>
                 <Image source={require('../assets/main_logo.jpg')}></Image>
                 <Text style={styles.subText}>
                     {this.state.updateStatus}

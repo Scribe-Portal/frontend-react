@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
+        marginVertical: 5,
         alignItems: 'center',
 
     },
@@ -257,11 +258,17 @@ function FillExamDetails({ navigation }) {
                         selectedRadioButton={Hindi}
                         handleChange={() => { setHindi(!Hindi) }}
                     />
-                    <Text style={styles.text2}>Is the exam Computer Based Test (CBT)</Text>
+                    <Text style={styles.text2}>Mode of Exam</Text>
                     <RadioButton
-                        text="Yes"
+                        text="Pen paper"
+                        selectedRadioButton={!CBT}
+                        handleChange={() => { setCBT(false) }}
+                    />
+                    
+                    <RadioButton
+                        text="CBT"
                         selectedRadioButton={CBT}
-                        handleChange={() => { setCBT(!CBT) }}
+                        handleChange={() => { setCBT(true) }}
                     />
 
 
@@ -269,6 +276,10 @@ function FillExamDetails({ navigation }) {
                     <TextInput onChangeText={setAddress} style={styles.input} />
                     <Text style={styles.text2}>PIN code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
+                    <Text style={styles.text2}>
+                    
+                        Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
+                    </Text>
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
                             if (name !== '' && address !== '') {

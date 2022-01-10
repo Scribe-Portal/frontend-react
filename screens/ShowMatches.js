@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeAll } from '../reducers/priorityReducer';
@@ -11,10 +11,6 @@ import { sendEmail } from './sendemail';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
-
-
-
     },
     inner_container: {
         flexGrow: 1,
@@ -190,6 +186,26 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
     }, [])
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
+    const showInfoDialog = () => {
+
+        return Alert.alert(
+            "Info",
+            "You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes. If you don't see your request there, check for it in \"Succesful Volunteer Search\" under \"Status\"",
+            [
+                {
+                    text: "Ok, go to Home",
+                    onPress: () => {
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            
+                        }
+                },
+                
+    
+            ]
+    
+        )
+        
+    }
     if (!isLoaded(scribes)) {
         return (
             <View>
@@ -276,7 +292,8 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                         
                                         dispatch(removeAll())
                                     })
-                                navigation.navigate('Home')
+                                    showInfoDialog()
+                                
 
                             }}
                         >

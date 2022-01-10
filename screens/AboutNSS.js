@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, { Component,  } from 'react';
 
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, Linking } from 'react-native';
 
 import { ScrollView } from 'react-native';
+
+const NSSWebsite = 'http://nss.iitd.ac.in/'
 
 const styles = StyleSheet.create({
 
@@ -30,6 +32,10 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     },
     c2: {
+        marginHorizontal: 20,
+        marginVertical: 10,
+    },
+    c3: {
         marginHorizontal: 20,
         marginVertical: 10,
     },
@@ -60,7 +66,7 @@ function AboutNSS({ navigation }) {
 
                 <View style={styles.c1}>
 
-                    <Image source={require('../assets/nss_logo.jpg')}></Image>
+                    <Image source={require('../assets/nss_logo_updated_1.jpg')}></Image>
                 </View>
                 <View style={styles.c2}>
                     <Text style={styles.text1}>
@@ -75,7 +81,26 @@ function AboutNSS({ navigation }) {
                     </Text>
 
                 </View>
+                <View style={styles.c3}>
+                <TouchableOpacity style={styles.FillInfoButton}
+                        onPress={() => {
+                            
+                            Linking.canOpenURL(NSSWebsite).then(supported => {
+                                if (supported) {
+                                    Linking.openURL(NSSWebsite);
+                                } else {
+                                    showFail()
+                                }
+                            });
 
+                        }}
+                    >
+                        <Text style={styles.t1}>
+
+                            NSS Website
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
 
 

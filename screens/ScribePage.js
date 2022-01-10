@@ -98,7 +98,7 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
 
                     </Text>
                     <Text style={styles.text2}>
-                        {`Gender: ${(typeof scribe?.gender === 'string') ? scribe?.gender : "Unknown"} `}
+                        {`Gender: ${(typeof scribe?.gender === 'string') ? (scribe?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
 
                     </Text>
                     <Text style={styles.text2}>
@@ -106,20 +106,12 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
 
                     </Text>
                     <Text style={styles.text2}>
-                        Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "unrated"}/5`}
+                        Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "Unrated"}/5`}
                     </Text>
                     <Text style={styles.text2}>
-                        Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "unknown"}`}
+                        Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
                     </Text>
-                    <Text style={styles.text2}>
-                        Voulnteered 15 times
-                    </Text>
-                    <Text style={styles.text2}>
-                        Reviews:
-                    </Text>
-                    <Text style={styles.text2}>
-                        {`${(typeof scribe?.review === 'string') ? scribe?.review : "unreviewed"}`}
-                    </Text>
+                    
 
                 </View>
             </View>

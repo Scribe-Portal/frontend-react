@@ -47,16 +47,7 @@ function Home({ route, navigation }) {
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     return (
         <View style={styles.container}>
-            <SearchBar
-                style={styles.searchInput}
-                placeholder="Search"
-                platform="ios"
-                onChangeText={setSearch}
-                value={search}
-                searchIcon={
-                    <Icon name="search" type='font-awesome'/>
-                }
-            />
+            
                 <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
                     <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
                     <Tab.Screen name="Status" children={() => isItAScribe?<NewsScribe/>:<News/>}/>

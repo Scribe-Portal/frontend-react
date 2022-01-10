@@ -82,17 +82,12 @@ function News() {
                 <TouchableOpacity style={styles.requestA} onPress={() => {
                     navigation.navigate('RequestsA')
                 }}>
-                    <Text style={styles.textA}>Volunteer Search Successful</Text>
+                    <Text style={styles.textA}>Successful Volunteer Search </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.requestB} onPress={() => {
                     navigation.navigate('RequestsB')
                 }}>
                     <Text style={styles.textC}>Pending Requests</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.requestC} onPress={() => {
-                    navigation.navigate('RequestsC')
-                }}>
-                    <Text style={styles.textB}>Volunteer Search Failed</Text>
                 </TouchableOpacity>
             </ScrollView>
 

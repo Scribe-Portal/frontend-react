@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, 
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import messaging from '@react-native-firebase/messaging';
+import xdate from '../xdate'
 import { sendEmail } from './sendemail';
 
 // hi
@@ -105,7 +106,7 @@ function UserBox({ uid, showMobile }) {
     return (
         <View style={styles.volunteerBox}>
             <Text style={styles._text1}>
-                User Details
+                Candidate Details
 
             </Text>
             <Text style={styles._text2}>
@@ -113,7 +114,7 @@ function UserBox({ uid, showMobile }) {
 
             </Text>
             <Text style={styles._text2}>
-                {`Gender: ${(typeof user?.gender === 'string') ? user?.gender : "Unknown"} `}
+                {`Gender: ${(typeof user?.gender === 'string') ?  (user?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
 
             </Text>
             {showMobile ? (
@@ -251,7 +252,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         <Text style={styles.text2}>
 
-                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                         </Text>
                         <Text style={styles.text2}>
                             Mode of Exam:
@@ -329,7 +330,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         <Text style={styles.text2}>
 
-                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                         </Text>
                         <Text style={styles.text2}>
                             Mode of Exam:

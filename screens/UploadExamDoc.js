@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginVertical: 10,
         borderRadius: 10,
+        alignItems: 'center',
     },
 
 });
@@ -175,8 +176,8 @@ export class UploadExamDoc extends Component {
                     <View style={styles.middle_spacing}></View>
                     <TouchableOpacity style={styles.UploadExamDocButton}
                         onPress={() => {
-                            if (onto==="RequestPageB") {
-                                navigation.navigate("RequestPageB", {req_id: requestId, })
+                            if (onto) {
+                                navigation.navigate(onto, {req_id: requestId, })
                             }
                             else {
                                 navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})

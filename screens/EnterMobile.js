@@ -464,7 +464,7 @@ function EnterMobile({ navigation }) {
 
                                         switch (phoneAuthSnapshot.state) {
                                             case firebase_auth.PhoneAuthState.CODE_SENT:
-                                                // console.log('Verif code sent!', phoneAuthSnapshot)
+                                                console.log('Verif code sent!', phoneAuthSnapshot)
                                                 setStatus("We've resent the OTP, hope you got it!")
                                                 verificationId = phoneAuthSnapshot.verificationId
                                                 break
