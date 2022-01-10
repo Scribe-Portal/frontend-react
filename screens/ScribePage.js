@@ -106,9 +106,6 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
 
                     </Text>
                     <Text style={styles.text2}>
-                        Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "Unrated"}/5`}
-                    </Text>
-                    <Text style={styles.text2}>
                         Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
                     </Text>
                     
