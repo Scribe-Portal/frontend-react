@@ -185,16 +185,26 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                 const registrationToken = user?.fcmToken;
 
                                 const message = {
-                                    notification: {
-                                        title: 'Scribe request',
-                                        body: 'Your request has been accepted'
+                                    data: {
+                                        type: 'AcceptS',
+                                        notif: 'OTP has been sent to your number'
                                     },
-                                    token: registrationToken
-                                }
+                                };
 
                                 // Send a message to the device corresponding to the provided
                                 // registration token.
-                                return await messaging().sendMessage(message)
+                                fetch("https://scribenotif.herokuapp.com/",{
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        registrationToken: registrationToken,
+                                        message: message,
+                                    }),
+                                    headers: {
+                                        'Content-type': 'application/json; charset=UTF-8'
+                                    }
+                                })
+                                console.log("fetched")
+                                console.log(registrationToken)
                             })
                             .then((response) => {
                                 // Response is a message ID string.
