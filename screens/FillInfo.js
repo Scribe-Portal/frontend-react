@@ -184,6 +184,7 @@ function FillInfo({ navigation }) {
     let [date, setDate] = useState(new Date())
 
     let [show, setShow] = useState(false)
+    let [touched1, setTouched1] = useState(false)
     const dispatch = useDispatch()
     const uid = useSelector(state => state.userAppSettings.tempuid)
     const lang = useSelector(state => state.userAppSettings.lang)
@@ -194,6 +195,7 @@ function FillInfo({ navigation }) {
         setDate(currentDate)
     }
     const showDatepicker = () => {
+        setTouched1(true)
         setShow(true)
     }
     const genders = ["male", "female", "not to say"]
@@ -236,7 +238,8 @@ function FillInfo({ navigation }) {
                         handleChange={() => { setRadio(2) }}
                     />
                     <TouchableOpacity onPress={showDatepicker} style={styles.dateOfBirthPicker} onPress={showDatepicker}>
-                        <Text style={styles.textInsideDoBPicker}>{`Date of Birth (${date.toDateString()})`}</Text>
+                        <Text style={styles.textInsideDoBPicker}>{`Date of Birth (${touched1 ? (String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()) : "Press to choose"
+                        })`}</Text>
                     </TouchableOpacity>
 
                     {show && (

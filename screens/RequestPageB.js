@@ -4,6 +4,7 @@ import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, View, Linking, TouchableOpacity, ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirestoreConnect } from 'react-redux-firebase'
+import xdate from '../xdate'
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer'
 import { changeLang } from '../reducers/userAppSettingsReducer'
 // hi
@@ -130,10 +131,10 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     </Text>
                     <Text style={styles.text2}>
 
-                        Exam Date: {new Date(request?.examDate?.seconds * 1000).toDateString()}
+                        Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                     </Text>
                     <Text style={styles.text2}>
-                        Exam Language
+                        Exam Languages:
                     </Text>
                     {request?.Hindi ?
                         <Text style={styles.text2}>

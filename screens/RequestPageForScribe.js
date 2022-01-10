@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, 
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import messaging from '@react-native-firebase/messaging';
+import xdate from '../xdate'
 import { sendEmail } from './sendemail';
 
 // hi
@@ -241,7 +242,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         <Text style={styles.text2}>
 
-                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                         </Text>
                         <Text style={styles.text2}>
                             Mode of Exam:
@@ -319,7 +320,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                         </Text>
                         <Text style={styles.text2}>
 
-                            Date of Exam: {new Date(request?.examDate.seconds * 1000).toDateString()}
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                         </Text>
                         <Text style={styles.text2}>
                             Mode of Exam:

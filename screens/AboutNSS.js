@@ -66,7 +66,7 @@ function AboutNSS({ navigation }) {
 
                 <View style={styles.c1}>
 
-                    <Image source={require('../assets/nss_logo-removebg-preview.png')}></Image>
+                    <Image source={require('../assets/nss_logo_updated_1.jpg')}></Image>
                 </View>
                 <View style={styles.c2}>
                     <Text style={styles.text1}>

@@ -12,28 +12,21 @@ const styles = StyleSheet.create({
 
 
     },
-    input: {
-        top: 50,
-        margin: 0.5,
-        width: "97%",
-        height: 60,
-        backgroundColor: "white",
-        borderRadius: 5,
-    },
     centered: {
         flex: 1,
         margin: 20,
 
     },
     text1: {
-        top: 20,
+        
         textAlign: "center",
         color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+        marginVertical: 5,
     },
     text2: {
-        top: 40,
+        
         color: "#3A3A3A",
         fontSize: 20,
         fontWeight: '700',
@@ -79,20 +72,14 @@ const styles = StyleSheet.create({
         fontSize: 30,
 
     },
-    textInpu: {
-        position: "absolute",
-        top: 160,
-        flex: -1,
-        width: 300
-    },
     radioRoot: {
-        top: 80,
+        
         width: "95%",
         backgroundColor: "white",
         flexDirection: 'row',
         padding: 10,
         borderRadius: 5,
-        margin: 5,
+        marginVertical: 5,
     },
 
 });
@@ -168,7 +155,7 @@ export class VolunteerPreference extends Component {
         let genderOptions = ["Female", "Male"]
         genderOptions.forEach((doc, i, arr) => {
 
-            radio_array.push(
+            gender_array.push(
                 <RadioButton
                     i={i}
                     key={i}
@@ -190,7 +177,7 @@ export class VolunteerPreference extends Component {
                         </Text>
                         <Text style={styles.text2}>Gender</Text>
                         {gender_array}
-                        <Text style={styles.text3} >Qualification Preference</Text>
+                        <Text style={styles.text2} >Qualification Preference</Text>
                         {radio_array}
                         <TouchableOpacity style={styles.button1}
                             onPress={() => {

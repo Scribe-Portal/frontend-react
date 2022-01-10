@@ -111,12 +111,7 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
                     <Text style={styles.text2}>
                         Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
                     </Text>
-                    <Text style={styles.text2}>
-                        Reviews:
-                    </Text>
-                    <Text style={styles.text2}>
-                        {`${(typeof scribe?.review === 'string') ? scribe?.review : "Unreviewed"}`}
-                    </Text>
+                    
 
                 </View>
             </View>
