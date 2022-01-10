@@ -1,34 +1,48 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
-import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
-import { changeLang } from '../reducers/userAppSettingsReducer';
+import { useNavigation } from '@react-navigation/native'
+import React, { Component, useEffect } from 'react'
+import { StyleSheet, Text, View, Linking, TouchableOpacity, ScrollView } from 'react-native'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import xdate from '../xdate'
+import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer'
+import { changeLang } from '../reducers/userAppSettingsReducer'
 // hi
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#B4E2DF",
     },
+    inner_container: {
+        flexGrow: 1,
+    },
     upperHalf: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        padding: 10,
     },
     lowerHalf: {
         flex: 1,
-        margin: 20,
+        margin: 10,
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: 'center',
+    },
+    text3: {
+        color: "#19939A",
+        fontSize: 22,
+        fontWeight: '700',
+        textAlign: 'center',
     },
     text2: {
-        color: "#828282",
+        color: "#19939A",
         fontSize: 20,
+        textAlign: 'left',
         fontWeight: '500',
     },
     priorityButton: {
@@ -37,7 +51,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        borderWidth: 3,
+        marginVertical: 3,
+
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -56,69 +71,127 @@ const styles = StyleSheet.create({
         color: "#19939A",
         fontSize: 30,
 
-    }
+    },
+    scribeBox: {
 
-});
+        justifyContent: 'space-between',
+        borderRadius: 10,
+        marginVertical: 5,
+        borderWidth: 2,
+        borderColor: "#19939A",
+        padding: 10,
+        backgroundColor: "#FDF1DB",
+    },
+    scribeName: {},
+
+})
+function ScribeName({ scribe_id, ind }) {
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
+    const navigation = useNavigation()
+    return (
+
+        <TouchableOpacity style={styles.scribeBox} onPress={() => navigation.navigate("ScribePage", { scribe_id: scribe_id, selected: true, modifiable: false })}>
+
+            <Text style={styles.scribeName}>{scribe?.name || "can't load name"}</Text>
+
+        </TouchableOpacity>
+    )
+}
 function RequestPageC({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
-
+    useFirestoreConnect(() => [
+        { collection: 'scribes',  }
+    ])
     const dispatch = useDispatch()
+
     return (
         <View style={styles.container}>
-            <View style={styles.upperHalf}>
-                <Text style={styles.text1}>
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
-                    {
-                        (request.status == 'found')
-                            ? "Volunteer found for,"
-                            : ((request.status == 'pending')
-                                ? "Volunteer search pending for,"
-                                : "Volunteer not found")
+                <View style={styles.upperHalf}>
+                    <Text style={styles.text1}>
+
+                        {
+                            (request?.status == 'found')
+                                ? "Volunteer found for,"
+                                : ((request?.status == 'pending')
+                                    ? "Volunteer search pending"
+                                    : "Volunteer not found")
+                        }
+
+                    </Text>
+                    <Text style={styles.text3}>
+
+                        Exam Details
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Name: {request?.examName}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
+                    </Text>
+                    <Text style={styles.text2}>
+                        Exam Language
+                    </Text>
+                    {request?.Hindi ?
+                        <Text style={styles.text2}>
+                            Hindi
+                        </Text>
+                        : null
                     }
+                    {request?.examLang ?
+                        <Text style={styles.text2}>
+                            {request.examLang}
+                        </Text>
+                        : null
+                    }
+                    {request?.English ?
+                        <Text style={styles.text2}>
+                            English
+                        </Text>
+                        : null
+                    }
+                    {request?.CBT ?
+                        <Text style={styles.text2}>
+                            CBT
+                        </Text>
+                        : null
+                    }
+                    <Text style={styles.text2}>
 
-                </Text>
-                <Text style={styles.text2}>
+                        Exam Time: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                    </Text>
+                    <Text style={styles.text2}>
 
-                    {request.examName} on {new Date(request.examDate.seconds).toDateString()}
-                </Text>
-            </View>
-            <View style={styles.lowerHalf}>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.goBack()
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Go Back
+                        Scribes selected:
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        let phoneNumber = ''
-                        if (Platform.OS === 'android') {
-                            phoneNumber = 'tel:${1234567890}';
-                        }
-                        else {
-                            phoneNumber = 'telprompt:${1234567890}';
-                        }
-                        Linking.openURL(phoneNumber);
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Call Volunteer
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.priorityButton}
-                    onPress={() => {
-                        navigation.navigate('CancelRequest', {requestId: req_id, })
-                    }}
-                >
-                    <Text style={styles.t1}>
-                        Cancel Request
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                    {request?.volunteersSelected && request.volunteersSelected.map((item, ind) => (<ScribeName scribe_id={item} key={ind}></ScribeName>))}
+
+                </View>
+                <View style={styles.lowerHalf}>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Back
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.priorityButton}
+                        onPress={() => {
+                            navigation.navigate('CancelRequest', { requestId: req_id, })
+                        }}
+                    >
+                        <Text style={styles.t1}>
+                            Cancel Request
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
 
         </View>
     )

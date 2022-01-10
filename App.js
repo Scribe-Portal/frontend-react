@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
 import 'react-native-gesture-handler'
-import PushController from './screens/PushNotifM';
+
 import React, { Component } from 'react'
 import codePush from 'react-native-code-push';
 import Splash from './screens/SplashScreen'
@@ -51,11 +51,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import CommonMessages, { initialise_channels } from './messages/volunteerMessages'
 import SelectAvailability from './screens/SelectAvailability'
+import CancelRequestForScribe from './screens/CancelRequestForScribe';
+import ProfileSettings from './screens/ProfileSettings';
+import AboutNSS from './screens/AboutNSS';
 // persisting user settings 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['lang', 'isItAScribe', 'uid',]
+  whitelist: ['lang', 'isItAScribe', 'uid', 'tempuid']
 }
 // react-redux-firebase 
 const rrfConfig = {
@@ -138,14 +141,16 @@ class App extends Component {
     await this.getToken()
     await this.checkPermission()
     await initialise_channels()
-    defaultMessaging.onMessage(CommonMessages)
-    defaultMessaging.setBackgroundMessageHandler(CommonMessages)
+    messaging().onMessage(CommonMessages)
+    messaging().setBackgroundMessageHandler(CommonMessages)
+    //defaultMessaging.onMessage(CommonMessages)
+    //defaultMessaging.setBackgroundMessageHandler(CommonMessages)
   }
   render() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-        <PushController/>
+
           <ReactReduxFirebaseProvider {...rrfProps}>
             <NavigationContainer style={styles.root}>
               <Stack.Navigator initialRouteName="Splash">
@@ -171,8 +176,11 @@ class App extends Component {
                 <Stack.Screen name="RequestsB" component={RequestsB} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestsC" component={RequestsC} options={{ headerShown: false }} />
                 <Stack.Screen name="CancelRequest" component={CancelRequest} options={{ headerShown: false }} />
+                <Stack.Screen name="CancelRequestForScribe" component={CancelRequestForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="RequestPageForScribe" component={RequestPageForScribe} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectAvailability" component={SelectAvailability} options={{ headerShown: false }} />
+                <Stack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
+                <Stack.Screen name="AboutNSS" component={AboutNSS} options={{ headerShown: false }} />
 
               </Stack.Navigator>
             </NavigationContainer>

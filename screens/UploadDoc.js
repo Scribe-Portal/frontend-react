@@ -10,14 +10,29 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import { compose } from 'redux';
 import { useFirestore, withFirestore } from 'react-redux-firebase';
 import { Picker } from '@react-native-picker/picker'
+import { ScrollView } from 'react-native'
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
+        justifyContent: "space-evenly",
+    },
+    inner_container: {
+        flexGrow: 1,
         backgroundColor: "#B4E2DF",
-        justifyContent: 'center',
 
 
+    },
+    text1: {
+        color: "#19939A",
+        fontSize: 30,
+        fontWeight: '700',
+    },
+    text2: {
+        color: "#19939A",
+        fontSize: 20,
+        fontWeight: '400',
     },
     input: {
         margin: 10,
@@ -29,16 +44,6 @@ const styles = StyleSheet.create({
         margin: 20,
 
     },
-    text1: {
-        color: "#828282",
-        fontSize: 18,
-        fontWeight: '700',
-    },
-    text2: {
-        color: "#FFFFFF",
-        fontSize: 18,
-        fontWeight: '700',
-    },
     tsmall: {
 
     },
@@ -47,13 +52,18 @@ const styles = StyleSheet.create({
         borderColor: "#19939A",
         borderRadius: 10,
         padding: 5,
-        margin: 5,
+        marginVertical: 5,
+        
         alignItems: 'center',
-        borderWidth: 3,
+
     },
     t1: {
         color: "#FFFFFF",
         fontSize: 30
+    },
+    t3: {
+        color: "#FFFFFF",
+        fontSize: 25,
     },
     t2: {
         color: "#19939A",
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
 
     },
     text3: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 15,
         fontWeight: '200',
     },
@@ -70,24 +80,34 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
         borderRadius: 9,
-        margin: 10,
+        marginVertical: 10,
     },
     itemStyle: {
         fontSize: 10,
         fontFamily: "Roboto-Regular",
-        color: "#007aff"
+        color: "#000000",
     },
     pickerStyle: {
         width: "100%",
         height: 40,
-        color: "#007aff",
+        backgroundColor: "#FFFFFF",
+        
         fontSize: 14,
+        borderRadius: 5,
         fontFamily: "Roboto-Regular"
     },
     textStyle: {
         fontSize: 14,
         fontFamily: "Roboto-Regular"
-    }
+    },
+    radioText: {
+        margin: 7,
+    },
+    picker: {},
+    pickerView: {
+        marginVertical: 20,
+
+    },
 
 });
 function RadioButton({ i, text, selectedRadioButton, handleChange }) {
@@ -97,26 +117,27 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
             onPress={handleChange}
         >
             <View style={{
-                padding: 3,
+                height: 24,
+                width: 24,
                 borderRadius: 12,
                 borderWidth: 2,
                 borderColor: '#000',
-                margin: 5,
                 alignItems: 'center',
+                margin: 5,
                 justifyContent: 'center',
             }}>
                 {
                     selectedRadioButton == i ?
                         <View style={{
-                            height: 8,
-                            width: 8,
-                            borderRadius: 4,
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
                             backgroundColor: '#000',
                         }} />
                         : null
                 }
             </View>
-            <Text>{text}</Text>
+            <Text style={styles.radioText}>{text}</Text>
         </TouchableOpacity>
 
     );
@@ -128,15 +149,22 @@ export class UploadDoc extends Component {
             selectedRadioButton: -1,
             uploadProgress: 0,
             uploadedText: '',
-            eduCertifUploaded: -1,
+            eduCertifUploaded: false,
+            disabCertifUploaded: false,
+            idCertifUploaded: false,
+            buttonDisabled: false,
             uploadedText2: '',
             selectedEdu: '12th'
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
+        this.eduCertif = this.eduCertif.bind(this)
         this.uid = props.uid
+        this.radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
+
         // this.firestore = props.firestore
     }
-    eduCertif() {
+    disabCertif() {
+        this.setState({buttonDisabled: true})
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
@@ -148,37 +176,82 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                    .ref(`EducCertif/${this.uid}`)
-                    .putFile(capture["assets"][0]["uri"])
+                .ref(`DisabCertif/${this.uid}`)
+                .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
                 task.then(() => {
                     this.setState({
-                        uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
-                        eduCertifUploaded: 1,
+                        // uploadedText2: "Disability Certificate Uploaded " + capture["assets"][0]["fileName"],
+                        uploadedText2: "Disability Certificate Uploaded " ,
+                        disabCertifUploaded: true,
                     })
-
+                    
                 })
-                firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
+                firebase_storage().ref(`DisabCertif/${this.uid}`).getDownloadURL().then((url) => {
                     firebase_firestore()
-                        .collection('users')
+                    .collection('users')
+                    .doc(this.uid)
+                        .update(
+                            {
+                                disabCertURL: url,
+                                
+                            })
+                            
+                            this.setState({disabCertifUploaded: true, buttonDisabled: false})
+                        })
+                
+                    }
+                })
+    }
+    eduCertif() {
+        this.setState({buttonDisabled: true})
+        launchImageLibrary({
+            mediaType: 'photo',
+            includeBase64: false,
+        }, (capture) => {
+            if (capture.didCancel || capture.errorCode) {
+                if (capture.errorCode) {
+                    // console.log(capture.errorMessage)
+                }
+            }
+            else {
+                let task = firebase_storage()
+                .ref(`EducCertif/${this.uid}`)
+                .putFile(capture["assets"][0]["uri"])
+                // console.log('upload successful!')
+                task.on('state_changed', taskSnapshot => {
+                    this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
+                })
+                task.then(() => {
+                    this.setState({
+                        // uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
+                        uploadedText2: "Education Certificate Uploaded " ,
+                        eduCertifUploaded: true,
+                    })
+                    
+                })
+                firebase_storage().ref(`EduCertif/${this.uid}`).getDownloadURL().then((url) => {
+                    firebase_firestore()
+                        .collection('scribes')
                         .doc(this.uid)
                         .update(
                             {
                                 eduCertURL: url,
                                 eduCertType: this.state.selectedEdu
                             })
+                        })
+                        this.setState({eduCertifUploaded: true, buttonDisabled: false})
+                        
+                    }
                 })
-
             }
-        })
-    }
     setSelectedRadio(i) {
-        // console.log('uid: ', this.uid);
-        // console.log(this.props.auth)
-
+        this.setState({
+            selectedRadioButton: i
+        })
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
@@ -190,16 +263,17 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                    .ref(`IdentityDoc/${this.uid}`)
-                    .putFile(capture["assets"][0]["uri"])
+                .ref(`IdentityDoc/${this.uid}`)
+                .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
                     this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
                 })
                 task.then(() => {
                     this.setState({
-                        uploadedText: "Uploaded! " + capture["assets"][0]["fileName"],
-                        selectedRadioButton: i
+                        // uploadedText: "Uploaded! " + capture["assets"][0]["fileName"],
+                        uploadedText: "Uploaded! ",
+                        
                     })
                 })
                 firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
@@ -211,13 +285,89 @@ export class UploadDoc extends Component {
                                 identityDocURL: url,
                                 identityDocType: this.radioOptions[this.state.selectedRadioButton]
                             })
+                        this.setState({idCertifUploaded: true})
                 })
 
             }
         })
     }
+    nextButton1() {
+        
+        const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
+        if (fromHome) {
+            
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
+        }
+        
+        else if (isItAScribe && this.state.eduCertifUploaded && this.state.idCertifUploaded) {
+
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            })
+        }
+        else if (!isItAScribe && this.state.disabCertifUploaded && this.state.idCertifUploaded){
+            firestore.collection(isItAScribe ? "scribes" : "users")
+            .doc(uid)
+            .update({
+                eduCertifUploaded: this.state.eduCertifUploaded,
+                disabCertifUploaded: this.state.disabCertifUploaded,
+                idCertifUploaded: this.state.idCertifUploaded,
+            })
+            .then(() => {
+                
+                navigation.navigate('VolunteerPreference')
+            })
+        }
+    }
+    nextButton2() {
+        
+        const { route: {params: {fromHome}}, navigation, isItAScribe } = this.props
+        if (fromHome) {
+            
+            
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            
+        }
+        
+        else if (isItAScribe) {
+            
+            
+                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                
+                
+            
+        }
+        else {
+                
+                navigation.navigate('VolunteerPreference')
+            
+        }
+    }
     onValueChangeCat(newVal) {
         this.setState({ selectedEdu: newVal })
+        this.eduCertif()
     }
     render() {
         const { navigation, isItAScribe } = this.props;
@@ -240,69 +390,83 @@ export class UploadDoc extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.centered}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                    <Text style={styles.text1}>
-                        Upload Documents for Verification
-                    </Text>
-                    {radio_array}
-                    <Text style={styles.text1}>
-                        Highest Educational Qualification
-                    </Text>
-                    <View style={{ flex: 0.7, fontSize: 14 }}>
-                        <Picker
-                            itemStyle={styles.itemStyle}
-                            mode="dropdown"
-                            style={styles.pickerStyle}
-                            selectedValue={this.state.selectedEdu}
-                            onValueChange={this.onValueChangeCat.bind(this)}
-                        >
-                            {edus.map((item, ind) => (
-                                <Picker.Item
-                                    color="#0087F0"
-                                    label={item}
-                                    value={item}
-                                    key={ind}
-                                    index={ind}
-                                />
-                            ))}
-                        </Picker>
-                    </View>
-                </View>
-                <View style={styles.centerered}>
+                    <View style={styles.centered}>
 
-                    <TouchableOpacity
-                        style={styles.UploadDocButton}
-                        onPress={this.eduCertif.bind(this)}
-                    >
-                        
-                        <Text style = {styles.text2}>Upload Educational Certificate </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.UploadDocButton}
-                        onPress={() => {
-                            if (isItAScribe) {
-                                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            }
-                            else {
-                                navigation.navigate('VolunteerPreference')
-                            }
-
-                        }}
-                    >
-
-                        <Text style={styles.t1}>
-
-                            Save and Next
+                        <Text style={styles.text1}>
+                            Upload Documents for Verification
                         </Text>
-                    </TouchableOpacity>
+                        {radio_array}
+                    </View>
+                    <View style={styles.centered}>
+                        {
+                            isItAScribe ? (
 
-                    <Bar style={{ margin: 10 }} width={null} height={30} progress={this.state.uploadProgress} />
-                    <Text style={styles.text3}>{this.state.uploadedText}</Text>
-                    <Text style={styles.text3}>{this.state.uploadedText2}</Text>
-                </View>
+                                <View style={styles.pickerView}>
+
+                                    <Text style={styles.text1}>
+                                        Highest Educational Qualification
+                                    </Text>
+                                    <View style={styles.picker}>
+                                        <Picker
+                                            itemStyle={styles.itemStyle}
+                                            mode="dropdown"
+                                            style={styles.pickerStyle}
+                                            selectedValue={this.state.selectedEdu}
+                                            onValueChange={this.onValueChangeCat.bind(this)}
+                                        >
+                                            {edus.map((item, ind) => (
+                                                <Picker.Item
+                                                    
+                                                    label={item}
+                                                    value={item}
+                                                    key={ind}
+                                                    index={ind}
+                                                />
+                                            ))}
+                                        </Picker>
+                                    </View>
+                                </View>
+                            ) : (
+                                <TouchableOpacity
+                                    style={styles.UploadDocButton}
+                                    onPress={this.disabCertif.bind(this)}
+                                >
+
+                                    <Text style={styles.t3}>Upload Disability Certificate </Text>
+                                </TouchableOpacity>
+                            )
+                        }
+
+                        <TouchableOpacity style={styles.UploadDocButton}
+                            onPress={this.nextButton1.bind(this)}
+                            disabled={this.state.buttonDisabled}
+                        >
+
+                            <Text style={styles.t1}>
+
+                                Save and Next
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.UploadDocButton}
+                            onPress={this.nextButton2.bind(this)}
+                            disabled={this.state.buttonDisabled}
+                        >
+
+                            <Text style={styles.t1}>
+                                Do it later
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Bar style={{ marginVertical: 10, }} width={null} height={30} progress={this.state.uploadProgress} />
+                        <Text style={styles.text1}>{this.state.uploadedText}</Text>
+                        <Text style={styles.text1}>{this.state.uploadedText2}</Text>
+                    </View>
+                </ScrollView>
+
+
             </View>
-
-
 
         )
     }
@@ -312,5 +476,8 @@ const selectUserSettings = (state) => ({
     uid: state.userAppSettings.uid,
     isItAScribe: state.userAppSettings.isItAScribe,
 })
-
-export default connect(selectUserSettings)(UploadDoc)
+export default compose (
+    connect(selectUserSettings),
+    withFirestore,
+)(UploadDoc)
+// export default connect(selectUserSettings)(UploadDoc)

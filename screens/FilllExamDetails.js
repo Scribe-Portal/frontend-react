@@ -38,9 +38,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+    },
+    text2: {
+        color: "#19939A",
+        fontSize: 20,
+        fontWeight: '400',
     },
     tsmall: {
 
@@ -52,6 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#19939A',
         borderRadius: 10,
         padding: 5,
+        marginVertical: 5,
         alignItems: 'center',
 
     },
@@ -77,7 +83,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: 'row',
         padding: 10,
-        margin: 7,
+        marginVertical: 7,
         borderRadius: 5,
     },
     radioText: {
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     },
     textInsideDatePicker: {
         color: "#FFFFFF",
-        fontSize: 15,
+        fontSize: 20,
     },
 
     itemStyle: {
@@ -170,20 +176,23 @@ function FillExamDetails({ navigation }) {
     let [Hindi, setHindi] = useState(false);
     let [show, setShow] = useState(false)
     let [show2, setShow2] = useState(false)
-    let [selectedRadio, setSelectedRadio] = useState(0);
+    let [touched1, setTouched1] = useState(false)
+    let [touched2, setTouched2] = useState(false)
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
         setShow(Platform.OS === 'ios')
+        setTouched1(true)
         setDate(new Date(currentDate))
-        console.log(selectedDate)
+        // console.log(selectedDate)
     }
     const showDatepicker = () => {
         setShow(true)
     }
     const onChange2 = (event, selectedDate) => {
         const currentDate = selectedDate || date
-        console.log(selectedDate)
+        // console.log(selectedDate)
+        setTouched2(true)
         setShow2(Platform.OS === 'ios')
         setTime(new Date(currentDate))
     }
@@ -200,18 +209,22 @@ function FillExamDetails({ navigation }) {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Fill Your Information
+                        Fill Your Exam Details
                     </Text>
-                    <Text>Name of Examination</Text>
+                    <Text style={styles.text2}>Name of Examination</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
                     <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${date.toDateString()})`}</Text>
+                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${touched1 ? (String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()) : "Press to choose"
+                        })`}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Time of Examination (${time.toLocaleTimeString()})`}</Text>
+                        <Text style={styles.textInsideDatePicker}>
+                        
+                        {`Time of Examination (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : "Press to choose"})`}
+                        </Text>
                     </TouchableOpacity>
 
-                    {show && (
+                    {show ? (
                         <DateTimePicker
                             testID="datepicker2"
                             value={date}
@@ -221,10 +234,10 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange}
                             maximumDate={maximumDate}
                         />
-                    )}
+                    ) : null}
                     <View style={styles.spacing}></View>
 
-                    {show2 && (
+                    {show2 ? (
                         <DateTimePicker
                             testID="datepicker3"
                             value={time}
@@ -233,8 +246,8 @@ function FillExamDetails({ navigation }) {
                             display="default"
                             onChange={onChange2}
                         />
-                    )}
-                    <Text>Mode of Examination</Text>
+                    ) : null}
+                    <Text style={styles.text2}>Language of Examination</Text>
                     <RadioButton
                         text="English"
                         selectedRadioButton={English}
@@ -245,17 +258,28 @@ function FillExamDetails({ navigation }) {
                         selectedRadioButton={Hindi}
                         handleChange={() => { setHindi(!Hindi) }}
                     />
+                    <Text style={styles.text2}>Mode of Exam</Text>
+                    <RadioButton
+                        text="Pen paper"
+                        selectedRadioButton={!CBT}
+                        handleChange={() => { setCBT(false) }}
+                    />
+                    
                     <RadioButton
                         text="CBT"
                         selectedRadioButton={CBT}
-                        handleChange={() => { setCBT(!CBT) }}
+                        handleChange={() => { setCBT(true) }}
                     />
 
 
-                    <Text>Address of Exam Center</Text>
+                    <Text style={styles.text2}>Address of Exam Center</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    <Text>Pincode</Text>
+                    <Text style={styles.text2}>PIN code</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
+                    <Text style={styles.text2}>
+                    
+                        Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
+                    </Text>
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
                             if (name !== '' && address !== '') {
@@ -272,7 +296,7 @@ function FillExamDetails({ navigation }) {
                                         CBT: CBT,
                                         examAddress: address,
                                         examPinCode: pinCode,
-                                        dateSlot: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+                                        dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0],
                                         volunteerAccepted: "none"
                                     })
                                     .then((docRef) => navigation.navigate('UploadExamDoc', { requestId: docRef.id, dateSlot: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0] }))

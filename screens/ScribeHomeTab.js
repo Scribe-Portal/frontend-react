@@ -17,16 +17,20 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#B4E2DF",
     },
+    inner_container: {
+        flexGrow: 1,
+        backgroundColor: "#B4E2DF",
+    },
     text1: {
         flex: 1,
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
     },
     text2: {
         flex: 1,
         padding: 20,
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '500',
     },
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     },
     lowerHalf: {
         flex: 1,
-        margin: 20,
+        margin: 10,
         justifyContent: 'space-around'
     },
     requestButton: {
@@ -96,12 +100,21 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '200',
     },
+    selectedGreenButton: {
+        borderRadius: 5,
+        paddingHorizontal: 5,
+        marginHorizontal: 10,
+        padding: 2,
+        backgroundColor: '#339933',
+        color: "#FFFFFF",
+        marginVertical: 5,
+    },
     greenButton: {
         borderRadius: 5,
         paddingHorizontal: 5,
-        marginHorizontal: 5,
+        marginHorizontal: 10,
         padding: 2,
-        backgroundColor: "#2C9609",
+        backgroundColor: '#19939A',
         color: "#FFFFFF",
         marginVertical: 5,
     },
@@ -153,44 +166,60 @@ const styles = StyleSheet.create({
 
     }
 });
-function calendarRequests(uid, requests, setMarked, addRequestId) {
+function calendarRequests(uid, requests, setMarked) {
     let requestIds = {}
-
+    
     requests.forEach((req, ind) => {
 
-        var dt = req.examDate && req.examDate.toDate().toISOString().split('T')[0]
-
+        var dt = req?.dateSlot
+        console.log(dt)
+        console.log(req?.examDate)
+        
+        
         if (dt) {
-            if (req.volunteerAccepted && (uid === req.volunteerAccepted)) {
-                setMarked(dt, 'green')
+            
+            
+            if (req?.status==='accepted' && req?.volunteerAccepted && (uid === req.volunteerAccepted)) {
+                
+                setMarked((previouslyMarked) => (JSON.parse(JSON.stringify({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))))
+                
                 if (requestIds[dt]) requestIds[dt].push(req.id)
                 else requestIds[dt] = [req.id,];
-
+                
             }
-            else if (req.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req.volunteerAccepted === "none") {
-                setMarked(dt, 'yellow')
+            else if (req?.volunteersSelected && (req.volunteersSelected.indexOf(uid) > -1) && req?.volunteerAccepted === "none" && req?.status==="pending") {
+                
+                setMarked((previouslyMarked) => (JSON.parse(JSON.stringify({ ...previouslyMarked, [dt]: { selectedColor: 'green', selected: true, marked: true} }))))
                 if (requestIds[dt]) requestIds[dt].push(req.id)
-                else requestIds[dt] = [req.id,];
-
+                else requestIds[dt] = [req.id,]
+                
+            }
+            else {
+                
+                
+                
             }
         }
-
+        else {
+            
+            
+        }
 
     });
-    // console.log("given markeddates ",markedDates)
+    
     return requestIds
 }
-function RequestBoxFooter({ uid, req_id, }) {
+function RequestBoxFooter({ uid, req_id }) {
     const navigation = useNavigation()
     const req = useSelector((state) => state.firestore.data.requests[req_id])
     return (
 
-        <TouchableOpacity style={styles.greenButton}
+        <TouchableOpacity style={(req.status==="accepted") ? styles.selectedGreenButton : styles.greenButton}
             onPress={() => {
                 navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id })
             }}
         >
-            <Text style={styles.greenRequestText}>{req.examName} </Text>
+            <Text style={styles.greenRequestText}>{`${req.examName} ${req.status==="accepted" ? "(accepted)" : ""}`}  </Text>
 
         </TouchableOpacity>
 
@@ -231,17 +260,31 @@ export default function ScribeHomeTab() {
     let [currRequests, setCurrRequests] = useState([]);
     let [currDate, setCurrDate] = useState('')
     let [requestIds, setRequestIds] = useState({});
+    let maximumDate = new Date()
+    let minimumDate = new Date()
+    maximumDate.setDate(maximumDate.getDate() + 60)
 
+    // const setMarked = (dt) => {
+    //     setMarkedDates({ ...markedDates, [dt]: { selectedColor: 'green', selected: true, marked: true} })
+
+    // }
+    
     useEffect(() => {
         if (requests) setRequestIds(calendarRequests(
             uid,
-            requests,
-            (dt, markedColor) => setMarkedDates({ ...markedDates, [dt]: { selected: true, marked: true, selectedColor: markedColor } }),
+            requests.filter(req => (minimumDate <= Date.parse(req?.dateSlot) && maximumDate >= Date.parse(req?.dateSlot))),
+            setMarkedDates,
+            
         ))
 
         // console.log(requestIds)
         setCurrRequests(requestIds[currDate] || [])
+        
     }, [requests,])
+    useEffect(() => {
+        
+        console.log(markedDates)
+    }, [markedDates,])
 
     const lang = useSelector((state) => state.userAppSettings.lang)
 
@@ -259,8 +302,8 @@ export default function ScribeHomeTab() {
         )
     }
     else if (!isEmpty(requests)) {
-
-
+        
+    
         // console.log(markedDates)
         return (
             <ScrollView style={styles.container}>
@@ -273,19 +316,20 @@ export default function ScribeHomeTab() {
                         <Calendar
                             enableSwipeMonths={true}
                             scrollEnabled={true}
+                            minDate={minimumDate}
+                            maxDate={maximumDate}
                             markedDates={markedDates}
+                            
                             // Enable horizontal scrolling, default = false
                             horizontal={true}
                             // Enable paging on horizontal, default = false
                             pagingEnabled={true}
                             // Set custom calendarWidth.
-                            calendarWidth={320}
+                            
                             onDayPress={(date) => {
-
+                                
                                 setCurrDate(date.dateString)
                                 setCurrRequests(requestIds[date.dateString] || [])
-                                // console.log(requestIds)
-                                // console.log(requestIds[date.dateString])
                             }}
                         />
                     </View>

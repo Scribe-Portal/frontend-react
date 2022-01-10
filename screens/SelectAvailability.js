@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     text1: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -101,6 +101,9 @@ function SelectAvailability({ navigation }) {
     useEffect(() => {
         setMarkedDates(getMarkedDates(availableDays))
     }, [ availableDays ])
+    const unmarkDate = (dt) => {
+        setMarkedDates((alreadyMarkedDates) => ({...alreadyMarkedDates, [dt]: {selected: false}}))
+    }
 
     let [date, setDate] = useState(new Date())
 
@@ -224,6 +227,7 @@ function SelectAvailability({ navigation }) {
                             .catch((err) => {
                                 // console.log('cant delete 2')
                             })
+                        unmarkDate(date.dateString)
                         setRecentlyDisabled1(false)
                         setRecentlyDisabled2(true)
 
@@ -242,7 +246,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Go back
+                        back
                     </Text>
                 </TouchableOpacity>
 

@@ -13,6 +13,7 @@ import { useFirestore } from 'react-redux-firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeUid } from '../reducers/userAppSettingsReducer';
 import crashlytics from '@react-native-firebase/crashlytics'
+import messaging from '@react-native-firebase/messaging';
 
 const styles = StyleSheet.create({
     container: {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
 
         marginVertical: 10,
         marginHorizontal: 13,
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
         textAlign: 'center'
@@ -117,15 +118,11 @@ export default function EnterOTP({ route, navigation }) {
 
 
                 // console.log("verification OK")
-                let fcmToken
-                try {
+               // Register the device with FCM
+                await messaging().registerDeviceForRemoteMessages();
 
-                    fcmToken = await AsyncStorage.getItem('fcmToken')
-                }
-                catch {
-                    // console.log("can't get fcm token return")
-                    
-                }
+                    // Get the token
+                const fcmToken = await messaging().getToken();
                 let userDoc
                 try {
                     userDoc = await firestore
@@ -219,7 +216,7 @@ export default function EnterOTP({ route, navigation }) {
 
             <View style={styles.inner_container}>
                 <Text style={styles.text1}>
-                    OTP Verification,
+                    OTP Verification
                 </Text>
                 <Text style={styles.text2}>
                     An OTP has been sent to {mobile}

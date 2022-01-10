@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native'
 import { useSelector } from 'react-redux'
 const styles = StyleSheet.create({
@@ -13,30 +13,86 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     },
+    container: {
+        flex: 1,
+        
+    },
+    inner_container: {
+        flexGrow: 1,
+        
+        backgroundColor: "#B4E2DF",
+    },
     t1: {
         color: "#FFFFFF",
         fontSize: 30
     },
+    textA: {
+        color: "#FFFFFF",
+
+        fontSize: 20,
+        fontWeight: '700',
+        textAlign: 'center',
+
+    },
+    textB: {
+        color: "#923737",
+        fontSize: 20,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    textC: {
+        color: "#9E6E12",
+        fontSize: 20,
+        fontWeight: '700',
+        textAlign: 'center',
+    },
+    requestA: {
+        backgroundColor: "#9933FF",
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        marginHorizontal: 10,
+        marginVertical: 12,
+        borderRadius: 10,
+    },
+    requestB: {
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        backgroundColor: "#FDF1DB",
+        marginHorizontal: 10,
+        marginVertical: 12,
+        borderRadius: 10,
+    },
+    requestC: {
+        paddingHorizontal: 16,
+        paddingVertical: 25,
+        backgroundColor: "#FCC8D7",
+        marginHorizontal: 10,
+        marginVertical: 12,
+        borderRadius: 10,
+    },
+
 })
 function News() {
     const lang = useSelector(state => state.userAppSettings.lang)
-    const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const navigation = useNavigation()
     return (
-        (isItAScribe &&
+        <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
-            <TouchableOpacity style={styles.button1}
-                onPress={() => {
-                    navigation.navigate('SelectAvailability')
-                }}
-                disabled={!isItAScribe}
-            >
-                <Text style={styles.t1}>
+                <TouchableOpacity style={styles.requestA} onPress={() => {
+                    navigation.navigate('RequestsA')
+                }}>
+                    <Text style={styles.textA}>Successful Volunteer Search </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.requestB} onPress={() => {
+                    navigation.navigate('RequestsB')
+                }}>
+                    <Text style={styles.textC}>Pending Requests</Text>
+                </TouchableOpacity>
+            </ScrollView>
 
-                    Select Availability
-                </Text>
-            </TouchableOpacity>
-        )
+        </View>
+
     )
 }
 

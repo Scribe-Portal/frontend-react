@@ -1,5 +1,5 @@
 {
-  "name": "ScribePortal",
+  "name": "scribeportal",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@notifee/react-native": "^3.0.4",
-    "@react-native-async-storage/async-storage": "^1.15.13",
+    "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-clipboard/clipboard": "^1.9.0",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-community/masked-view": "^0.1.11",
@@ -41,7 +41,7 @@
     "react-native-otp-verify": "^1.0.4",
     "react-native-progress": "^4.1.2",
     "react-native-push-notification": "^8.1.1",
-    "react-native-reanimated": "^2.2.4",
+    "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
     "react-native-sim-data": "^3.0.0",
@@ -67,5 +67,17 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "```\r cry in pain\r ```\r ## How to use/run\r ```\r don't\r ```\r ## Who are you?\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scribe-Portal/frontend-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Scribe-Portal/frontend-react/issues"
+  },
+  "homepage": "https://github.com/Scribe-Portal/frontend-react#readme"
 }

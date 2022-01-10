@@ -1,5 +1,5 @@
 export const SelectYourRole = {
-    'en': 'Select Your Role.',
+    'en': 'Select Your Role',
     'hi': 'अपनी भूमिका चुने'
 }
 export const RequestScribe = {
@@ -7,7 +7,7 @@ export const RequestScribe = {
     'hi': 'मुंशी (स्क्राइब) निवेदन करे'
 }
 export const Volunteer = {
-    'en': 'Volunteer for Needy',
+    'en': 'Apply to Volunteer',
     'hi': 'वालंटियर (स्वयंसेवा)'
 }
 export const LoginText = {

@@ -16,9 +16,17 @@ const styles = StyleSheet.create({
     text1: {
         top: 0,
         color: "#19939A",
-        alignSelf: "flex-start",
+        textAlign: "center",
         
         fontSize: 30,
+        fontWeight: '700',
+    },
+    text2: {
+        top: 0,
+        color: "#19939A",
+        textAlign: "center",
+        
+        fontSize: 18,
         fontWeight: '700',
     },
     requestBox: {
@@ -52,14 +60,9 @@ function Request({req_id}) {
     )
 }
 function Requests({uid}){
-    // useFirestoreConnect([
-    //     {
-    //         collection: 'requests',
-    //         where: [['uid', '==', uid], ['status', '==', 'found']],
 
-    //     }
-    // ])
     const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='failed')))
+    
     if (!isLoaded(requests)){
         return (
             <Text style={styles.text1}>
@@ -70,7 +73,7 @@ function Requests({uid}){
     }
     if (isEmpty(requests)){
         return (
-            <Text>
+            <Text style={styles.text2}>
                 No Requests
             </Text>
         )
@@ -86,13 +89,13 @@ function RequestsC() {
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
-    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
+    
     return (
         <View style={styles.container}>
             
 
                 <Text style={styles.text1}>
-                Volunteers Not Found For,
+                    Volunteers Not Found For
                 </Text>
                 
             

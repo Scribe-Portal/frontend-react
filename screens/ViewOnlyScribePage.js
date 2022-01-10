@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
     text2: {
         top: 80,
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 20,
         fontWeight: '300',
     },

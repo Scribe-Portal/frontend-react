@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     },
     upperHalf: {
         flex: 1,
+        marginHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: "center",
         fontFamily: "lucida grande",
-        paddingHorizontal: 2,
+        
 
     },
     langButton1: {
@@ -72,9 +73,9 @@ function SelectLanguage({navigation}) {
             <View style= {styles.container}>
                 <View style={styles.upperHalf}>
                     <Text style= {styles.text1}>
-                        Select your Language.
+                        Select your Language
                         {"\n"}{"\n"}
-                        अपनी भाषा चुने.
+                        अपनी भाषा चुने
                         {"\n"}
                     </Text>
                     <Text style= {styles.text2}>

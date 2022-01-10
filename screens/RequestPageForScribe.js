@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import messaging from '@react-native-firebase/messaging';
+import xdate from '../xdate'
 import { sendEmail } from './sendemail';
 
 // hi
@@ -13,26 +14,53 @@ const styles = StyleSheet.create({
         backgroundColor: "#B4E2DF",
         justifyContent: "space-evenly"
     },
+    inner_container: {
+        flexGrow: 1,
+        backgroundColor: "#B4E2DF",
+    },
     upperHalf: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         paddingHorizontal: 15,
+        paddingVertical: 10,
     },
     lowerHalf: {
         flex: 1,
         margin: 20,
-        justifyContent: 'space-around'
+        justifyContent: 'flex-end'
     },
+
     text1: {
-        color: "#828282",
+        color: "#19939A",
         fontSize: 30,
         fontWeight: '700',
+        textAlign: 'center',
     },
     text2: {
-        color: "#828282",
+        color: "#19939A",
+        fontSize: 20,
+        fontWeight: '400',
+    },
+
+    _text1: {
+
+        color: "#9E6E12",
         fontSize: 30,
+        textAlign: 'center',
+        fontWeight: '700',
+    },
+
+    _text2: {
+        color: "#9E6E12",
+        fontSize: 20,
+        fontWeight: '300',
         textAlign: 'left',
-        fontWeight: '500',
+    },
+    volunteerBox: {
+        backgroundColor: "#FDF1DB",
+        borderRadius: 10,
+        padding: 7,
+        marginVertical: 5,
     },
     priorityButton: {
         backgroundColor: '#19939A',
@@ -40,6 +68,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
+        marginVertical: 5,
+
+    },
+    priorityButton2: {
+        backgroundColor: "#9E6E12",
+        borderColor: "#19939A",
+        borderRadius: 10,
+        padding: 5,
+        alignItems: 'center',
+        marginVertical: 5,
 
     },
     langButton2: {
@@ -63,10 +101,130 @@ const styles = StyleSheet.create({
     }
 
 })
+function UserBox({ uid, showMobile }) {
+    const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
+    return (
+        <View style={styles.volunteerBox}>
+            <Text style={styles._text1}>
+                Candidate Details
+
+            </Text>
+            <Text style={styles._text2}>
+                {`Name: ${(typeof user?.name === 'string') ? user?.name : "Unnamed"} `}
+
+            </Text>
+            <Text style={styles._text2}>
+                {`Gender: ${(typeof user?.gender === 'string') ?  (user?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
+
+            </Text>
+            {showMobile ? (
+                <TouchableOpacity style={styles.priorityButton2}
+                    onPress={() => {
+                        if (user?.mobile) {
+
+                            let phoneNumber = ''
+                            if (Platform.OS === 'android') {
+                                phoneNumber = `tel:${user?.mobile}`;
+                            }
+                            else {
+                                phoneNumber = `telprompt:${user?.mobile}`;
+                            }
+                            Linking.openURL(phoneNumber);
+                        }
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Call
+                    </Text>
+                </TouchableOpacity>
+            ) : null}
+
+        </View>
+
+    )
+}
+
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
 
     const firestore = useFirestore()
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    {
+        request &&
+            useFirestoreConnect(() => [
+                { collection: 'users', doc: request?.uid }
+            ])
+    }
+    const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
+    const showAcceptDialog = () => {
+        return Alert.alert(
+            "Confirmation",
+            "Accepting the request puts you in a position of responsibility to complete the task, failing which might incur NEGATIVE NSS hours.",
+            [
+                {
+                    text: "Accept",
+                    onPress: () => {
+                        firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
+                        firestore.collection('dateslots')
+                            .doc(request.dateSlot)
+                            .collection('acceptedVolunteers')
+                            .doc(uid)
+                            .set({
+                                req_id: req_id
+                            })
+                            // .then(async () => {
+
+                            // await sendEmail(
+                            //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
+                            //     'Scribe Request',
+                            //     'You have been alloted a scribe request please check the app',
+                            //     { cc: ' sprakhar2002@gmail.com;' }
+                            // )
+                            // })
+                            .then(async () => {
+                                // console.log('Your message was successfully sent!');
+                                const registrationToken = user?.fcmToken;
+
+                                const message = {
+                                    data: {
+                                        type: 'AcceptS',
+                                        notif: 'OTP has been sent to your number'
+                                    },
+                                };
+
+                                // Send a message to the device corresponding to the provided
+                                // registration token.
+                                fetch("https://scribenotif.herokuapp.com/",{
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        registrationToken: registrationToken,
+                                        message: message,
+                                    }),
+                                    headers: {
+                                        'Content-type': 'application/json; charset=UTF-8'
+                                    }
+                                })
+                                console.log("fetched")
+                                console.log(registrationToken)
+                            })
+                            .then((response) => {
+                                // Response is a message ID string.
+                                console.log('Successfully sent message:', response);
+                            })
+                            .catch((error) => {
+                                console.log('Error sending message:', error);
+                            })
+                    }
+
+                },
+                {
+                    text: "Back",
+                    onPress: () => {
+                    }
+                }
+            ]
+
+        )
+    }
     useFirestoreConnect([
         {
             collection: 'dateslots',
@@ -76,163 +234,184 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
         }
     ])
     const busy = useSelector(state => state.firestore.data.acceptedVolunteers && state.firestore.data.acceptedVolunteers[uid])
-    console.log(busy, request.status)
+
     if (request?.status === "pending" && !busy) {
         return (
             <View style={styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style={styles.text2}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                        {request.examName}
-                    </Text>
-                    <Text style={styles.text2}>
+                    <View style={styles.upperHalf}>
 
-                        {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>{request.Hindi &&
+                        <Text style={styles.text1}>
+
+                            Exam Details
+                        </Text>
                         <Text style={styles.text2}>
-                            Hindi
+
+                            Exam Name: {request?.examName}
                         </Text>
-                    }
-                    {request.English &&
                         <Text style={styles.text2}>
-                            English
+
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                         </Text>
-                    }
-                    {request.CBT &&
                         <Text style={styles.text2}>
-                            CBT
+                            Mode of Exam:
                         </Text>
-                    }
-                    <Text style={styles.text2}>
+                        {request?.examLang ?
+                            <Text style={styles.text2}>
+                                {request?.examLang}
+                            </Text> : null
+                        }
+                        {request?.Hindi ?
+                            <Text style={styles.text2}>
+                                Hindi
+                            </Text> : null
+                        }
+                        {request?.English ?
+                            <Text style={styles.text2}>
+                                English
+                            </Text> : null
+                        }
+                        {request?.CBT ?
+                            <Text style={styles.text2}>
+                                CBT
+                            </Text> : null
+                        }
+                        <Text style={styles.text2}>
 
-                        {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
-                    </Text>
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            if (request.status === "pending") firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            firestore.collection('dateslots')
-                                .doc(request.dateSlot)
-                                .collection('acceptedVolunteers')
-                                .doc(uid)
-                                .set({
-                                    req_id: req_id
-                                })
-                        }}
-                    >
-                        <Text style={styles.t1}>Accept</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            sendEmail(
-                                (typeof {needy.email} === "string") ? {needy.email} : "default_error_email_address",
-                                'Scribe Request',
-                                'You have been alloted a scribe request please check the app',
-                                { cc: ' sprakhar2002@gmail.com;' }
-                            ).then(() => {
-                                console.log('Your message was successfully sent!');
-                            });
-                            const registrationToken = scribes[volunteer].fcmToken;
-
-                          const message = {
-                                notification: {
-                                    title: 'Scribe request',
-                                    body: 'Your request has been accepted'
-                                        },
-                                token: registrationToken
-                                };
-
-                                                        // Send a message to the device corresponding to the provided
-                                                        // registration token.
-                                                        messaging().sendMessage(message)
-                                                            .then((response) => {
-                                                                // Response is a message ID string.
-                                                                console.log('Successfully sent message:', response);
-                                                            })
-                                                            .catch((error) => {
-                                                                console.log('Error sending message:', error);
-                                                            });
-                            navigation.goBack()
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Go Back
+                            Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.text2}>
+
+                            Exam Address: {request?.examAddress}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Pin Code: {request?.examPinCode}
+                        </Text>
+                        {request?.uid ?
+                            <UserBox uid={request?.uid} showMobile={false} />
+                            : null
+                        }
+
+                    </View>
+                    <View style={styles.lowerHalf}>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={showAcceptDialog}
+                        >
+                            <Text style={styles.t1}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.goBack()
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                                Back
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
 
             </View>
         )
     }
-    else if (request?.status === "accepted" && uid === request.volunteerAccepted) {
+    else if (request?.status === "accepted" && uid === request?.volunteerAccepted) {
         return (
             <View style={styles.container}>
-                <View style={styles.upperHalf}>
-                    <Text style={styles.text2}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                        {request.examName}
-                    </Text>
-                    <Text style={styles.text2}>
+                    <View style={styles.upperHalf}>
 
-                        {new Date(request.examDate.seconds * 1000).toDateString()}
-                    </Text>{request.Hindi &&
+                        <Text style={styles.text1}> Exam Details </Text>
                         <Text style={styles.text2}>
-                            Hindi
-                        </Text>
-                    }
-                    {request.English &&
-                        <Text style={styles.text2}>
-                            English
-                        </Text>
-                    }
-                    {request.CBT &&
-                        <Text style={styles.text2}>
-                            CBT
-                        </Text>
-                    }
-                    <Text style={styles.text2}>
 
-                        {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
-                    </Text>
-                </View>
-                <View style={styles.lowerHalf}>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            if (request.status === "accepted") firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                            firestore.collection('dateslots')
-                                .doc(request.dateSlot)
-                                .collection('acceptedVolunteers')
-                                .doc(uid)
-                                .delete()
-                                .catch((err) => {
-                                    setErrText('You never marked available this day!')
-                                })
-
-                        }}
-                    >
-                        <Text style={styles.t1}>Reject</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.priorityButton}
-                        onPress={() => {
-                            sendEmail(
-                                "scribeportalapp@gmail.com",
-                                'Scribe Request Rejected',
-                                'Request Date '+{requesr date} +'\n Volunteer name '+{volunteer name }+'\n Reason '+{reason},
-                                { cc: ' sprakhar2002@gmail.com;' }
-                            ).then(() => {
-                                console.log('Your message was successfully sent!');
-                            });
-                            navigation.goBack()
-                        }}
-                    >
-                        <Text style={styles.t1}>
-                            Go Back
+                            Exam Name: {request?.examName}
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.text2}>
+
+                            Date of Exam: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
+                        </Text>
+                        <Text style={styles.text2}>
+                            Mode of Exam:
+                        </Text>
+                        {request?.examLang ?
+                            <Text style={styles.text2}>
+                                {request?.examLang}
+                            </Text> : null
+                        }
+                        {request?.Hindi ?
+                            <Text style={styles.text2}>
+                                Hindi
+                            </Text> : null
+                        }
+                        {request?.English ?
+                            <Text style={styles.text2}>
+                                English
+                            </Text> : null
+                        }
+                        {request?.CBT ?
+                            <Text style={styles.text2}>
+                                CBT
+                            </Text> : null
+                        }
+                        <Text style={styles.text2}>
+
+                            Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Address: {request?.examAddress}
+                        </Text>
+                        <Text style={styles.text2}>
+
+                            Exam Pin Code: {request?.examPinCode}
+                        </Text>
+                        {
+                            request?.uid ?
+                                <UserBox uid={request?.uid} showMobile={true} />
+                                : null
+                        }
+                    </View>
+
+                    <View style={styles.lowerHalf}>
+                        {request?.examDocUrl ?
+                            (
+
+                                <TouchableOpacity style={styles.priorityButton}
+                                    onPress={() => {
+                                        Linking.canOpenURL(request.examDocUrl).then(supported => {
+                                            if (supported) {
+                                                Linking.openURL(request.examDocUrl);
+                                            } else {
+                                                console.log("Don't know how to open URI: " + request.examDocUrl);
+                                            }
+                                        });
+                                    }}
+                                >
+                                    <Text style={styles.t1}>Download Exam Document</Text>
+                                </TouchableOpacity>
+                            )
+                            : null
+                        }
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.navigate("CancelRequestForScribe", { req_id: req_id, dateSlot: request.dateSlot })
+                            }}
+                        >
+                            <Text style={styles.t1}>Reject</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.priorityButton}
+                            onPress={() => {
+                                navigation.goBack()
+                            }}
+                        >
+                            <Text style={styles.t1}>
+                                Back
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
 
             </View>
         )
@@ -240,16 +419,23 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
     }
     else {
         return (<View style={styles.container}>
-            <Text style={styles.text2}>whoops, this page is not for you!</Text>
-            <TouchableOpacity style={styles.priorityButton}
-                onPress={() => {
-                    navigation.goBack()
-                }}
-            >
-                <Text style={styles.t1}>
-                    Go Back
-                </Text>
-            </TouchableOpacity>
+            <View style={styles.upperHalf}>
+
+                <Text style={styles.text2}>You can't select more than one scribe for a day </Text>
+            </View>
+            <View style={styles.lowerHalf}>
+
+
+                <TouchableOpacity style={styles.priorityButton}
+                    onPress={() => {
+                        navigation.goBack()
+                    }}
+                >
+                    <Text style={styles.t1}>
+                        Back
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>)
     }
 }

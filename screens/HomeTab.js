@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
     text1: {
         flex: 1,
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
     },
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     t1: {
         flex: 1,
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 50,
+        
         
     },
     
@@ -57,50 +58,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         borderColor: "#19939A",
-    },
-    textA: {
-        color: "#FFFFFF",
-        
-        fontSize: 16,
-        fontWeight : '700',
-        textAlign: 'center',
-        
-    },
-    textB: {
-        color: "#923737",
-        fontSize: 16,
-        fontWeight : '700',
-        textAlign: 'center',
-    },
-    textC: {
-        color: "#9E6E12",
-        fontSize: 16,
-        fontWeight : '700',
-        textAlign: 'center',
-    },
-    requestA:{
-        backgroundColor: "#9933FF",
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
-    requestB:{
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        backgroundColor:"#FDF1DB",
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
-    requestC:{
-        paddingHorizontal: 16,
-        paddingVertical: 25,
-        backgroundColor: "#FCC8D7",
-        marginHorizontal: 10,
-        marginVertical: 12,
-        borderRadius: 10,
     },
     examName: {
         
@@ -158,15 +115,37 @@ export class HomeTab extends Component {
     constructor(props) {
         super(props)
         this.navigation = this.props.navigation
-        
-        this.handleClick = () => { 
+        // const { user } = this.props
+        this.handleClick = () => {
             
-            this.navigation.navigate('FillExamDetails')
+            
+                
+                this.navigation.navigate('FillExamDetails')
+                
+            
+            // else {
+            //     this.showDialog1()
+            // }
         }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang
     }
+    
+    showDialog1 = () => {
+        return Alert.alert(
+            "Documents",
+            "You need to first upload documents by going to \"Upload Documents\" under Settings",
+            [
+                
+                {
+                    text: "OK",
+                    onPress: () => {
+                    }
+                }
+            ]
 
+        )
+    }
     render() {
         return (
             <ScrollView style={styles.container}>
@@ -180,22 +159,6 @@ export class HomeTab extends Component {
                         </TouchableOpacity>
 
                     </View>
-                    {/* <Requests uid={this.props.auth.uid}/> */}
-                    <TouchableOpacity style={styles.requestA} onPress={()=>{
-                        this.navigation.navigate('RequestsA')
-                    }}>
-                        <Text style = {styles.textA}>Volunteer Search Successful</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.requestB} onPress={()=>{
-                        this.navigation.navigate('RequestsB')
-                    }}>
-                        <Text style = {styles.textC}>Pending Requests</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.requestC} onPress={()=>{
-                        this.navigation.navigate('RequestsC')
-                    }}>
-                        <Text style = {styles.textB}>Volunteer Search Failed</Text>
-                    </TouchableOpacity>
                     
 
                 </View>
@@ -217,6 +180,12 @@ export default compose(
         collection: 'requests',
         where: [['uid', '==', (props.uid || "none")]],
 
+    },
+    {
+        collection: 'users',
+        doc: props.uid,
     }])),
+    connect((state, props) => ({user: state.firestore.data.users && state.firestore.data.users[props.uid]}))
+    
 
 )(HomeTab)

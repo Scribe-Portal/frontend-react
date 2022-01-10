@@ -12,8 +12,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#DEFCFC",
     },
+    nss_logo_text: {
+        alignItems: 'center',
+        fontSize: 15,
+    },
     mainText: {
-        color: "#828282",
+        color: "#FFFFFF",
         fontSize: 30,
         fontWeight: '700',
     }
@@ -32,6 +36,7 @@ class Splash extends Component {
         this.downloadProgressChange.bind(this)
     }
     goAhead() {
+        console.log(this.props.uid)
         if (this.props.uid !== "none") {
             this.props.navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
         }
@@ -62,8 +67,9 @@ class Splash extends Component {
                 crashlytics().log("update installed.")
                 this.goAhead()
                 break
-            case codePush.SyncStatus.UNKNOWN_ERROR:
-                this.setupdateStatus("Unknown error")
+                case codePush.SyncStatus.UNKNOWN_ERROR:
+                    this.setupdateStatus("Unknown error")
+                    this.goAhead()
                 crashlytics().log("unknown error updating from appcenter")
                 break
             case codePush.SyncStatus.UPDATE_IGNORED:
@@ -80,11 +86,18 @@ class Splash extends Component {
     }
     async componentDidMount() {
         const { IMMEDIATE } = codePush.InstallMode;
-        await codePush.sync(
-            {installMode: IMMEDIATE, updateDialog: true},
-            this.syncStatusChange,
-            this.downloadProgressChange
-        )
+        try {
+
+            await codePush.sync(
+                {installMode: IMMEDIATE, updateDialog: true},
+                this.syncStatusChange,
+                this.downloadProgressChange
+            )
+        }
+        catch {
+            crashlytics().log("codepush sync error")
+            this.goAhead()
+        }
 
     }
     render() {
@@ -93,6 +106,8 @@ class Splash extends Component {
             <View style={styles.container}>
 
                 
+                <Image source={require('../assets/nss_logo_small_updated_1.jpg')}></Image>
+                <Text style={styles.nss_logo_text}> NSS, IITD </Text>
                 <Image source={require('../assets/main_logo.jpg')}></Image>
                 <Text style={styles.subText}>
                     {this.state.updateStatus}

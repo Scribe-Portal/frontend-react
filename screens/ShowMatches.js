@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeAll } from '../reducers/priorityReducer';
@@ -11,10 +11,16 @@ import { sendEmail } from './sendemail';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    inner_container: {
+        flexGrow: 1,
+        
         backgroundColor: "#B4E2DF",
-
-
-
+    },
+    middle_spacing: {
+        flex: 0,
+        flexGrow: 1,
+        
     },
     input: {
         margin: 10,
@@ -61,7 +67,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
-        borderWidth: 3,
+        
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
     scribeBox: {
 
 
-        margin: 5,
+        marginVertical: 5,
         padding: 13,
         borderWidth: 2,
         borderRadius: 5,
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
     },
     selectedScribeBox: {
 
-        margin: 5,
+        marginVertical: 5,
         padding: 13,
         borderRadius: 5,
         borderWidth: 2,
@@ -116,12 +122,12 @@ const styles = StyleSheet.create({
 
 
 function Match({ id, selected }) {
-    const scribe = useSelector(state => state.firestore.data.scribes[id])
+    const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[id])
 
     const navigation = useNavigation()
 
     return (
-        <TouchableOpacity style={selected ? styles.selectedScribeBox : styles.scribeBox} onPress={() => navigation.navigate("ScribePage", { scribe_id: id, selected: selected })}>
+        <TouchableOpacity style={selected ? styles.selectedScribeBox : styles.scribeBox} onPress={() => navigation.navigate("ScribePage", { scribe_id: id, selected: selected, modifiable: true })}>
             <Text style={styles.match_name}>{`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} ${selected ? "(selected)" : ""}`}</Text>
             <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}</Text>
         </TouchableOpacity>
@@ -148,9 +154,8 @@ function Matches({ uid, dateSlot }) {
     }
     if (isEmpty(matches)) {
         return (
-            <Text>
-                Sorry {uid},
-                We couldn't find any volunteers for these settings.
+            <Text style={styles.text2}>
+                Sorry, We couldn't find any volunteers for these settings. Please try again sometime later.
             </Text>
         )
     }
@@ -166,6 +171,8 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
     const lang = useSelector(state => state.userAppSettings.lang)
 
     const uid = useSelector(state => state.userAppSettings.uid)
+    const numVolunteers = useSelector(state => state.firestore.data[`dateslot_${dateSlot}`] && Object.keys(state.firestore.data[`dateslot_${dateSlot}`]).length)
+
     const dispatch = useDispatch()
     useEffect(() => {
         if (selectedVolus) {
@@ -179,6 +186,26 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
     }, [])
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
+    const showInfoDialog = () => {
+
+        return Alert.alert(
+            "Info",
+            "You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes. If you don't see your request there, check for it in \"Succesful Volunteer Search\" under \"Status\"",
+            [
+                {
+                    text: "Ok, go to Home",
+                    onPress: () => {
+                            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+                            
+                        }
+                },
+                
+    
+            ]
+    
+        )
+        
+    }
     if (!isLoaded(scribes)) {
         return (
             <View>
@@ -191,18 +218,21 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
     }
     else {
         return (
-            <ScrollView>
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                <View style={styles.container}>
                     <View style={styles.centered}>
 
                         <Text style={styles.text1}>
                             Choose upto three volunteers from the list
                         </Text>
                         <Text style={styles.text2}>
-                            Showing 5 volunteers according to your requirement
+                            Showing {(typeof numVolunteers === "number") ? numVolunteers : "0"} volunteers according to your requirement
                         </Text>
                         <Matches uid={uid} dateSlot={dateSlot} />
+                        <View style={styles.middle_spacing}>
+
+                        </View>
                         <TouchableOpacity style={styles.ShowMatchesButton}
                             onPress={() => {
                                 // console.log("done pressed", requestId)
@@ -217,48 +247,53 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                         }
                                     )
                                     .then(() => {
-                                        volunteersSelected: Object.keys(selectedData).filter(volunteer => selectedData[volunteer] == true).map(
+                                        Object.keys(selectedData).filter(volunteer => selectedData[volunteer] == true).map(
                                             (volunteer, ind) => {
                                                 if (scribes && scribes[volunteer]) {
                                                     
-                                                    sendEmail(
-                                                        (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
-                                                        'Scribe Request',
-                                                        'You have been alloted a scribe request please check the app',
-                                                        { cc: ' sprakhar2002@gmail.com;' }
-                                                    ).then(() => {
-                                                        console.log('Your message was successfully sent!');
-                                                    });
+                                                    // sendEmail(
+                                                    //     (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
+                                                    //     'Scribe Request',
+                                                    //     'You have been alloted a scribe request please check the app.',
+                                                    //     { cc: 'sprakhar2002@gmail.com;' }
+                                                    // ).then(() => {
+                                                    //     console.log('Your message was successfully sent!')
+                                                    // });
                                                     if ( scribes[volunteer].fcmToken) {
 
                                                         const registrationToken = scribes[volunteer].fcmToken;
 
                                                         const message = {
-                                                            notification: {
-                                                                title: 'Scribe request',
-                                                                body: 'You have been alloted a scribe request please check the app'
+                                                            data: {
+                                                                type: 'Accept',
+                                                                notif: 'OTP has been sent to your number'
                                                             },
-                                                            token: registrationToken
+
                                                         };
 
                                                         // Send a message to the device corresponding to the provided
                                                         // registration token.
-                                                        messaging().sendMessage(message)
-                                                            .then((response) => {
-                                                                // Response is a message ID string.
-                                                                console.log('Successfully sent message:', response);
-                                                            })
-                                                            .catch((error) => {
-                                                                console.log('Error sending message:', error);
-                                                            });
+                                                        fetch("https://scribenotif.herokuapp.com/",{
+                                                            method: 'POST',
+                                                            body: JSON.stringify({
+                                                                registrationToken: registrationToken,
+                                                                message: message,
+                                                            }),
+                                                            headers: {
+                                                                'Content-type': 'application/json; charset=UTF-8'
+                                                            }
+                                                        })
+                                                        console.log("fetched")
+                                                        console.log(registrationToken)
                                                     }
                                                 }
                                             }
                                         )
                                         
                                         dispatch(removeAll())
-                                        navigation.navigate('Home')
                                     })
+                                    showInfoDialog()
+                                
 
                             }}
                         >
@@ -270,8 +305,8 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                     </View>
 
 
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
     // useEffect(() => {

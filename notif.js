@@ -23,9 +23,9 @@ export async function initialise_channels () {
     }
 }
 export default async function CommonMessages (message){
-    const {type,notif} = message.data
-    console.log(message)
-    switch (type) {
+    const {msg_type, timestamp} = message.data
+    // console.log(message)
+    switch (msg_type) {
         case 'Greet':
             
             notifee.displayNotification({
@@ -38,35 +38,8 @@ export default async function CommonMessages (message){
             break;
         case 'Neutral':
             notifee.displayNotification({
-                title: message.notification.title,
-                body: message.notification.body, 
-                android: {
-                    channelId: c['Neutral']
-                }
-            })
-            break;
-            case 'OTP': 
-            notifee.displayNotification({
-                title: 'OTP has been sent', 
-                body: notif,
-                android: {
-                    channelId: c['Neutral']
-                }
-            })
-            break;
-            case 'AcceptS': 
-            notifee.displayNotification({
-                title: 'Request accepted', 
-                body: 'Your Scribe Request has been accepted please check the app',
-                android: {
-                    channelId: c['Neutral']
-                }
-            })
-            break;
-            case 'Accept': 
-            notifee.displayNotification({
-                title: 'New Request', 
-                body: 'You have a new scribe request',
+                title: 'some info',
+                body: message.data.txt, 
                 android: {
                     channelId: c['Neutral']
                 }

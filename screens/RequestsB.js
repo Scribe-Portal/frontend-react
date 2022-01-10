@@ -16,10 +16,20 @@ const styles = StyleSheet.create({
     },
     text1: {
         top: 0,
+        marginHorizontal: 5,
         color: "#19939A",
-        alignSelf: "flex-start",
+        textAlign: 'center',
         
         fontSize: 30,
+        fontWeight: '700',
+    },
+    text2: {
+        
+        marginHorizontal: 5,
+        color: "#19939A",
+        textAlign: 'center',
+        
+        fontSize: 18,
         fontWeight: '700',
     },
     requestBox: {
@@ -32,6 +42,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "#FDF1DB",
     },
+    examName: {},
     requestRoot:{
     },
 
@@ -53,13 +64,7 @@ function Request({req_id}) {
     )
 }
 function Requests({uid}){
-    // useFirestoreConnect([
-    //     {
-    //         collection: 'requests',
-    //         where: [['uid', '==', uid], ['status', '==', 'found']],
 
-    //     }
-    // ])
     const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status==='pending')))
     if (!isLoaded(requests)){
         return (
@@ -87,13 +92,16 @@ function RequestsB() {
     const dispatch = useDispatch()
     const firestore = useFirestore()
     let selectedData = useSelector(state => state.priority.P)
-    // console.log(Object.keys(selectedData).find(volunteer => selectedData[volunteer]==true))
+    
     return (
         <View style={styles.container}>
             <ScrollView>
 
                 <Text style={styles.text1}>
-                Volunteers Search Pending For,
+                Volunteer Search Pending
+                </Text>
+                <Text style={styles.text2}>
+                    Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
                 </Text>
                 
             

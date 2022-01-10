@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
     text1: {
         top: 0,
         color: "#19939A",
-        alignSelf: "flex-start",
+        textAlign: 'center',
         margin: 5,
+
         fontSize: 30,
         fontWeight: '700',
     },
@@ -66,7 +67,7 @@ function Requests({ uid }) {
     }
     if (isEmpty(requests)) {
         return (
-            <Text>
+            <Text style={styles.text1}>
                 No Requests
             </Text>
         )
