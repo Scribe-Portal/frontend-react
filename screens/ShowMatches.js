@@ -299,7 +299,7 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                         >
                             <Text style={styles.t1}>
 
-                                Next
+                                Initiate scribe request
                             </Text>
                         </TouchableOpacity>
                     </View>

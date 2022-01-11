@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
+        marginVertical: 5,
         
     },
     t1: {
@@ -187,6 +188,21 @@ export class UploadExamDoc extends Component {
                         <Text style={styles.t1}>
 
                             Save and Next
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.UploadExamDocButton}
+                        onPress={() => {
+                            if (onto) {
+                                navigation.navigate(onto, {req_id: requestId, })
+                            }
+                            else {
+                                navigation.navigate('ShowMatches', {requestId: requestId, dateSlot: this.props.route.params.dateSlot, scribe_id: 0})
+                            }
+                        }}
+                    >
+                        <Text style={styles.t1}>
+
+                            Do it later
                         </Text>
                     </TouchableOpacity>
                     <Bar style={{ marginVertical: 10 }} width={null} height={30} progress={this.state.uploadProgress} />

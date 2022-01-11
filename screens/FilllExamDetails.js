@@ -220,7 +220,7 @@ function FillExamDetails({ navigation }) {
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
                         <Text style={styles.textInsideDatePicker}>
                         
-                        {`Time of Examination (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : "Press to choose"})`}
+                        {`Reporting Time of Examination (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : "Press to choose"})`}
                         </Text>
                     </TouchableOpacity>
 
@@ -260,13 +260,13 @@ function FillExamDetails({ navigation }) {
                     />
                     <Text style={styles.text2}>Mode of Exam</Text>
                     <RadioButton
-                        text="Pen paper"
+                        text="Pen paper based"
                         selectedRadioButton={!CBT}
                         handleChange={() => { setCBT(false) }}
                     />
                     
                     <RadioButton
-                        text="CBT"
+                        text="Computer Based Test"
                         selectedRadioButton={CBT}
                         handleChange={() => { setCBT(true) }}
                     />

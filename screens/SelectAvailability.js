@@ -102,7 +102,7 @@ function SelectAvailability({ navigation }) {
         setMarkedDates(getMarkedDates(availableDays))
     }, [ availableDays ])
     const unmarkDate = (dt) => {
-        setMarkedDates((alreadyMarkedDates) => ({...alreadyMarkedDates, [dt]: {selected: false}}))
+        setMarkedDates((alreadyMarkedDates) => ({...alreadyMarkedDates, [dt]: {selected: false, selectedColor: 'white'}}))
     }
 
     let [date, setDate] = useState(new Date())

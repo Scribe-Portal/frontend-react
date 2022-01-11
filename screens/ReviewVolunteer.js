@@ -249,7 +249,7 @@ function ReviewVolunteer({ navigation, route: { params: { scribe_id, req_id, } }
                                         }
                                     }}
                                 >
-                                    <Text style={styles.t1}>Review</Text>
+                                    <Text style={styles.t1}>Submit Review</Text>
                                 </TouchableOpacity>
                             </View>
                         }
@@ -259,7 +259,7 @@ function ReviewVolunteer({ navigation, route: { params: { scribe_id, req_id, } }
                             navigation.goBack()
                         }}
                     >
-                        <Text style={styles.t1}>back</Text>
+                        <Text style={styles.t1}>Back</Text>
                     </TouchableOpacity>
 
 
