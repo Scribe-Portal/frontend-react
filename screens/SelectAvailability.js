@@ -204,7 +204,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Mark myself available this day
+                        Mark Myself Available This Day
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.AvailButton}
@@ -236,7 +236,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Unmark myself available this day
+                        Unmark Myself Available This Day
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.AvailButton}

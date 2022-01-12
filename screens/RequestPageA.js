@@ -191,7 +191,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                         <Text style={styles.t1}>View Scribe Details</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton} onPress={() => navigation.navigate("ReviewVolunteer", { scribe_id: request?.volunteerAccepted, req_id: req_id, selected: true, modifiable: false })}>
-                        <Text style={styles.t1}>Review</Text>
+                        <Text style={styles.t1}>Volunteer Feedback</Text>
                     </TouchableOpacity>
                     
                     <TouchableOpacity style={styles.priorityButton}

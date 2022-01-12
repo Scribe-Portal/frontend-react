@@ -161,7 +161,7 @@ function ProfileSettings({ navigation }) {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Change Languange
+                        Change Language
                     </Text>
                     <RadioButton2
                         text="English"

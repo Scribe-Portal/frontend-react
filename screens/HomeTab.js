@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
     },
+    lowerHalf: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        flex: 1,
+
+    },
     removeText:{
         fontWeight: '700',
         fontSize: 10,
@@ -34,6 +40,7 @@ const styles = StyleSheet.create({
         margin: 10,
         backgroundColor: '#19939A',
         borderRadius: 10,
+        
         padding: 40,
         alignItems: 'center',
         
@@ -154,7 +161,7 @@ export class HomeTab extends Component {
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
-                                Request Scribe
+                                Request a Scribe
                             </Text>
                         </TouchableOpacity>
 
