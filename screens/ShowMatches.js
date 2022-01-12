@@ -190,7 +190,7 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
 
         return Alert.alert(
             "Info",
-            "You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes. If you don't see your request there, check for it in \"Succesful Volunteer Search\" under \"Status\"",
+            "If any selected volunteer accepts your scribe request, you can find it by clicking Successful Volunteer Search button in the Status tab itself, where you can find the finalized volunteer for your request. You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes. ",
             [
                 {
                     text: "Ok, go to Home",
@@ -251,14 +251,6 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                             (volunteer, ind) => {
                                                 if (scribes && scribes[volunteer]) {
                                                     
-                                                    // sendEmail(
-                                                    //     (typeof scribes[volunteer].email === "string") ? scribes[volunteer].email : "default_error_email_address",
-                                                    //     'Scribe Request',
-                                                    //     'You have been alloted a scribe request please check the app.',
-                                                    //     { cc: 'sprakhar2002@gmail.com;' }
-                                                    // ).then(() => {
-                                                    //     console.log('Your message was successfully sent!')
-                                                    // });
                                                     if ( scribes[volunteer].fcmToken) {
 
                                                         const registrationToken = scribes[volunteer].fcmToken;
@@ -266,7 +258,7 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                                                         const message = {
                                                             data: {
                                                                 type: 'Accept',
-                                                                notif: 'OTP has been sent to your number'
+                                                                notif: 'Someone has requested your services for an exam'
                                                             },
 
                                                         };
