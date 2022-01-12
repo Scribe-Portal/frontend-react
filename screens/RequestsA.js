@@ -86,7 +86,7 @@ function RequestsA() {
 
 
             <Text style={styles.text1}>
-                Volunteer Search Successful
+                Successful Volunteer Search 
             </Text>
 
 

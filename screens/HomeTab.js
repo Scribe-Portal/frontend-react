@@ -15,6 +15,13 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#B4E2DF",
     },
+    inner_container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        
+    },
     text1: {
         flex: 1,
         color: "#FFFFFF",
@@ -57,6 +64,7 @@ const styles = StyleSheet.create({
     requestBox: {
         backgroundColor: "#B4E2DF",
         flexDirection: "row",
+        marginVertical: 30,
         justifyContent: 'space-between'
     },
     requestRoot:{
@@ -157,7 +165,7 @@ export class HomeTab extends Component {
         return (
             <ScrollView style={styles.container}>
 
-                <View>
+                <View style={styles.inner_container}>
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>

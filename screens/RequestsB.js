@@ -98,7 +98,7 @@ function RequestsB() {
             <ScrollView>
 
                 <Text style={styles.text1}>
-                Volunteer Search Pending
+                Pending Volunteer Search 
                 </Text>
                 <Text style={styles.text2}>
                     Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.

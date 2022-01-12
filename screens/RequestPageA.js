@@ -152,7 +152,7 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
                         Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                     </Text>
-                    <Text style={styles.text2}>Exam Languages: </Text>
+                    <Text style={styles.text2}> Language of Exam: </Text>
                     {request.examLang ?
                         <Text style={styles.text2}>
                             {request.examLang}
@@ -168,14 +168,27 @@ function RequestPageA({ navigation, route: { params: { req_id } } }) {
                             English
                         </Text> : null
                     }
+                    <Text style={styles.text2}> Mode of Exam: </Text>
                     {request.CBT ?
                         <Text style={styles.text2}>
                             CBT
-                        </Text> : null
+                        </Text> : 
+                        <Text style={styles.text2}>
+                            Pen Paper Test
+                        </Text> 
                     }
                     <Text style={styles.text2}>
 
-                        Exam Time: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                        Address of Exam: {request?.examAddress || "Unknown"}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam PIN Code: {request?.examPinCode || "Unknown"}
+                    </Text>
+                    
+                    <Text style={styles.text2}>
+
+                        Reporting time of Exam: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                     </Text>
 
 

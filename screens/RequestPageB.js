@@ -101,7 +101,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     useFirestoreConnect(() => [
-        { collection: 'scribes',  }
+        { collection: 'scribes', }
     ])
     const dispatch = useDispatch()
     console.log(req_id)
@@ -127,42 +127,49 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                     </Text>
                     <Text style={styles.text2}>
 
-                        Exam Name: {request?.examName}
+                        Exam Name: {request?.examName || "Unknown"}
                     </Text>
                     <Text style={styles.text2}>
 
                         Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                     </Text>
-                    <Text style={styles.text2}>
-                        Exam Languages:
-                    </Text>
-                    {request?.Hindi ?
-                        <Text style={styles.text2}>
-                            Hindi
-                        </Text>
-                        : null
-                    }
-                    {request?.examLang ?
+                    <Text style={styles.text2}> Language of Exam: </Text>
+                    {request.examLang ?
                         <Text style={styles.text2}>
                             {request.examLang}
-                        </Text>
-                        : null
+                        </Text> : null
                     }
-                    {request?.English ?
+                    {request.Hindi ?
+                        <Text style={styles.text2}>
+                            Hindi
+                        </Text> : null
+                    }
+                    {request.English ?
                         <Text style={styles.text2}>
                             English
-                        </Text>
-                        : null
+                        </Text> : null
                     }
-                    {request?.CBT ?
+                    <Text style={styles.text2}> Mode of Exam: </Text>
+                    {request.CBT ?
                         <Text style={styles.text2}>
                             CBT
+                        </Text> :
+                        <Text style={styles.text2}>
+                            Pen Paper Test
                         </Text>
-                        : null
                     }
                     <Text style={styles.text2}>
 
-                        Exam Time: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                        Address of Exam: {request?.examAddress || "Unknown"}
+                    </Text>
+                    <Text style={styles.text2}>
+
+                        Exam PIN Code: {request?.examPinCode || "Unknown"}
+                    </Text>
+
+                    <Text style={styles.text2}>
+
+                        Reporting time of Exam: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                     </Text>
                     <Text style={styles.text2}>
 
