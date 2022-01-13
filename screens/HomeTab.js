@@ -16,10 +16,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#B4E2DF",
     },
     inner_container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
+        flexGrow: 1,
+        
         
     },
     text1: {
@@ -29,6 +27,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     lowerHalf: {
+        
         justifyContent: 'center',
         alignContent: 'center',
         flex: 1,
@@ -43,8 +42,8 @@ const styles = StyleSheet.create({
         
     },
     requestButton: {
-        flex: 1,
-        margin: 10,
+        
+        marginHorizontal: 10,
         backgroundColor: '#19939A',
         borderRadius: 10,
         
@@ -131,16 +130,8 @@ export class HomeTab extends Component {
         super(props)
         this.navigation = this.props.navigation
         // const { user } = this.props
-        this.handleClick = () => {
-            
-            
-                
-                this.navigation.navigate('FillExamDetails')
-                
-            
-            // else {
-            //     this.showDialog1()
-            // }
+        this.handleClick = () => {    
+            this.navigation.navigate('FillExamDetails')
         }
         this.handleClick = this.handleClick.bind(this)
         const lang = props.lang
@@ -163,9 +154,9 @@ export class HomeTab extends Component {
     }
     render() {
         return (
-            <ScrollView style={styles.container}>
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.inner_container}>
 
-                <View style={styles.inner_container}>
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
@@ -176,8 +167,8 @@ export class HomeTab extends Component {
                     </View>
                     
 
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
 }

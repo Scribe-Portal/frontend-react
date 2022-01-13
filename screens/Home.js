@@ -48,12 +48,12 @@ function Home({ route, navigation }) {
     return (
         <View style={styles.container}>
             
-                <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
-                    <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
-                    <Tab.Screen name="Status" children={() => isItAScribe?<NewsScribe/>:<News/>}/>
-                    
-                    <Tab.Screen name="Settings" component={Settings}/>
-                </Tab.Navigator>
+            <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
+                <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
+                <Tab.Screen name="Status" children={() => isItAScribe?<NewsScribe/>:<News/>}/>
+                
+                <Tab.Screen name="Settings" component={Settings}/>
+            </Tab.Navigator>
         </View>
     )
 }

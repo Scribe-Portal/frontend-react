@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, PermissionsAndroid } from 're
 import { createStoreHook } from 'react-redux';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus } from '../reducers/userAppSettingsReducer';
-import { SelectYourRole, Volunteer, RequestScribe } from '../translations'
+import { SelectYourRole, ApplytoVolunteer, RequestVolunteer } from '../translations'
 import crashlytics from '@react-native-firebase/crashlytics'
 const styles = StyleSheet.create({
     container: {
@@ -95,7 +95,7 @@ function SelectRole({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        {RequestScribe[lang]}
+                        {RequestVolunteer[lang]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.langButton2}>
@@ -107,7 +107,7 @@ function SelectRole({ navigation }) {
                         }}
                     >
 
-                        {Volunteer[lang]}
+                        {ApplytoVolunteer[lang]}
                     </Text>
                 </TouchableOpacity>
             </View>

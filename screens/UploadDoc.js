@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native'
 
 import { connect } from 'react-redux'
 import firebase_storage from '@react-native-firebase/storage'
@@ -158,6 +158,7 @@ export class UploadDoc extends Component {
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.eduCertif = this.eduCertif.bind(this)
+        this.disabCertif = this.disabCertif.bind(this)
         this.uid = props.uid
         this.radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
 
@@ -205,6 +206,18 @@ export class UploadDoc extends Component {
                 
                     }
                 })
+    }
+    showNoDocumentsDialog = () => {
+        return Alert.alert(
+            "Document Not Uploaded",
+            "Please upload both the documents",
+            [
+                {
+                    text: "OK",
+                },
+            ]
+
+        )
     }
     eduCertif() {
         this.setState({buttonDisabled: true})
@@ -338,6 +351,9 @@ export class UploadDoc extends Component {
                 navigation.navigate('VolunteerPreference')
             })
         }
+        else {
+            this.showNoDocumentsDialog()
+        }
     }
     nextButton2() {
         
@@ -449,7 +465,7 @@ export class UploadDoc extends Component {
                                 Save and Next
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.UploadDocButton}
+                        {/* <TouchableOpacity style={styles.UploadDocButton}
                             onPress={this.nextButton2.bind(this)}
                             disabled={this.state.buttonDisabled}
                         >
@@ -457,7 +473,7 @@ export class UploadDoc extends Component {
                             <Text style={styles.t1}>
                                 Do it later
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <Bar style={{ marginVertical: 10, }} width={null} height={30} progress={this.state.uploadProgress} />
                         <Text style={styles.text1}>{this.state.uploadedText}</Text>

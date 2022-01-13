@@ -117,6 +117,10 @@ function UserBox({ uid, showMobile }) {
                 {`Gender: ${(typeof user?.gender === 'string') ?  (user?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
 
             </Text>
+            
+            <Text style={styles.text2}>
+                Age: {`${(user?.DOB) ? Math.floor((new Date() - user?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
+            </Text>
             {showMobile ? (
                 <TouchableOpacity style={styles.priorityButton2}
                     onPress={() => {

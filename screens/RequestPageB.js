@@ -133,7 +133,11 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
                         Exam Date: {new xdate(request.examDate.seconds * 1000).toString("dddd, d MMMM")}
                     </Text>
-                    <Text style={styles.text2}> Language of Exam: </Text>
+                    <Text style={styles.text2}>
+
+                        Reporting time of Exam: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
+                    </Text>
+                    <Text style={styles.text2}>Language of Exam: </Text>
                     {request.examLang ?
                         <Text style={styles.text2}>
                             {request.examLang}
@@ -149,7 +153,7 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                             English
                         </Text> : null
                     }
-                    <Text style={styles.text2}> Mode of Exam: </Text>
+                    <Text style={styles.text2}>Mode of Exam: </Text>
                     {request.CBT ?
                         <Text style={styles.text2}>
                             CBT
@@ -167,10 +171,6 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
                         Exam PIN Code: {request?.examPinCode || "Unknown"}
                     </Text>
 
-                    <Text style={styles.text2}>
-
-                        Reporting time of Exam: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
-                    </Text>
                     <Text style={styles.text2}>
 
                         Scribes selected:

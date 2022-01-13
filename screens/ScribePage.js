@@ -101,10 +101,28 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
                         {`Gender: ${(typeof scribe?.gender === 'string') ? (scribe?.gender==='male' ? "Male" : "Female") : "Unknown"} `}
 
                     </Text>
-                    <Text style={styles.text2}>
-                        {`Preferred Languages: ${(typeof scribe?.languages === 'string') ? scribe?.languages : "Unnamed"} `}
-
-                    </Text>
+                    
+                    {scribe?.Hindi ?
+                        <Text style={styles.text2}>
+                            The volunteer is comfortable giving exams in Hindi
+                        </Text> : null
+                    }
+                    {scribe?.English ?
+                        <Text style={styles.text2}>
+                            The volunteer is comfortable giving exams in English
+                        </Text> : null
+                    }
+                    <Text style={styles.text2}>Mode of Exam: </Text>
+                    {scribe?.CBT ?
+                        <Text style={styles.text2}>
+                            The volunteer is comfortable giving Computer Based Tests
+                        </Text> : null
+                    }
+                    {scribe?.Math ?
+                        <Text style={styles.text2}>
+                            The volunteer is comfortable giving exams with Maths
+                        </Text> : null
+                    }
                     <Text style={styles.text2}>
                         Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
                     </Text>

@@ -45,7 +45,7 @@ export default async function CommonMessages (message){
                 }
             })
             break;
-            case 'OTP': 
+        case 'OTP': 
             notifee.displayNotification({
                 title: 'OTP has been sent', 
                 body: notif,
@@ -54,7 +54,7 @@ export default async function CommonMessages (message){
                 }
             })
             break;
-            case 'AcceptS': 
+        case 'AcceptS': 
             notifee.displayNotification({
                 title: 'Request accepted', 
                 body: 'Your Scribe Request has been accepted please check the app',
@@ -63,7 +63,7 @@ export default async function CommonMessages (message){
                 }
             })
             break;
-            case 'Accept': 
+        case 'Accept': 
             notifee.displayNotification({
                 title: 'New Request', 
                 body: 'You have a new scribe request',
@@ -74,8 +74,8 @@ export default async function CommonMessages (message){
             break;
         default: 
             notifee.displayNotification({
-                title: 'some info',
-                body: message.data.txt, 
+                title: type+" unregistered",
+                body: notif, 
                 android: {
                     channelId: c['Neutral']
                 }

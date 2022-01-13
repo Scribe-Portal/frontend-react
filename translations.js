@@ -2,17 +2,13 @@ export const SelectYourRole = {
     'en': 'Select Your Role.',
     'hi': 'अपनी भूमिका चुने'
 }
-export const RequestScribe = {
+export const RequestVolunteer = {
     'en': 'Request a Volunteer',
     'hi': 'मुंशी (स्क्राइब) निवेदन करे'
 }
-export const VolunteerForNeedy = {
-    'en': 'Volunteer for Needy',
+export const ApplytoVolunteer = {
+    'en': 'Apply to Volunteer',
     'hi': 'वालंटियर (स्वयंसेवा)'
-}
-export const LoginText = {
-    'en': 'Log in',
-    'hi': 'लॉग इन'
 }
 export const EnterYourEmail = {
     'en': 'Enter your email address',
@@ -124,9 +120,9 @@ export const SaveAndNext = {
 }
 
 // screens/FillExamDetails.js
-export const FillInformation = {
-    'en': 'Fill Your Information',
-    'hi': 'अपनी जानकारी भरें'
+export const FillExamInformation = {
+    'en': 'Fill Your Exam Details',
+    'hi': 'अपनी परीक्षा जानकारी भरें'
 }
 export const NameExam = {
     'en': 'Name of Examination',
@@ -174,7 +170,7 @@ export const NoRequests = {
     'en': 'No Requests',
     'hi': 'कोई अनुरोध नहीं'
 }
-export const RequestScribe = {
+export const RequestAScribe = {
     'en': 'Request Scribe',
     'hi': 'स्क्राइब का अनुरोध करें'
 }
@@ -192,10 +188,6 @@ export const VolunteerSearchFailed = {
 }
 
 // screens/Login.js
-export const LoginText = {
-    'en': 'Log in',
-    'hi': 'लॉग इन'
-}
 
 // screens/LoginOrSignUp.js
 export const ExistingUser = {
@@ -428,10 +420,6 @@ export const VolunteerPreference = {
 export const QualificationPreference = {
     'en': 'Qualification Preference',
     'hi': 'योग्यता वरीयता'
-}
-export const RequestVolunteer = {
-    'en': 'Request Volunteer',
-    'hi': 'स्वयंसेवक का अनुरोध करें'
 }
 export const DecideLater = {
     'en': 'Decide later',
