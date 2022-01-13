@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeScribeStatus, changeTempUid, changeUid } from '../reducers/userAppSettingsReducer';
+import { AboutNSSTxt, AvailNSStxt, LogOut, ProfileSettings, UploadDocuments } from '../translations';
 
 const NSSFormURL = "https://forms.gle/arHtSEfV12jBVsxj9"
 const styles = StyleSheet.create({
@@ -118,7 +119,7 @@ function Settings({ route, navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Profile Settings
+                        {ProfileSettings[lang]}
                     </Text>
                 </TouchableOpacity>
 
@@ -130,7 +131,7 @@ function Settings({ route, navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Upload Documents
+                        {UploadDocuments[lang]}
                     </Text>
                 </TouchableOpacity>
                 {isItAScribe ?
@@ -148,7 +149,7 @@ function Settings({ route, navigation }) {
                     >
                         <Text style={styles.t1}>
 
-                            Avail NSS Hours
+                            {AvailNSStxt[lang]}
                         </Text>
                     </TouchableOpacity>
 
@@ -161,7 +162,7 @@ function Settings({ route, navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        About NSS
+                        {AboutNSSTxt[lang]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button1}
@@ -169,7 +170,7 @@ function Settings({ route, navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Log Out
+                        {LogOut[lang]}
                     </Text>
                 </TouchableOpacity>
             </View>

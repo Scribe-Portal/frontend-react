@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native'
 import { useSelector } from 'react-redux'
+import { SelectAvailability } from '../translations'
 const styles = StyleSheet.create({
     button1: {
         margin: 5,
@@ -33,7 +34,7 @@ function NewsScribe() {
             >
                 <Text style={styles.t1}>
 
-                    Select Availability
+                    {SelectAvailability[lang]}
                 </Text>
             </TouchableOpacity> 
     )

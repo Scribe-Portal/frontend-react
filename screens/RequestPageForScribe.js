@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
 })
 function UserBox({ uid, showMobile }) {
     const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
-    return (
+    console.log(user?.DOB.toDate())
+    if (user) return (
         <View style={styles.volunteerBox}>
             <Text style={styles._text1}>
                 Candidate Details
@@ -145,6 +146,9 @@ function UserBox({ uid, showMobile }) {
 
         </View>
 
+    )
+    else return (
+        <View><Text style={styles._text1}>Loading...</Text></View>
     )
 }
 

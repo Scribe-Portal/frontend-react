@@ -26,24 +26,32 @@ export const ReasonForCancellation = {
     'en': 'Reason for Cancellation',
     'hi': 'निरस्तीकरण का कारण'
 }
-export const IgnorePage = {
-    'en': 'Go Back, Ignore this page.',
-    'hi': 'वापस जाएं, इस पेज पर ध्यान न दें।'
+export const Back = {
+    'en': 'Back',
+    'hi': 'वापस जाएं'
 }
 export const Cancel = {
-    'en': 'Cancel',
+    'en': 'Cancel Request',
     'hi': 'रद्द करें'
 }
-
+// screens/CancelRequestForScribe.js
+export const CancelWarning = {
+    'en': 'Rejecting the request might incur NEGATIVE NSS hours. Please consider the consequences before you cancel. Cancel only if necessary.',
+    'hi': 'अनुरोध को अस्वीकार करने पर NEGATIVE NSS घंटे लग सकते हैं। कृपया रद्द करने से पहले परिणामों पर विचार करें। यदि आवश्यक हो तो ही रद्द करें।',
+}
+export const confirmRejection = {
+    'en':  'Confirm Rejection',
+    'hi': 'अस्वीकृति की पुष्टि करें'
+}
 // screens/EnterMobile.js; screens/EnterOTP.js
 export const OTPVerification = {
     'en': 'OTP Verification,',
     'hi': 'ओ.टी.पी. सत्यापन'
 }
-export const OTPSentToMobile = {
-    'en': 'An OTP has been sent to {mobile}',
-    'hi': '{mobile} पर एक ओ.टी.पी. भेजा गया है'
-}
+export const OTPSentToMobile = (mobile) => ({
+    'en': `An OTP has been sent to ${mobile}`,
+    'hi': `${mobile} पर एक ओ.टी.पी. भेजा गया है`
+})
 export const EnterOTP = {
     'en': 'Enter OTP',
     'hi': 'ओ.टी.पी. दर्ज करें'
@@ -68,7 +76,7 @@ export const OTPInstruction = {
     'en': 'We will send you a one-time password to this mobile number',
     'hi': 'हम आपको इस मोबाइल नंबर पर वन-टाइम पासवर्ड भेजेंगे'
 }
-export const EnterMobile = {
+export const MobileNo = {
     'en': 'Enter Your Mobile Number',
     'hi': 'अपनि मोबाइल संख्या दर्ज करे'
 }
@@ -106,6 +114,10 @@ export const Address = {
     'en': 'Address',
     'hi': 'पता'
 }
+export const EntryNo = {
+    'en': 'Entry Number',
+    'hi': 'प्रवेश संख्या'
+}
 export const PreferredLanguages = {
     'en': 'Preferred Languages',
     'hi': 'पसंदीदा भाषाएं'
@@ -132,9 +144,17 @@ export const DateExam = {
     'en': 'Date of Examination',
     'hi': 'परीक्षा की तिथि'
 }
+export const PresstoChoose = {
+    'en': 'Press to choose',
+    'hi': 'चुनने के लिए दबाएं',
+}
 export const TimeExam = {
-    'en': 'Time of Examination',
-    'hi': 'परीक्षा का समय'
+    'en': 'Reporting Time of Examination',
+    'hi': 'परीक्षा का रिपोर्टिंग समय'
+}
+export const LangExam = {
+    'en': 'Language of Exam',
+    'hi': 'परीक्षा की भाषा'
 }
 export const ModeExam = {
     'en': 'Mode of Examination',
@@ -149,15 +169,19 @@ export const HindiMode = {
     'hi': 'हिंदी'
 }
 export const CBTMode = {
-    'en': 'CBT',
-    'hi': 'सी.बी.टी.'
+    'en': 'Computer Based Test',
+    'hi': 'कंप्यूटर आधारित टेस्ट'
+}
+export const PenPaperTest = {
+    'en': 'Pen Paper Test',
+    'hi': 'पेन पेपर टेस्ट'
 }
 export const AddressExam = {
     'en': 'Address of Exam Center',
     'hi': 'परीक्षा केंद्र का पता'
 }
 export const Pincode = {
-    'en': 'Pincode',
+    'en': 'PIN code',
     'hi': 'पिन कोड'
 }
 
@@ -175,7 +199,7 @@ export const RequestAScribe = {
     'hi': 'स्क्राइब का अनुरोध करें'
 }
 export const VolunteerSearchSuccessful = {
-    'en': 'Volunteer Search Successful',
+    'en': 'Successful Volunteer Search',
     'hi': 'स्वयंसेवी कि खोज सफल हुई'
 }
 export const PendingRequests = {
@@ -185,6 +209,10 @@ export const PendingRequests = {
 export const VolunteerSearchFailed = {
     'en': 'Volunteer Search Failed',
     'hi': 'स्वयंसेवी कि खोज नाकाम हुई'
+}
+export const ExamDocMessage= {
+    'en': 'Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.',
+    'hi': 'आपके अनुरोध की पूर्ति परीक्षा दस्तावेजों को अपलोड करने के अधीन है। कृपया परीक्षा दस्तावेज प्राप्त होने पर उन्हें अपलोड करें।'
 }
 
 // screens/Login.js
@@ -351,9 +379,13 @@ export const Choose3Volunteers = {
     'en': 'Choose upto three volunteers from the list',
     'hi': 'सूची में से अधिकतम तीन स्वयंसेवकों को चुनें'
 }
-export const Showing5Volunteers = {
-    'en': 'Showing 5 volunteers according to your requirement',
-    'hi': 'आपकी आवश्यकता के अनुसार 5 स्वयंसेवकों को दिखाया गया है'
+export const Showing5Volunteers = (num) =>  ({
+    'en': `Showing ${num} volunteers according to your requirement`,
+    'hi': `आपकी आवश्यकता के अनुसार ${num} स्वयंसेवकों को दिखाया गया है`
+})
+export const InitiateRequest = {
+    'en': 'Initiate Scribe Request',
+    'hi': 'स्क्राइब अनुरोध शुरू करें',
 }
 export const Next = {
     'en': 'Next',
@@ -396,6 +428,10 @@ export const UploadEducationalCertificate = {
 export const UploadDocuments = {
     'en': 'Upload Documents',
     'hi': 'दस्तावेज़ अपलोड करें'
+}
+export const DoItLater = {
+    'en': "Do It Later",
+    'hi': 'इसे बाद में करें'
 }
 export const ExamMaterialArray = {
     'en': ["Admit Card", "Application Receipt"],
@@ -440,4 +476,25 @@ export const ShowingVolunteersAccordingToReq = {
 export const LongInstruction = {
     'en': 'If any selected volunteer accepts your scribe request, you can find it by clicking Successful Volunteer Search button in the Status tab itself, where you can find the finalized volunteer for your request. You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes.',
     'hi': 'यदि कोई चयनित स्वयंसेवक आपके स्क्राइब के अनुरोध को स्वीकार करता है, तो आप इसके लिए स्टेटस टैब में ही "स्वयंसेवी खोज सफल हुई" बटन पर क्लिक कर सकते हैं, जहां आप अपने अनुरोध के लिए चुने गए स्वयंसेवक को ढूंढ सकते हैं। आप परीक्षा से पहले किसी भी समय \"स्टेटस\" के तहत \"लंबित अनुरोध\" दबाकर, अपनी परीक्षा का चयन करके, और फिर रीसेलेक्ट स्क्राइब दबाकर स्वयंसेवकों का चयन दोबारा कर सकते हैं।'
+}
+
+export const SettingsTxt = {
+    'en': 'Settings',
+    'hi': 'सेट्टिन्ग्स्'
+}
+export const HomeTxt = {
+    'en': 'Home',
+    'hi': 'होम्'
+}
+export const StatusTxt = {
+    'en': 'Status',
+    'hi': 'स्थिति'
+}
+export const AboutNSSTxt = {
+    'en': 'About NSS',
+    'hi': 'एनएसएस . के बारे में'
+}
+export const AvailNSStxt= {
+    'en': 'Avail NSS Hours',
+    'hi': 'एनएसएस घंटे का लाभ उठाएं'
 }

@@ -7,6 +7,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { compose } from 'redux';
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
+import { Loading, NoRequests, RequestAScribe } from '../translations';
 
 
 // hi
@@ -97,7 +98,7 @@ function Request({req_id}) {
 
     )
 }
-function Requests({uid}){
+function Requests({uid, lang}){
     useFirestoreConnect([
         {
             collection: 'requests',
@@ -109,7 +110,7 @@ function Requests({uid}){
     if (!isLoaded(requests)){
         return (
             <Text style={styles.text1}>
-                Loading...
+            {Loading[lang]}
             </Text>
         )
 
@@ -117,7 +118,7 @@ function Requests({uid}){
     if (isEmpty(requests)){
         return (
             <Text>
-                No Requests
+                {NoRequests[lang]}
             </Text>
         )
     }
@@ -134,7 +135,7 @@ export class HomeTab extends Component {
             this.navigation.navigate('FillExamDetails')
         }
         this.handleClick = this.handleClick.bind(this)
-        const lang = props.lang
+        
     }
     
     showDialog1 = () => {
@@ -160,7 +161,7 @@ export class HomeTab extends Component {
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
-                                Request a Scribe
+                               {RequestAScribe[this.props.lang]}
                             </Text>
                         </TouchableOpacity>
 

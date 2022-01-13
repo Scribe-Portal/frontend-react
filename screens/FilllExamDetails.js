@@ -3,7 +3,7 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button, Platform, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
-import { FillExamDetailsText } from '../translations'
+import { AddressExam, ExamDocMessage, FillExamDetailsText, NameExam, Pincode, PresstoChoose, SaveAndNext, TimeExam, DateExam, LangExam, ModeExam, EnglishMode, HindiMode, CBTMode, PenPaperTest, FillExamInformation, } from '../translations'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 const styles = StyleSheet.create({
@@ -209,18 +209,19 @@ function FillExamDetails({ navigation }) {
                 <View style={styles.centered}>
 
                     <Text style={styles.text1}>
-                        Fill Your Exam Details
+                    {FillExamInformation[lang]}
+                    
                     </Text>
-                    <Text style={styles.text2}>Name of Examination</Text>
+                    <Text style={styles.text2}>{NameExam[lang]}</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
                     <TouchableOpacity onPress={showDatepicker} style={styles.datePicker} onPress={showDatepicker}>
-                        <Text style={styles.textInsideDatePicker}>{`Date of Examination (${touched1 ? (String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()) : "Press to choose"
+                        <Text style={styles.textInsideDatePicker}>{`${DateExam[lang]} (${touched1 ? (String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' +  date.getFullYear()) : PresstoChoose[lang]
                         })`}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={showTimepicker} style={styles.datePicker} onPress={showTimepicker}>
                         <Text style={styles.textInsideDatePicker}>
                         
-                        {`Reporting Time of Examination (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : "Press to choose"})`}
+                        {`${TimeExam[lang]} (${touched2 ? (String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0')) : PresstoChoose[lang]})`}
                         </Text>
                     </TouchableOpacity>
 
@@ -247,38 +248,38 @@ function FillExamDetails({ navigation }) {
                             onChange={onChange2}
                         />
                     ) : null}
-                    <Text style={styles.text2}>Language of Examination</Text>
+                    <Text style={styles.text2}>{LangExam[lang]}</Text>
                     <RadioButton
-                        text="English"
+                        text={EnglishMode[lang]}
                         selectedRadioButton={English}
                         handleChange={() => { setEnglish(!English) }}
                     />
                     <RadioButton
-                        text="Hindi"
+                        text={HindiMode[lang]}
                         selectedRadioButton={Hindi}
                         handleChange={() => { setHindi(!Hindi) }}
                     />
-                    <Text style={styles.text2}>Mode of Exam</Text>
+                    <Text style={styles.text2}>{ModeExam[lang]}</Text>
                     <RadioButton
-                        text="Pen paper based"
+                        text={PenPaperTest[lang]}
                         selectedRadioButton={!CBT}
                         handleChange={() => { setCBT(false) }}
                     />
                     
                     <RadioButton
-                        text="Computer Based Test"
+                        text={CBTMode[lang]}
                         selectedRadioButton={CBT}
                         handleChange={() => { setCBT(true) }}
                     />
 
 
-                    <Text style={styles.text2}>Address of Exam Center</Text>
+                    <Text style={styles.text2}>{AddressExam[lang]}</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
-                    <Text style={styles.text2}>PIN code</Text>
+                    <Text style={styles.text2}>{Pincode[lang]}</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
                     <Text style={styles.text2}>
                     
-                        Fulfilment of your request is subject to your uploading the exam documents. Please upload the exam documents when you receive them.
+                        {ExamDocMessage[lang]}
                     </Text>
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
@@ -305,7 +306,7 @@ function FillExamDetails({ navigation }) {
                     >
                         <Text style={styles.t1}>
 
-                            Save and Next
+                            {SaveAndNext[lang]}
                         </Text>
                     </TouchableOpacity>
                 </View>

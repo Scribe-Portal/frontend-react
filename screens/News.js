@@ -3,6 +3,7 @@ import React from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native'
 import { useSelector } from 'react-redux'
+import { PendingRequests, VolunteerSearchSuccessful } from '../translations'
 const styles = StyleSheet.create({
     button1: {
         margin: 5,
@@ -82,12 +83,12 @@ function News() {
                 <TouchableOpacity style={styles.requestA} onPress={() => {
                     navigation.navigate('RequestsA')
                 }}>
-                    <Text style={styles.textA}>Successful Volunteer Search </Text>
+                    <Text style={styles.textA}>{VolunteerSearchSuccessful[lang]}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.requestB} onPress={() => {
                     navigation.navigate('RequestsB')
                 }}>
-                    <Text style={styles.textC}>Pending Requests</Text>
+                    <Text style={styles.textC}>{PendingRequests[lang]}</Text>
                 </TouchableOpacity>
             </ScrollView>
 

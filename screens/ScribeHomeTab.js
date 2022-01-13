@@ -288,7 +288,7 @@ export default function ScribeHomeTab() {
         console.log(markedDates)
     }, [markedDates,])
 
-    const lang = useSelector((state) => state.userAppSettings.lang)
+    
 
     if (!isLoaded(requests)) {
         return (

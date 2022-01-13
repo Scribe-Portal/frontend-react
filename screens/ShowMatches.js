@@ -7,6 +7,7 @@ import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } fro
 import { addP, removeAll } from '../reducers/priorityReducer';
 import messaging from '@react-native-firebase/messaging';
 import { sendEmail } from './sendemail';
+import { Choose3Volunteers, InitiateRequest, LongInstruction, Showing5Volunteers } from '../translations';
 
 const styles = StyleSheet.create({
     container: {
@@ -190,7 +191,7 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
 
         return Alert.alert(
             "Info",
-            "If any selected volunteer accepts your scribe request, you can find it by clicking Successful Volunteer Search button in the Status tab itself, where you can find the finalized volunteer for your request. You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes. ",
+            LongInstruction[lang],
             [
                 {
                     text: "Ok, go to Home",
@@ -224,10 +225,10 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                     <View style={styles.centered}>
 
                         <Text style={styles.text1}>
-                            Choose upto three volunteers from the list
+                            {Choose3Volunteers[lang]}
                         </Text>
                         <Text style={styles.text2}>
-                            Showing {(typeof numVolunteers === "number") ? numVolunteers : "0"} volunteers according to your requirement
+                            {Showing5Volunteers((typeof numVolunteers === "number") ? numVolunteers : "0")[lang]}
                         </Text>
                         <Matches uid={uid} dateSlot={dateSlot} />
                         <View style={styles.middle_spacing}>
@@ -291,7 +292,7 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
                         >
                             <Text style={styles.t1}>
 
-                                Initiate scribe request
+                                {InitiateRequest[lang]}
                             </Text>
                         </TouchableOpacity>
                     </View>

@@ -10,6 +10,7 @@ import News from './News'
 import NewsScribe from './NewsScribe'
 import ScribeHomeTab from './ScribeHomeTab'
 import { useSelector } from 'react-redux'
+import { HomeTxt, SettingsTxt, StatusTxt } from '../translations'
 
 
 
@@ -49,10 +50,10 @@ function Home({ route, navigation }) {
         <View style={styles.container}>
             
             <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
-                <Tab.Screen name="Home" children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
-                <Tab.Screen name="Status" children={() => isItAScribe?<NewsScribe/>:<News/>}/>
+                <Tab.Screen name={HomeTxt[lang]} children={() => isItAScribe?<ScribeHomeTab navigation={navigation}></ScribeHomeTab>:<HomeTab navigation={navigation}></HomeTab>}/>
+                <Tab.Screen name={StatusTxt[lang]} children={() => isItAScribe?<NewsScribe/>:<News/>}/>
                 
-                <Tab.Screen name="Settings" component={Settings}/>
+                <Tab.Screen name={SettingsTxt[lang]} component={Settings}/>
             </Tab.Navigator>
         </View>
     )

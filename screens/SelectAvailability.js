@@ -109,7 +109,7 @@ function SelectAvailability({ navigation }) {
 
 
     const [recentlyDisabled1, setRecentlyDisabled1] = useState(false)
-    const lang = useSelector(state => state.userAppSettings.lang)
+    
 
     const [recentlyDisabled2, setRecentlyDisabled2] = useState(true)
     const [errText, setErrText] = useState('')

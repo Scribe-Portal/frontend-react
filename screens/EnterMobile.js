@@ -4,14 +4,15 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Permis
 import { useDispatch, useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
 import crashlytics from '@react-native-firebase/crashlytics'
-import { useFirestore } from 'react-redux-firebase';
+import { useFirestore } from 'react-redux-firebase'
 import { changeTempUid, changeUid } from '../reducers/userAppSettingsReducer'
 
-import RNOtpVerify from 'react-native-otp-verify';
+import RNOtpVerify from 'react-native-otp-verify'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
-import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging'
+import { CantSendOTP, OTPInstruction, OTPSentToMobile, OTPVerification, EnterOTP, Proceed, SendOTP, MobileNo, SentOTPHopeYouGot, ResentOTP  } from '../translations'
 const styles_confirmed = StyleSheet.create({
     container: {
         flex: 1,
@@ -429,17 +430,17 @@ function EnterMobile({ navigation }) {
 
                     <View style={styles_confirmed.c1}>
                         <Text style={styles_confirmed.text1}>
-                            OTP Verification
+                            {OTPVerification[lang]}
                         </Text>
                         <Text style={styles_confirmed.text2}>
-                            An OTP has been sent to {mobile}
+                            {OTPSentToMobile(mobile)[lang]}
                         </Text>
 
                     </View>
                     <View style={styles_confirmed.middle_spacing}></View>
                     <View styles={styles_confirmed.c2}>
                         <TextInput
-                            placeholder="Enter OTP"
+                            placeholder={EnterOTP[lang]}
                             value={otp_input}
                             onChangeText={set_otp_input}
                             style={styles_confirmed.input}
@@ -452,7 +453,7 @@ function EnterMobile({ navigation }) {
                         >
                             <Text style={styles_confirmed.t1}>
 
-                                Proceed
+                                {Proceed[lang]}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles_confirmed.langButton1}
@@ -465,26 +466,26 @@ function EnterMobile({ navigation }) {
                                         switch (phoneAuthSnapshot.state) {
                                             case firebase_auth.PhoneAuthState.CODE_SENT:
                                                 console.log('Verif code sent!', phoneAuthSnapshot)
-                                                setStatus("We've resent the OTP, hope you got it!")
+                                                setStatus(SentOTPHopeYouGot[lang])
                                                 verificationId = phoneAuthSnapshot.verificationId
                                                 break
                                             case firebase_auth.PhoneAuthState.ERROR:
                                                 // console.log('Verif error', phoneAuthSnapshot)
-                                                setStatus("Can't send the OTP, maybe try again later")
+                                                setStatus(CantSendOTP[lang])
 
                                                 break
                                         }
                                     },
                                     (error) => {
                                         // console.log(error)
-                                        setStatus("Can't send the OTP, maybe try again later")
+                                        setStatus(CantSendOTP[lang])
                                     })
 
                             }}
                         >
                             <Text style={styles_confirmed.t1}>
 
-                                Didn't get OTP? Resend OTP
+                                {ResentOTP[lang]}
                             </Text>
                         </TouchableOpacity>
 
@@ -507,10 +508,10 @@ function EnterMobile({ navigation }) {
 
                     <View style={styles.c1}>
                         <Text style={styles.text1}>
-                            OTP Verification
+                            {OTPVerification[lang]}
                         </Text>
                         <Text style={styles.text2}>
-                            We will send you a one-time password to this mobile number
+                            {OTPInstruction[lang]}
                         </Text>
                     </View>
                     <View style={styles.middle_spacing}>
@@ -518,10 +519,10 @@ function EnterMobile({ navigation }) {
                     </View>
                     <View style={styles.c2}>
                         <Text style={styles.text3}>
-                            Enter Your Mobile Number
+                           
                         </Text>
                         <TextInput
-                            placeholder="Enter Your Mobile No"
+                            placeholder="Enter Mobile Number"
                             onChangeText={setMobile}
                             value={mobile}
                             style={styles.input}
@@ -535,20 +536,18 @@ function EnterMobile({ navigation }) {
                         <TouchableOpacity style={styles.langButton1}
                             onPress={async () => {
                                 try {
-
                                     const confirmation = await firebase_auth().signInWithPhoneNumber("+91" + mobile)
                                     setConfirm(confirmation)
                                 }
                                 catch {
-                                    setErrorText("Can't send an OTP. Are you sure the number is right?")
-
+                                    setErrorText(CantSendOTP[lang])
                                 }
                                     
 
                             }}
                         >
                             <Text style={styles.t1}>
-                                Send OTP
+                                {SendOTP[lang]}
                             </Text>
                         </TouchableOpacity>
                     </View>

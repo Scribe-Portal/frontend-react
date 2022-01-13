@@ -113,7 +113,7 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
                             The volunteer is comfortable giving exams in English
                         </Text> : null
                     }
-                    <Text style={styles.text2}>Mode of Exam: </Text>
+                    
                     {scribe?.CBT ?
                         <Text style={styles.text2}>
                             The volunteer is comfortable giving Computer Based Tests

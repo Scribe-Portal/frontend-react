@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import firebase_storage from '@react-native-firebase/storage'
 import firebase_firestore from '@react-native-firebase/firestore'
 import { Bar } from 'react-native-progress'
-import { UploadExamDocText } from '../translations'
+import { DoItLater, ExamMaterialArray, SaveAndNext, UploadDocuments, UploadExamDocText } from '../translations'
 import { launchImageLibrary } from 'react-native-image-picker';
 const styles = StyleSheet.create({
     container: {
@@ -110,7 +110,7 @@ export class UploadExamDoc extends Component {
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.uid = props.uid
         this.reqid = props.route.params.requestId
-        this.radioOptions = ["Admit Card", "Application Receipt"]
+        this.radioOptions = ExamMaterialArray[this.props.lang]
         // console.log(this.props.route.params.dateSlot)
     }
     setSelectedRadio(i){
@@ -162,7 +162,7 @@ export class UploadExamDoc extends Component {
                 <ScrollView contentContainerStyle={styles.inner_container}>
 
                     <Text style={styles.text1}>
-                        Upload Documents
+                        {UploadDocuments[this.props.lang]}
                     </Text>
                     {this.radioOptions.map((item, i) => (
                         <RadioButton
@@ -187,7 +187,7 @@ export class UploadExamDoc extends Component {
                     >
                         <Text style={styles.t1}>
 
-                            Save and Next
+                            {SaveAndNext[this.props.lang]}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.UploadExamDocButton}
@@ -202,7 +202,7 @@ export class UploadExamDoc extends Component {
                     >
                         <Text style={styles.t1}>
 
-                            Do it later
+                            {DoItLater[this.props.lang]}
                         </Text>
                     </TouchableOpacity>
                     <Bar style={{ marginVertical: 10 }} width={null} height={30} progress={this.state.uploadProgress} />

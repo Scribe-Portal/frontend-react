@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
-import { FillInfoText } from '../translations'
+import { Email, FillInformation, FillInfoText, Name, Gender, SaveAndNext, DOB, Address, EntryNo, PreferredLanguages, PinCode,  } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -207,18 +207,19 @@ function FillInfo({ navigation }) {
 
                 <View style={styles.c1}>
                     <Text style={styles.text1}>
-                        Fill Your Information
+                        {FillInformation[lang]}
+                        
                     </Text>
-                    <Text style={styles.text2}>Name</Text>
+                    <Text style={styles.text2}>{Name[lang]}</Text>
                     <TextInput onChangeText={setName} style={styles.input} />
                     {isItAScribe ? (
                         <View>
-                            <Text style={styles.text2}>Entry Number</Text>
+                            <Text style={styles.text2}>{EntryNo[lang]}</Text>
                             <TextInput onChangeText={setEno} style={styles.input} />
                         </View>
 
                     ) : null}
-                    <Text style={styles.text2}>Gender</Text>
+                    <Text style={styles.text2}>{Gender[lang]}</Text>
                     <RadioButton2
                         text="Male"
                         i={0}
@@ -251,7 +252,7 @@ function FillInfo({ navigation }) {
                             onChange={onChange}
                         />
                     )}
-                    <Text style={styles.text2}>Email</Text>
+                    <Text style={styles.text2}>{Email[lang]}</Text>
                     <TextInput onChangeText={setEmail} style={styles.input} />
                     {
                         isItAScribe ? (
@@ -283,10 +284,10 @@ function FillInfo({ navigation }) {
                             </View>
                         ) : null
                     }
-                    <Text style={styles.text2}>Address</Text>
+                    <Text style={styles.text2}>{Address[lang]}</Text>
                     <TextInput onChangeText={setAddress} style={styles.input} />
 
-                    <Text style={styles.text2}>PIN Code</Text>
+                    <Text style={styles.text2}>{PinCode[lang]}</Text>
                     <TextInput onChangeText={setPinCode} style={styles.input} />
 
                 </View>
@@ -325,7 +326,7 @@ function FillInfo({ navigation }) {
                     >
                         <Text style={styles.t1}>
 
-                            Save and Next
+                            {SaveAndNext[lang]}
                         </Text>
                     </TouchableOpacity>
                 </View>
