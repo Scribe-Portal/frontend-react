@@ -474,7 +474,7 @@ export const ShowingVolunteersAccordingToReq = {
 
 //
 export const LongInstruction = {
-    'en': 'If any selected volunteer accepts your scribe request, you can find it by clicking Successful Volunteer Search button in the Status tab itself, where you can find the finalized volunteer for your request. You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes.',
+    'en': 'You can find your request by pressing \"Pending Requests\"s under Status tab. If any selected volunteer accepts your scribe request, you can find it by clicking Successful Volunteer Search button in the Status tab itself, where you can find the finalized volunteer for your request. You can reselect the volunteers anytime before the exam by pressing \"Pending Reqeusts\" under \"Status\", selecting your exam, and then pressing Reselect Scribes.',
     'hi': 'यदि कोई चयनित स्वयंसेवक आपके स्क्राइब के अनुरोध को स्वीकार करता है, तो आप इसके लिए स्टेटस टैब में ही "स्वयंसेवी खोज सफल हुई" बटन पर क्लिक कर सकते हैं, जहां आप अपने अनुरोध के लिए चुने गए स्वयंसेवक को ढूंढ सकते हैं। आप परीक्षा से पहले किसी भी समय \"स्टेटस\" के तहत \"लंबित अनुरोध\" दबाकर, अपनी परीक्षा का चयन करके, और फिर रीसेलेक्ट स्क्राइब दबाकर स्वयंसेवकों का चयन दोबारा कर सकते हैं।'
 }
 

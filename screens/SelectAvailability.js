@@ -7,6 +7,7 @@ import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 
 import firebase from '@react-native-firebase/app';
 import { Calendar } from 'react-native-calendars';
+import { Back, MarkAvailable, UnmarkAvailable } from '../translations';
 
 const styles = StyleSheet.create({
     container: {
@@ -203,10 +204,11 @@ function SelectAvailability({ navigation }) {
                         setRecentlyDisabled1(true)
                         setRecentlyDisabled2(false)
                     }}
+                    disabled={recentlyDisabled1}
                 >
                     <Text style={styles.t1}>
 
-                        Mark Myself Available This Day
+                        {MarkAvailable[lang]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.AvailButton}
@@ -238,7 +240,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        Unmark Myself Available This Day
+                        {UnmarkAvailable[lang]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.AvailButton}
@@ -248,7 +250,7 @@ function SelectAvailability({ navigation }) {
                 >
                     <Text style={styles.t1}>
 
-                        back
+                        {Back[lang]}
                     </Text>
                 </TouchableOpacity>
 

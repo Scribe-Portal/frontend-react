@@ -134,6 +134,38 @@ function RadioButton({ i, text, selectedRadioButton, handleChange }) {
                 justifyContent: 'center',
             }}>
                 {
+                    (selectedRadioButton === i) ?
+                        <View style={{
+                            height: 12,
+                            width: 12,
+                            borderRadius: 6,
+                            backgroundColor: '#000',
+                        }} />
+                        : null
+                }
+            </View>
+            <Text style={styles.radioText}>{text}</Text>
+        </TouchableOpacity>
+
+    );
+}
+function RadioButton2({ text, selectedRadioButton, handleChange }) {
+    return (
+        <TouchableOpacity
+            style={styles.radioRoot}
+            onPress={handleChange}
+        >
+            <View style={{
+                height: 24,
+                width: 24,
+                borderRadius: 12,
+                borderWidth: 2,
+                borderColor: '#000',
+                alignItems: 'center',
+                margin: 5,
+                justifyContent: 'center',
+            }}>
+                {
                     selectedRadioButton ?
                         <View style={{
                             height: 12,
@@ -169,6 +201,7 @@ function FillExamDetails({ navigation }) {
     let [time, setTime] = useState(new Date())
 
     let [address, setAddress] = useState('')
+    let [examLang, setExamLang] = useState(0)
     let [pinCode, setPinCode] = useState('')
     let [date, setDate] = useState(new Date())
     let [English, setEnglish] = useState(false);
@@ -251,22 +284,24 @@ function FillExamDetails({ navigation }) {
                     <Text style={styles.text2}>{LangExam[lang]}</Text>
                     <RadioButton
                         text={EnglishMode[lang]}
-                        selectedRadioButton={English}
-                        handleChange={() => { setEnglish(!English) }}
+                        i={0}
+                        selectedRadioButton={examLang}
+                        handleChange={() => { setExamLang(0) }}
                     />
                     <RadioButton
                         text={HindiMode[lang]}
-                        selectedRadioButton={Hindi}
-                        handleChange={() => { setHindi(!Hindi) }}
+                        i={1}
+                        selectedRadioButton={examLang}
+                        handleChange={() => { setExamLang(1) }}
                     />
                     <Text style={styles.text2}>{ModeExam[lang]}</Text>
-                    <RadioButton
+                    <RadioButton2
                         text={PenPaperTest[lang]}
                         selectedRadioButton={!CBT}
                         handleChange={() => { setCBT(false) }}
                     />
                     
-                    <RadioButton
+                    <RadioButton2
                         text={CBTMode[lang]}
                         selectedRadioButton={CBT}
                         handleChange={() => { setCBT(true) }}
@@ -292,8 +327,8 @@ function FillExamDetails({ navigation }) {
                                         uid: uid,
                                         examName: name,
                                         examDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes()),
-                                        English: English,
-                                        Hindi: Hindi,
+                                        English: (examLang===0),
+                                        Hindi: (examLang===1),
                                         CBT: CBT,
                                         examAddress: address,
                                         examPinCode: pinCode,
