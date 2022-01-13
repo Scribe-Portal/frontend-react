@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
 import { changeLang } from '../reducers/userAppSettingsReducer';
+import { confirmRejection, Back, CancelWarning, ReasonForCancellation } from '../translations';
 // hi
 const styles = StyleSheet.create({
     container: {
@@ -74,6 +75,8 @@ const styles = StyleSheet.create({
 function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlot } } }) {
     const uid = useSelector((state) => state.userAppSettings.uid)
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     const firestore = useFirestore()
     let [cancelReason, setCancelReason] = useState('')
     const showCancelDialog = () => {
@@ -134,11 +137,10 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
             <View style={styles.upperHalf}>
                 <Text style={styles.text1}>
 
-                    Reason for Cancellation
+                    {ReasonForCancellation[lang]}
                 </Text>
                 <Text style={styles.text2}>
-
-                    Rejecting the request might incur NEGATIVE NSS hours. Please consider the consequences before you cancel. Cancel only if necessary.
+                    {CancelWarning[lang]}
                 </Text>
                 <TextInput multiline={true} numberOfLines={10} onChangeText={setCancelReason} style={styles.input} />
 
@@ -150,14 +152,14 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                     }}
                 >
                     <Text style={styles.t1}>
-                        Back
+                        {Back[lang]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.priorityButton}
                     onPress={showCancelDialog}
                 >
                     <Text style={styles.t1}>
-                        Confirm Rejection
+                       {confirmRejection[lang]}
                     </Text>
                 </TouchableOpacity>
             </View>

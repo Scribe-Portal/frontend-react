@@ -83,7 +83,8 @@ function ScribePage({ navigation, route: { params: { scribe_id, selected, modifi
     
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     const num_selected = useSelector(state => state.priority.num)
-    
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     const dispatch = useDispatch()
     return (
         <View style={styles.container}>

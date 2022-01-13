@@ -92,6 +92,8 @@ function ReviewVolunteer({ navigation, route: { params: { scribe_id, req_id, } }
     ])
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[scribe_id])
     const review = useSelector(state => state.firestore.data.reviews && state.firestore.data.reviews[req_id])
+    const lang = useSelector(state => state.userAppSettings.lang)
+
 
     const firestore = useFirestore()
     let [revw, setReview] = useState('')

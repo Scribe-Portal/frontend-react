@@ -151,6 +151,8 @@ function UserBox({ uid, showMobile }) {
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
 
     const firestore = useFirestore()
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     {
         request &&

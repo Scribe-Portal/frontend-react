@@ -121,6 +121,8 @@ function PhoneButtton({ scribe_id }) {
 function RequestPageA({ navigation, route: { params: { req_id } } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    const lang = useSelector(state => state.userAppSettings.lang)
+
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 

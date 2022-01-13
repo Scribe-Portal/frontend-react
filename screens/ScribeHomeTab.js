@@ -256,6 +256,8 @@ export default function ScribeHomeTab() {
         },
     ])
     const requests = useSelector((state) => state.firestore.ordered.requests)
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     let [markedDates, setMarkedDates] = useState({});
     let [currRequests, setCurrRequests] = useState([]);
     let [currDate, setCurrDate] = useState('')

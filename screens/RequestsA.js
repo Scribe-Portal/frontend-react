@@ -57,6 +57,8 @@ function Request({ req_id }) {
 }
 function Requests({ uid }) {
     const requests = useSelector(state => state.firestore.ordered.requests.filter(req => (req.status === 'accepted')))
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     if (!isLoaded(requests)) {
         return (
             <Text style={styles.text1}>

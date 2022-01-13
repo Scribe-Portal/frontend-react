@@ -98,6 +98,7 @@ function ScribeName({ scribe_id, ind }) {
     )
 }
 function RequestPageB({ navigation, route: { params: { req_id } } }) {
+    const lang = useSelector(state => state.userAppSettings.lang)
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
     useFirestoreConnect(() => [

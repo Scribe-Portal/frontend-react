@@ -4,9 +4,7 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, Linking, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { changeFirstP, changeSecondP, changeThirdP } from '../reducers/priorityReducer';
-import { changeLang } from '../reducers/userAppSettingsReducer';
-
+import { Back, ReasonForCancellation, Cancel } from '../translations'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -71,6 +69,8 @@ const styles = StyleSheet.create({
 function CancelRequest({ navigation, route: { params: { requestId} } }) {
 
     const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[requestId])
+    const lang = useSelector(state => state.userAppSettings.lang)
+
     const firestore = useFirestore()
     let [cancelReason, setCancelReason]  = useState('')
     const showCancelDialog = () => {
@@ -137,7 +137,7 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
 
                     <Text style={styles.text1}>
 
-                        Reason for Cancellation
+                        {ReasonForCancellation[lang]}
                     </Text>
                     <TextInput multiline={true} numberOfLines={10} onChangeText={setCancelReason} style={styles.input}/>
                 </View>
@@ -150,14 +150,14 @@ function CancelRequest({ navigation, route: { params: { requestId} } }) {
                         }}
                     >
                         <Text style={styles.t1}>
-                            Back
+                            {Back[lang]}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.priorityButton}
                         onPress={showCancelDialog}
                     >
                         <Text style={styles.t1}>
-                            Cancel Request
+                            {Cancel[lang]}
                         </Text>
                     </TouchableOpacity>
                 </View>
