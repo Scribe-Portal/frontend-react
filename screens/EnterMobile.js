@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase_auth from '@react-native-firebase/auth'
 import firebase from '@react-native-firebase/app'
 import messaging from '@react-native-firebase/messaging'
-import { CantSendOTP, OTPInstruction, OTPSentToMobile, OTPVerification, EnterOTP, Proceed, SendOTP, MobileNo, SentOTPHopeYouGot, ResentOTP  } from '../translations'
+import { CantSendOTP, OTPInstruction, OTPSentToMobile, OTPVerification, EnterOTP, Proceed, SendOTP, MobileNo, SentOTPHopeYouGot, ResentOTP } from '../translations'
 const styles_confirmed = StyleSheet.create({
     container: {
         flex: 1,
@@ -20,23 +20,23 @@ const styles_confirmed = StyleSheet.create({
     },
     inner_container: {
         flexGrow: 1,
-        
+
         backgroundColor: "#B4E2DF",
     },
     middle_spacing: {
         flex: 0,
         flexGrow: 1,
-        
+
     },
     c1: {
-        
-        
-        
+
+
+
     },
     c2: {
         justifyContent: "flex-end",
-        
-        
+
+
     },
     underlineStyleBase: {
         backgroundColor: "white",
@@ -128,11 +128,11 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     text2: {
-        
+
         textAlign: "center",
         color: "#19939A",
-        
-        
+
+
         fontSize: 20,
         fontWeight: '700',
         fontFamily: "lucida grande",
@@ -193,9 +193,9 @@ const styles = StyleSheet.create({
     t2: {
         color: "#19939A",
         fontSize: 30,
-        
+
     }
-    
+
 });
 function EnterMobile({ navigation }) {
     let [mobile, setMobile] = useState('')
@@ -203,14 +203,14 @@ function EnterMobile({ navigation }) {
     let [errorText, setErrorText] = useState('')
     let [otp_input, set_otp_input] = useState('')
     let [status, setStatus] = useState('')
-    
+
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const uid = useSelector(state => state.userAppSettings.tempuid)
     let firestore = useFirestore()
     const dispatch = useDispatch()
 
-    
+
     // get the phone number
     useEffect(() => {
         async function getMobileNumber() {
@@ -283,8 +283,8 @@ function EnterMobile({ navigation }) {
     const onAuthStateChanged = async (user) => {
         if (user) {
             dispatch(changeTempUid({ newUid: user.uid }))
-            
-            
+
+
         }
     }
     const setFirestoreEntry = async () => {
@@ -293,7 +293,7 @@ function EnterMobile({ navigation }) {
         // Get the token
         const fcmToken = await messaging().getToken()
         const user_id = firebase_auth().currentUser.uid
-        dispatch(changeTempUid({newUid: user_id}))
+        dispatch(changeTempUid({ newUid: user_id }))
         let userDoc
         try {
             userDoc = await firestore
@@ -322,9 +322,9 @@ function EnterMobile({ navigation }) {
                 catch (err) {
                     setStatus('something seriously wrong 1, ' + err);
                 }
-                
+
                 console.log("notif trial")
-                const message={
+                const message = {
                     data: {
                         type: 'OTP',
                         notif: 'OTP has been sent to the no 7409444981'
@@ -332,13 +332,13 @@ function EnterMobile({ navigation }) {
                     token: fcmToken
                 };
                 messaging().sendMessage(message)
-                .then((response) => {
-                    console.log("Succesfully sent the otp greeting",response)
-                })
-                .catch((error)=>{
-                    console.log("Error in sending the message:",error)
-                });
-                dispatch(changeUid({newUid: user_id}))
+                    .then((response) => {
+                        console.log("Succesfully sent the otp greeting", response)
+                    })
+                    .catch((error) => {
+                        console.log("Error in sending the message:", error)
+                    });
+                dispatch(changeUid({ newUid: user_id }))
                 navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
 
             }
@@ -370,57 +370,52 @@ function EnterMobile({ navigation }) {
                     setStatus('something seriously wrong 2, ' + err);
                 }
                 console.log("notif trial")
-                const message={
+                const message = {
                     data: {
                         type: 'OTP',
                         notif: 'OTP has been sent to your number'
                     },
                 };
-                // messaging().sendMessage({
-                //     data: {
-                //       type: 'OTP',
-                //       notif: 'OTP has been sent to the no 7409444981',
-                //     },
-                //     token: fcmToken
-                //   });
-                fetch("https://scribenotif.herokuapp.com/",{
-                    method: 'POST',
-                    body: JSON.stringify({
-                        registrationToken: fcmToken,
-                        message: message,
-                    }),
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8'
-                    }
-                })
+                if (fcmToken) {
+                    fetch("https://scribenotif.herokuapp.com/", {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            registrationToken: fcmToken,
+                            message: message,
+                        }),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8'
+                        }
+                    })
+                }
                 console.log("fetched")
                 navigation.reset({ index: 0, routes: [{ name: 'FillInfo' }] })
             }
 
         }
         catch (err) {
-            setStatus('something seriously wrong 3,'+err)
+            setStatus('something seriously wrong 3,' + err)
         }
     }
     const verifyOTP = async () => {
-            try {
-                await confirm.confirm(otp_input)
-                await setFirestoreEntry()
-            }
-            catch (err) {
-                if (uid !== "none") {
-                    try {
+        try {
+            await confirm.confirm(otp_input)
+            await setFirestoreEntry()
+        }
+        catch (err) {
+            if (uid !== "none") {
+                try {
 
-                        await setFirestoreEntry()
-                    }
-                    catch (err) {
-                        setStatus("Wrong OTP and invalid auth!", err)
-                    }
+                    await setFirestoreEntry()
                 }
-                setStatus("Wrong OTP!", err)
-                // console.log(err)
-                
+                catch (err) {
+                    setStatus("Wrong OTP and invalid auth!", err)
+                }
             }
+            setStatus("Wrong OTP!", err)
+            // console.log(err)
+
+        }
     }
 
     if (confirm) { // when the OTP has been sent, and is yet to be verified
@@ -447,7 +442,7 @@ function EnterMobile({ navigation }) {
                             returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
                             keyboardType="phone-pad"
                         />
-                        
+
                         <TouchableOpacity style={styles_confirmed.langButton1}
                             onPress={() => verifyOTP()}
                         >
@@ -458,7 +453,7 @@ function EnterMobile({ navigation }) {
                         </TouchableOpacity>
                         <TouchableOpacity style={styles_confirmed.langButton1}
                             onPress={() => {
-                                
+
                                 firebase_auth().verifyPhoneNumber(mobile).on(
                                     'state_changed',
                                     (phoneAuthSnapshot) => {
@@ -519,7 +514,7 @@ function EnterMobile({ navigation }) {
                     </View>
                     <View style={styles.c2}>
                         <Text style={styles.text3}>
-                           
+
                         </Text>
                         <TextInput
                             placeholder="Enter Mobile Number"
@@ -542,7 +537,7 @@ function EnterMobile({ navigation }) {
                                 catch {
                                     setErrorText(CantSendOTP[lang])
                                 }
-                                    
+
 
                             }}
                         >
