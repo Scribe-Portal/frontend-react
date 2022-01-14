@@ -24,7 +24,7 @@ export async function initialise_channels () {
 }
 export default async function CommonMessages (message){
     const {type,notif} = message.data
-    console.log(message)
+    console.log("received a message", message)
     switch (type) {
         case 'Greet':
             
