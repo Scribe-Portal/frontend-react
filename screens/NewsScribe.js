@@ -1,12 +1,15 @@
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from 'react-native'
 import { useSelector } from 'react-redux'
 import { SelectAvailability } from '../translations'
 const styles = StyleSheet.create({
+    container: {
+        marginHorizontal: 5
+    },
     button1: {
-        margin: 5,
+        marginVertical: 5,
         backgroundColor: '#19939A',
 
         borderRadius: 10,
@@ -14,6 +17,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     },
+
     t1: {
         color: "#FFFFFF",
         fontSize: 30
@@ -24,7 +28,7 @@ function NewsScribe() {
     
     const navigation = useNavigation()
     return (
-        
+        <View style={styles.container}>
 
             <TouchableOpacity style={styles.button1}
                 onPress={() => {
@@ -37,6 +41,19 @@ function NewsScribe() {
                     {SelectAvailability[lang]}
                 </Text>
             </TouchableOpacity> 
+            <TouchableOpacity style={styles.button1}
+                onPress={() => {
+                    navigation.navigate('AvailableRequests')
+                }}
+                
+            >
+                <Text style={styles.t1}>
+
+                    Available Requests
+                </Text>
+            </TouchableOpacity> 
+        </View>
+
     )
 }
 
