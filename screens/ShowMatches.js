@@ -266,18 +266,19 @@ function ShowMatches({ navigation, route: { params: { requestId, dateSlot, selec
 
                                                         // Send a message to the device corresponding to the provided
                                                         // registration token.
-                                                        fetch("https://scribenotif.herokuapp.com/",{
-                                                            method: 'POST',
-                                                            body: JSON.stringify({
-                                                                registrationToken: registrationToken,
-                                                                message: message,
-                                                            }),
-                                                            headers: {
-                                                                'Content-type': 'application/json; charset=UTF-8'
-                                                            }
-                                                        })
-                                                        console.log("fetched")
-                                                        console.log(registrationToken)
+                                                        if (registrationToken) {
+
+                                                            fetch("https://scribenotif.herokuapp.com/",{
+                                                                method: 'POST',
+                                                                body: JSON.stringify({
+                                                                    registrationToken: registrationToken,
+                                                                    message: message,
+                                                                }),
+                                                                headers: {
+                                                                    'Content-type': 'application/json; charset=UTF-8'
+                                                                }
+                                                            })
+                                                        }
                                                     }
                                                 }
                                             }

@@ -148,7 +148,10 @@ export class UploadExamDoc extends Component {
                             examDocUrl: url,
                             examDocType: this.radioOptions[this.state.selectedRadioButton]
                         })
+                    .catch ((err) => {console.log(err)})
+                    .then(() => { console.log("done uploading")})
                 })
+                .catch ((err) => {console.log(err)})
 
             }
         })
