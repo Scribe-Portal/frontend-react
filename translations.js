@@ -498,3 +498,11 @@ export const AvailNSStxt= {
     'en': 'Avail NSS Hours',
     'hi': 'एनएसएस घंटे का लाभ उठाएं'
 }
+export const NSSWebsitetxt = {
+    'en': 'NSS Website',
+    'hi': 'NSS वेबसाइट'
+}
+export const TextInsideAboutNSS1 = {
+    'en': 'NSS IIT Delhi is the IIT Delhi chapter of the National Service Scheme, institutionalized under the Ministry of Youth Affairs & Sports Govt. of India. Our sole aim is to motivate students at IITD to indulge in nation-building activities through various events and projects which are aimed towards the benefit of people in and around IIT Delhi. We share the belief that such activities are almost always means of great satisfaction and joy.',
+    'hi': 'NSS IIT दिल्ली राष्ट्रीय सेवा योजना का IIT दिल्ली अध्याय है, जो युवा मामले और खेल मंत्रालय सरकार के तहत संस्थागत है। भारत की। हमारा एकमात्र उद्देश्य आईआईटी दिल्ली में और आसपास के लोगों के लाभ के उद्देश्य से विभिन्न कार्यक्रमों और परियोजनाओं के माध्यम से आईआईटीडी में छात्रों को राष्ट्र निर्माण गतिविधियों में शामिल होने के लिए प्रेरित करना है। हम इस विश्वास को साझा करते हैं कि ऐसी गतिविधियां लगभग हमेशा बड़ी संतुष्टि और आनंद का साधन होती हैं।'
+}
