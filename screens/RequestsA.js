@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { setNull } from '../reducers/priorityReducer';
@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#B4E2DF",
         justifyContent: 'center',
+
+
+    },
+    inner_container: {
+        flexGrow: 1,
+        backgroundColor: "#B4E2DF",
 
 
     },
@@ -86,13 +92,15 @@ function RequestsA() {
     return (
         <View style={styles.container}>
 
+            <ScrollView contentContainerStyle={styles.inner_container}>
 
-            <Text style={styles.text1}>
-                Successful Volunteer Search 
-            </Text>
+                <Text style={styles.text1}>
+                    Successful Volunteer Search 
+                </Text>
 
 
-            <Requests uid={uid} />
+                <Requests uid={uid} />
+            </ScrollView>
 
 
         </View>
