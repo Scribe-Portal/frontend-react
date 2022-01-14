@@ -252,7 +252,7 @@ export default function ScribeHomeTab() {
     useFirestoreConnect([
         {
             collection: 'requests',
-            where: ["volunteersSelected", "array-contains", uid],
+            where: [["volunteersSelected", "array-contains", uid], ["volunteersSelected", "==", []], ["volunteerAccepted", "==", uid]]
         },
     ])
     const requests = useSelector((state) => state.firestore.ordered.requests)
