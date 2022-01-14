@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Platform, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
+import { useFirestoreConnect, useFirestore, isEmpty, isLoaded } from 'react-redux-firebase';
 import messaging from '@react-native-firebase/messaging';
 import xdate from '../xdate'
 import { sendEmail } from './sendemail';
@@ -103,8 +103,10 @@ const styles = StyleSheet.create({
 })
 function UserBox({ uid, showMobile }) {
     const user = useSelector(state => state.firestore.data.users && state.firestore.data.users[uid])
-    console.log(user?.DOB.toDate())
-    if (user) return (
+    if (!isLoaded(user)) return (
+        <View style={styles.volunteerBox}><Text style={styles._text1}>Loading...</Text></View>
+    )
+    else if (!isEmpty(user)) return (
         <View style={styles.volunteerBox}>
             <Text style={styles._text1}>
                 Candidate Details
@@ -147,9 +149,7 @@ function UserBox({ uid, showMobile }) {
         </View>
 
     )
-    else return (
-        <View><Text style={styles._text1}>Loading...</Text></View>
-    )
+    else return (<View style={styles.volunteerBox}><Text style={styles._text1}>Can't find details</Text></View>)
 }
 
 function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
@@ -203,18 +203,19 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
 
                                 // Send a message to the device corresponding to the provided
                                 // registration token.
-                                fetch("https://scribenotif.herokuapp.com/",{
-                                    method: 'POST',
-                                    body: JSON.stringify({
-                                        registrationToken: registrationToken,
-                                        message: message,
-                                    }),
-                                    headers: {
-                                        'Content-type': 'application/json; charset=UTF-8'
-                                    }
-                                })
-                                console.log("fetched")
-                                console.log(registrationToken)
+                                if (registrationToken) {
+
+                                    fetch("https://scribenotif.herokuapp.com/",{
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                            registrationToken: registrationToken,
+                                            message: message,
+                                        }),
+                                        headers: {
+                                            'Content-type': 'application/json; charset=UTF-8'
+                                        }
+                                    })
+                                }
                             })
                             .then((response) => {
                                 // Response is a message ID string.
