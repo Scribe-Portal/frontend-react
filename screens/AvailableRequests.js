@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     },
 });
 function Request({ req_id, uid }) {
+
     const request = useSelector(({ firestore: { data } }) => data.requests && data.requests[req_id])
     const navigation = useNavigation()
 
@@ -53,7 +54,7 @@ function Request({ req_id, uid }) {
     return (
         <View style={styles.requestRoot}>
 
-            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id })}>
+            <TouchableOpacity style={styles.requestBox} onPress={() => navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id, empty_requests: true })}>
                 <Text style={styles.examName}>{request.examName}</Text>
             </TouchableOpacity>
         </View>
@@ -61,17 +62,16 @@ function Request({ req_id, uid }) {
     )
 }
 function Requests({ uid }) {
-    
     const requests = useSelector(state => state.firestore.ordered.requests)
     const lang = useSelector(state => state.userAppSettings.lang)
-
+    
     if (!isLoaded(requests)) {
         return (
             <Text style={styles.text1}>
                 Loading...
             </Text>
         )
-
+        
     }
     if (isEmpty(requests)) {
         return (
@@ -82,9 +82,16 @@ function Requests({ uid }) {
     }
     return requests.map(({ id: id }, ind) => (
         <Request req_id={id} uid={uid} key={`${ind}-${id}`} />
-    ))
+        ))
 }
 function AvailableRequests() {
+    useFirestoreConnect([
+        {
+            collection: 'requests',
+            where: ["volunteersSelected", "array-contains", uid],
+            storeAs: "empty_requests",
+        },
+    ])
     const lang = useSelector(state => state.userAppSettings.lang)
 
     const uid = useSelector(state => state.userAppSettings.uid)

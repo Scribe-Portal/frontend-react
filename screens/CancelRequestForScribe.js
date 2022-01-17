@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 });
 function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlot } } }) {
     const uid = useSelector((state) => state.userAppSettings.uid)
-    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    
     const lang = useSelector(state => state.userAppSettings.lang)
 
     const firestore = useFirestore()
@@ -108,11 +108,11 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
                     {
                         text: "Yes",
                         onPress: () => {
-                            if (request.status === "accepted") {
+                            
 
-                                firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
-                                firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
-                            }
+                            firestore.update(`requests/${req_id}`, { volunteerAccepted: "none", status: 'pending' })
+                            firestore.collection("scribe_cancellations").add({ uid: uid, req_id: req_id, dateSlot: dateSlot, reason: cancelReason, })
+                            
                             firestore.collection('dateslots')
                                 .doc(dateSlot)
                                 .collection('acceptedVolunteers')

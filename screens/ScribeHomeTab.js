@@ -216,7 +216,7 @@ function RequestBoxFooter({ uid, req_id }) {
 
         <TouchableOpacity style={(req.status==="accepted") ? styles.selectedGreenButton : styles.greenButton}
             onPress={() => {
-                navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id })
+                navigation.navigate('RequestPageForScribe', { uid: uid, req_id: req_id, empty_requests: false })
             }}
         >
             <Text style={styles.greenRequestText}>{`${req.examName} ${req.status==="accepted" ? "(accepted)" : ""}`}  </Text>
@@ -252,7 +252,7 @@ export default function ScribeHomeTab() {
     useFirestoreConnect([
         {
             collection: 'requests',
-            where: [["volunteersSelected", "array-contains", uid], ["volunteersSelected", "==", []], ["volunteerAccepted", "==", uid]]
+            where: ["volunteersSelected", "array-contains", uid],
         },
     ])
     const requests = useSelector((state) => state.firestore.ordered.requests)

@@ -152,12 +152,12 @@ function UserBox({ uid, showMobile }) {
     else return (<View style={styles.volunteerBox}><Text style={styles._text1}>Can't find details</Text></View>)
 }
 
-function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }) {
+function RequestPageForScribe({ navigation, route: { params: { empty_requests, req_id, uid } } }) {
 
     const firestore = useFirestore()
     const lang = useSelector(state => state.userAppSettings.lang)
 
-    const request = useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id])
+    const request = empty_requests ? useSelector(state => state.firestore.data.empty_requests && state.firestore.data.empty_requests[req_id])  : useSelector(state => state.firestore.data.requests && state.firestore.data.requests[req_id]) 
     {
         request &&
             useFirestoreConnect(() => [
@@ -181,15 +181,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                             .set({
                                 req_id: req_id
                             })
-                            // .then(async () => {
 
-                            // await sendEmail(
-                            //     (typeof user?.email === "string") ? user.email : "mrityunjaisingh3333@gmail.com",
-                            //     'Scribe Request',
-                            //     'You have been alloted a scribe request please check the app',
-                            //     { cc: ' sprakhar2002@gmail.com;' }
-                            // )
-                            // })
                             .then(async () => {
                                 // console.log('Your message was successfully sent!');
                                 const registrationToken = user?.fcmToken;
@@ -197,7 +189,7 @@ function RequestPageForScribe({ navigation, route: { params: { req_id, uid } } }
                                 const message = {
                                     data: {
                                         type: 'AcceptS',
-                                        notif: 'OTP has been sent to your number'
+                                        notif: 'Your request has been accepted'
                                     },
                                 };
 
