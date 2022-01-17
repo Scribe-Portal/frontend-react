@@ -72,6 +72,15 @@ export default async function CommonMessages (message){
                 }
             })
             break;
+        case 'Custom': // in case we transmit custom messages
+            notifee.displayNotification({
+                title: "info",
+                body: notif,
+                android: {
+                    channelId: c['Neutral']
+                }
+            })
+            break;
         default: 
             notifee.displayNotification({
                 title: type+" unregistered",
