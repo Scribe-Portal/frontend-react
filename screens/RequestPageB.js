@@ -138,31 +138,9 @@ function RequestPageB({ navigation, route: { params: { req_id } } }) {
 
                         Reporting time of Exam: {new Date(request.examDate.seconds * 1000).toLocaleTimeString()}
                     </Text>
-                    <Text style={styles.text2}>Language of Exam: </Text>
-                    {request.examLang ?
-                        <Text style={styles.text2}>
-                            {request.examLang}
-                        </Text> : null
-                    }
-                    {request.Hindi ?
-                        <Text style={styles.text2}>
-                            Hindi
-                        </Text> : null
-                    }
-                    {request.English ?
-                        <Text style={styles.text2}>
-                            English
-                        </Text> : null
-                    }
-                    <Text style={styles.text2}>Mode of Exam: </Text>
-                    {request.CBT ?
-                        <Text style={styles.text2}>
-                            CBT
-                        </Text> :
-                        <Text style={styles.text2}>
-                            Pen Paper Test
-                        </Text>
-                    }
+                    
+                    <Text style={styles.text2}>{`Language of Exam: ${request.English ? "English" : "Hindi"}`} </Text>
+                    <Text style={styles.text2}>{`Mode of Exam: ${request.CBT ? "CBT" : "Pen Paper Test"}`} </Text>
                     <Text style={styles.text2}>
 
                         Address of Exam: {request?.examAddress || "Unknown"}
