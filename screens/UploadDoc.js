@@ -165,6 +165,7 @@ export class UploadDoc extends Component {
         // this.firestore = props.firestore
     }
     disabCertif() {
+        const {  firestore, uid } = this.props
         this.setState({buttonDisabled: true})
         launchImageLibrary({
             mediaType: 'photo',
@@ -177,7 +178,7 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                .ref(`DisabCertif/${this.uid}`)
+                .ref(`DisabCertif/${uid}`)
                 .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
@@ -191,10 +192,10 @@ export class UploadDoc extends Component {
                     })
                     
                 })
-                firebase_storage().ref(`DisabCertif/${this.uid}`).getDownloadURL().then((url) => {
-                    firebase_firestore()
+                firebase_storage().ref(`DisabCertif/${uid}`).getDownloadURL().then((url) => {
+                    firestore
                     .collection('users')
-                    .doc(this.uid)
+                    .doc(uid)
                         .update(
                             {
                                 disabCertURL: url,
@@ -216,10 +217,13 @@ export class UploadDoc extends Component {
                     text: "OK",
                 },
             ]
-
-        )
-    }
-    eduCertif() {
+            
+            )
+        }
+        eduCertif() {
+            
+        
+        const {  firestore, uid } = this.props
         this.setState({buttonDisabled: true})
         launchImageLibrary({
             mediaType: 'photo',
@@ -232,7 +236,7 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                .ref(`EducCertif/${this.uid}`)
+                .ref(`EducCertif/${uid}`)
                 .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
@@ -246,10 +250,10 @@ export class UploadDoc extends Component {
                     })
                     
                 })
-                firebase_storage().ref(`EduCertif/${this.uid}`).getDownloadURL().then((url) => {
-                    firebase_firestore()
+                firebase_storage().ref(`EduCertif/${uid}`).getDownloadURL().then((url) => {
+                    firestore
                         .collection('scribes')
-                        .doc(this.uid)
+                        .doc(uid)
                         .update(
                             {
                                 eduCertURL: url,
@@ -262,6 +266,7 @@ export class UploadDoc extends Component {
                 })
             }
     setSelectedRadio(i) {
+        const { isItAScribe, firestore, uid } = this.props
         this.setState({
             selectedRadioButton: i
         })
@@ -276,7 +281,7 @@ export class UploadDoc extends Component {
             }
             else {
                 let task = firebase_storage()
-                .ref(`IdentityDoc/${this.uid}`)
+                .ref(`IdentityDoc/${uid}`)
                 .putFile(capture["assets"][0]["uri"])
                 // console.log('upload successful!')
                 task.on('state_changed', taskSnapshot => {
@@ -290,9 +295,9 @@ export class UploadDoc extends Component {
                     })
                 })
                 firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
-                    firebase_firestore()
-                        .collection('users')
-                        .doc(this.uid)
+                    firestore
+                        .collection(isItAScribe ? "scribes" : "users")
+                        .doc(uid)
                         .update(
                             {
                                 identityDocURL: url,
