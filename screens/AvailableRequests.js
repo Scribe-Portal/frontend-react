@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 });
 function Request({ req_id, uid }) {
 
-    const request = useSelector(({ firestore: { data } }) => data.requests && data.requests[req_id])
+    const request = useSelector(({ firestore: { data } }) => data.empty_requests && data.empty_requests[req_id])
     const navigation = useNavigation()
 
 
@@ -62,7 +62,7 @@ function Request({ req_id, uid }) {
     )
 }
 function Requests({ uid }) {
-    const requests = useSelector(state => state.firestore.ordered.requests)
+    const requests = useSelector(state => state.firestore.ordered.empty_requests)
     const lang = useSelector(state => state.userAppSettings.lang)
     
     if (!isLoaded(requests)) {
@@ -85,16 +85,16 @@ function Requests({ uid }) {
         ))
 }
 function AvailableRequests() {
+    const uid = useSelector(state => state.userAppSettings.uid)
     useFirestoreConnect([
         {
             collection: 'requests',
-            where: ["volunteersSelected", "array-contains", uid],
+            where: ["volunteersSelected", "==", []],
             storeAs: "empty_requests",
         },
     ])
     const lang = useSelector(state => state.userAppSettings.lang)
 
-    const uid = useSelector(state => state.userAppSettings.uid)
 
     return (
         <View style={styles.container}>

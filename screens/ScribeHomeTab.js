@@ -172,8 +172,6 @@ function calendarRequests(uid, requests, setMarked) {
     requests.forEach((req, ind) => {
 
         var dt = req?.dateSlot
-        console.log(dt)
-        console.log(req?.examDate)
         
         
         if (dt) {
@@ -253,6 +251,7 @@ export default function ScribeHomeTab() {
         {
             collection: 'requests',
             where: ["volunteersSelected", "array-contains", uid],
+            storeAs: 'requests'
         },
     ])
     const requests = useSelector((state) => state.firestore.ordered.requests)
