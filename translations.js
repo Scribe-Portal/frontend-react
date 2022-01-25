@@ -1,5 +1,5 @@
 export const SelectYourRole = {
-    'en': 'Select Your Role.',
+    'en': 'Select Your Role',
     'hi': 'अपनी भूमिका चुने'
 }
 export const RequestVolunteer = {
@@ -40,7 +40,7 @@ export const CancelWarning = {
     'hi': 'अनुरोध को अस्वीकार करने पर NEGATIVE NSS घंटे लग सकते हैं। कृपया रद्द करने से पहले परिणामों पर विचार करें। यदि आवश्यक हो तो ही रद्द करें।',
 }
 export const confirmRejection = {
-    'en':  'Confirm Rejection',
+    'en':  'Confirm Cancellation',
     'hi': 'अस्वीकृति की पुष्टि करें'
 }
 // screens/EnterMobile.js; screens/EnterOTP.js
