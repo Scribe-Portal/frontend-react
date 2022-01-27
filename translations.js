@@ -45,7 +45,7 @@ export const confirmRejection = {
 }
 // screens/EnterMobile.js; screens/EnterOTP.js
 export const OTPVerification = {
-    'en': 'OTP Verification,',
+    'en': 'OTP Verification',
     'hi': 'ओ.टी.पी. सत्यापन'
 }
 export const OTPSentToMobile = (mobile) => ({
@@ -342,17 +342,17 @@ export const CantMoreThan3 = {
 
 // screens/SelectAvailability.js
 export const MarkAvailable = {
-    'en': 'Mark myself available this day',
+    'en': 'Mark Myself Available This Day',
     'hi': 'इस दिन खुद को उपलब्ध के रूप में चिह्नित करें'
 }
 export const UnmarkAvailable = {
-    'en': 'Unmark myself available this day',
+    'en': 'Unmark Myself Available This Day',
     'hi': 'इस दिन खुद से उपलब्धि का चिह्न हटाएँ'
 }
 
 // screens/SelectLanguage.js
 export const CanChangeLater = {
-    'en': 'You can change this later from Settings under profile settings.',
+    'en': 'You can change this later from Settings under Profile Settings.',
     'hi': 'आप इसे बाद में प्रोफ़ाइल सेटिंग के अंतर्गत सेटिंग से बदल सकते हैं।'
 }
 
@@ -492,11 +492,11 @@ export const StatusTxt = {
 }
 export const AboutNSSTxt = {
     'en': 'About NSS',
-    'hi': 'एनएसएस . के बारे में'
+    'hi': 'NSS के बारे में'
 }
 export const AvailNSStxt= {
     'en': 'Avail NSS Hours',
-    'hi': 'एनएसएस घंटे का लाभ उठाएं'
+    'hi': 'NSS घंटे का लाभ उठाएं'
 }
 export const NSSWebsitetxt = {
     'en': 'NSS Website',
