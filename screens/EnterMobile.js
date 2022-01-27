@@ -203,13 +203,24 @@ function EnterMobile({ navigation }) {
     let [errorText, setErrorText] = useState('')
     let [otp_input, set_otp_input] = useState('')
     let [status, setStatus] = useState('')
+    let [timeLeftOnTimer, setTimeLeftOnTimer] = useState(30);
 
     const lang = useSelector(state => state.userAppSettings.lang)
     const isItAScribe = useSelector(state => state.userAppSettings.isItAScribe)
     const uid = useSelector(state => state.userAppSettings.tempuid)
     let firestore = useFirestore()
     const dispatch = useDispatch()
+    const first_time = true
+    useEffect(() => {
+        if (first_time && confirm !== null) {
+            first_time = false
+            interval = setInterval(() => setTimeLeftOnTimer(timeAlreadyLeft => (timeAlreadyLeft - 1)), 1000)
+            return () => {
+                clearInterval(interval)
+            }
+        }
 
+    }, [confirm])
 
     // get the phone number
     useEffect(() => {
@@ -452,35 +463,22 @@ function EnterMobile({ navigation }) {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles_confirmed.langButton1}
-                            onPress={() => {
+                            onPress={async () => {
+                                try {
+                                    const confirmation = await firebase_auth().signInWithPhoneNumber("+91" + mobile)
+                                    setConfirm(confirmation)
+                                }
+                                catch {
+                                    setStatus(CantSendOTP[lang])
+                                }
 
-                                firebase_auth().verifyPhoneNumber(mobile).on(
-                                    'state_changed',
-                                    (phoneAuthSnapshot) => {
-
-                                        switch (phoneAuthSnapshot.state) {
-                                            case firebase_auth.PhoneAuthState.CODE_SENT:
-                                                console.log('Verif code sent!', phoneAuthSnapshot)
-                                                setStatus(SentOTPHopeYouGot[lang])
-                                                verificationId = phoneAuthSnapshot.verificationId
-                                                break
-                                            case firebase_auth.PhoneAuthState.ERROR:
-                                                // console.log('Verif error', phoneAuthSnapshot)
-                                                setStatus(CantSendOTP[lang])
-
-                                                break
-                                        }
-                                    },
-                                    (error) => {
-                                        // console.log(error)
-                                        setStatus(CantSendOTP[lang])
-                                    })
 
                             }}
+                            disabled={timeLeftOnTimer>0}
                         >
                             <Text style={styles_confirmed.t1}>
 
-                                {ResentOTP[lang]}
+                                {ResentOTP[lang] + ` (${timeLeftOnTimer>0?timeLeftOnTimer:0})`}
                             </Text>
                         </TouchableOpacity>
 
