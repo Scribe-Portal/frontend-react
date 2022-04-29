@@ -90,7 +90,7 @@ export const SendOTP = {
 }
 
 // screens/FillInfo.js
-export const FillInformation = {
+export const FillInformation_text = {
     'en': 'Fill Your Information',
     'hi': 'अपनी जानकारी भरें'
 }
@@ -194,8 +194,8 @@ export const NoRequests = {
     'en': 'No Requests',
     'hi': 'कोई अनुरोध नहीं'
 }
-export const RequestAScribe = {
-    'en': 'Request a Scribe',
+export const RequestScribe_text = {
+    'en': 'Request Scribe',
     'hi': 'स्क्राइब का अनुरोध करें'
 }
 export const VolunteerSearchSuccessful = {
