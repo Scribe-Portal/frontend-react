@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
-import { Email, FillInformation, FillInfoText, Name, Gender, SaveAndNext, DOB, Address, EntryNo, PreferredLanguages, PinCode,  } from '../translations'
+import { Email, Name, Gender, SaveAndNext, DOB, Address, EntryNo, PreferredLanguages, PinCode, FillInformation_text,  } from '../translations'
 import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -207,7 +207,7 @@ function FillInfo({ navigation }) {
 
                 <View style={styles.c1}>
                     <Text style={styles.text1}>
-                        {FillInformation[lang]}
+                        {FillInformation_text[lang]}
                         
                     </Text>
                     <Text style={styles.text2}>{Name[lang]}</Text>

@@ -7,7 +7,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { compose } from 'redux';
 import { firestoreConnect, isEmpty, isLoaded, useFirestore, useFirestoreConnect } from 'react-redux-firebase';
-import { Loading, NoRequests, RequestAScribe } from '../translations';
+import { Loading, NoRequests, RequestAScribe, RequestScribe_text } from '../translations';
 
 
 // hi
@@ -162,7 +162,7 @@ export class HomeTab extends Component {
                     <View style={styles.lowerHalf} onTouchStart={this.handleClick}>
                         <TouchableOpacity style={styles.requestButton}>
                             <Text style={styles.t1}>
-                               {RequestAScribe[this.props.lang]}
+                               {RequestScribe_text[this.props.lang]}
                             </Text>
                         </TouchableOpacity>
 
