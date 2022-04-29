@@ -97,7 +97,7 @@ function CancelRequestForScribe({ navigation, route: { params: { req_id, dateSlo
 
             return Alert.alert(
                 "Confirmation",
-                "Are you sure you want to reject the request",
+                "Are you sure you want to reject the request?",
                 [
                     {
                         text: "Back",

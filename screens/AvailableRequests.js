@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#19939A",
         padding: 10,
-        backgroundColor: "#BFE9E7",
+        backgroundColor: "#FDF1DB",
     },
     requestRoot: {
     },
@@ -89,7 +89,7 @@ function AvailableRequests() {
     useFirestoreConnect([
         {
             collection: 'requests',
-            where: ["volunteersSelected", "==", []],
+            where: [["volunteersSelected", "==", []], ["examDate", ">=", new Date()]],
             storeAs: "empty_requests",
         },
     ])

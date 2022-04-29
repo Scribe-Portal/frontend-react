@@ -2,11 +2,13 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import firebase_storage from '@react-native-firebase/storage'
 import firebase_firestore from '@react-native-firebase/firestore'
 import { Bar } from 'react-native-progress'
 import { DoItLater, ExamMaterialArray, SaveAndNext, UploadDocuments, UploadExamDocText } from '../translations'
 import { launchImageLibrary } from 'react-native-image-picker';
+import { withFirestore } from 'react-redux-firebase';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -114,7 +116,7 @@ export class UploadExamDoc extends Component {
         // console.log(this.props.route.params.dateSlot)
     }
     setSelectedRadio(i){
-       
+        const { firestore } = this.props
         this.setState({
             selectedRadioButton: i
         })
@@ -140,7 +142,7 @@ export class UploadExamDoc extends Component {
 
                 })
                 firebase_storage().ref(`examDoc/${this.uid}`).getDownloadURL().then((url) => {
-                    firebase_firestore()
+                    firestore
                     .collection(`requests`)
                     .doc(this.reqid)
                     .update(
@@ -222,4 +224,4 @@ const selectUserSettings = (state) => ({
     uid: state.userAppSettings.uid,
 })
 
-export default connect(selectUserSettings)(UploadExamDoc)
+export default compose(connect(selectUserSettings), withFirestore)(UploadExamDoc)

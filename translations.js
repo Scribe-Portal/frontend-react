@@ -3,7 +3,7 @@ export const SelectYourRole = {
     'hi': 'अपनी भूमिका चुने'
 }
 export const RequestVolunteer = {
-    'en': 'Request a Volunteer',
+    'en': 'Request a Scribe',
     'hi': 'मुंशी (स्क्राइब) निवेदन करे'
 }
 export const ApplytoVolunteer = {
@@ -195,11 +195,11 @@ export const NoRequests = {
     'hi': 'कोई अनुरोध नहीं'
 }
 export const RequestAScribe = {
-    'en': 'Request Scribe',
+    'en': 'Request a Scribe',
     'hi': 'स्क्राइब का अनुरोध करें'
 }
 export const VolunteerSearchSuccessful = {
-    'en': 'Successful Volunteer Search',
+    'en': 'Successful Scribe Search',
     'hi': 'स्वयंसेवी कि खोज सफल हुई'
 }
 export const PendingRequests = {
@@ -207,7 +207,7 @@ export const PendingRequests = {
     'hi': 'अनुरोध जो लंबित हैं'
 }
 export const VolunteerSearchFailed = {
-    'en': 'Volunteer Search Failed',
+    'en': 'Scribe Search Failed',
     'hi': 'स्वयंसेवी कि खोज नाकाम हुई'
 }
 export const ExamDocMessage= {
@@ -241,15 +241,15 @@ export const Notifications = {
 
 // screens/RequestPageA.js
 export const VolunteerFound = {
-    'en': 'Volunteer found for,',
+    'en': 'Scribe found for,',
     'hi': 'स्वयंसेवक मिल गया है,'
 }
 export const VolunteerSearchPending = {
-    'en': 'Volunteer search pending for,',
+    'en': 'Scribe search pending for,',
     'hi': 'स्वयंसेवी की खोज जारी है,'
 }
 export const VolunteerNotFound = {
-    'en': 'Volunteer not found',
+    'en': 'Scribe not found',
     'hi': 'स्वयंसेवक नहीं मिला'
 }
 export const Unknown = {
@@ -265,7 +265,7 @@ export const GoBack = {
     'hi': 'वापस जाएँ'
 }
 export const CallVolunteer = {
-    'en': 'Call Volunteer',
+    'en': 'Call Scribe',
     'hi': 'स्वयंसेवक को कॉल करें'
 }
 export const CancelRequest = {
@@ -298,7 +298,7 @@ export const Reject = {
 
 // screens/RequestPageForScribePendingRequest.js
 export const Volunteer = {
-    'en': 'Volunteer',
+    'en': 'Scribe',
     'hi': 'स्वयंसेवक'
 }
 
@@ -328,11 +328,11 @@ export const Unreviewed = {
     'hi': 'अभी तक कोई टिप्पणी नहीं'
 }
 export const DiscardVolunteer = {
-    'en': 'Discard this Volunteer',
+    'en': 'Discard this Scribe',
     'hi': 'इस स्वयंसेवक को त्यागें'
 }
 export const SelectVolunteer = {
-    'en': 'Select this Volunteer',
+    'en': 'Select this Scribe',
     'hi': 'इस स्वयंसेवक का चयन करें'
 }
 export const CantMoreThan3 = {
@@ -372,15 +372,15 @@ export const LogOut = {
 
 // screens/ShowMatches.js
 export const CouldntFindVolunteers = {
-    'en': 'Sorry {uid},\nWe couldn\'t find any volunteers for these settings.',
+    'en': 'Sorry {uid},\nWe couldn\'t find any Scribes for these settings.',
     'hi': 'क्षमा करें {uid}, हमें इन सेटिंग्स के लिए कोई स्वयंसेवक नहीं मिला।'
 }
 export const Choose3Volunteers = {
-    'en': 'Choose upto three volunteers from the list',
+    'en': 'Choose upto three Scribes from the list',
     'hi': 'सूची में से अधिकतम तीन स्वयंसेवकों को चुनें'
 }
 export const Showing5Volunteers = (num) =>  ({
-    'en': `Showing ${num} volunteers according to your requirement`,
+    'en': `Showing ${num} Scribes according to your requirement`,
     'hi': `आपकी आवश्यकता के अनुसार ${num} स्वयंसेवकों को दिखाया गया है`
 })
 export const InitiateRequest = {
@@ -450,7 +450,7 @@ export const QualificationArrayPreferred = {
     'hi': ["10वीं पास", "12वीं पास", "स्नातक (ग्रैजूएट)"]
 }
 export const VolunteerPreference = {
-    'en': 'Volunteer Preference,',
+    'en': 'Scribe Preference,',
     'hi': 'स्वयंसेवी वरीयता,'
 }
 export const QualificationPreference = {

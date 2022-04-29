@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase';
 import { Email, FillInformation, FillInfoText, Name, Gender, SaveAndNext, DOB, Address, EntryNo, PreferredLanguages, PinCode,  } from '../translations'
@@ -9,7 +9,7 @@ import { PLACEHOLDERS } from '@babel/types';
 import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { changeUid } from '../reducers/userAppSettingsReducer';
-useSelector
+
 const styles = StyleSheet.create({
 
     container: {
@@ -313,11 +313,13 @@ function FillInfo({ navigation }) {
                                         Hindi: Hindi,
                                         CBT: CBT,
                                         Math: Math,
+                                        numRatings: 0,
                                     })
                                     .then(() => {
                                         dispatch(changeUid({newUid: uid}))
                                         console.log("the final uid - ", uid)
-                                        navigation.navigate('UploadDoc', { fromHome: false})
+                                        navigation.reset({index: 0, routes: [{name: 'UploadDoc', params: { fromHome: false}} ]})
+                                        
                                     })
 
                             }

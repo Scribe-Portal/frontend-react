@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         flex: 1,
         color: "#FFFFFF",
         fontSize: 50,
+        textAlign: "center",
         
         
     },

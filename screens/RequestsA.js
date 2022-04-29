@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#19939A",
         padding: 10,
-        backgroundColor: "#BFE9E7",
+        backgroundColor: "#DAF1EF",
     },
     requestRoot: {
     },

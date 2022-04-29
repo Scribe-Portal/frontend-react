@@ -3,7 +3,7 @@ import React, { Component, useEffect, useRef, useState } from 'react'
 import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
-
+import firebase_firestore from '@react-native-firebase/firestore'
 import { useDispatch, useSelector } from 'react-redux';
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { addP, removeP } from '../reducers/priorityReducer'
@@ -120,18 +120,58 @@ function ReviewVolunteer({ navigation, route: { params: { scribe_id, req_id, } }
             [
                 {
                     text: "Yes",
-                    onPress: () => {
-                        firestore.collection('scribes')
-                            .doc(scribe_id)
-                            .collection('reviews')
-                            .doc(req_id)
-                            .update({ rating: rating + 1 })
-                            .catch((err) => {
-                                Alert.alert("Sorry! Can't rate right now, please try again later!")
-                            })
-                            .then(() => {
-                                Alert.alert("Succesfully rated!")
-                            })
+                    onPress: async () => {
+                        try {
+
+                            parent_doc = await firebase_firestore().collection('scribes')
+                                .doc(scribe_id)
+                                .get()
+                            if (parent_doc.exists) {
+                                parent_doc_data = parent_doc.data()
+                            }
+                            else {
+                                return
+                            }
+                        }
+                        catch (err) {
+                            console.log("fail 1", err)
+                            return
+                        }
+                        try {
+
+                            doc = await firebase_firestore().collection('scribes')
+                                .doc(scribe_id)
+                                .collection('reviews')
+                                .doc(req_id)
+                                .get()
+                        }
+                        catch (err) {
+                            console.log("fail 2", err)
+                            return
+                        }
+                        try {
+
+                            if (doc.exists && doc.data().rating) {
+                                console.log("I already exist")
+                                var delta = rating.current - doc.data().rating;
+
+                                doc.ref.update({rating: rating.current})
+                                parent_doc.ref.update({rating: delta / parent_doc_data.numRatings + parent_doc_data.rating})
+                            }
+                            else {
+                                console.log("just rated ", rating.current)
+                                doc.ref.set({rating: rating.current})
+                                parent_doc.ref.update({rating: (parent_doc_data.numRatings * (parent_doc_data.rating || 0) + rating.current ) / (parent_doc_data.numRatings + 1), numRatings: parent_doc_data.numRatings + 1})
+    
+                            }
+                        }     
+                        catch (err) {
+                            console.log("fail 3", err)
+                            return
+                        }
+                            
+                        Alert.alert("Succesfully rated!")
+                            
 
                     }
                 },
@@ -170,7 +210,7 @@ function ReviewVolunteer({ navigation, route: { params: { scribe_id, req_id, } }
 
                         </Text>
                         <Text style={styles.text2}>
-                            Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating : "Unrated"}/5`}
+                            Rating: {`${(typeof scribe?.rating === 'number') ? scribe?.rating.toFixed(2) : ""}` } 
                         </Text>
                         <Text style={styles.text2}>
                             Age: {`${(scribe?.DOB) ? Math.floor((new Date() - scribe?.DOB?.toDate()) / 31557600000) : "Unknown"}`}

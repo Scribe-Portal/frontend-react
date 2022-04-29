@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         padding: 5,
         marginVertical: 5,
         alignItems: 'center',
-
+        
     },
     langButton2: {
         backgroundColor: "#B4E2DF",
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
     },
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
+        textAlign: "center"
     },
     t2: {
         color: "#19939A",
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     textInsideDatePicker: {
         color: "#FFFFFF",
         fontSize: 20,
+        textAlign: "center",
     },
 
     itemStyle: {
@@ -318,7 +320,7 @@ function FillExamDetails({ navigation }) {
                     </Text>
                     <TouchableOpacity style={styles.FillExamDetailsButton}
                         onPress={() => {
-                            if (name !== '' && address !== '') {
+                            if (name !== '' && address !== '' && pinCode !== '' && touched1 && touched2) {
 
                                 firestore
                                     .collection(`requests`)

@@ -86,7 +86,7 @@ function SelectLanguage({navigation}) {
                     <TouchableOpacity style={styles.langButton1} 
                         onPress= { () => {
                             dispatch(changeLang({newLang: 'en'}))
-                            navigation.navigate('SelectRole')
+                            navigation.navigate('AcceptPermissions')
                         }}
                     >
                         <Text style={styles.t1}>
@@ -97,7 +97,7 @@ function SelectLanguage({navigation}) {
                     <TouchableOpacity style={styles.langButton2}
                         onPress = {() => {
                             dispatch(changeLang({ newLang: 'hi'}))
-                            navigation.navigate('SelectRole')
+                            navigation.navigate('AcceptPermissions')
                         }}
                     >
                         <Text style={styles.t2}>

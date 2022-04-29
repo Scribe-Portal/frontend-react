@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         marginVertical: 5,
-        
+
         alignItems: 'center',
 
     },
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 40,
         backgroundColor: "#FFFFFF",
-        
+
         fontSize: 14,
         borderRadius: 5,
         fontFamily: "Roboto-Regular"
@@ -158,55 +158,59 @@ export class UploadDoc extends Component {
         }
         this.setSelectedRadio = this.setSelectedRadio.bind(this)
         this.eduCertif = this.eduCertif.bind(this)
+        this.uploadDisabCertif = this.uploadDisabCertif.bind(this)
+        this.uploadEduCertif = this.uploadEduCertif.bind(this)
+        this.uploadIdentityDoc = this.uploadIdentityDoc.bind(this)
         this.disabCertif = this.disabCertif.bind(this)
         this.uid = props.uid
         this.radioOptions = ["Aadhar Card", "Voter ID Card", "Driving License", "PAN Card"]
 
-        // this.firestore = props.firestore
+        
+    }
+    uploadDisabCertif (capture){
+        const { firestore, uid } = this.props
+        if (capture.didCancel || capture.errorCode) {
+            if (capture.errorCode) {
+                // console.log(capture.errorMessage)
+            }
+        }
+        else {
+            let task = firebase_storage()
+                .ref(`DisabCertif/${uid}`)
+                .putFile(capture["assets"][0]["uri"])
+            // console.log('upload successful!')
+            task.on('state_changed', taskSnapshot => {
+                this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
+            })
+            task.then(() => {
+                this.setState({
+                    // uploadedText2: "Disability Certificate Uploaded " + capture["assets"][0]["fileName"],
+                    uploadedText2: "Disability Certificate Uploaded ",
+                    disabCertifUploaded: true,
+                })
+
+            })
+            firebase_storage().ref(`DisabCertif/${uid}`).getDownloadURL().then((url) => {
+                firestore
+                    .collection('users')
+                    .doc(uid)
+                    .update(
+                        {
+                            disabCertURL: url,
+                            disabCertifUploaded: true,
+                        })
+
+                this.setState({ disabCertifUploaded: true, buttonDisabled: false })
+            })
+
+        }
     }
     disabCertif() {
-        const {  firestore, uid } = this.props
-        this.setState({buttonDisabled: true})
+        this.setState({ buttonDisabled: true })
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
-        }, (capture) => {
-            if (capture.didCancel || capture.errorCode) {
-                if (capture.errorCode) {
-                    // console.log(capture.errorMessage)
-                }
-            }
-            else {
-                let task = firebase_storage()
-                .ref(`DisabCertif/${uid}`)
-                .putFile(capture["assets"][0]["uri"])
-                // console.log('upload successful!')
-                task.on('state_changed', taskSnapshot => {
-                    this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
-                })
-                task.then(() => {
-                    this.setState({
-                        // uploadedText2: "Disability Certificate Uploaded " + capture["assets"][0]["fileName"],
-                        uploadedText2: "Disability Certificate Uploaded " ,
-                        disabCertifUploaded: true,
-                    })
-                    
-                })
-                firebase_storage().ref(`DisabCertif/${uid}`).getDownloadURL().then((url) => {
-                    firestore
-                    .collection('users')
-                    .doc(uid)
-                        .update(
-                            {
-                                disabCertURL: url,
-                                
-                            })
-                            
-                            this.setState({disabCertifUploaded: true, buttonDisabled: false})
-                        })
-                
-                    }
-                })
+        }, this.uploadDisabCertif )
     }
     showNoDocumentsDialog = () => {
         return Alert.alert(
@@ -220,172 +224,132 @@ export class UploadDoc extends Component {
             
             )
         }
-        eduCertif() {
-            
+    uploadEduCertif (capture) {
+        const { firestore, uid } = this.props
+        if (capture.didCancel || capture.errorCode) {
+            if (capture.errorCode) {
+                // console.log(capture.errorMessage)
+            }
+        }
+        else {
+            let task = firebase_storage()
+                .ref(`EducCertif/${uid}`)
+                .putFile(capture["assets"][0]["uri"])
+            // console.log('upload successful!')
+            task.on('state_changed', taskSnapshot => {
+                this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
+            })
+            task.then(() => {
+                this.setState({
+                    // uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
+                    uploadedText2: "Education Certificate Uploaded ",
+                    eduCertifUploaded: true,
+                })
+
+            })
+            firebase_storage().ref(`EduCertif/${uid}`).getDownloadURL().then((url) => {
+                firestore
+                    .collection('scribes')
+                    .doc(uid)
+                    .update(
+                        {
+                            eduCertURL: url,
+                            eduCertType: this.state.selectedEdu,
+                            eduCertifUploaded: true,
+                        })
+            })
+            this.setState({ eduCertifUploaded: true, buttonDisabled: false })
+
+        }
+    }
+    eduCertif() {
+
         
-        const {  firestore, uid } = this.props
-        this.setState({buttonDisabled: true})
+        this.setState({ buttonDisabled: true })
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
-        }, (capture) => {
-            if (capture.didCancel || capture.errorCode) {
-                if (capture.errorCode) {
-                    // console.log(capture.errorMessage)
-                }
-            }
-            else {
-                let task = firebase_storage()
-                .ref(`EducCertif/${uid}`)
-                .putFile(capture["assets"][0]["uri"])
-                // console.log('upload successful!')
-                task.on('state_changed', taskSnapshot => {
-                    this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
-                })
-                task.then(() => {
-                    this.setState({
-                        // uploadedText2: "Education Certificate Uploaded " + capture["assets"][0]["fileName"],
-                        uploadedText2: "Education Certificate Uploaded " ,
-                        eduCertifUploaded: true,
-                    })
-                    
-                })
-                firebase_storage().ref(`EduCertif/${uid}`).getDownloadURL().then((url) => {
-                    firestore
-                        .collection('scribes')
-                        .doc(uid)
-                        .update(
-                            {
-                                eduCertURL: url,
-                                eduCertType: this.state.selectedEdu
-                            })
-                        })
-                        this.setState({eduCertifUploaded: true, buttonDisabled: false})
-                        
-                    }
-                })
-            }
-    setSelectedRadio(i) {
+        }, this.uploadEduCertif)
+    }
+    uploadIdentityDoc(capture) {
         const { isItAScribe, firestore, uid } = this.props
+        if (capture.didCancel || capture.errorCode) {
+            if (capture.errorCode) {
+                // console.log(capture.errorMessage)
+            }
+        }
+        else {
+            let task = firebase_storage()
+                .ref(`IdentityDoc/${uid}`)
+                .putFile(capture["assets"][0]["uri"])
+            // console.log('upload successful!')
+            task.on('state_changed', taskSnapshot => {
+                this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
+            })
+            task.then(() => {
+                this.setState({
+                    // uploadedText: "Uploaded! " + capture["assets"][0]["fileName"],
+                    uploadedText: "Uploaded! ",
+
+                })
+            }).catch((err) => {console.log("error in uploading", err)})
+            firebase_storage().ref(`IdentityDoc/${uid}`).getDownloadURL().then((url) => {
+                firestore
+                    .collection(isItAScribe ? "scribes" : "users")
+                    .doc(uid)
+                    .update(
+                        {
+                            identityDocURL: url,
+                            identityDocType: this.radioOptions[this.state.selectedRadioButton],
+                            idCertifUploaded: true,
+                        })
+                    .catch((err) => {console.log("error putting url", err)})
+                    })
+                    .catch((err) => {console.log("error putting url", err)})
+                    
+            this.setState({ idCertifUploaded: true })
+        }
+            
+    }
+    setSelectedRadio(i) {
         this.setState({
             selectedRadioButton: i
         })
         launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
-        }, (capture) => {
-            if (capture.didCancel || capture.errorCode) {
-                if (capture.errorCode) {
-                    // console.log(capture.errorMessage)
-                }
-            }
-            else {
-                let task = firebase_storage()
-                .ref(`IdentityDoc/${uid}`)
-                .putFile(capture["assets"][0]["uri"])
-                // console.log('upload successful!')
-                task.on('state_changed', taskSnapshot => {
-                    this.setState({ uploadProgress: taskSnapshot.bytesTransferred / taskSnapshot.totalBytes })
-                })
-                task.then(() => {
-                    this.setState({
-                        // uploadedText: "Uploaded! " + capture["assets"][0]["fileName"],
-                        uploadedText: "Uploaded! ",
-                        
-                    })
-                })
-                firebase_storage().ref(`IdentityDoc/${this.uid}`).getDownloadURL().then((url) => {
-                    firestore
-                        .collection(isItAScribe ? "scribes" : "users")
-                        .doc(uid)
-                        .update(
-                            {
-                                identityDocURL: url,
-                                identityDocType: this.radioOptions[this.state.selectedRadioButton]
-                            })
-                        this.setState({idCertifUploaded: true})
-                })
-
-            }
-        })
+        }, this.uploadIdentityDoc)
     }
     nextButton1() {
-        
-        const { route: {params: {fromHome}}, navigation, isItAScribe, firestore, uid } = this.props
+
+        const { route: { params: { fromHome } }, navigation, isItAScribe, firestore, uid } = this.props
         if (fromHome) {
-            
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
-                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                
-                
-            })
+
+            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+
+
+
         }
-        
+
         else if (isItAScribe && this.state.eduCertifUploaded && this.state.idCertifUploaded) {
 
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
-                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                
-                
-            })
+
+            navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
+
+
+
         }
-        else if (!isItAScribe && this.state.disabCertifUploaded && this.state.idCertifUploaded){
-            firestore.collection(isItAScribe ? "scribes" : "users")
-            .doc(uid)
-            .update({
-                eduCertifUploaded: this.state.eduCertifUploaded,
-                disabCertifUploaded: this.state.disabCertifUploaded,
-                idCertifUploaded: this.state.idCertifUploaded,
-            })
-            .then(() => {
-                
-                navigation.navigate('VolunteerPreference')
-            })
+        else if (!isItAScribe && this.state.disabCertifUploaded && this.state.idCertifUploaded) {
+
+
+            navigation.navigate('VolunteerPreference')
+
         }
         else {
             this.showNoDocumentsDialog()
         }
     }
-    nextButton2() {
-        
-        const { route: {params: {fromHome}}, navigation, isItAScribe } = this.props
-        if (fromHome) {
-            
-            
-                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                
-                
-            
-        }
-        
-        else if (isItAScribe) {
-            
-            
-                navigation.reset({ index: 0, routes: [{ name: 'Home' }] })
-                
-                
-            
-        }
-        else {
-                
-                navigation.navigate('VolunteerPreference')
-            
-        }
-    }
+    
     onValueChangeCat(newVal) {
         this.setState({ selectedEdu: newVal })
         this.eduCertif()
@@ -439,7 +403,7 @@ export class UploadDoc extends Component {
                                         >
                                             {edus.map((item, ind) => (
                                                 <Picker.Item
-                                                    
+
                                                     label={item}
                                                     value={item}
                                                     key={ind}
@@ -462,7 +426,7 @@ export class UploadDoc extends Component {
 
                         <TouchableOpacity style={styles.UploadDocButton}
                             onPress={this.nextButton1.bind(this)}
-                            disabled={this.state.buttonDisabled}
+
                         >
 
                             <Text style={styles.t1}>
@@ -497,7 +461,7 @@ const selectUserSettings = (state) => ({
     uid: state.userAppSettings.uid,
     isItAScribe: state.userAppSettings.isItAScribe,
 })
-export default compose (
+export default compose(
     connect(selectUserSettings),
     withFirestore,
 )(UploadDoc)

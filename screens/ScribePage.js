@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
+        textAlign: "center",
         borderWidth: 3,
     },
     priorityButton1: {
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: 'center',
+        textAlign: "center",
         borderWidth: 3,
     },
     langButton2: {

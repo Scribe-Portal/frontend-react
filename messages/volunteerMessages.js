@@ -82,13 +82,7 @@ export default async function CommonMessages (message){
             })
             break;
         default: 
-            notifee.displayNotification({
-                title: type+" unregistered",
-                body: notif, 
-                android: {
-                    channelId: c['Neutral']
-                }
-            })
+            
             break;
 
     }

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, PermissionsAndroid } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import RNSimData from 'react-native-sim-data'
@@ -210,16 +210,20 @@ function EnterMobile({ navigation }) {
     const uid = useSelector(state => state.userAppSettings.tempuid)
     let firestore = useFirestore()
     const dispatch = useDispatch()
-    const first_time = true
+    const first_time = useRef(false)
+    const start_timer = () => {
+        if (first_time.current) {
+            first_time.current = false
+            return setInterval(() => setTimeLeftOnTimer(timeAlreadyLeft => (timeAlreadyLeft - 1)), 1000)
+        }
+    }
     useEffect(() => {
-        if (first_time && confirm !== null) {
-            first_time = false
-            interval = setInterval(() => setTimeLeftOnTimer(timeAlreadyLeft => (timeAlreadyLeft - 1)), 1000)
-            return () => {
+        interval = start_timer()
+        return () => {
+            if (interval) {
                 clearInterval(interval)
             }
         }
-
     }, [confirm])
 
     // get the phone number
@@ -478,7 +482,7 @@ function EnterMobile({ navigation }) {
                         >
                             <Text style={styles_confirmed.t1}>
 
-                                {ResentOTP[lang] + ` (${timeLeftOnTimer>0?timeLeftOnTimer:0})`}
+                                {ResentOTP[lang] + ` (${((timeLeftOnTimer>0)?timeLeftOnTimer:0)})`}
                             </Text>
                         </TouchableOpacity>
 
@@ -530,6 +534,7 @@ function EnterMobile({ navigation }) {
                             onPress={async () => {
                                 try {
                                     const confirmation = await firebase_auth().signInWithPhoneNumber("+91" + mobile)
+                                    first_time.current = true
                                     setConfirm(confirmation)
                                 }
                                 catch {

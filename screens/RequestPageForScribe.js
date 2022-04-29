@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
 
     t1: {
         color: "#FFFFFF",
-        fontSize: 30
+        fontSize: 30,
+        textAlign: "center",
     },
     t2: {
         color: "#19939A",
@@ -121,7 +122,7 @@ function UserBox({ uid, showMobile }) {
 
             </Text>
             
-            <Text style={styles.text2}>
+            <Text style={styles._text2}>
                 Age: {`${(user?.DOB) ? Math.floor((new Date() - user?.DOB?.toDate()) / 31557600000) : "Unknown"}`}
             </Text>
             {showMobile ? (
@@ -174,6 +175,9 @@ function RequestPageForScribe({ navigation, route: { params: { empty_requests, r
                     text: "Accept",
                     onPress: () => {
                         firestore.update(`requests/${req_id}`, { volunteerAccepted: uid, status: 'accepted' })
+                        if (empty_requests) {
+                            firestore.update(`requests/${req_id}`, { volunteersSelected: [uid,]})
+                        }
                         firestore.collection('dateslots')
                             .doc(request.dateSlot)
                             .collection('acceptedVolunteers')
@@ -262,15 +266,15 @@ function RequestPageForScribe({ navigation, route: { params: { empty_requests, r
                         <Text style={styles.text2}>{`Mode of Exam: ${request.CBT ? "CBT" : "Pen Paper Test"}`} </Text>
                         <Text style={styles.text2}>
 
-                            Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
+                            Reporting Time of Exam: {new Date(request?.examDate.seconds * 1000).toLocaleTimeString()}
                         </Text>
                         <Text style={styles.text2}>
 
-                            Exam Address: {request?.examAddress}
+                            Exam Centre Address: {request?.examAddress}
                         </Text>
                         <Text style={styles.text2}>
 
-                            Exam Pin Code: {request?.examPinCode}
+                            Exam Centre Pin Code: {request?.examPinCode}
                         </Text>
                         {request?.uid ?
                             <UserBox uid={request?.uid} showMobile={false} />

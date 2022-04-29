@@ -56,6 +56,7 @@ import SelectAvailability from './screens/SelectAvailability'
 import CancelRequestForScribe from './screens/CancelRequestForScribe';
 import ProfileSettings from './screens/ProfileSettings';
 import AboutNSS from './screens/AboutNSS';
+import AcceptPermissions from './screens/AcceptPermissions';
 // persisting user settings 
 const persistConfig = {
   key: 'root',
@@ -158,6 +159,7 @@ class App extends Component {
               <Stack.Navigator initialRouteName="Splash">
                 <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
+                <Stack.Screen name="AcceptPermissions" component={AcceptPermissions} options={{ headerShown: false }} />
                 <Stack.Screen name="SelectRole" component={SelectRole} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="FillInfo" component={FillInfo} options={{ headerShown: false }} />

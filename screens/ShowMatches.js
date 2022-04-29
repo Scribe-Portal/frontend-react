@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         borderColor: "#19939A",
-        backgroundColor: "#B4E2DF",
+        backgroundColor: "#DAF1EF",
         flexDirection: "row",
         justifyContent: 'space-between'
     },
@@ -126,11 +126,11 @@ function Match({ id, selected }) {
     const scribe = useSelector(state => state.firestore.data.scribes && state.firestore.data.scribes[id])
 
     const navigation = useNavigation()
-
+    useFirestoreConnect()
     return (
         <TouchableOpacity style={selected ? styles.selectedScribeBox : styles.scribeBox} onPress={() => navigation.navigate("ScribePage", { scribe_id: id, selected: selected, modifiable: true })}>
             <Text style={styles.match_name}>{`${(typeof scribe?.name === 'string') ? scribe.name : "Unnamed"} ${selected ? "(selected)" : ""}`}</Text>
-            <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe.rating : "unrated"}/5`}</Text>
+            <Text style={styles.match_rating}>{`${(typeof scribe?.rating === 'number') ? scribe?.rating.toFixed(2) : ""}`}</Text>
         </TouchableOpacity>
     )
 }
